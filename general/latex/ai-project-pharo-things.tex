@@ -1,0 +1,58 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[a4paper, textwidth=15cm, textheight=23cm]{geometry}
+
+\title{Praxisprojekt: PharoThings-Connectivity WS18/19}
+\begin{document}
+	\begin{titlepage}
+    \includegraphics[width=0.4\textwidth]{th_logo.png}
+    ~\\[2.5cm]
+    \begin{center}
+    \textbf{\huge Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App}\\[0.5cm]
+    {\Large Praxisprojekt Wintersemester 2018/2019}
+    \vfill
+    \end{center}
+    ~\\[2.0cm]
+    \begin{flushright}
+    {\large Jan Phillip Kretzschmar \it{(jan@2denker.de)}}\\[0.1cm]
+    ~\\[1.0cm]
+    {\large Betreuer (Zweidenker GmbH):}\\[0.1cm]
+    {\large Christian Denker \it{(christian@2denker.de)}}
+    ~\\[0.5cm]
+    {\large Betreuer (TH Köln):}\\[0.1cm]
+    {\large ---}\\[0.1cm]
+
+	~\\[1.0cm]
+    {\large 19. Oktober 2018}
+	\end{flushright}
+    \end{titlepage}
+    
+    \section{Expose}
+        Pharo ist eine auf Smalltalk basierende objektorientierte und dynamisch getypte Programmiersprache, welche gleichzeitig ihre eigene live Entwicklungsumgebung mit mächtigen Debugging-Tools ist.\footnote{http://pharo.org/}
+        PharoThings bietet eine reduzierte Platform für  Internet of Things(IoT), sodass eine Ausführung von Programmen auf Kleinstcomputern möglich ist. Um keine Kompromisse im Bereich der Entwicklungsumgebung machen zu müssen, kann über Remote Debugger auf live Programme zugegriffen werden. Dadurch ist lediglich die Ausführung auf das IoT Gerät ausgelagert. PharoThings bietet in Verbindung mit WiringPi eine Platform für Raspberry Pi, auf der Board Modeling simpel möglich ist.\footnote{https://github.com/pharo-iot/PharoThings}
+        Für die Erstkonfiguration und Verbindungskonfigurationvon PharoThings auf Raspberry Pi ist es aktuell nötig, diese Konfiguration z.B. der WiFi-Verbindung durch einen Computer vorzunehmen. Um die Pharo Things Laufzeitumgebungen als IoT-Geräte simpel nutzen zu können, ist es nötig, die Konfiguration der Installationen und Geräte zu vereinfachen. Dabei soll eine Android App diesen Vorgang übernehmen:
+        \begin{enumerate}
+            \item Erkennen und Auflisten von IoT-Geräten in der Nähe. Die zu verwendende Kommunikationstechnologie ist dabei zu evaluieren.
+            \item Verbindungsaufbau zu ausgewähltem IoT-Gerät
+            \item IoT-Gerät erhält Hostnamen, WiFi-Konfiguration, Beacon Intervall, etc.
+            \item Eventuelle Verbindungsprobleme der erst WiFi-Verbindung werden über die bestehende Verbindung zurückgemeldet
+            \item Pharo Things-Installationen im aktuellen WiFi werden aufgelistet.
+        \end{enumerate}
+        Um diesen Vorgang umsetzen zu können, werden drei Komponenten implementiert:
+        \begin{enumerate}
+            \item Ein Protokoll muss definiert werden, welches die Kommunikation zu PharoThings Instanzen zur Konfiguration festlegt. Weiterhin muss festgelegt werden, in welcher Art und Weise ein Beacon-Signal im WiFi von den Installationen gesendet wird. Um das WiFi nicht zu überlasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu evaluieren ob sich Installationen auch gegenseitig erkennen können, sodass ein gebündelter Beacon gesendet werden kann.
+            \item Eine Android App, welche den Nutzer durch den beschriebenen Vorgang leitet, muss implementiert werden. Der Fokus hierbei liegt darin, diesen Vorgang mit möglichst wenig Nutzerinteraktion durchzuführen.
+            \item Eine Anwendung in PharoThings muss erstellt werden, welche das Protokoll implementiert und basierend darauf sich in einem WiFi einwählen kann und ein Beacon-Signal in diesem WiFi sendet.
+        \end{enumerate}
+        Das Projekt wird mit Unterstützung der Zweidenker GmbH durchgeführt.
+    \pagebreak
+    \section{Mögliche Kommunikationstechnologien}
+        Damit eine Kommunikationstechnologie für dieses Projekt sinnvoll ist, muss sie folgende Punkte erfüllen:
+        \begin {enumerate}
+        \item {\it Unterstützung in Android Smartphones:}
+        Damit eine große Anzahl an potentiellen Nutzern angesprochen werden kann, sollte
+        \item {\it Hardware an IoT Geräten:}
+        \item {\it Unsichtbarkeit der Verbindungen zu Nutzern:}
+        \end {enumerate}
+\end{document}
