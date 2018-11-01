@@ -10,7 +10,7 @@
     ~\\[2.5cm]
     \begin{center}
     \textbf{\huge Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App}\\[0.5cm]
-    {\Large Praxisprojekt Wintersemester 2018/2019}
+    {\Large Praxisprojekt Sommersemester 2019}
     \vfill
     \end{center}
     ~\\[2.0cm]
@@ -36,26 +36,26 @@
         Dadurch ist lediglich die Ausführung auf das IoT Gerät ausgelagert. PharoThings bietet in Verbindung mit WiringPi eine Platform für Raspberry Pi,
         auf der Board Modeling simpel möglich ist.\footnote{https://github.com/pharo-iot/PharoThings}
         Für die Erstkonfiguration und Verbindungskonfigurationvon PharoThings auf Raspberry Pi ist es aktuell nötig,
-        diese Konfiguration z.B. der WiFi-Verbindung durch einen Computer vorzunehmen.
+        diese Konfiguration z.B. der WLAN-Verbindung durch einen Computer vorzunehmen.
         Um die Pharo Things Laufzeitumgebungen als IoT-Geräte simpel nutzen zu können, ist es nötig,
         die Konfiguration der Installationen und Geräte zu vereinfachen. Dabei soll eine Android App diesen Vorgang übernehmen:
         \begin{enumerate}
             \item Erkennen und Auflisten von IoT-Geräten in der Nähe. Die zu verwendende Kommunikationstechnologie ist dabei zu evaluieren.
             \item Verbindungsaufbau zu ausgewähltem IoT-Gerät
-            \item IoT-Gerät erhält Hostnamen, WiFi-Konfiguration, Beacon Intervall, etc.
-            \item Eventuelle Verbindungsprobleme der erst WiFi-Verbindung werden über die bestehende Verbindung zurückgemeldet
-            \item Pharo Things-Installationen im aktuellen WiFi werden aufgelistet.
+            \item IoT-Gerät erhält Hostnamen, WLAN-Konfiguration, Beacon Intervall, etc.
+            \item Eventuelle Verbindungsprobleme der erst WLAN-Verbindung werden über die bestehende Verbindung zurückgemeldet
+            \item Pharo Things-Installationen im aktuellen WLAN werden aufgelistet.
         \end{enumerate}
         Um diesen Vorgang umsetzen zu können, werden drei Komponenten implementiert:
         \begin{enumerate}
             \item Ein Protokoll muss definiert werden, welches die Kommunikation zu PharoThings Instanzen zur Konfiguration festlegt.
-            Weiterhin muss festgelegt werden, in welcher Art und Weise ein Beacon-Signal im WiFi von den Installationen gesendet wird.
-            Um das WiFi nicht zu überlasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu evaluieren,
+            Weiterhin muss festgelegt werden, in welcher Art und Weise ein Beacon-Signal im WLAN von den Installationen gesendet wird.
+            Um das WLAN nicht zu überlasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu evaluieren,
             ob sich Installationen auch gegenseitig erkennen können, sodass ein gebündelter Beacon gesendet werden kann.
             \item Eine Android App, welche den Nutzer durch den beschriebenen Vorgang leitet, muss implementiert werden.
             Der Fokus hierbei liegt darin, diesen Vorgang mit möglichst wenig Nutzerinteraktion durchzuführen.
             \item Eine Anwendung in PharoThings muss erstellt werden, welche das Protokoll implementiert
-            und basierend darauf sich in einem WiFi einwählen kann und ein Beacon-Signal in diesem WiFi sendet.
+            und basierend darauf sich in einem WLAN einwählen kann und ein Beacon-Signal in diesem WLAN sendet.
         \end{enumerate}
         Das Projekt wird mit Unterstützung der Zweidenker GmbH durchgeführt.
     \pagebreak
@@ -64,46 +64,90 @@
         Geräte können hierbei selbstständig eine Netzwerkverbindung untereinander aushandeln. Da solche Verbindungen nur dann sinnvoll sind,
         wenn es Daten gibt, die nur zwischen den beiden verbundenen Geräten ausgetauscht werden müssen, ergibt ein solches Netzwerk meist nur
         im Bezug auf eine tatsächlliche Anwendung Sinn. Die erweiterte Definition des Ad Hoc Netzwerks
-        bezieht somit alle Netzwerkschichten des OSI-Modells mit ein.\footnote{TODO: Axel Sikora - Wireless LAN. Seite 23}
+        bezieht somit alle Netzwerkschichten des OSI-Modells mit ein.\footnote{\cite[S.23]{Sikora}}
         Obwohl das OSI-Modell vor Allem auf Ethernet und WLAN ausgelegt ist, lässt sich die Definition des Ad Hoc Netzwerks
         dennoch für weitere Kommunikationstechnologie übernehmen, da diese ebenfalls p2p Verbindungen aufbauen können.
+        Optimalerweise sollte es möglich sein die bestehenden WLAN-Verbindungen beider Geräte während einer p2p Verbindung beibehalten zu können.
         Folgende Punkte müssen erfüllt sein, damit ein Kommunikationsmedium für dieses Projekt genutzt werden kann:
         \begin {enumerate}
         \item {\it Unterstützung in Android Smartphones:}
         Damit eine große Anzahl an potentiellen Nutzern angesprochen werden kann, muss die Verbindungsschnittstelle von Smartphones unterstützt werden.
         Für dieses Projekt wird dabei nur Android betrachtet.
-        Aktuelle Smartphones bieten im Allgemeinen zur Zeit die vier Schnittstellen {\bf USB, NFC, Bluetooth und WiFi},
+        Aktuelle Smartphones bieten im Allgemeinen zur Zeit die vier Schnittstellen {\bf USB, NFC, Bluetooth und Wi-Fi},
         über die sich Verbindungen zu Geräten in der näheren Umgebung aufbauen lassen.
         \item {\it Hardware an IoT Geräten:}
         Als IoT Gerät dient in diesem Projekt ein Raspberry Pi.
-        In den Varianten {\it Model 3 B, Model 3 B+ and Model Zero W} bietet Dieser USB, Bluetooth und WiFi als mögliche Schnittstellen.
+        In den Varianten {\it Model 3 B, Model 3 B+ and Model Zero W} bietet Dieser USB, Bluetooth und Wi-Fi als mögliche Schnittstellen.
         Durch die Verwendung der GPIO-Pins ist es außerdem möglich, ein NFC-Modul anzubinden,
         jedoch würde Dies die später nutzbaren Pins unerwünscht einschränken.
         Weiterhin bietet der Raspberry Pi ein vollständiges Betriebssystem mit Benutzeroberfläche, jedoch soll eine Internetverbindung
         ohne Peripherie am Raspberry Pi konfiguriert werden können. 
-        \item {\it ???}
+        \item {\it Sicherheit und Verschlüsselung:}
+        TODO!
         \end {enumerate}
-        \paragraph{Kommunikation über WLAN}
-            Um eine Kommunikation im Rahmen der WLAN-Definition zu ermöglichen, ist es nötig, einen Verbindungsaufbau in der {\bf Data Link Layer}
-            (Layer 2 des OSI-Modells) anzusiedeln, da sich beide Geräte nicht in einem Netzwerk befinden, in dem das Internet Protocol möglich ist.
-            Außerdem können so bestehende WLAN-Verbindungen beibehalten werden.
-            Da die Data Link Layer die Gerätetreiber-Ebene wiederspiegelt, ist es nötig, das {\bf Media Access Control}-Protocol hierbei zu nutzen.
-            Dieses Protokoll regelt den Zugriff auf das Übertragungsmedium durch unterschiedliche Wartezeiten zwischen Paketen und die Reservierung des Mediums zum Senden von Paketen.
-            Da das MAC-Protokoll zudem die Addressierung von Geräten ermöglicht, bietet es bereits die Möglichkeit, Broadcasts zu senden.
-            Um zudem die hohe Fehleranfälligkeit eines Drahtlosnetzwerkes für höhere Schichten zu reduzieren,
-            wird jedes Paket vom Empfänger bestätigt.\footnote{TODO: Martin Sauter - Grundkurs Mobile Kommunikationssysteme 6.Auflage Seite 325ff.}
-
-            Um dieses Protokoll in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
-            um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
-            Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
-            wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
-            Android bietet jedoch ab API 14 die Möglichkeit, peer-to-peer Verbindungen über {\bf WiFi-Direct} aufzubauen. ... WIFI DIRECT ERKLÄREN
-            Hierzu ist es nötig in Android eingebaute WiFiManager zu nutzen, ein kurzer Test hat dabei ergeben, dass bestehende WiFi-Verbindungen abgebrochen werden.\footnote{TODO: Github repository}
-        \paragraph{Exkurs: AirPlay}
+        \subsection{Kommunikation über WLAN}
+            Der IEEE802.11 Standard siedelt sich im OSI-Modell lediglich in der Physical Layer und Data Link Layer an. Ihr eigentlicher Sinn ist es,
+            IP-Pakete der Network Layer im gleichen Maße wie ein LAN übertragen zu können.
+            Die Definition des Wireless LAN unterscheidet sich jedoch vom LAN Standard dahingehend, dass eine vollständig eigene Physical Layer geschaffen wurde,
+            da das Übertragungsmedium andere Restrikitionen besitzt. Die Data Link Layer setzt sich für WLAN größtenteils aus drei Teilen zusammen.
+            Die Logic Link Control nach 802.2 und das Bridging nach 802.1 sind mit LAN identisch, um der Network Layer eine einheitliche Schnittstelle unabhängig des Übertragungsmediums zu bieten.
+            In der Data Link Layer unterscheidet sich lediglich der Media Access Control (MAC).\footnote{\cite[S.311]{Sauter}}
+            Dieser regelt im Fall von WLAN den Zugriff auf das Übertragungsmedium durch unterschiedliche Wartezeiten zwischen Frames und die Reservierung des Mediums zum Senden von Frames.
+            Da das MAC-Protokoll zudem die Addressierung von Geräten ermöglicht, bietet es ebenfalls bereits die Möglichkeit, Broadcasts zu senden.
+            Um die hohe Fehleranfälligkeit eines Drahtlosnetzwerkes für höhere Schichten zu reduzieren, wird jedes Frame vom Empfänger bestätigt.\footnote{\cite[S.325-327]{Sauter}}
             
-        \paragraph{Kommunikation über Bluetooth}
+            Ein Netzwerk nach 802.11 kann hierbei entweder im Infrastruktur Modus, in dem alle Geräte ausschließlich mit einem Access Point kommunizieren,
+            oder im Ad Hoc Modus, welcher die direkte Kommunikation zwischen Geräten erlaubt, betrieben werden.\footnote{\cite[S.82]{Sikora}}
+            Ein Verbindungsaufbau ist für eine p2p Verbinung entweder durch eine konkrete Implementierung des Ad Hoc Modus oder
+            im MAC-Protokoll zu ersuchen.
 
-        \paragraph{Kommunikation über NFC}
+            Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\footnote{\cite[S.80]{Sikora}}
+            Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\footnote{https://www.wi-fi.org/discover-wi-fi/wi-fi-direct} als ein universeller Standard definiert.
+            Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
+            Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
+            Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD)und UPnP.
+            TODO: ZUGRIFF FÜR Wi-Fi Direct anfragen.
+            TODO: DNS SD und UPnP erklären.
 
-        \paragraph{Kommunikation über USB}
+        \paragraph{Exkurs: AirPlay}
+
+        
+        \paragraph{Nutzung unter Android}
+        Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
+        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
+        Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
+        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
+        Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
+        p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
+        Android stellt dise p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
+        dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{https://github.com/janphkre/iot-wifi-p2p-test}
+        Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in Aneja et al.
+
+        \subsection{Kommunikation über Bluetooth}
+
+        \subsection{Kommunikation über NFC}
+
+        \subsection{Kommunikation über USB}
+    \pagebreak
+    \begin{thebibliography}{10}
+        \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, vol 2018, Article ID 9469536, 7 pages} (2018).
+        \bibitem[Sauter]{Sauter}Martin Sauter: {\it Grundkurs Mobile Kommunikationssysteme: LTE-Advanced, UMTS, HSPA, GSM, GPRS, Wireless LAN und Bluetooth} 6.Auflage Springer Vieweg, Wiesbaden (2015).
+        \bibitem[Sikora]{Sikora}Axel Sikora: {\it Wireless LAN: Protokolle und Anwendungen} Addison-Wesley, München u.A. (2001).
+    \end{thebibliography}
+
+    \section{Abkürzungen}
+        DNS - Dynamic Name Service
+        DNS SD - DNS System Discovery
+        GPIO - General Purpose Input / Output
+        IEEE - Institute of Electrical and Electronic Engineers Inc.
+        IoT - Internet of Things
+        IP - Internet Protocol
+        LAN - Local Area Network
+        MAC - Media Access Protocol
+        NFC - Near Field Communication
+        OSI - Open Systems Interconnection
+        p2p - Peer to Peer
+        UPnP
+        Wi-Fi - Wireless Fidelity
+        WLAN - Wireless Local Area Network
 \end{document}
