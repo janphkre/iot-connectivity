@@ -68,8 +68,16 @@
         Obwohl das OSI-Modell vor Allem auf Ethernet und WLAN ausgelegt ist, lässt sich die Definition des Ad Hoc Netzwerks
         dennoch für weitere Kommunikationstechnologie übernehmen, da diese ebenfalls p2p Verbindungen aufbauen können.
         Optimalerweise sollte es möglich sein die bestehenden WLAN-Verbindungen beider Geräte während einer p2p Verbindung beibehalten zu können.
-        Folgende Punkte müssen erfüllt sein, damit ein Kommunikationsmedium für dieses Projekt genutzt werden kann:
+        Für Kommunikationsmedien in diesem Projekt fallen einige Beschränkungen an: 
         \begin {enumerate}
+        \item {\it Reichweite:}
+        Netzwerke werden oft nach ihrer Reichweite klassifiziert. Dabei gibt es die geläufigen Bezeichnungen Local Area Network (LAN),
+        Metropolitan Area Network, Wide Area Network und Global Area Network, die in ihrer Klassifizierung von Gebäuden zu einer Globalen Reichweite übergehen.
+        Üblicherweise verbinden höhere klassifizierte Netzwerke niedriger klassifizierte Netzwerke miteinander. Im Bereich der Drahtlosnetzwerke gibt es jede
+        dieser Klassen ebenfalls als Drahtlos-Variante: WLAN, WMAN, WWAN und WGAN, es kommen jedoch noch zwei in ihrer Reichweite kleinere Netzwerke hinzu,
+        das Wireless Body Area Network und das Wireless Personal Area Network. Übliche Einsatzgebiet des WBAN sind im medizinischen Bereich zu finden,
+        aber auch Near Feald Communication fällt in diese Kategorie. Unter die Klassifizierung des WPAN fällt unter anderem Bluetooth,
+        für dieses Projekt sind somit Funknetzwerke der untersten drei Kategorien WBAN, WPAN und WLAN oder deren kabelgebundenen Derivate interessant.\footnote{\cite[S.17]{Lueders}}
         \item {\it Unterstützung in Android Smartphones:}
         Damit eine große Anzahl an potentiellen Nutzern angesprochen werden kann, muss die Verbindungsschnittstelle von Smartphones unterstützt werden.
         Für dieses Projekt wird dabei nur Android betrachtet.
@@ -82,8 +90,6 @@
         jedoch würde Dies die später nutzbaren Pins unerwünscht einschränken.
         Weiterhin bietet der Raspberry Pi ein vollständiges Betriebssystem mit Benutzeroberfläche, jedoch soll eine Internetverbindung
         ohne Peripherie am Raspberry Pi konfiguriert werden können. 
-        \item {\it Sicherheit und Verschlüsselung:}
-        TODO!
         \end {enumerate}
         \subsection{Kommunikation über WLAN}
             Der IEEE802.11 Standard siedelt sich im OSI-Modell lediglich in der Physical Layer und Data Link Layer an. Ihr eigentlicher Sinn ist es,
@@ -109,19 +115,19 @@
             TODO: ZUGRIFF FÜR Wi-Fi Direct anfragen.
             TODO: DNS SD und UPnP erklären.
 
-        \paragraph{Exkurs: AirPlay}
+            \paragraph{Exkurs: AirPlay}
 
         
-        \paragraph{Nutzung unter Android}
-        Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
-        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
-        Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
-        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
-        Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
-        p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
-        Android stellt dise p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
-        dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{https://github.com/janphkre/iot-wifi-p2p-test}
-        Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in Aneja et al.
+            \paragraph{Nutzung unter Android}
+            Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
+            um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
+            Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
+            wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
+            Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
+            p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
+            Android stellt dise p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
+            dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{https://github.com/janphkre/iot-wifi-p2p-test}
+            Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in Aneja et al.
 
         \subsection{Kommunikation über Bluetooth}
 
@@ -131,6 +137,7 @@
     \pagebreak
     \begin{thebibliography}{10}
         \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, vol 2018, Article ID 9469536, 7 pages} (2018).
+        \bibitem[Lüders]{Lueders}Christian Lüders: {\it Lokale Funknetze: Wireless LANs (IEEE 802.11), Bluetooth, DECT} Vogel, Würzburg (2007).
         \bibitem[Sauter]{Sauter}Martin Sauter: {\it Grundkurs Mobile Kommunikationssysteme: LTE-Advanced, UMTS, HSPA, GSM, GPRS, Wireless LAN und Bluetooth} 6.Auflage Springer Vieweg, Wiesbaden (2015).
         \bibitem[Sikora]{Sikora}Axel Sikora: {\it Wireless LAN: Protokolle und Anwendungen} Addison-Wesley, München u.A. (2001).
     \end{thebibliography}
@@ -149,5 +156,10 @@
         p2p - Peer to Peer
         UPnP
         Wi-Fi - Wireless Fidelity
+        WBAN - Wireless Body Area Network
+        WGAN - Wireless Global Area Network
         WLAN - Wireless Local Area Network
+        WMAN - Wireless Metropolitan Area Network
+        WPAN - Wireless Personal Area Network
+        WWAN - Wireless Wide Area Network
 \end{document}
