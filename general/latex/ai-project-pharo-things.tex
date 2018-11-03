@@ -119,6 +119,8 @@
 
         
             \paragraph{Nutzung unter Android}
+            Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden. TODO: GEGENSATZ ZU AIRPLAY
+
             Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
             um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
             Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
@@ -126,23 +128,40 @@
             Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
             p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
             Android stellt dise p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
-            dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{https://github.com/janphkre/iot-wifi-p2p-test}
-            Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in Aneja et al.
+            dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{\cite{test-repository}}
+            Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in \cite{Aneja}.
 
         \subsection{Kommunikation über Bluetooth}
+            Die grundlegenden Komponenten von Bluetooth sind im Standard IEEE802.15.1 als {\it Bluetooth Core} definiert. Anwendungen können über diesen Kern Bluetooth
+            Verbindungen zu anderen Geräten aufbauen. \footnote{\cite[S.228]{Lueders}} Dabei agiert das Gerät, welches den Verbindungsaufbau angefragt hat als Master
+            und bis zu 6 weitere Geräte können als Slave in der gleichen Gruppe existieren.\footnote{TODO: CITE Grundkurs}
+            TODO: FUNKTIONSPRINZIP WEITER ERLÄUTERN
+
+            Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle,
+            welche generische Lösungen dieser Fälle bieten. So ermöglicht das Service Discovery Protocol den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
+            Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\footnote{\cite[S.229]{Lueders}}
 
         \subsection{Kommunikation über NFC}
 
         \subsection{Kommunikation über USB}
+
+        \subsection{Evaluation der Übertragungsmedien}
+        Alle vorgestellten Schnittstellen lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden. Unter Pharo wurde bisher keine dieser Kommunikationskanäle angebunden,
+        jedoch lassen sich bereits Sockets in Pharo nutzen und damit MAC-Pakete versenden.
+        Da WLAN die größte Reichweite im Vergleich zu den restlichen gezeigten Technologien bietet, stellt sich hierbei ebenfalls Wi-Fi Direct als sinnvollste Schnittstelle heraus.
+        Da nicht jedes Android-Gerät Wi-Fi Direct unterstützt, ist es jedoch sinnvoll, die Implementierung der Konfigurationsschnittstelle so zu kapseln,
+        dass sie auch über andere Kanäle angesprochen werden kann.
     \pagebreak
     \begin{thebibliography}{10}
-        \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, vol 2018, Article ID 9469536, 7 pages} (2018).
+        \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, Volume 2018, Article ID 9469536, 7 pages} (2018).
         \bibitem[Lüders]{Lueders}Christian Lüders: {\it Lokale Funknetze: Wireless LANs (IEEE 802.11), Bluetooth, DECT} Vogel, Würzburg (2007).
         \bibitem[Sauter]{Sauter}Martin Sauter: {\it Grundkurs Mobile Kommunikationssysteme: LTE-Advanced, UMTS, HSPA, GSM, GPRS, Wireless LAN und Bluetooth} 6.Auflage Springer Vieweg, Wiesbaden (2015).
         \bibitem[Sikora]{Sikora}Axel Sikora: {\it Wireless LAN: Protokolle und Anwendungen} Addison-Wesley, München u.A. (2001).
+
+        \bibitem[iot-p2p-test Repository]{test-repository}https://github.com/janphkre/iot-p2p-test
     \end{thebibliography}
 
-    \section{Abkürzungen}
+    \section{Glosar}
         DNS - Dynamic Name Service
         DNS SD - DNS System Discovery
         GPIO - General Purpose Input / Output
@@ -152,9 +171,12 @@
         LAN - Local Area Network
         MAC - Media Access Protocol
         NFC - Near Field Communication
+        OBEX - Object Exchange Protocol
         OSI - Open Systems Interconnection
         p2p - Peer to Peer
-        UPnP
+        RFCOMM - 
+        SDP - Service Discovery Protocol
+        UPnP - 
         Wi-Fi - Wireless Fidelity
         WBAN - Wireless Body Area Network
         WGAN - Wireless Global Area Network
