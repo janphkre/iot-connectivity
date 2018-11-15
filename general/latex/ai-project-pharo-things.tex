@@ -111,8 +111,7 @@
             Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\footnote{https://www.wi-fi.org/discover-wi-fi/wi-fi-direct} als ein universeller Standard definiert.
             Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
             Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
-            Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD)und UPnP.
-            TODO: ZUGRIFF FÜR Wi-Fi Direct anfragen.
+            Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD) und UPnP.
             TODO: DNS SD und UPnP erklären.
 
             \paragraph{Exkurs: AirPlay}
@@ -133,16 +132,28 @@
 
         \subsection{Kommunikation über Bluetooth}
             Die grundlegenden Komponenten von Bluetooth sind im Standard IEEE802.15.1 als {\it Bluetooth Core} definiert. Anwendungen können über diesen Kern oder speziellere Protokolle Bluetooth
-            Verbindungen zu anderen Geräten aufbauen. \footnote{\cite[S.228]{Lueders}} Dabei agiert das Gerät, welches den Verbindungsaufbau angefragt hat, als Master
-            und bis zu sieben weitere Geräte können als Slave im gleichen so genannten Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
-            Ein Piconetz...
-            Um Daten bidirectional übertragen zu können, wird ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt. Die alleinige Kontrolle,
-            welches Gerät wann Daten senden darf hat dabei das Mastergerät des Netzes.
-            TODO: FUNKTIONSPRINZIP WEITER ERLÄUTERN
+            Verbindungen zu anderen Geräten aufbauen. \footnote{\cite[S.228]{Lueders}} 
+            Um Daten über Bluetooth senden zu können, muss eine Verbindung zwischen den beiden Geräten aufgebaut werden. Für diese Verbindung ist es nötig,
+            dass sich die entsprechenden Geräte zunächst koppeln. Zum Koppeln verfügbare Geräte werden hierbei durch eine sogenannte Inquiry, welche erreichbare Geräte auffordert,
+            sich zu identifizieren, aufgelistet. Da nun die Adresse des zu koppelnden Gerätes bekannt ist, kann zu diesem eine Koppelung angefragt werden, was als Paging bezeichnet wird.
+            Die Kopplung dient dabei dem Austausch der Frequency Hop Sequenzen, welche festlegt, wann auf welcher Frequenz Pakete gesendet werden, sowie der Verifikation,
+            dass das richtige Gerät gekoppelt wird.\footnote{TODO: Cite Lüders}
 
-            Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle,
-            welche generische Lösungen dieser Fälle bieten. So ermöglicht das Service Discovery Protocol den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
+            Sobald eine Verbindung zwischen den Geräten aufgebaut wurde, können Daten bidirectional übertragen werden, indem ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt wird.
+            Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
+            agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
+            Ein Piconetz... TODO
+
+            Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
+            So ermöglicht das Service Discovery Protocol den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
             Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\footnote{\cite[S.229]{Lueders}}
+            TODO SDP erklären
+
+            \paragraph{Bluetooth Low Energy}
+            Als Erweiterung des Bluetooth Standards ist Bluetooth Low Energy darauf ausgelegt, TODO
+
+            \paragraph{Nutzung unter Android}
+
 
         \subsection{Kommunikation über NFC}
 
@@ -154,6 +165,10 @@
         Da WLAN die größte Reichweite im Vergleich zu den restlichen gezeigten Technologien bietet, stellt sich hierbei ebenfalls Wi-Fi Direct als sinnvollste Schnittstelle heraus.
         Da nicht jedes Android-Gerät Wi-Fi Direct unterstützt, ist es jedoch sinnvoll, die Implementierung der Konfigurationsschnittstelle so zu kapseln,
         dass sie auch über andere Kanäle angesprochen werden kann.
+        
+       Der Austausch über Bluetooth über verfügbare Dienste der Geräte ist erst nach einer vollständigen Kopplung und Verbindung möglich.
+       Dadurch ist ein Filtern der verfügbaren Bluetooth Geräte zur Auswahl durch den Nutzer nur über den Namen oder die Adresse des Gerätes möglich.
+       Im Hinblick auf diesen Punkt schneidet Wi-Fi Direct also ebenfalls besser ab. TODO: BLUETOOTH LOW ENERGY EBENFALLS BEWERTEN
     \pagebreak
     \begin{thebibliography}{10}
         \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, Volume 2018, Article ID 9469536, 7 pages} (2018).
