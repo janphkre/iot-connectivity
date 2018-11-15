@@ -5,3 +5,4 @@ general/latex/*.fdb_latexmk
 general/latex/*.fls
 general/latex/*.log
 general/latex/*.synctex.gz
+general/latex/*.pdf

@@ -132,9 +132,12 @@
             Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in \cite{Aneja}.
 
         \subsection{Kommunikation über Bluetooth}
-            Die grundlegenden Komponenten von Bluetooth sind im Standard IEEE802.15.1 als {\it Bluetooth Core} definiert. Anwendungen können über diesen Kern Bluetooth
-            Verbindungen zu anderen Geräten aufbauen. \footnote{\cite[S.228]{Lueders}} Dabei agiert das Gerät, welches den Verbindungsaufbau angefragt hat als Master
-            und bis zu 6 weitere Geräte können als Slave in der gleichen Gruppe existieren.\footnote{TODO: CITE Grundkurs}
+            Die grundlegenden Komponenten von Bluetooth sind im Standard IEEE802.15.1 als {\it Bluetooth Core} definiert. Anwendungen können über diesen Kern oder speziellere Protokolle Bluetooth
+            Verbindungen zu anderen Geräten aufbauen. \footnote{\cite[S.228]{Lueders}} Dabei agiert das Gerät, welches den Verbindungsaufbau angefragt hat, als Master
+            und bis zu sieben weitere Geräte können als Slave im gleichen so genannten Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
+            Ein Piconetz...
+            Um Daten bidirectional übertragen zu können, wird ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt. Die alleinige Kontrolle,
+            welches Gerät wann Daten senden darf hat dabei das Mastergerät des Netzes.
             TODO: FUNKTIONSPRINZIP WEITER ERLÄUTERN
 
             Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle,
