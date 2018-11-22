@@ -111,14 +111,13 @@
             Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\footnote{https://www.wi-fi.org/discover-wi-fi/wi-fi-direct} als ein universeller Standard definiert.
             Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
             Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
-            Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD) und UPnP.
-            TODO: DNS SD und UPnP erklären.
+            Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD) und UPnP. \footnote{TODO DNS SD und UPnP erklären}
 
             \paragraph{Exkurs: AirPlay}
 
         
             \paragraph{Nutzung unter Android}
-            Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden. TODO: GEGENSATZ ZU AIRPLAY
+            Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden.  \footnote{TODO GEGENSATZ ZU AIRPLAY} 
 
             Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
             um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
@@ -126,8 +125,8 @@
             wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
             Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
             p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
-            Android stellt dise p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
-            dass dieser bestehende Wi-Fi-Verbindungen ... .\footnote{\cite{test-repository}}
+            Android stellt diese p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
+            dass dieser bestehende Wi-Fi-Verbindungen während der Service Discovery beibehält.\footnote{\cite{test-repository}}
             Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in \cite{Aneja}.
 
         \subsection{Kommunikation über Bluetooth}
@@ -142,25 +141,29 @@
             Sobald eine Verbindung zwischen den Geräten aufgebaut wurde, können Daten bidirectional übertragen werden, indem ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt wird.
             Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
             agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
-            Ein Piconetz... TODO
+
+            Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an \footnote{TODO}
 
             Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
             So ermöglicht das Service Discovery Protocol den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
             Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\footnote{\cite[S.229]{Lueders}}
-            TODO SDP erklären
+            \footnote{TODO SDP erklären}
 
             \paragraph{Bluetooth Low Energy}
-            Als Erweiterung des Bluetooth Standards ist Bluetooth Low Energy darauf ausgelegt, TODO
+            Als Teil des Bluetooth Standards ist Bluetooth Low Energy darauf ausgelegt, Daten mit einem möglichst geringen Energieverbrauch über die Bluetooth-Hardware zu übertragen.
+            Dies wird ermöglicht, indem Broadcasts erlaubt werden, die Daten enthalten können. \footnote{TODO}
 
             \paragraph{Nutzung unter Android}
-
+            Android stellt sowohl Bluetooth als auch Bluetooth Low Energy 
 
         \subsection{Kommunikation über NFC}
 
         \subsection{Kommunikation über USB}
-
+        \footnote{TODO: \cite{AOA}}
         \subsection{Evaluation der Übertragungsmedien}
-        Alle vorgestellten Schnittstellen lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden. Unter Pharo wurde bisher keine dieser Kommunikationskanäle angebunden,
+        Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden.
+        Da für USB ein Treiber auf Hostseite nötig ist, der AOA implementiert, ist der Aufwand wesentlich höher im Vergleich zu den restlichen Schnittstellen.
+        Unter Pharo wurde bisher keine dieser Kommunikationskanäle angebunden,
         jedoch lassen sich bereits Sockets in Pharo nutzen und damit MAC-Pakete versenden.
         Da WLAN die größte Reichweite im Vergleich zu den restlichen gezeigten Technologien bietet, stellt sich hierbei ebenfalls Wi-Fi Direct als sinnvollste Schnittstelle heraus.
         Da nicht jedes Android-Gerät Wi-Fi Direct unterstützt, ist es jedoch sinnvoll, die Implementierung der Konfigurationsschnittstelle so zu kapseln,
@@ -168,14 +171,38 @@
         
        Der Austausch über Bluetooth über verfügbare Dienste der Geräte ist erst nach einer vollständigen Kopplung und Verbindung möglich.
        Dadurch ist ein Filtern der verfügbaren Bluetooth Geräte zur Auswahl durch den Nutzer nur über den Namen oder die Adresse des Gerätes möglich.
-       Im Hinblick auf diesen Punkt schneidet Wi-Fi Direct also ebenfalls besser ab. TODO: BLUETOOTH LOW ENERGY EBENFALLS BEWERTEN
+       Im Gegensatz dazu ermöglicht Bluetooth Low Energy eben genau die gleiche Funktionalität wie Wi-Fi Direct, indem Daten ohne eine aktive p2p-Verbindung übertragen werden können.
+       \footnote{TODO: paragraph umschreiben, da bluetooth low energy bereit im nächten abschnitt mit diesem Punkt erwähnt wird}
 
        Um dem Nutzer möglichst einfach erreichbare Geräte zeigen zu können, ist es wünschenswert, dem Nutzer wenig bis keinen Aufwand bei der Anbindung des Gerätes über die Übertragungsmedien zu geben.
        Wi-Fi Direct bietet hierbei mit DNS SD eine Lösung, um Dienste ohne Konfiguration auf Seite von Client-Geräten vorzustellen, die keinerlei Aufwand für den Nutzer bedeutet.
-       Bluetooth Low Energy bietet ebenso die Möglichkeit, Beacon-Signale mit Nutzdaten zu versenden, wodurch die IoT-Geräte auf Client-Geräten identifiziert werden können.(TODO: VERRIFIZIEREN)
+       Bluetooth Low Energy bietet ebenso die Möglichkeit, Beacon-Signale mit Nutzdaten zu versenden, wodurch die IoT-Geräte auf Client-Geräten ohne Nutzereingabe identifiziert werden können.
        Für NFC und USB sind ein physischer Zugang zu dem IoT-Gerät notwendig, wodurch sie in manchen Szenarien, wie die Montage an einer Decke, einen relativ hohen Aufwand für den Nutzer bedeuten.
        NFC ermöglicht eine Datenübertragung nur für einen kurzen Zeitraum, wodurch es für dieses Projekt weniger praktisch als eine USB-Verbindung ist.
        Da das Ergebnis der WLAN-Verbindungsversuche auf dem Smartphone zu sehen sein soll, würde somit ein mehrfacher Verbindungsaufbau über NFC nötig werden.
+
+    \section{Architektur}
+        Unabhängig des verwendeten p2p Übertragungsmediums soll eine Schnittstelle in Form eines auf Requests antwortenden Servers zur Verfügung stehen.
+
+        und sich eine REST Schnittstelle durch die Pakete ...\footnote{TODO} leicht in pharo definieren lässt, bietet es an, diese fertigen Serverkomponenten zu nutzen.
+        Um REST als Schnittstelle jedoch nutzen zu können muss der genutzte Kommunikationskanal HTTP übertragen können. Da jede der vorgestellten Schnittstellen Bytes oder Strings
+        übertragen kann, stellen die Übertragungsmedien kein Problem dar, jedoch muss der REST-Server die HTTP-String Repräsentationen zur verfügung stellen können,
+        ohne sie über eine TCP-IP-Netzwerkschnittstelle zu versenden. Ebenso muss der Client die HTTP-Nachrichten korrekt verarbeiten können.
+        Da die meisten Bibliotheken an den TCP/IP-Stack von Android gekoppelt sind, um einen gekapselten HTTP-Client anbieten zu können.
+        Daher ist es nicht immer möglich eine String-Repräsentation des zu tätigenden Aufrufs zu erhalten oder an die Bibliothek zu übergeben.
+        Die OkHttp Bibliothek sollte diese Probleme jedoch umgehen können, da Netzwerk Aufrufe durch eine Kette von Interceptoren gereicht werden und der RealNetworkInterceptor,
+        welcher sich als letztes in dieser Kette befindet, überschrieben werden kann.\footnote{TODO: gibt OkHttp fertige Http Aufrufe in den letzten Interceptor?}
+
+        Um die Schnittstelle einfach warten zu können, wird sie als JSONSchema über OpenApi dokumentiert und dem Client zur Verfügung gestellt.\footnote{TODO: JSON SCHEMA und OpenApi sollten erklärt werden}
+
+        Die Schnittstelle muss folgende Funktionalitäten anbieten:
+        \begin{itemize}
+            \item Eine Auflistung der verfügbaren Netzwerkschnittstellen sollte ähnlich zu {\it ip link show} zur Verfügung stehen, um die ID der gewünschten Schnittstelle für die nächsten Aufrufe herauszufinden.
+            \item Pro Netzwerkschnittstelle soll es möglich sein, sich den aktuellen Verbindungsstatus sowie die akutelle Konfiguration ausgeben sowie anpassen zu lassen.
+            \item Eine Ausgabe von Systemlogs über die Netzwerkschnittstellen soll ungefiltert und pro Schnittstelle gefiltert zur Verfügung stehen.
+            \item Die Spezifikation der Schnittstelle soll als Aufruf der Schnittstelle zur Verfügung stehen, sodass sie leicht nutzbar ist.
+        \end{itemize}
+        
     \begin{thebibliography}{10}
         \bibitem[Aneja et al.]{Aneja}Nagender Aneja and Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, Volume 2018, Article ID 9469536, 7 pages} (2018).
         \bibitem[Lüders]{Lueders}Christian Lüders: {\it Lokale Funknetze: Wireless LANs (IEEE 802.11), Bluetooth, DECT} Vogel, Würzburg (2007).
@@ -183,9 +210,11 @@
         \bibitem[Sikora]{Sikora}Axel Sikora: {\it Wireless LAN: Protokolle und Anwendungen} Addison-Wesley, München u.A. (2001).
 
         \bibitem[iot-p2p-test Repository]{test-repository}https://github.com/janphkre/iot-p2p-test
+        \bibitem[Android Open Accessory]{AOA}https://source.android.com/devices/accessories/custom
     \end{thebibliography}
 
     \section{Glosar}
+        AOA - Android Open Accessory
         DNS - Dynamic Name Service
         DNS SD - DNS System Discovery
         GPIO - General Purpose Input / Output
