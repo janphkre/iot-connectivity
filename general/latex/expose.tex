@@ -1,0 +1,30 @@
+\section{Expose}
+    Pharo ist eine auf Smalltalk basierende objektorientierte und dynamisch getypte Programmiersprache,
+    welche gleichzeitig ihre eigene live Entwicklungsumgebung mit mächtigen Debugging-Tools ist.\footnote{http://pharo.org/}
+    PharoThings bietet eine reduzierte Platform für  Internet of Things(IoT), sodass eine Ausführung von Programmen auf Kleinstcomputern möglich ist.
+    Um keine Kompromisse im Bereich der Entwicklungsumgebung machen zu müssen, kann über Remote Debugger auf live Programme zugegriffen werden.
+    Dadurch ist lediglich die Ausführung auf das IoT Gerät ausgelagert. PharoThings bietet in Verbindung mit WiringPi eine Platform für Raspberry Pi,
+    auf der Board Modeling simpel möglich ist.\footnote{https://github.com/pharo-iot/PharoThings}
+    Für die Erstkonfiguration und Verbindungskonfigurationvon PharoThings auf Raspberry Pi ist es aktuell nötig,
+    diese Konfiguration z.B. der WLAN-Verbindung durch einen Computer vorzunehmen.
+    Um die Pharo Things Laufzeitumgebungen als IoT-Geräte simpel nutzen zu können, ist es nötig,
+    die Konfiguration der Installationen und Geräte zu vereinfachen. Dabei soll eine Android App diesen Vorgang übernehmen:
+    \begin{enumerate}
+        \item Erkennen und Auflisten von IoT-Geräten in der Nähe. Die zu verwendende Kommunikationstechnologie ist dabei zu evaluieren.
+        \item Verbindungsaufbau zu ausgewähltem IoT-Gerät
+        \item IoT-Gerät erhält Hostnamen, WLAN-Konfiguration, Beacon Intervall, etc.
+        \item Eventuelle Verbindungsprobleme der erst WLAN-Verbindung werden über die bestehende Verbindung zurückgemeldet
+        \item Pharo Things-Installationen im aktuellen WLAN werden aufgelistet.
+    \end{enumerate}
+    Um diesen Vorgang umsetzen zu können, werden drei Komponenten implementiert:
+    \begin{enumerate}
+        \item Ein Protokoll muss definiert werden, welches die Kommunikation zu PharoThings Instanzen zur Konfiguration festlegt.
+        Weiterhin muss festgelegt werden, in welcher Art und Weise ein Beacon-Signal im WLAN von den Installationen gesendet wird.
+        Um das WLAN nicht zu überlasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu evaluieren,
+        ob sich Installationen auch gegenseitig erkennen können, sodass ein gebündelter Beacon gesendet werden kann.
+        \item Eine Android App, welche den Nutzer durch den beschriebenen Vorgang leitet, muss implementiert werden.
+        Der Fokus hierbei liegt darin, diesen Vorgang mit möglichst wenig Nutzerinteraktion durchzuführen.
+        \item Eine Anwendung in PharoThings muss erstellt werden, welche das Protokoll implementiert
+        und basierend darauf sich in einem WLAN einwählen kann und ein Beacon-Signal in diesem WLAN sendet.
+    \end{enumerate}
+    Das Projekt wird mit Unterstützung der Zweidenker GmbH durchgeführt.
