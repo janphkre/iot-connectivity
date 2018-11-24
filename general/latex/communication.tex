@@ -30,6 +30,7 @@
     Weiterhin bietet der Raspberry Pi ein vollständiges Betriebssystem mit Benutzeroberfläche, jedoch soll eine Internetverbindung
     ohne Peripherie am Raspberry Pi konfiguriert werden können. 
     \end {enumerate}
+
     \subsection{Kommunikation über WLAN}
         Der IEEE802.11 Standard siedelt sich im OSI-Modell lediglich in der Physical Layer und Data Link Layer an. Ihr eigentlicher Sinn ist es,
         IP-Pakete der Network Layer im gleichen Maße wie ein LAN übertragen zu können.
@@ -57,7 +58,6 @@
     
         \paragraph{Nutzung unter Android}
         Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden.  \footnote{TODO GEGENSATZ ZU AIRPLAY} 
-
         Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
         um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
         Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
@@ -81,24 +81,41 @@
         Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
         agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
 
-        Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an \footnote{TODO}
+        Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an \footnote{TODO: Sauter}
 
         Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
-        So ermöglicht das Service Discovery Protocol den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
+        So ermöglicht das Service Discovery Protocol (SDP) den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
         Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\footnote{\cite[S.229]{Lueders}}
         \footnote{TODO SDP erklären}
 
         \paragraph{Bluetooth Low Energy}
         Als Teil des Bluetooth Standards ist Bluetooth Low Energy darauf ausgelegt, Daten mit einem möglichst geringen Energieverbrauch über die Bluetooth-Hardware zu übertragen.
-        Dies wird ermöglicht, indem Broadcasts erlaubt werden, die Daten enthalten können. \footnote{TODO}
+        Dies wird ermöglicht, indem Broadcasts definiert werden, die Daten enthalten können. \footnote{TODO}
 
         \paragraph{Nutzung unter Android}
-        Android stellt sowohl Bluetooth als auch Bluetooth Low Energy 
+        Android stellt sowohl Bluetooth als auch Bluetooth Low Energy
 
     \subsection{Kommunikation über NFC}
+        Die Near Field Communication (NFC)-Technologie basiert auf RFID-Systemen und erlaubt die Übertragung von Daten auf eine Distanz bis zu 10 Zentimeter.
+        Grundlegend ist NFC in den Standards NFCIP-1 (ECMA-340) und NFCIP-2 (ECMA-352) definiert. Wie bei klassischen RFID-Systemen ist ein magnetisches Feld
+        als Trägersignal der Daten definiert. Dieses magnetische Feld dient dazu, passiven Komponenten, die keine eigene Stromversorgung besitzen, auf Anfragen
+        der steuernden Komponente zu antworten. Anders als RFID hebt NFC jedoch die strikte Trennung zwischen steuernder (Initiator) und gesteuerter (Target) Komponente auf, sodass
+        jedes teilnehmende NFC-Gerät zumindest theoretisch beide Rollen übernehmen kann.\footnote{\cite[S.89]{Langer}} Rückwärtskompatibilität erreicht NFC,
+        indem sowohl ein Reader-Writer-Modus, der die Kommunikation mit passiven RFID-Transpondern ermöglicht,
+        als auch ein Card-Emulation-Modus, der die Kommunikation mit RFID-Lesegeräten erlaubt, definiert ist.\footnote{\cite[S.99f.]{Langer}}
+        Als letzter Modus ist der hier relevante Peer-to-Peer-Modus, dazu in der lage, Daten zwischen zwei NFC-Geräten zu übertragen.
+        Ähnlich zu Bluetooth lehnt sich auch NFC nur lose an das OSI-Modell an. Es gibt für NFC drei aufeinander aufbauende Protokollschichten.
+        Die Bitübertragung ist in NFCIP-1 definiert und teilt sich in einen aktiven und passiven Modus. Der aktive Modus hebt sich dabei vom passiven Modus,
+        welcher in seiner Funktionsweise äquivalent zum RFID-System ist, dadurch ab, dass das Trägersignal von beiden Kommunikationspartnern abwechselnd generiert wird.
+        Die darauffolgende Schicht ist ein MAC Protokoll, welches den Zugriff auf das Übertragungsmedium sichert, indem geprüft wird, ob bereits ein Trägersignal existiert,
+        bevor ein Gerät in den Initiator-Modus wechselt, andernfalls verbleibt es im Target-Modus.
+        Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu initiieren.\footnote{\cite[S91.f, S.97]{Langer}}
+
+        \paragraph{Nutzung unter Android}
 
     \subsection{Kommunikation über USB}
     \footnote{TODO: \cite{AOA}}
+
     \subsection{Evaluation der Übertragungsmedien}
     Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden.
     Da für USB ein Treiber auf Hostseite nötig ist, der AOA implementiert, ist der Aufwand wesentlich höher im Vergleich zu den restlichen Schnittstellen.
