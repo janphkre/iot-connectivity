@@ -81,13 +81,15 @@
         Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
         agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\footnote{\cite[S.379f.]{Sauter}}
 
-        Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an \footnote{TODO: Sauter}
-
-        Für bestimmte Anwendungsfälle gibt es zudem spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
+        Für bestimmte Anwendungsfälle gibt es spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
         So ermöglicht das Service Discovery Protocol (SDP) den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
         Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\footnote{\cite[S.229]{Lueders}}
         SDP erlaubt nicht nur das Auflisten von verfügbaren Diensten des Verbindungspartners, sondern auch das Suchen von einem bestimmten Dienst auf erreichbaren Geräten,
         es kann dabei jedoch keinen Zugriff zu den Diensten bereitstellen oder die Verfügbarkeit der Dienste auf den erreichbaren Geräten angeben.\footnote{\cite[S.395f]{Morrow}}
+
+        Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an, da nicht jedes Element des Bluetoothstacks sich sauber einer OSI-Schicht zuordnen lässt.
+        Die oben vorgestellten Protokolle wie SDP oder RFCOMM siedeln sich jedoch in der {\bf Presentation Layer} an, da diese lediglich dazu gedacht sind,
+        Daten leichter der Anwendung zur Verfügung stellen zu können. \footnote{\cite[S.382]{Sauter}}
 
         \paragraph{Bluetooth Low Energy}
         Als Teil des Bluetooth Standards ist Bluetooth Low Energy darauf ausgelegt, Daten mit einem möglichst geringen Energieverbrauch über die Bluetooth-Hardware zu übertragen.
