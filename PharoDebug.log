@@ -1,0 +1,4548 @@
+THERE_BE_DRAGONS_HERE
+AssertionFailure: Project location does not seems to be a valid git repository.
+29 November 2018 10:02:01.82428 am
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+StackToRegisterMappingCogit VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+VM: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git Date: Thu Jun 28 14:56:30 2018 CommitHash: a8a1dc1 Plugins: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git
+
+Image: Pharo7.0.0rc1 [Build information: Pharo-7.0.0+rc1.build.1419.sha.343f470940f4095869eb9ab2cdd985dd64544b6b (64 Bit)]
+
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+		aBlock: 	false
+		aStringOrBlock: 	'Project location does not seems to be a valid git repository.'...etc...
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipLocalRepositoryPanel>>validate
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipRegisterRepositoryDialog>>doAccept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+		newRepository: 	nil
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+BlockClosure>>on:do:
+	Receiver: [ self doAccept.
+true ]
+	Arguments and temporary variables: 
+		exception: 	an ExceptionSet
+		handlerAction: 	[ :e | 
+e acceptError: IceTipInteractiveErrorVisitor new.
+false ...etc...
+	Receiver's instance variables: 
+		outerContext: 	IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+		startpc: 	85
+		numArgs: 	0
+
+
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+	Receiver: an OkCancelToolbar
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a ButtonPresenter a ButtonPresenter a DialogWi...etc...
+		owner: 	a SpecDialogWindow(458495232) named: Import from existing clone
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Ok Cancel' ]
+		okButton: 	a ButtonPresenter
+		okAction: 	a NewValueHolder[ [ self accept ] ]
+		cancelButton: 	a ButtonPresenter
+		cancelAction: 	a NewValueHolder[ [ true ] ]
+		cancelled: 	a NewValueHolder[ false ]
+
+
+ButtonPresenter>>performAction
+	Receiver: a ButtonPresenter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicButtonAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	nil
+		owner: 	an OkCancelToolbar
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Character space->[ self action ] )
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Button' ]
+		helpHolder: 	a NewValueHolder[ nil ]
+		borderWidth: 	a NewValueHolder[ 0 ]
+		borderColor: 	a NewValueHolder[ Color transparent ]
+		enabledHolder: 	a NewValueHolder[ true ]
+		dragEnabled: 	a NewValueHolder[ false ]
+		dropEnabled: 	a NewValueHolder[ false ]
+		dragTransformationBlock: 	a NewValueHolder[ [ :item :source | item ] ]
+		wantDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source | self dropEnabl...etc...
+		acceptDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source |  ] ]
+		transferBlock: 	a NewValueHolder[ [ :passenger :source | self defaultTransferFor...etc...
+		color: 	a NewValueHolder[ nil ]
+		actionHolder: 	a NewValueHolder[ [ okAction value value == false
+	ifFalse: [ own...etc...
+		labelHolder: 	a CollectionValueHolder[ 'Ok' ]
+		fontHolder: 	a NewValueHolder[ nil ]
+		stateHolder: 	a NewValueHolder[ false ]
+		actionPerformedHolder: 	a NewValueHolder[ nil ]
+		askBeforeChangingHolder: 	a NewValueHolder[ false ]
+		iconHolder: 	a NewValueHolder[ nil ]
+		menuHolder: 	a NewValueHolder[ a MenuPresenter ]
+		shortcutHolder: 	a NewValueHolder[ nil ]
+
+
+MorphicButtonAdapter>>action
+	Receiver: a MorphicButtonAdapter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a PluggableButtonMorph(234595072))
+		announcer: 	nil
+		model: 	a ButtonPresenter
+		widget: 	a PluggableButtonMorph(234595072)
+		selector: 	nil
+
+
+PluggableButtonMorph>>performAction:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		event: 	[(2377@1177) mouseUp 623016 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		evt: 	[(2377@1177) mouseUp 623016 nil]
+		all: 	an Array(a PluggableButtonMorph(509889280) a PluggableButtonMorph(23459507...etc...
+		m: 	a PluggableButtonMorph(234595072)
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a PluggableButtonMorph(509889280) a PluggableButtonMorph(234595072))
+	Arguments and temporary variables: 
+		aBlock: 	[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTr...etc...
+		index: 	2
+	Receiver's instance variables: 
+an Array(a PluggableButtonMorph(509889280) a PluggableButtonMorph(234595072))
+
+PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		evt: 	[(2377@1177) mouseUp 623016 nil]
+		all: 	an Array(a PluggableButtonMorph(509889280) a PluggableButtonMorph(23459507...etc...
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleMouseUp:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+MouseButtonEvent>>sentTo:
+	Receiver: [(2377@1177) mouseUp 623016 nil]
+	Arguments and temporary variables: 
+		anObject: 	a PluggableButtonMorph(234595072)
+	Receiver's instance variables: 
+		timeStamp: 	623016
+		source: 	a HandMorph(882526720)
+		windowIndex: 	nil
+		type: 	#mouseUp
+		buttons: 	0
+		position: 	(2377@1177)
+		handler: 	nil
+		wasHandled: 	true
+		whichButton: 	4
+
+
+PluggableButtonMorph(Morph)>>handleEvent:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+	Receiver: a PluggableButtonMorph(234595072)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(889957632)
+		submorphs: 	an Array(an AlignmentMorph(91644160))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (977422592) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(369103104)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+		focusHolder: 	a PluggableButtonMorph(234595072)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+BlockClosure>>on:do:
+	Receiver: [ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (an...etc...
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+ActiveWorld := priorWorld.
+ActiveEvent := priorEvent.
+A...etc...
+	Receiver's instance variables: 
+		outerContext: 	HandMorph>>sendFocusEvent:to:clear:
+		startpc: 	111
+		numArgs: 	0
+
+
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+		aBlock: 	[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	ha...etc...
+		priorWorld: 	a WorldMorph(286586112) [world]
+		priorHand: 	a HandMorph(882526720)
+		priorEvent: 	[(2377@1177) mouseOver red 622832 nil]
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		result: 	nil
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+		focusHolder: 	a PluggableButtonMorph(234595072)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendEvent:focus:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+		focusHolder: 	a PluggableButtonMorph(234595072)
+		aBlock: 	[ self mouseFocus: nil ]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendMouseEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>handleEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2377@1177) mouseUp 623016 nil]
+		evt: 	[(2377@1177) mouseUp 623016 nil]
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEventsFromQueue:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEventQueue: 	an InputEventSensor
+		evt: 	[(2377@1177) mouseUp 623016 nil]
+		evtBuf: 	#(1 623016 2377 1177 0 0 0 1)
+		type: 	1
+		hadAny: 	false
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEvents
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(2377@1177) corner: (2393@1193)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(234595072)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2377@1177) mouseUp 623016 nil]
+		targetOffset: 	(52.0@37.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 623016 2377 1177 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+		h: 	a HandMorph(882526720)
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	623004
+		lastStepMessage: 	nil
+		lastCycleTime: 	623067
+		alarms: 	a Heap()
+		lastAlarmTime: 	623004
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a HandMorph(882526720))
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+		index: 	1
+	Receiver's instance variables: 
+an Array(a HandMorph(882526720))
+
+WorldState>>handsDo:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	623004
+		lastStepMessage: 	nil
+		lastCycleTime: 	623067
+		alarms: 	a Heap()
+		lastAlarmTime: 	623004
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	623004
+		lastStepMessage: 	nil
+		lastCycleTime: 	623067
+		alarms: 	a Heap()
+		lastAlarmTime: 	623004
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	623004
+		lastStepMessage: 	nil
+		lastCycleTime: 	623067
+		alarms: 	a Heap()
+		lastAlarmTime: 	623004
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldMorph>>doOneCycle
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+WorldMorph class>>doOneCycle
+	Receiver: WorldMorph
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		superclass: 	PasteUpMorph
+		methodDict: 	a MethodDictionary(#acceptDroppingMorph:event:->WorldMorph>>#accept...etc...
+		format: 	65550
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	{AthensWorldMorph. OSWindowWorldMorph}
+		name: 	#WorldMorph
+		classPool: 	a Dictionary(#AllowDropFiles->nil #CursorOwnerWorld->a WorldMorph(28...etc...
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'Morphic-Core-Worlds'
+		announcer: 	nil
+		displayScaleFactor: 	2
+
+
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+	Receiver: a MorphicUIManager
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		activeTranscript: 	nil
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	MorphicUIManager>>spawnNewProcess
+		startpc: 	125
+		numArgs: 	0
+
+
+
+--- The full stack ---
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+IceTipLocalRepositoryPanel>>validate
+IceTipRegisterRepositoryDialog>>doAccept
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+BlockClosure>>on:do:
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+ButtonPresenter>>performAction
+MorphicButtonAdapter>>action
+PluggableButtonMorph>>performAction:
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+Array(SequenceableCollection)>>do:
+PluggableButtonMorph>>mouseUp:
+PluggableButtonMorph(Morph)>>handleMouseUp:
+MouseButtonEvent>>sentTo:
+PluggableButtonMorph(Morph)>>handleEvent:
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+BlockClosure>>on:do:
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+HandMorph>>sendFocusEvent:to:clear:
+HandMorph>>sendEvent:focus:clear:
+HandMorph>>sendMouseEvent:
+HandMorph>>handleEvent:
+HandMorph>>processEventsFromQueue:
+HandMorph>>processEvents
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+Array(SequenceableCollection)>>do:
+WorldState>>handsDo:
+WorldState>>doOneCycleNowFor:
+WorldState>>doOneCycleFor:
+WorldMorph>>doOneCycle
+WorldMorph class>>doOneCycle
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+AssertionFailure: You must enter a project name (it will be used also as part of the path).
+29 November 2018 10:09:25.054343 am
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+StackToRegisterMappingCogit VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+VM: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git Date: Thu Jun 28 14:56:30 2018 CommitHash: a8a1dc1 Plugins: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git
+
+Image: Pharo7.0.0rc1 [Build information: Pharo-7.0.0+rc1.build.1419.sha.343f470940f4095869eb9ab2cdd985dd64544b6b (64 Bit)]
+
+IceTipNewRepositoryPanel(Object)>>assert:description:
+	Receiver: an IceTipNewRepositoryPanel
+	Arguments and temporary variables: 
+		aBlock: 	false
+		aStringOrBlock: 	'You must enter a project name (it will be used also as part of...etc...
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a TextInputFieldPresenter an IceTipDirectoryPr...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+		projectNameLabel: 	a LabelPresenter
+		projectNameInputText: 	a TextInputFieldPresenter
+		subdirectoryLabel: 	a LabelPresenter
+		subdirectoryInputText: 	a TextInputFieldPresenter
+
+
+IceTipNewRepositoryPanel>>validate
+	Receiver: an IceTipNewRepositoryPanel
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a TextInputFieldPresenter an IceTipDirectoryPr...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+		projectNameLabel: 	a LabelPresenter
+		projectNameInputText: 	a TextInputFieldPresenter
+		subdirectoryLabel: 	a LabelPresenter
+		subdirectoryInputText: 	a TextInputFieldPresenter
+
+
+IceTipRegisterRepositoryDialog>>doAccept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+		newRepository: 	nil
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipNewRepository...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipNewRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipNewRepository...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipNewRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+BlockClosure>>on:do:
+	Receiver: [ self doAccept.
+true ]
+	Arguments and temporary variables: 
+		exception: 	an ExceptionSet
+		handlerAction: 	[ :e | 
+e acceptError: IceTipInteractiveErrorVisitor new.
+false ...etc...
+	Receiver's instance variables: 
+		outerContext: 	IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+		startpc: 	85
+		numArgs: 	0
+
+
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipNewRepository...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipNewRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipNewRepository...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'New repository' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipNewRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+	Receiver: an OkCancelToolbar
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a ButtonPresenter a ButtonPresenter a DialogWi...etc...
+		owner: 	a SpecDialogWindow(634806016) named: New repository
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Ok Cancel' ]
+		okButton: 	a ButtonPresenter
+		okAction: 	a NewValueHolder[ [ self accept ] ]
+		cancelButton: 	a ButtonPresenter
+		cancelAction: 	a NewValueHolder[ [ true ] ]
+		cancelled: 	a NewValueHolder[ false ]
+
+
+ButtonPresenter>>performAction
+	Receiver: a ButtonPresenter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicButtonAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	nil
+		owner: 	an OkCancelToolbar
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Character space->[ self action ] )
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Button' ]
+		helpHolder: 	a NewValueHolder[ nil ]
+		borderWidth: 	a NewValueHolder[ 0 ]
+		borderColor: 	a NewValueHolder[ Color transparent ]
+		enabledHolder: 	a NewValueHolder[ true ]
+		dragEnabled: 	a NewValueHolder[ false ]
+		dropEnabled: 	a NewValueHolder[ false ]
+		dragTransformationBlock: 	a NewValueHolder[ [ :item :source | item ] ]
+		wantDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source | self dropEnabl...etc...
+		acceptDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source |  ] ]
+		transferBlock: 	a NewValueHolder[ [ :passenger :source | self defaultTransferFor...etc...
+		color: 	a NewValueHolder[ nil ]
+		actionHolder: 	a NewValueHolder[ [ okAction value value == false
+	ifFalse: [ own...etc...
+		labelHolder: 	a CollectionValueHolder[ 'Ok' ]
+		fontHolder: 	a NewValueHolder[ nil ]
+		stateHolder: 	a NewValueHolder[ false ]
+		actionPerformedHolder: 	a NewValueHolder[ nil ]
+		askBeforeChangingHolder: 	a NewValueHolder[ false ]
+		iconHolder: 	a NewValueHolder[ nil ]
+		menuHolder: 	a NewValueHolder[ a MenuPresenter ]
+		shortcutHolder: 	a NewValueHolder[ nil ]
+
+
+MorphicButtonAdapter>>action
+	Receiver: a MorphicButtonAdapter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a PluggableButtonMorph(220613376))
+		announcer: 	nil
+		model: 	a ButtonPresenter
+		widget: 	a PluggableButtonMorph(220613376)
+		selector: 	nil
+
+
+PluggableButtonMorph>>performAction:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		event: 	[(2355@1163) mouseUp 1066322 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2355@1163) mouseUp 1066322 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+		m: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+	Arguments and temporary variables: 
+		aBlock: 	[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTr...etc...
+		index: 	2
+	Receiver's instance variables: 
+an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+
+PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2355@1163) mouseUp 1066322 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleMouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+MouseButtonEvent>>sentTo:
+	Receiver: [(2355@1163) mouseUp 1066322 nil]
+	Arguments and temporary variables: 
+		anObject: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		timeStamp: 	1066322
+		source: 	a HandMorph(882526720)
+		windowIndex: 	nil
+		type: 	#mouseUp
+		buttons: 	0
+		position: 	(2355@1163)
+		handler: 	nil
+		wasHandled: 	true
+		whichButton: 	4
+
+
+PluggableButtonMorph(Morph)>>handleEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+BlockClosure>>on:do:
+	Receiver: [ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (an...etc...
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+ActiveWorld := priorWorld.
+ActiveEvent := priorEvent.
+A...etc...
+	Receiver's instance variables: 
+		outerContext: 	HandMorph>>sendFocusEvent:to:clear:
+		startpc: 	111
+		numArgs: 	0
+
+
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+		aBlock: 	[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	ha...etc...
+		priorWorld: 	a WorldMorph(286586112) [world]
+		priorHand: 	a HandMorph(882526720)
+		priorEvent: 	[(2355@1163) mouseOver red 1066212 nil]
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		result: 	nil
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendEvent:focus:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendMouseEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>handleEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		evt: 	[(2355@1163) mouseUp 1066322 nil]
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEventsFromQueue:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEventQueue: 	an InputEventSensor
+		evt: 	[(2355@1163) mouseUp 1066322 nil]
+		evtBuf: 	#(1 1066322 2355 1163 0 0 0 1)
+		type: 	1
+		hadAny: 	false
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEvents
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(2355@1163) corner: (2371@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2355@1163) mouseUp 1066322 nil]
+		targetOffset: 	(30.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1066322 2355 1163 0 0 0 1)
+		lastKeyScanCode: 	8
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+		h: 	a HandMorph(882526720)
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1066267
+		lastStepMessage: 	nil
+		lastCycleTime: 	1066322
+		alarms: 	a Heap()
+		lastAlarmTime: 	1066267
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a HandMorph(882526720))
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+		index: 	1
+	Receiver's instance variables: 
+an Array(a HandMorph(882526720))
+
+WorldState>>handsDo:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1066267
+		lastStepMessage: 	nil
+		lastCycleTime: 	1066322
+		alarms: 	a Heap()
+		lastAlarmTime: 	1066267
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1066267
+		lastStepMessage: 	nil
+		lastCycleTime: 	1066322
+		alarms: 	a Heap()
+		lastAlarmTime: 	1066267
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1066267
+		lastStepMessage: 	nil
+		lastCycleTime: 	1066322
+		alarms: 	a Heap()
+		lastAlarmTime: 	1066267
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldMorph>>doOneCycle
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+WorldMorph class>>doOneCycle
+	Receiver: WorldMorph
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		superclass: 	PasteUpMorph
+		methodDict: 	a MethodDictionary(#acceptDroppingMorph:event:->WorldMorph>>#accept...etc...
+		format: 	65550
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	{AthensWorldMorph. OSWindowWorldMorph}
+		name: 	#WorldMorph
+		classPool: 	a Dictionary(#AllowDropFiles->nil #CursorOwnerWorld->a WorldMorph(28...etc...
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'Morphic-Core-Worlds'
+		announcer: 	nil
+		displayScaleFactor: 	2
+
+
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+	Receiver: a MorphicUIManager
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		activeTranscript: 	nil
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	MorphicUIManager>>spawnNewProcess
+		startpc: 	125
+		numArgs: 	0
+
+
+
+--- The full stack ---
+IceTipNewRepositoryPanel(Object)>>assert:description:
+IceTipNewRepositoryPanel>>validate
+IceTipRegisterRepositoryDialog>>doAccept
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+BlockClosure>>on:do:
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+ButtonPresenter>>performAction
+MorphicButtonAdapter>>action
+PluggableButtonMorph>>performAction:
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+Array(SequenceableCollection)>>do:
+PluggableButtonMorph>>mouseUp:
+PluggableButtonMorph(Morph)>>handleMouseUp:
+MouseButtonEvent>>sentTo:
+PluggableButtonMorph(Morph)>>handleEvent:
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+BlockClosure>>on:do:
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+HandMorph>>sendFocusEvent:to:clear:
+HandMorph>>sendEvent:focus:clear:
+HandMorph>>sendMouseEvent:
+HandMorph>>handleEvent:
+HandMorph>>processEventsFromQueue:
+HandMorph>>processEvents
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+Array(SequenceableCollection)>>do:
+WorldState>>handsDo:
+WorldState>>doOneCycleNowFor:
+WorldState>>doOneCycleFor:
+WorldMorph>>doOneCycle
+WorldMorph class>>doOneCycle
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+AssertionFailure: Project location does not seems to be a valid git repository.
+29 November 2018 10:09:54.076207 am
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+StackToRegisterMappingCogit VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+VM: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git Date: Thu Jun 28 14:56:30 2018 CommitHash: a8a1dc1 Plugins: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git
+
+Image: Pharo7.0.0rc1 [Build information: Pharo-7.0.0+rc1.build.1419.sha.343f470940f4095869eb9ab2cdd985dd64544b6b (64 Bit)]
+
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+		aBlock: 	false
+		aStringOrBlock: 	'Project location does not seems to be a valid git repository.'...etc...
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipLocalRepositoryPanel>>validate
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipRegisterRepositoryDialog>>doAccept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+		newRepository: 	nil
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+BlockClosure>>on:do:
+	Receiver: [ self doAccept.
+true ]
+	Arguments and temporary variables: 
+		exception: 	an ExceptionSet
+		handlerAction: 	[ :e | 
+e acceptError: IceTipInteractiveErrorVisitor new.
+false ...etc...
+	Receiver's instance variables: 
+		outerContext: 	IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+		startpc: 	85
+		numArgs: 	0
+
+
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+	Receiver: an OkCancelToolbar
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a ButtonPresenter a ButtonPresenter a DialogWi...etc...
+		owner: 	a SpecDialogWindow(634806016) named: Import from existing clone
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Ok Cancel' ]
+		okButton: 	a ButtonPresenter
+		okAction: 	a NewValueHolder[ [ self accept ] ]
+		cancelButton: 	a ButtonPresenter
+		cancelAction: 	a NewValueHolder[ [ true ] ]
+		cancelled: 	a NewValueHolder[ false ]
+
+
+ButtonPresenter>>performAction
+	Receiver: a ButtonPresenter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicButtonAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	nil
+		owner: 	an OkCancelToolbar
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Character space->[ self action ] )
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Button' ]
+		helpHolder: 	a NewValueHolder[ nil ]
+		borderWidth: 	a NewValueHolder[ 0 ]
+		borderColor: 	a NewValueHolder[ Color transparent ]
+		enabledHolder: 	a NewValueHolder[ true ]
+		dragEnabled: 	a NewValueHolder[ false ]
+		dropEnabled: 	a NewValueHolder[ false ]
+		dragTransformationBlock: 	a NewValueHolder[ [ :item :source | item ] ]
+		wantDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source | self dropEnabl...etc...
+		acceptDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source |  ] ]
+		transferBlock: 	a NewValueHolder[ [ :passenger :source | self defaultTransferFor...etc...
+		color: 	a NewValueHolder[ nil ]
+		actionHolder: 	a NewValueHolder[ [ okAction value value == false
+	ifFalse: [ own...etc...
+		labelHolder: 	a CollectionValueHolder[ 'Ok' ]
+		fontHolder: 	a NewValueHolder[ nil ]
+		stateHolder: 	a NewValueHolder[ false ]
+		actionPerformedHolder: 	a NewValueHolder[ nil ]
+		askBeforeChangingHolder: 	a NewValueHolder[ false ]
+		iconHolder: 	a NewValueHolder[ nil ]
+		menuHolder: 	a NewValueHolder[ a MenuPresenter ]
+		shortcutHolder: 	a NewValueHolder[ nil ]
+
+
+MorphicButtonAdapter>>action
+	Receiver: a MorphicButtonAdapter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a PluggableButtonMorph(220613376))
+		announcer: 	nil
+		model: 	a ButtonPresenter
+		widget: 	a PluggableButtonMorph(220613376)
+		selector: 	nil
+
+
+PluggableButtonMorph>>performAction:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		event: 	[(2353@1163) mouseUp 1095338 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2353@1163) mouseUp 1095338 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+		m: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+	Arguments and temporary variables: 
+		aBlock: 	[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTr...etc...
+		index: 	2
+	Receiver's instance variables: 
+an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+
+PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2353@1163) mouseUp 1095338 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleMouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+MouseButtonEvent>>sentTo:
+	Receiver: [(2353@1163) mouseUp 1095338 nil]
+	Arguments and temporary variables: 
+		anObject: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		timeStamp: 	1095338
+		source: 	a HandMorph(882526720)
+		windowIndex: 	nil
+		type: 	#mouseUp
+		buttons: 	0
+		position: 	(2353@1163)
+		handler: 	nil
+		wasHandled: 	true
+		whichButton: 	4
+
+
+PluggableButtonMorph(Morph)>>handleEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+BlockClosure>>on:do:
+	Receiver: [ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (an...etc...
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+ActiveWorld := priorWorld.
+ActiveEvent := priorEvent.
+A...etc...
+	Receiver's instance variables: 
+		outerContext: 	HandMorph>>sendFocusEvent:to:clear:
+		startpc: 	111
+		numArgs: 	0
+
+
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+		aBlock: 	[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	ha...etc...
+		priorWorld: 	a WorldMorph(286586112) [world]
+		priorHand: 	a HandMorph(882526720)
+		priorEvent: 	[(2353@1163) mouseOver red 1095251 nil]
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		result: 	nil
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendEvent:focus:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendMouseEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>handleEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		evt: 	[(2353@1163) mouseUp 1095338 nil]
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEventsFromQueue:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEventQueue: 	an InputEventSensor
+		evt: 	[(2353@1163) mouseUp 1095338 nil]
+		evtBuf: 	#(1 1095338 2353 1163 0 0 0 1)
+		type: 	1
+		hadAny: 	false
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEvents
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(2353@1163) corner: (2369@1179)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2353@1163) mouseUp 1095338 nil]
+		targetOffset: 	(28.0@23.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1095338 2353 1163 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+		h: 	a HandMorph(882526720)
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1095307
+		lastStepMessage: 	nil
+		lastCycleTime: 	1095338
+		alarms: 	a Heap()
+		lastAlarmTime: 	1095307
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a HandMorph(882526720))
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+		index: 	1
+	Receiver's instance variables: 
+an Array(a HandMorph(882526720))
+
+WorldState>>handsDo:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1095307
+		lastStepMessage: 	nil
+		lastCycleTime: 	1095338
+		alarms: 	a Heap()
+		lastAlarmTime: 	1095307
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1095307
+		lastStepMessage: 	nil
+		lastCycleTime: 	1095338
+		alarms: 	a Heap()
+		lastAlarmTime: 	1095307
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1095307
+		lastStepMessage: 	nil
+		lastCycleTime: 	1095338
+		alarms: 	a Heap()
+		lastAlarmTime: 	1095307
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldMorph>>doOneCycle
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+WorldMorph class>>doOneCycle
+	Receiver: WorldMorph
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		superclass: 	PasteUpMorph
+		methodDict: 	a MethodDictionary(#acceptDroppingMorph:event:->WorldMorph>>#accept...etc...
+		format: 	65550
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	{AthensWorldMorph. OSWindowWorldMorph}
+		name: 	#WorldMorph
+		classPool: 	a Dictionary(#AllowDropFiles->nil #CursorOwnerWorld->a WorldMorph(28...etc...
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'Morphic-Core-Worlds'
+		announcer: 	nil
+		displayScaleFactor: 	2
+
+
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+	Receiver: a MorphicUIManager
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		activeTranscript: 	nil
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	MorphicUIManager>>spawnNewProcess
+		startpc: 	125
+		numArgs: 	0
+
+
+
+--- The full stack ---
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+IceTipLocalRepositoryPanel>>validate
+IceTipRegisterRepositoryDialog>>doAccept
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+BlockClosure>>on:do:
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+ButtonPresenter>>performAction
+MorphicButtonAdapter>>action
+PluggableButtonMorph>>performAction:
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+Array(SequenceableCollection)>>do:
+PluggableButtonMorph>>mouseUp:
+PluggableButtonMorph(Morph)>>handleMouseUp:
+MouseButtonEvent>>sentTo:
+PluggableButtonMorph(Morph)>>handleEvent:
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+BlockClosure>>on:do:
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+HandMorph>>sendFocusEvent:to:clear:
+HandMorph>>sendEvent:focus:clear:
+HandMorph>>sendMouseEvent:
+HandMorph>>handleEvent:
+HandMorph>>processEventsFromQueue:
+HandMorph>>processEvents
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+Array(SequenceableCollection)>>do:
+WorldState>>handsDo:
+WorldState>>doOneCycleNowFor:
+WorldState>>doOneCycleFor:
+WorldMorph>>doOneCycle
+WorldMorph class>>doOneCycle
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+
+THERE_BE_DRAGONS_HERE
+AssertionFailure: Project location does not seems to be a valid git repository.
+29 November 2018 10:10:34.407995 am
+
+VM: unix - x86_64 - linux-gnu - CoInterpreter VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+StackToRegisterMappingCogit VMMaker.oscog-eem.2401 uuid: 29232e0e-c9e3-41d8-ae75-519db862e02c Jun 28 2018
+VM: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git Date: Thu Jun 28 14:56:30 2018 CommitHash: a8a1dc1 Plugins: 201806281256 https://github.com/OpenSmalltalk/opensmalltalk-vm.git
+
+Image: Pharo7.0.0rc1 [Build information: Pharo-7.0.0+rc1.build.1419.sha.343f470940f4095869eb9ab2cdd985dd64544b6b (64 Bit)]
+
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+		aBlock: 	false
+		aStringOrBlock: 	'Project location does not seems to be a valid git repository.'...etc...
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipLocalRepositoryPanel>>validate
+	Receiver: an IceTipLocalRepositoryPanel
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(an IceTipDirectoryPresenter)
+		owner: 	nil
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Shift + Tab->[ self giveFocusToPreviousFrom...etc...
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		projectLocation: 	an IceTipDirectoryPresenter
+		remoteLabel: 	nil
+		remoteInputText: 	nil
+		spacePanel: 	a MorphicGenericAdapter
+		repository: 	nil
+
+
+IceTipRegisterRepositoryDialog>>doAccept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+		newRepository: 	nil
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+BlockClosure>>on:do:
+	Receiver: [ self doAccept.
+true ]
+	Arguments and temporary variables: 
+		exception: 	an ExceptionSet
+		handlerAction: 	[ :e | 
+e acceptError: IceTipInteractiveErrorVisitor new.
+false ...etc...
+	Receiver's instance variables: 
+		outerContext: 	IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+		startpc: 	85
+		numArgs: 	0
+
+
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+	Receiver: an IceTipRegisterRepositoryDialog
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter a MorphicContainerAdapt...etc...
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a MorphicGenericAdapter an IceTipLocalReposito...etc...
+		owner: 	nil
+		window: 	a NewValueHolder[ a DialogWindowPresenter ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Import from existing clone' ]
+		acceptButton: 	a ButtonPresenter
+		cancelButton: 	a ButtonPresenter
+		typeList: 	a MorphicGenericAdapter
+		type: 	an IceTipLocalRepositoryPanel
+		contentPanel: 	a MorphicGenericAdapter
+		types: 	an OrderedCollection(an IceTipNewRepositoryPanel an IceTipLocalRepositor...etc...
+		repository: 	nil
+		acceptBlock: 	nil
+
+
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+	Receiver: an OkCancelToolbar
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicContainerAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	an OrderedCollection(a ButtonPresenter a ButtonPresenter a DialogWi...etc...
+		owner: 	a SpecDialogWindow(634806016) named: Import from existing clone
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary()
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Ok Cancel' ]
+		okButton: 	a ButtonPresenter
+		okAction: 	a NewValueHolder[ [ self accept ] ]
+		cancelButton: 	a ButtonPresenter
+		cancelAction: 	a NewValueHolder[ [ true ] ]
+		cancelled: 	a NewValueHolder[ false ]
+
+
+ButtonPresenter>>performAction
+	Receiver: a ButtonPresenter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a MorphicButtonAdapter)
+		announcer: 	an Announcer
+		focusOrder: 	nil
+		owner: 	an OkCancelToolbar
+		window: 	a NewValueHolder[ nil ]
+		spec: 	a SpecWrapper
+		extentHolder: 	a NewValueHolder[ nil ]
+		needRebuild: 	a NewValueHolder[ true ]
+		additionalKeyBindings: 	a Dictionary(Character space->[ self action ] )
+		keyStrokesForNextFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		keyStrokesForPreviousFocusHolder: 	a CollectionValueHolder[ an Array() ]
+		windowIcon: 	a NewValueHolder[ nil ]
+		aboutText: 	a NewValueHolder[ nil ]
+		askOkToClose: 	a NewValueHolder[ false ]
+		titleHolder: 	a CollectionValueHolder[ 'Button' ]
+		helpHolder: 	a NewValueHolder[ nil ]
+		borderWidth: 	a NewValueHolder[ 0 ]
+		borderColor: 	a NewValueHolder[ Color transparent ]
+		enabledHolder: 	a NewValueHolder[ true ]
+		dragEnabled: 	a NewValueHolder[ false ]
+		dropEnabled: 	a NewValueHolder[ false ]
+		dragTransformationBlock: 	a NewValueHolder[ [ :item :source | item ] ]
+		wantDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source | self dropEnabl...etc...
+		acceptDropBlock: 	a NewValueHolder[ [ :draggedItem :event :source |  ] ]
+		transferBlock: 	a NewValueHolder[ [ :passenger :source | self defaultTransferFor...etc...
+		color: 	a NewValueHolder[ nil ]
+		actionHolder: 	a NewValueHolder[ [ okAction value value == false
+	ifFalse: [ own...etc...
+		labelHolder: 	a CollectionValueHolder[ 'Ok' ]
+		fontHolder: 	a NewValueHolder[ nil ]
+		stateHolder: 	a NewValueHolder[ false ]
+		actionPerformedHolder: 	a NewValueHolder[ nil ]
+		askBeforeChangingHolder: 	a NewValueHolder[ false ]
+		iconHolder: 	a NewValueHolder[ nil ]
+		menuHolder: 	a NewValueHolder[ a MenuPresenter ]
+		shortcutHolder: 	a NewValueHolder[ nil ]
+
+
+MorphicButtonAdapter>>action
+	Receiver: a MorphicButtonAdapter
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		dependents: 	a DependentsArray(a PluggableButtonMorph(220613376))
+		announcer: 	nil
+		model: 	a ButtonPresenter
+		widget: 	a PluggableButtonMorph(220613376)
+		selector: 	nil
+
+
+PluggableButtonMorph>>performAction:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		event: 	[(2382@1167) mouseUp 1135624 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2382@1167) mouseUp 1135624 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+		m: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+	Arguments and temporary variables: 
+		aBlock: 	[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTr...etc...
+		index: 	2
+	Receiver's instance variables: 
+an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(220613376))
+
+PluggableButtonMorph>>mouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		evt: 	[(2382@1167) mouseUp 1135624 nil]
+		all: 	an Array(a PluggableButtonMorph(683655424) a PluggableButtonMorph(22061337...etc...
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleMouseUp:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+MouseButtonEvent>>sentTo:
+	Receiver: [(2382@1167) mouseUp 1135624 nil]
+	Arguments and temporary variables: 
+		anObject: 	a PluggableButtonMorph(220613376)
+	Receiver's instance variables: 
+		timeStamp: 	1135624
+		source: 	a HandMorph(882526720)
+		windowIndex: 	nil
+		type: 	#mouseUp
+		buttons: 	0
+		position: 	(2382@1167)
+		handler: 	nil
+		wasHandled: 	true
+		whichButton: 	4
+
+
+PluggableButtonMorph(Morph)>>handleEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+	Receiver: a PluggableButtonMorph(220613376)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+	Receiver's instance variables: 
+		bounds: 	(2325.0@1140.0) corner: (2422.0@1188.0)
+		owner: 	a PanelMorph(219029760)
+		submorphs: 	an Array(an AlignmentMorph(656666880))
+		fullBounds: 	nil
+		color: 	(Color r: 0.901 g: 0.901 b: 0.901 alpha: 1.0)
+		extension: 	a MorphExtension (616111872) [eventHandler = a MorphicEventHandler] ...etc...
+		borderWidth: 	1
+		borderColor: 	#simple
+		model: 	a MorphicButtonAdapter
+		label: 	a Text for 'Ok'
+		icon: 	nil
+		getIconSelector: 	nil
+		getStateSelector: 	#state
+		actionSelector: 	#action
+		font: 	nil
+		getLabelSelector: 	#label
+		getMenuSelector: 	nil
+		shortcutCharacter: 	nil
+		askBeforeChanging: 	false
+		triggerOnMouseDown: 	false
+		offColor: 	nil
+		onColor: 	nil
+		feedbackColor: 	nil
+		showSelectionFeedback: 	false
+		allButtons: 	nil
+		arguments: 	#()
+		argumentsProvider: 	nil
+		argumentsSelector: 	nil
+		enabled: 	true
+		actionBlock: 	nil
+		getColorSelector: 	nil
+		getEnabledSelector: 	#enabled
+		getFontSelector: 	#font
+		labelMorph: 	a TextMorph(903588608)
+		iconMorph: 	nil
+		iconPosition: 	#left
+		lastState: 	false
+
+
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+BlockClosure>>on:do:
+	Receiver: [ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (an...etc...
+	Arguments and temporary variables: 
+		exception: 	Error
+		handlerAction: 	[ :ex | 
+ActiveWorld := priorWorld.
+ActiveEvent := priorEvent.
+A...etc...
+	Receiver's instance variables: 
+		outerContext: 	HandMorph>>sendFocusEvent:to:clear:
+		startpc: 	111
+		numArgs: 	0
+
+
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+		aBlock: 	[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	ha...etc...
+		priorWorld: 	a WorldMorph(286586112) [world]
+		priorHand: 	a HandMorph(882526720)
+		priorEvent: 	[(2382@1167) mouseOver red 1135501 nil]
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+HandMorph>>sendFocusEvent:to:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		result: 	nil
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		w: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendEvent:focus:clear:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		focusHolder: 	a PluggableButtonMorph(220613376)
+		aBlock: 	[ self mouseFocus: nil ]
+		result: 	nil
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>sendMouseEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>handleEvent:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		evt: 	[(2382@1167) mouseUp 1135624 nil]
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEventsFromQueue:
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+		anEventQueue: 	an InputEventSensor
+		evt: 	[(2382@1167) mouseUp 1135624 nil]
+		evtBuf: 	#(1 1135624 2382 1167 0 0 0 1)
+		type: 	1
+		hadAny: 	false
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+HandMorph>>processEvents
+	Receiver: a HandMorph(882526720)
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(2382@1167) corner: (2398@1183)
+		owner: 	a WorldMorph(286586112) [world]
+		submorphs: 	#()
+		fullBounds: 	nil
+		color: 	Color blue
+		extension: 	a MorphExtension (854503680)
+		mouseFocus: 	nil
+		keyboardFocus: 	a PluggableButtonMorph(220613376)
+		eventListeners: 	nil
+		mouseListeners: 	nil
+		keyboardListeners: 	nil
+		mouseClickState: 	nil
+		mouseOverHandler: 	a MouseOverHandler
+		lastMouseEvent: 	[(2382@1167) mouseUp 1135624 nil]
+		targetOffset: 	(57.0@27.0)
+		damageRecorder: 	a DamageRecorder
+		cacheCanvas: 	nil
+		cachedCanvasHasHoles: 	false
+		temporaryCursor: 	nil
+		temporaryCursorOffset: 	nil
+		hardwareCursor: 	nil
+		hasChanged: 	true
+		savedPatch: 	nil
+		lastEventBuffer: 	#(1 1135624 2382 1167 0 0 0 1)
+		lastKeyScanCode: 	115
+		combinedChar: 	nil
+		eventSource: 	nil
+		lastSystemEvent: 	nil
+		captureBlock: 	nil
+		recentModifiers: 	0
+
+
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+		h: 	a HandMorph(882526720)
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1135613
+		lastStepMessage: 	nil
+		lastCycleTime: 	1135673
+		alarms: 	a Heap()
+		lastAlarmTime: 	1135613
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+Array(SequenceableCollection)>>do:
+	Receiver: an Array(a HandMorph(882526720))
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+		index: 	1
+	Receiver's instance variables: 
+an Array(a HandMorph(882526720))
+
+WorldState>>handsDo:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aBlock: 	[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1135613
+		lastStepMessage: 	nil
+		lastCycleTime: 	1135673
+		alarms: 	a Heap()
+		lastAlarmTime: 	1135613
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleNowFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1135613
+		lastStepMessage: 	nil
+		lastCycleTime: 	1135673
+		alarms: 	a Heap()
+		lastAlarmTime: 	1135613
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldState>>doOneCycleFor:
+	Receiver: a WorldState
+	Arguments and temporary variables: 
+		aWorld: 	a WorldMorph(286586112) [world]
+	Receiver's instance variables: 
+		hands: 	an Array(a HandMorph(882526720))
+		viewBox: 	(0@0) corner: (3840@1963)
+		canvas: 	a FormCanvas on: DisplayScreen(3840x1963x32)
+		damageRecorder: 	a DamageRecorder
+		stepList: 	a Heap()
+		lastStepTime: 	1135613
+		lastStepMessage: 	nil
+		lastCycleTime: 	1135673
+		alarms: 	a Heap()
+		lastAlarmTime: 	1135613
+		menuBuilder: 	a PragmaMenuBuilder ( nil ) 
+		activeHand: 	a HandMorph(882526720)
+		currentCursor: 	((CursorWithMask
+	extent: (16@16)
+	depth: 1
+	fromArray: #(
+		2r0...etc...
+
+
+WorldMorph>>doOneCycle
+	Receiver: a WorldMorph(286586112) [world]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		bounds: 	(0@0) corner: (3840@1963)
+		owner: 	nil
+		submorphs: 	an Array(a MenubarMorph(95231744) a TaskbarMorph(743595264) a SpecDi...etc...
+		fullBounds: 	nil
+		color: 	(Color r: 0.9400000000000001 g: 0.9400000000000001 b: 0.9400000000000001...etc...
+		extension: 	a MorphExtension (777507072) [other:  (dragEnabled -> true) (dropEna...etc...
+		borderWidth: 	0
+		borderColor: 	(Color r: 0.861 g: 1.0 b: 0.722 alpha: 1.0)
+		backgroundMorph: 	nil
+		worldState: 	a WorldState
+		griddingOn: 	nil
+		osWindow: 	nil
+		osWindowMutex: 	nil
+		session: 	nil
+
+
+WorldMorph class>>doOneCycle
+	Receiver: WorldMorph
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		superclass: 	PasteUpMorph
+		methodDict: 	a MethodDictionary(#acceptDroppingMorph:event:->WorldMorph>>#accept...etc...
+		format: 	65550
+		layout: 	a FixedLayout
+		organization: 	a ClassOrganization
+		subclasses: 	{AthensWorldMorph. OSWindowWorldMorph}
+		name: 	#WorldMorph
+		classPool: 	a Dictionary(#AllowDropFiles->nil #CursorOwnerWorld->a WorldMorph(28...etc...
+		sharedPools: 	an OrderedCollection()
+		environment: 	a SystemDictionary(lots of globals)
+		category: 	#'Morphic-Core-Worlds'
+		announcer: 	nil
+		displayScaleFactor: 	2
+
+
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+	Receiver: a MorphicUIManager
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		activeTranscript: 	nil
+
+
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+	Receiver: [ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ]
+	Arguments and temporary variables: 
+
+	Receiver's instance variables: 
+		outerContext: 	MorphicUIManager>>spawnNewProcess
+		startpc: 	125
+		numArgs: 	0
+
+
+
+--- The full stack ---
+IceTipLocalRepositoryPanel(Object)>>assert:description:
+IceTipLocalRepositoryPanel>>validate
+IceTipRegisterRepositoryDialog>>doAccept
+[ self doAccept.
+true ] in IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+BlockClosure>>on:do:
+IceTipRegisterRepositoryDialog(IceTipOptionDialog)>>accept
+[ self accept ] in IceTipRegisterRepositoryDialog(IceTipDialog)>>openDialogWithSpec
+[ okAction value value == false
+	ifFalse: [ owner ifNil: [ self delete ] ifNotNil: [ owner delete ] ] ] in OkCancelToolbar(OkToolbar)>>okActionBlock
+ButtonPresenter>>performAction
+MorphicButtonAdapter>>action
+PluggableButtonMorph>>performAction:
+[ :m | 
+(m containsPoint: evt cursorPoint)
+	ifTrue: [ m enabled
+			ifTrue: [ m performAction: evt ] ] ] in PluggableButtonMorph>>mouseUp:
+Array(SequenceableCollection)>>do:
+PluggableButtonMorph>>mouseUp:
+PluggableButtonMorph(Morph)>>handleMouseUp:
+MouseButtonEvent>>sentTo:
+PluggableButtonMorph(Morph)>>handleEvent:
+PluggableButtonMorph(Morph)>>handleFocusEvent:
+[ ActiveHand := self.
+ActiveEvent := anEvent.
+result := focusHolder
+	handleFocusEvent: (anEvent transformedBy: (focusHolder transformedFrom: self)) ] in HandMorph>>sendFocusEvent:to:clear:
+BlockClosure>>on:do:
+WorldMorph(PasteUpMorph)>>becomeActiveDuring:
+HandMorph>>sendFocusEvent:to:clear:
+HandMorph>>sendEvent:focus:clear:
+HandMorph>>sendMouseEvent:
+HandMorph>>handleEvent:
+HandMorph>>processEventsFromQueue:
+HandMorph>>processEvents
+[ :h | 
+self activeHand: h.
+h processEvents.
+self activeHand: nil ] in WorldState>>doOneCycleNowFor:
+Array(SequenceableCollection)>>do:
+WorldState>>handsDo:
+WorldState>>doOneCycleNowFor:
+WorldState>>doOneCycleFor:
+WorldMorph>>doOneCycle
+WorldMorph class>>doOneCycle
+[ [ WorldMorph doOneCycle.
+Processor yield.
+false ] whileFalse: [  ] ] in MorphicUIManager>>spawnNewProcess
+[ self value.
+Processor terminateActive ] in BlockClosure>>newProcess
+-------------------------------------------------------------------------------
+

@@ -6,3 +6,13 @@ general/latex/*.fdb_latexmk
 general/latex/*.fls
 general/latex/*.log
 general/latex/*.synctex.gz
+
+*.changes
+*.image
+*.sources
+icon-packs/*
+pharo
+pharo-local/*
+pharo-ui
+pharo-vm/*
+
