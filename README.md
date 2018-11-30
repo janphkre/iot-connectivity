@@ -9,4 +9,11 @@ Metacello new
     repository: 'github://zweidenker/OpenAPI/source';
     baseline: #OpenAPI;
     load.
+
+Gofer new
+    squeaksource: 'MetacelloRepository';
+    package: 'ConfigurationOfOSProcess';
+    load.
+
+((Smalltalk at: #ConfigurationOfOSProcess) project version: #stable) load.
 ```
