@@ -30,4 +30,5 @@ BaselineOfIOTConnectivity >> baseline: spec [
 					group: 'default' with: #('REST' 'P2P');
 					group: 'REST' with: #('IOTConnectivity-REST');
 					group: 'P2P' with: #('IOTConnectivity-P2P'). ].
+
 ]
