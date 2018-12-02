@@ -20,10 +20,21 @@ Class {
 	#category : #'IOTConnectivity-P2P'
 }
 
+{ #category : #private }
+WpaCli class >> command: aString [
+	"Send a command to the wpa_cli task"
+	| osProcess |
+	osProcess := PipeableOSProcess waitForCommand: 'wpa_cli ', aString.
+	^ osProcess exitStatus = 0
+		ifTrue: [ 	osProcess output. ]
+		ifFalse: [ nil ]
+]
+
 { #category : #commands }
 WpaCli class >> interfaces [
 	"List all available interfaces"
-	^ self sendCommand: 'interface'
+	^ self command: 'interface' lines
+	
 ]
 
 { #category : #'instance creation' }
@@ -39,17 +50,13 @@ WpaCli class >> on: aString [
 WpaCli class >> onAny [
 	| interfaces |
 	interfaces := self interfaces.
-  ^ self on: (interfaces first).
+  ^ self on: (interfaces at: 0).
 ]
 
-{ #category : #private }
-WpaCli class >> sendCommand: aString [
+{ #category : #commands }
+WpaCli >> command: aString [
 	"Send a command to the wpa_cli task"
-	| osProcess |
-	osProcess := PipeableOSProcess waitForCommand: 'wpa_cli ', aString.
-	^ osProcess exitStatus = 0
-		ifTrue: [ 	osProcess output. ]
-		ifFalse: [ nil ]
+	^ WpaCli command: '-i ', self interface, ' ', aString.
 ]
 
 { #category : #accessing }
@@ -62,10 +69,4 @@ WpaCli >> interface [
 WpaCli >> interface: aString [
 	"Set the name of the interface that shall be used for this WpaCli"
 	interface := aString
-]
-
-{ #category : #commands }
-WpaCli >> sendCommand: aString [
-	"Send a command to the wpa_cli task"
-	^ WpaCli sendCommand: '-i ', self interface, ' ', aString.
 ]
