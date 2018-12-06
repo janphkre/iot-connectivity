@@ -25,15 +25,16 @@ WpaCli class >> command: aString [
 	"Send a command to the wpa_cli task"
 	| osProcess |
 	osProcess := PipeableOSProcess waitForCommand: 'wpa_cli ', aString.
-	^ osProcess exitStatus = 0
-		ifTrue: [ 	osProcess output. ]
+	^ osProcess succeeded
+		ifTrue: [ 	osProcess output ]
 		ifFalse: [ nil ]
 ]
 
 { #category : #commands }
 WpaCli class >> interfaces [
-	"List all available interfaces"
-	^ self command: 'interface' lines
+	"List all available interfaces.
+	We skip the first two lines because they contain 'Selected interface abc' and 'Available interfaces:'. "
+	^ (self command: 'interface') lines allButFirst: 2.
 	
 ]
 
@@ -50,7 +51,7 @@ WpaCli class >> on: aString [
 WpaCli class >> onAny [
 	| interfaces |
 	interfaces := self interfaces.
-  ^ self on: (interfaces at: 0).
+  ^ self on: (interfaces at: 1).
 ]
 
 { #category : #commands }

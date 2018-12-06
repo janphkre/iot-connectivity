@@ -1,17 +1,17 @@
 "
 I am a convenience p2p device representing all actions that are connected to p2p on a wpacli.
 I represent the following commands on wpa_cli:
-p2p_service_add           p2p_service_flush         p2p_flush                 p2p_find
-p2p_stop_find             p2p_peers                 p2p_listen                p2p_reject
-p2p_invite                
+p2p_service_add           p2p_service_flush         p2p_service_update        p2p_flush
+p2p_find                  p2p_stop_find             p2p_peers                 p2p_listen
+p2p_reject                p2p_invite                
 
 Currently not implemented commands are:
 p2p_asp_provision         p2p_group_add                             
 p2p_asp_provision_resp    p2p_group_remove          p2p_remove_client         p2p_service_rep
-p2p_cancel                                p2p_serv_disc_cancel_req  p2p_service_update
-p2p_connect                              p2p_serv_disc_external    p2p_set
+p2p_cancel                p2p_serv_disc_cancel_req  p2p_service_update
+p2p_connect               p2p_serv_disc_external    p2p_set
 p2p_ext_listen            p2p_peer                  p2p_serv_disc_req
-                 p2p_serv_disc_resp        p2p_unauthorize
+p2p_serv_disc_resp        p2p_unauthorize
 p2p_presence_req                    
 p2p_get_passphrase        p2p_prov_disc             p2p_service_del
 
@@ -36,10 +36,9 @@ Class {
 { #category : #commands }
 P2PDevice class >> interfaces [
 	"List all P2PDevices"
-	| interfaceList |
-	interfaceList := super interfaces.
-	self flag: 'TODO filter list'.
-	^ interfaceList.
+	^ super interfaces
+	select: [ :interface |
+	interface 	beginsWith: 'p2p-dev' ].
 ]
 
 { #category : #commands }
@@ -48,28 +47,26 @@ P2PDevice >> find: aBlock [
 	This is a async call and the given block will return all findings.
 	Success is indicated by the return value being true."
 	self flag: 'TODO: register aBlock as a callback of scan results'.
-	^ (self command: 'p2p_find') = 'OK'
+	^ (self command: 'p2p_find') beginsWith: 'OK'
 ]
 
 { #category : #commands }
 P2PDevice >> flush [ 
 	"Flushes the configuration for the interface.
 	If this returns false you may want to use another interface."
-  ^ (self command: 'p2p_flush') = 'OK'
+  ^ (self command: 'p2p_flush') beginsWith: 'OK'
 ]
 
 { #category : #commands }
 P2PDevice >> invite: aString [
-	^ (self command: 'invite ', aString) = 'OK'
+	^ (self command: 'invite ', aString) beginsWith: 'OK'
 ]
 
 { #category : #commands }
-P2PDevice >> listen: aBlock [
-	"Finds nearby devices as possible peers.
-	This is a async call and the given block will return all findings.
+P2PDevice >> listen [
+	"Listens for events from nearby devices.
 	Success is indicated by the return value being true."
-	self flag: 'TODO: register aBlock as a callback of scan results'.
-	^ (self command: 'p2p_listen') = 'OK'
+	^ (self command: 'p2p_listen') beginsWith: 'OK'
 ]
 
 { #category : #accessing }
@@ -86,23 +83,29 @@ P2PDevice >> peers [
 
 { #category : #commands }
 P2PDevice >> reject: aString [
-	^ (self command: 'p2p_reject ', aString) = 'OK'
+	^ (self command: 'p2p_reject ', aString) beginsWith: 'OK'
 ]
 
 { #category : #'service-discovery' }
 P2PDevice >> serviceAdd: aService [
 	"Add a service to service discovery"
-	^ self command: ('p2p_service_add ' , ' ' join: (aService build)).
+	^ (self command: ('p2p_service_add ', aService build)) beginsWith: 'OK'
 ]
 
 { #category : #'service-discovery' }
 P2PDevice >> serviceFlush [
-	^ self command: 'p2p_service_flush'
+	^ (self command: 'p2p_service_flush') beginsWith: 'OK'
+]
+
+{ #category : #'service-discovery' }
+P2PDevice >> serviceUpdate [
+	"Updates the service counter to indicate that available services on this device have changed."
+	^ (self command: 'p2p_service_update') beginsWith: 'OK'
 ]
 
 { #category : #commands }
 P2PDevice >> stopFind [
 	"Stops the discovery of nearby devices started by find:
 	Success is indicated by the return value being true."
-	^ (self command: 'p2p_stop_find') = 'OK'
+	^ (self command: 'p2p_stop_find') beginsWith: 'OK'
 ]
