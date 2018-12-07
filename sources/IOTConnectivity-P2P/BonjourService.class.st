@@ -1,41 +1,95 @@
+"
+I represent a bonjour service which is the a P2PService based on DNS Service Discovery.
+In the android project i am mostly represented by
+https://android.googlesource.com/platform/frameworks/base/+/56a2301/wifi/java/android/net/wifi/p2p/nsd/WifiP2pDnsSdServiceResponse.java
+https://android.googlesource.com/platform/frameworks/base/+/56a2301/wifi/java/android/net/wifi/p2p/nsd/WifiP2pDnsSdServiceInfo.java
+
+Since I did not get access to the WiFi Direct Specification, We have to stick with the android code.
+According to that the structure is as follows for responses:
+ ________________________________________________
+ |  encoded and compressed dns name (variable)  |
+ ________________________________________________
+ |       dnstype(2byte)      |  version(1byte)  |
+ ________________________________________________
+ |              RDATA (variable)                |
+"
 Class {
 	#name : #BonjourService,
 	#superclass : #P2PService,
 	#instVars : [
-		'serviceId',
-		'serviceValues'
+		'serviceValues',
+		'instanceName',
+		'serviceType'
 	],
 	#category : #'IOTConnectivity-P2P'
 }
 
 { #category : #'instance creation' }
-BonjourService class >> new: aIdString with: aDictionary [
+BonjourService class >> new: aInstanceString as: aTypeString with: aDictionary [
 	^ self new
-  serviceId: aIdString;
+	instanceName: aInstanceString;
+	serviceType: aTypeString;
 	serviceValues: aDictionary;
 	yourself.
 ]
 
 { #category : #building }
+BonjourService >> compressName: aString [
+	| resultString data workString i stream |
+	resultString := ''.
+	workString := aString asLowercase.
+	[ true ] whileTrue: [
+		data := self class svmPacket at: workString ifAbsent: nil.
+		data isNotNil
+		ifTrue: [ ^ resultString, data ].
+		i := workString indexOf: $. ifAbsent: 0.
+		i = 0
+		ifTrue: [ 
+			workString length > 0
+			ifTrue: [ resultString := resultString, (self hexDump: workString) ].
+			^ resultString, '00' ].
+		stream := workString readStream.
+		"Portion before the dot."
+		data := stream upToPosition: i - 1.
+		"Skip the dot."
+		stream skip: 1.
+		"Unprocessed remains."
+		workString := stream upToEnd.
+		resultString := resultString, (self hexDump: data) ].
+
+]
+
+{ #category : #building }
 BonjourService >> idDump [
-	"Since i was unable to find a documentation on the datagram that shall be generated here, we return the last 8 bytes that were returned in every example."
-	^ (self hexDump: serviceId), '0c001001'.
+	"Last 3 bytes are type(2B) = txt = 16 = 0x0010 and version(1B) = 0x01"
+	^ (self compressName: (instanceName, '.', serviceType, '.local.')), '001001'.
+]
+
+{ #category : #accessing }
+BonjourService >> instanceName: aString [
+	instanceName := aString
 ]
 
 { #category : #building }
 BonjourService >> serviceDump [
+	"Dumps the key value map for the service."
 	| valuesCollection index |
+	serviceValues isEmptyOrNil
+		ifTrue: [ ^ '00' ].
 	valuesCollection := Array new: (serviceValues size).
 	index := 1.
 	serviceValues keysAndValuesDo: [ :key :value |
-		valuesCollection at: index put: (self hexDump: (key, '=', value)).
+		self validate: key value: value.
+		value isNil
+			ifTrue: [ valuesCollection at: index put: (self hexDump: key) ]
+			ifFalse: [ valuesCollection at: index put: (self hexDump: (key, '=', value)) ].
 		index := index + 1 ].
 	^ valuesCollection fold: [ :a :b | a, b ]
 ]
 
 { #category : #accessing }
-BonjourService >> serviceId: aString [
-	serviceId := aString.
+BonjourService >> serviceType: aString [
+	serviceType := aString
 ]
 
 { #category : #accessing }
@@ -46,4 +100,19 @@ BonjourService >> serviceValues: aDictionary [
 { #category : #accessing }
 BonjourService >> type [
 	^ 'bonjour'
+]
+
+{ #category : #building }
+BonjourService >> validate: aKey value: aValue [
+	"Validates a key value pair wether they can be used in the bonjour service for a DNS txt record."
+	aKey isAsciiString
+			ifFalse: [ FormatError signal: 'key ', aKey, 'i s not a ascii string!' ].
+	(aKey anySatisfy: [ :char | char = $=])
+		ifTrue: [ FormatError signal: 'key ', aKey, ' contains a = sign!' ].
+	
+	((aValue isNil
+		ifTrue: [ 0 ]
+		ifFalse: [ aValue size ] ) + aKey size) * 2 >= 255
+		ifTrue: [ HexTooBigError signal: 'key ', aKey, 'combined with it`s value are too long!' ]
+		
 ]
