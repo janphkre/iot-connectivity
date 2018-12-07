@@ -1,8 +1,31 @@
-*.iml
+# Built application files
+*.apk
+*.ap_
+*.class
+
+#gradle file
 .gradle
-/local.properties
-/.idea
-.DS_Store
-/build
-/captures
+build/
+gen/
+*/build/
+gradlew.bat
+
+#local properties
+local.properties
+
+# Android Studio
+.navigation/
+.idea/
+*.iml
+captures/
 .externalNativeBuild
+gradle.properties
+
+#OS file
+.DS_Store
+
+#Log files
+*.log
+
+#hpro files
+*.hprof
