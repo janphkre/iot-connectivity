@@ -1,3 +1,4 @@
+#General folder: latex and books
 general/backups/*
 general/books/*.pdf
 general/latex/ai-project-pharo-things.pdf
@@ -7,6 +8,7 @@ general/latex/*.fls
 general/latex/*.log
 general/latex/*.synctex.gz
 
+#Pharo folder: pharo images and vm
 *.changes
 *.image
 *.sources
@@ -16,3 +18,7 @@ pharo-local/*
 pharo-ui
 pharo-vm/*
 *.log
+
+pharo6/*
+pharo7/*
+createpharo6.sh
