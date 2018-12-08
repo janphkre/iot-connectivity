@@ -11,13 +11,16 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-                android:name="de.zweidenker.connectivity.LaunchActivity"
-                android:launchMode="singleInstance">
+            android:name="de.zweidenker.connectivity.LaunchActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="de.zweidenker.connectivity.list.DeviceListActivity"
+            android:launchMode="standard"/>
         </application>
 </manifest>

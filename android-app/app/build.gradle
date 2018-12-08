@@ -5,6 +5,7 @@ dependencies {
     implementation "com.android.support.constraint:constraint-layout:$constraint_version"
     implementation "com.github.hotchemi:permissionsdispatcher:$hotchemi_version"
     implementation "com.android.support:support-v13:$support_version"//needed by hotchemi
+    implementation "com.android.support:cardview-v7:$support_version"
 
     implementation "com.airbnb.android:lottie:$lottie_version"
 
