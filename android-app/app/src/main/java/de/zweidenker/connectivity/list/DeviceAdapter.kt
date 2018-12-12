@@ -1,6 +1,7 @@
 package de.zweidenker.connectivity.list
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.RecyclerView
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowInsets
 import de.zweidenker.connectivity.R
+import de.zweidenker.connectivity.config.DeviceConfigActivity
 import de.zweidenker.p2p.beacon.Device
 import de.zweidenker.p2p.core.IdGenerator
 import kotlinx.android.synthetic.main.item_device.view.*
@@ -113,9 +115,21 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
 
     private class DeviceViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         private val titleTextView = itemView.card_title
+        private val subtitleTextView = itemView.card_subtitle
+        private val detailsTextView = itemView.card_detail
 
         fun bind(device: Device) {
-            titleTextView.text = device.macAddress
+            titleTextView.text = device.userIdentifier
+            subtitleTextView.text = device.domainName
+            detailsTextView.text = device.connectionStatus.name
+            itemView.setOnClickListener {
+                DeviceConfigActivity.startActivity(it.context, device)
+                //TODO: Overwrite pending transition?
+            }
+        }
+
+        fun recycle() {
+            itemView.setOnClickListener(null)
         }
     }
 

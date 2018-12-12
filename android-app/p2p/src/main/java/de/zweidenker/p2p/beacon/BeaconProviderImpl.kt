@@ -23,9 +23,10 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
             // TODO: SPECIFY FILTER FOR REQUEST
             wifiManager.addServiceRequest(channel, request, object: WifiP2pManager.ActionListener {
                 override fun onSuccess() {
-                    wifiManager.setDnsSdResponseListeners(channel, { fullDomainName, type, wifiP2pDevice ->
-                        subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, type))
-                    }, { fullDomainName, txtRecordMap, wifiP2pDevice -> /* TODO? */ })
+                    wifiManager.setDnsSdResponseListeners(channel,
+                        { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
+                            subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
+                    })
                     wifiManager.discoverServices(channel, object: WifiP2pManager.ActionListener {
                         override fun onSuccess() { }
 

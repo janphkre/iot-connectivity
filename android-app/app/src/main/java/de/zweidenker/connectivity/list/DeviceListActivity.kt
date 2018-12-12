@@ -38,6 +38,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
         deviceAdapter = DeviceAdapter(this)
         list_device.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         list_device.adapter = deviceAdapter
+        // TODO: DELETE this comment:
 //                .apply {
 //            addItem(Device("00:11:12:13:14:15","DOMAIN_NAME","TYPE"))
 //            addItem(Device("00:11:12:13:14:16","DOMAIN_NAME","TYPE"))
@@ -73,9 +74,9 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
                 permissionRationalRes = R.string.permission_rationale_text) { success ->
             if(success) {
                 beaconProvider.getBeacons(this)
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeOn(Schedulers.io())
-                        .subscribe(this)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this)
             } else {
                 //TODO NOTIFY: THIS APP WILL NOT WORK WITHOUT THE REQUESTED PERMISSIONS!
             }

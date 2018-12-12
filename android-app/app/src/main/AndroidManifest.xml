@@ -22,5 +22,6 @@
         <activity
             android:name="de.zweidenker.connectivity.list.DeviceListActivity"
             android:launchMode="standard"/>
-        </application>
+        <activity android:name=".config.DeviceConfigActivity" />
+    </application>
 </manifest>
