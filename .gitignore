@@ -22,3 +22,4 @@ pharo-vm/*
 pharo6/*
 pharo7/*
 createpharo6.sh
+external/*
