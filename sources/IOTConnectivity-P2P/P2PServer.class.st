@@ -8,7 +8,7 @@ I do exactly the same as a ZnSingleThreadedServer but by using a P2PDevice for i
 Class {
 	#name : #P2PServer,
 	#superclass : #ZnManagingMultiThreadedServer,
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-Server-Compat'
 }
 
 { #category : #'not implemented' }

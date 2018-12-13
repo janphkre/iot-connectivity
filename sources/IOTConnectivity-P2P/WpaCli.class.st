@@ -14,10 +14,9 @@ Class {
 	#name : #WpaCli,
 	#superclass : #Object,
 	#instVars : [
-		'options',
 		'interface'
 	],
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-FFI-Access'
 }
 
 { #category : #private }

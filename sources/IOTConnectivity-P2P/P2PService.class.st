@@ -4,7 +4,7 @@ Class {
 	#classInstVars : [
 		'svmPacket'
 	],
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-FFI-Access'
 }
 
 { #category : #initialization }

@@ -21,7 +21,7 @@ Class {
 		'instanceName',
 		'serviceType'
 	],
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-FFI-Access'
 }
 
 { #category : #'instance creation' }

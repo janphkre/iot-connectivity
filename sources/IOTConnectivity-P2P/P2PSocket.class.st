@@ -8,5 +8,5 @@ P2PSocket.
 Class {
 	#name : #P2PSocket,
 	#superclass : #Object,
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-Server-Compat'
 }

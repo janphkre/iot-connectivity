@@ -38,7 +38,7 @@ P2P-SERV-DISC-RESP 34:41:5d:e0:e5:d0 12 54000101002474657374736572766963652e7068
 Class {
 	#name : #P2PDevice,
 	#superclass : #WpaCli,
-	#category : #'IOTConnectivity-P2P'
+	#category : #'IOTConnectivity-P2P-FFI-Access'
 }
 
 { #category : #commands }
