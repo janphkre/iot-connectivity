@@ -12,8 +12,8 @@ BaselineOfIOTConnectivity >> baseline: spec [
 			do: [
 				spec
 					package: 'IOTConnectivity-REST' with: [ spec requires: #('OpenAPI-Core'). ];
-					package: 'IOTConnectivity-P2P' with: [ spec requires: #('ZincHTTPComponents') ].
-					
+					package: 'IOTConnectivity-P2P' with: [ spec requires: #('ZincHTTPComponents' 'libwpa') ];
+					package: 'LibWpa'.
 				spec
 					baseline: 'OpenAPI' with: [
 						spec
@@ -27,8 +27,9 @@ BaselineOfIOTConnectivity >> baseline: spec [
 							loads: #('REST');
 							repository: 'github://zweidenker/zinc/repository' ].
 				spec
-					group: 'default' with: #('REST' 'P2P');
+					group: 'default' with: #('REST' 'P2P' 'libwpa');
 					group: 'REST' with: #('IOTConnectivity-REST');
-					group: 'P2P' with: #('IOTConnectivity-P2P'). ].
+					group: 'P2P' with: #('IOTConnectivity-P2P');
+					group: 'libwpa' with: #('LibWpa'). ].
 
 ]
