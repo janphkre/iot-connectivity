@@ -2,7 +2,7 @@
 This library is meant to provide the functionality of the wpa_supplicant control interface to pharo.
 https://w1.fi/wpa_supplicant/devel/ctrl_iface_page.html
 
-The used library-module consists of 2 files: wpa_ctrl.c and wpa_ctrl.h
+The used library-module consists mostly of 2 files (and their dependencies): wpa_ctrl.c and wpa_ctrl.h
 
 After cloning the repository with:
 
@@ -13,10 +13,12 @@ Run this shell script to compile for unix:
 #!/bin/sh
 cd ""$( dirname ""${BASH_SOURCE[0]}"" )""
 make -C ./hostap/src/ clean
-rm ./*.o
-rm ./*.so
-gcc -c -Wall -Werror -fpic ./hostap/src/common/wpa_ctrl.c ./hostap/src/utils/common.c -I ./hostap/src/utils/ -I ./hostap/src
-gcc -shared -o libwpa.so ./wpa_ctrl.o ./common.o
+rm -r ./build
+mkdir ./build
+cd ./build
+gcc -c -Wall -Werror -fpic ../hostap/src/common/wpa_ctrl.c ../hostap/src/utils/common.c ../hostap/src/utils/os_unix.c -I ../hostap/src/utils/ -I ../hostap/src -DCONFIG_CTRL_IFACE -DCONFIG_CTRL_IFACE_UNIX
+gcc -shared -o libwpa.so ./wpa_ctrl.o ./common.o ./os_unix.o
+cp ./libwpa.so ../../pharo-vm/lib/pharo/5.0-201806281256/libwpa.so
 "
 Class {
 	#name : #LWpaLibrary,
