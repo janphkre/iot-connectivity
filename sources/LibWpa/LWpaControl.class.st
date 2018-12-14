@@ -67,7 +67,7 @@ LWpaControl >> command: aString [
 		commandLength: (aString size)
 		reply: commandReply
 		replyLength: (LWpaWritebackSizeT new)
-		callback: nil.
+		callback: LWpaMessageCallback null.
 	self validate: result.
 	^ commandReply
 ]
@@ -100,17 +100,23 @@ LWpaControl >> path [
 ]
 
 { #category : #accessing }
-LWpaControl >> path: aString [
-	"path to unix sockets"
-	path := aString
+LWpaControl >> path: aFileReference [
+	"path to folder with unix sockets"
+	path := aFileReference
 ]
 
 { #category : #private }
 LWpaControl >> start [
-	| controlPath |
-	controlPath := path ifNil: [ '/var/run/wpa_supplicant' ].
-	handle := handle ifNil: [ self ffiLibraryInstance libwpa_open: controlPath ].
-	^ handle isNil
+	| controlPath result |
+	handle := handle ifNil: [ 
+		controlPath := path ifNil: [ '/var/run/wpa_supplicant' asFileReference ].
+		
+		controlPath := controlPath pathString, '/', interface.
+		result := self ffiLibraryInstance libwpa_open: controlPath.
+		result isNull
+			ifTrue: [ LWpaError signal: 'Failed to open a control handle.' ].
+		result ].
+	^ self
 ]
 
 { #category : #private }
