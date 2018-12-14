@@ -59,7 +59,17 @@ LWpaControl class >> onAny [
 
 { #category : #commands }
 LWpaControl >> command: aString [
-	^ self ffiLibraryInstance libwpa_request: handle command: aString
+	| result commandReply |
+	commandReply := LWpaWritebackString new.
+	result := self ffiLibraryInstance
+		libwpa_request: handle
+		command: aString
+		commandLength: (aString size)
+		reply: commandReply
+		replyLength: (LWpaWritebackSizeT new)
+		callback: nil.
+	self validate: result.
+	^ commandReply
 ]
 
 { #category : #deleting }
@@ -109,4 +119,13 @@ LWpaControl >> stop [
 			(self ffiLibraryInstance) libwpa_detach: handle;
 			libwpa_close: handle ] ]
 	ensure: [ handle := nil ]
+]
+
+{ #category : #private }
+LWpaControl >> validate: resultCode [
+	resultCode = -1
+		ifTrue: [ LWpaError signal ].
+	resultCode = -2
+		ifTrue: [ LWpaTimeoutError signal ].
+	
 ]

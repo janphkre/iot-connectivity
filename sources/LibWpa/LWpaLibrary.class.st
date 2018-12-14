@@ -27,36 +27,18 @@ Class {
 }
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> handleResult: resultCode [
-	resultCode = -1
-		ifTrue: [ LWpaError signal ].
-	resultCode = -2
-		ifTrue: [ LWpaTimeoutError signal ].
-	
-]
-
-{ #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_attach: control [
-	| result |
-	result := self ffiCall: #(int wpa_ctrl_attach(LWpaControlHandle * control)).
-	self validate: result.
-	^ self
+	^ self ffiCall: #(int wpa_ctrl_attach(LWpaControlHandle * control))
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_close: control [
-	| result |
-	result := self ffiCall: #(void  wpa_ctrl_close(LWpaControlHandle * control)).
-	self validate: result.
-	^ self
+	^ self ffiCall: #(void  wpa_ctrl_close(LWpaControlHandle * control))
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_detach: control [
-	| result |
-	result := self ffiCall: #(int wpa_ctrl_detach(LWpaControlHandle * control)).
-	self validate: result.
-	^ self
+	^ self ffiCall: #(int wpa_ctrl_detach(LWpaControlHandle * control))
 ]
 
 { #category : #'libwpa-calls' }
@@ -66,41 +48,29 @@ LWpaLibrary >> libwpa_get_fd: control [
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_open: controlPath [
-	| result |
-	result := self ffiCall: #(LWpaControlHandle * wpa_ctrl_open(String controlPath)).
-	self validate: result.
-	^ self
+	^ self ffiCall: #(LWpaControlHandle * wpa_ctrl_open(String controlPath)).
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_pending: control [
-	| result |
-	result := self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control)).
-	self validate: result.
-	^ self
+	^ self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control))
 
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_recieve: control [
-| writeBackReply writeBackReplyLength result |
-	writeBackReply := LWpaWritebackString new.
-	writeBackReplyLength := LWpaWritebackSizeT new.
-	result := self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control , LWpaWritebackString * writeBackReply , LWpaWritebackSizeT * writeBackReplyLength)).
-	self validate: result.
-	^ writeBackReply
+LWpaLibrary >> libwpa_recieve: control reply: writeBackReply replyLength: writeBackReplyLength [ 
+	^ self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control , LWpaWritebackString * writeBackReply , LWpaWritebackSizeT * writeBackReplyLength))
 
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_request: control command: command [
-	| commandLength writeBackReply writeBackReplyLength result |
-	commandLength := (command length + 1).
-	writeBackReply := LWpaWritebackString new.
-	writeBackReplyLength := LWpaWritebackSizeT new.
-	result := self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String cmd , FFISizeT cmd_len , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , LWpaMessageCallback * nil)).
-	self validate: result.
-	^ writeBackReply
+LWpaLibrary >> libwpa_request: control command: command commandLength: commandLength reply: writeBackReply replyLength: writeBackReplyLength [
+	^self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String command , FFISizeT commandLength , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , LWpaMessageCallback * 0))
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_request: control command: command commandLength: commandLength reply: writeBackReply replyLength: writeBackReplyLength callback: callback [
+	^self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String command , FFISizeT commandLength , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , LWpaMessageCallback * callback))
 ]
 
 { #category : #'accessing platform' }
@@ -117,15 +87,6 @@ LWpaLibrary >> unixModuleName [
 		ifFound: [ :libName | ^ libName ].
 
 	self error: 'Module not found.'
-]
-
-{ #category : #'libwpa-calls' }
-LWpaLibrary >> validate: resultCode [
-	resultCode = -1
-		ifTrue: [ LWpaError signal ].
-	resultCode = -2
-		ifTrue: [ LWpaTimeoutError signal ].
-	
 ]
 
 { #category : #'accessing platform' }
