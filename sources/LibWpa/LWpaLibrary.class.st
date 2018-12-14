@@ -21,120 +21,89 @@ gcc -shared -o libwpa.so ./wpa_ctrl.o ./common.o
 Class {
 	#name : #LWpaLibrary,
 	#superclass : #FFILibrary,
-	#instVars : [
-		'initialized',
-		'commandHandle',
-		'eventHandle'
-	],
 	#category : #'LibWpa-FFI-Handling'
 }
 
-{ #category : #'class initialization' }
-LWpaLibrary class >> initialize [
-	"Required to reset the Initialized flag on image startup.
-	Force libgit initialization since we just installed libgit.
-	Otherwise this would cause a libgit crash"
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> handleResult: resultCode [
+	resultCode = -1
+		ifTrue: [ LWpaError signal ].
+	resultCode = -2
+		ifTrue: [ LWpaTimeoutError signal ].
 	
-	Smalltalk addToStartUpList: self.
-	self uniqueInstance initializeLibWpa
-]
-
-{ #category : #'system startup' }
-LWpaLibrary class >> shutDown: quitting [
-
-	quitting ifFalse: [ ^ self ].
-	self uniqueInstance shutdownLibWpa.
-]
-
-{ #category : #'system startup' }
-LWpaLibrary class >> startUp: isImageStarting [
-
-	isImageStarting ifTrue: [ self uniqueInstance initializeLibWpa ]
-]
-
-{ #category : #private }
-LWpaLibrary >> closeHandles [
-	self doSafe: [ self libwpa_close: commandHandle ].
-	commandHandle := nil.
-	self doSafe: [ self libwpa_detach: eventHandle ].
-	self doSafe: [ self libwpa_close: eventHandle ].
-	eventHandle := nil.
-]
-
-{ #category : #private }
-LWpaLibrary >> doSafe: aBlock [
-	aBlock
-	onError: Error
-	do: [ :ex | ]
-]
-
-{ #category : #operations }
-LWpaLibrary >> forgetInitializationState [
-
-	initialized := nil.
-]
-
-{ #category : #operations }
-LWpaLibrary >> initializeLibWpa [
-	[	commandHandle := self libwpa_open.
-		eventHandle := self libwpa_open.
-		self libwpa_attach: eventHandle.
-		self recordInitializationSuccess ]
-		on: Error
-		do: [ :ex |
-			self closeHandles.
-			self recordInitializationFailure.
-			ex pass ]
-]
-
-{ #category : #testing }
-LWpaLibrary >> isInitialized [
-
-	^initialized == true
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_attach: aControlHandle [
-	^ self ffiCall: #(int  wpa_ctrl_attach(LWpaControlHandle *ctrl))
+LWpaLibrary >> libwpa_attach: control [
+	| result |
+	result := self ffiCall: #(int wpa_ctrl_attach(LWpaControlHandle * control)).
+	self validate: result.
+	^ self
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_close: control [
-	^ self ffiCall: #(void  wpa_ctrl_close(LWpaControlHandle *control))
+	| result |
+	result := self ffiCall: #(void  wpa_ctrl_close(LWpaControlHandle * control)).
+	self validate: result.
+	^ self
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_detach: aControlHandle [
-	^ self ffiCall: #(int  wpa_ctrl_attach(LWpaControlHandle *ctrl))
+LWpaLibrary >> libwpa_detach: control [
+	| result |
+	result := self ffiCall: #(int wpa_ctrl_detach(LWpaControlHandle * control)).
+	self validate: result.
+	^ self
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_open [
-	^ self ffiCall: #(LWpaControlHandle  *wpa_ctrl_open(String ctrl_path))
+LWpaLibrary >> libwpa_get_fd: control [
+	^ self ffiCall: #(int wpa_ctrl_get_fd(LWpaControlHandle * control))
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_open: controlPath [
+	| result |
+	result := self ffiCall: #(LWpaControlHandle * wpa_ctrl_open(String controlPath)).
+	self validate: result.
+	^ self
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_pending: control [
+	| result |
+	result := self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control)).
+	self validate: result.
+	^ self
+
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_recieve: control [
+| writeBackReply writeBackReplyLength result |
+	writeBackReply := LWpaWritebackString new.
+	writeBackReplyLength := LWpaWritebackSizeT new.
+	result := self ffiCall: #(int wpa_ctrl_pending(LWpaControlHandle * control , LWpaWritebackString * writeBackReply , LWpaWritebackSizeT * writeBackReplyLength)).
+	self validate: result.
+	^ writeBackReply
+
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_request: control command: command [
+	| commandLength writeBackReply writeBackReplyLength result |
+	commandLength := (command length + 1).
+	writeBackReply := LWpaWritebackString new.
+	writeBackReplyLength := LWpaWritebackSizeT new.
+	result := self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String cmd , FFISizeT cmd_len , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , LWpaMessageCallback * nil)).
+	self validate: result.
+	^ writeBackReply
 ]
 
 { #category : #'accessing platform' }
 LWpaLibrary >> macModuleName [ 
 	self error: 'Module not found.'
-]
-
-{ #category : #operations }
-LWpaLibrary >> recordInitializationFailure [
-
-	initialized := false
-]
-
-{ #category : #operations }
-LWpaLibrary >> recordInitializationSuccess [
-
-	initialized ifNil: [initialized := true]
-]
-
-{ #category : #operations }
-LWpaLibrary >> shutdownLibWpa [
-	[ self isInitialized
-		ifTrue: [ self closeHandles. ] ]
-		ensure: [ self forgetInitializationState ]
 ]
 
 { #category : #'accessing platform' }
@@ -146,6 +115,15 @@ LWpaLibrary >> unixModuleName [
 		ifFound: [ :libName | ^ libName ].
 
 	self error: 'Module not found.'
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> validate: resultCode [
+	resultCode = -1
+		ifTrue: [ LWpaError signal ].
+	resultCode = -2
+		ifTrue: [ LWpaTimeoutError signal ].
+	
 ]
 
 { #category : #'accessing platform' }

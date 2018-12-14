@@ -1,12 +1,6 @@
 Class {
 	#name : #LWpaExternalObject,
 	#superclass : #FFIExternalObject,
-	#traits : 'TLWpaCalloutTrait',
-	#classTraits : 'TLWpaCalloutTrait classTrait',
-	#classVars : [
-		'LibraryHandle',
-		'Session'
-	],
 	#category : #'LibWpa-Core'
 }
 
@@ -29,42 +23,37 @@ LWpaExternalObject class >> fromHandle: aHandle [
 	^self basicNew setHandle: aHandle
 ]
 
+{ #category : #'external resource management' }
+LWpaExternalObject >> autoRelease [
+	"Some LGit structures need specialised free functions. Use the same autoRelease functionality
+	as FFIExternalReference to achieve this.
+
+	Note, subclasses should implement #resourceData
+	and #finalizeResourceData: on class side"
+	FFIExternalResourceManager addResource: self
+]
+
 { #category : #'initialize-release' }
 LWpaExternalObject >> free [
-	handle isExternalAddress
+	(handle isExternalAddress and: [ handle isNull ])
 		ifFalse: [ ^ self ].
 	self class finalizeResourceData: handle.
 	self assert: handle isNull
 ]
 
-{ #category : #initialization }
-LWpaExternalObject >> initialize [
-	super initialize.
-	self autoRelease.
+{ #category : #testing }
+LWpaExternalObject >> ifNotReady: aBlock [
+	"use extra block so compiler can optimize"
+	self isReady ifFalse: [ aBlock value ]
 ]
 
-{ #category : #printing }
-LWpaExternalObject >> objectPrintOn: aStream [
+{ #category : #testing }
+LWpaExternalObject >> isExternal [
+	"answer true if data referenced by receiver located in external heap, or just in object memory "
+	^ handle isExternalAddress
 ]
 
-{ #category : #printing }
-LWpaExternalObject >> printOn: aStream [
-	| title |
-	title := self class name.
-	aStream
-		nextPutAll: (title first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]);
-		nextPutAll: title.
-		
-	(self shouldContinuePrintingOn: aStream) ifFalse: [ ^ self ].
-	
-	aStream nextPutAll: ' ('.
-	self objectPrintOn: aStream.
-	aStream nextPut: $)
-]
-
-{ #category : #asserting }
-LWpaExternalObject >> shouldContinuePrintingOn: aStream [
-	self ifNotReady: [ aStream nextPutAll: ' (<not initialized>)' ].
-	
-	^ self isReady
+{ #category : #'initialize-release' }
+LWpaExternalObject >> resourceData [
+	^ self getHandle
 ]

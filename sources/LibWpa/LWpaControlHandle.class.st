@@ -1,5 +1,5 @@
 Class {
 	#name : #LWpaControlHandle,
-	#superclass : #LWpaExternalStructure,
-	#category : #'LibWpa-FFI-Structs'
+	#superclass : #LWpaOpaqueObject,
+	#category : #'LibWpa-FFI-Objects'
 }
