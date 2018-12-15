@@ -28,22 +28,22 @@ Class {
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_attach: control [
-	^ self ffiCall: #(#int #wpa_ctrl_attach(#LWpaControlHandle #* #control))
+	^ self ffiCall: #(int wpa_ctrl_attach(LWpaControlHandle control))
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_close: control [
-	^ self ffiCall: #(#void #wpa_ctrl_close(#LWpaControlHandle #* #control))
+	^ self ffiCall: #(void  wpa_ctrl_close(LWpaControlHandle control))
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_detach: control [
-	^ self ffiCall: #(#int #wpa_ctrl_detach(#LWpaControlHandle #* #control))
+	^ self ffiCall: #(int wpa_ctrl_detach(LWpaControlHandle control))
 ]
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_get_fd: control [
-	^ self ffiCall: #(#int #wpa_ctrl_get_fd(#LWpaControlHandle #* #control))
+	^ self ffiCall: #(int wpa_ctrl_get_fd(LWpaControlHandle control))
 ]
 
 { #category : #'libwpa-calls' }
@@ -64,8 +64,13 @@ LWpaLibrary >> libwpa_recieve: control reply: reply replyLength: replyLength [
 ]
 
 { #category : #'libwpa-calls' }
-LWpaLibrary >> libwpa_request: control command: command commandLength: commandLength reply: replyBuffer replyLength: replyLength callback: callback [
-	^self ffiCall: #(#int #wpa_ctrl_request(#LWpaControlHandle #* #control #, #String #command #, #FFISizeT #commandLength #, #LWpaStringBuffer #replyBuffer #, #LWpaReadWriteSizeT #replyLength #, #LWpaMessageCallback #* #callback))
+LWpaLibrary >> libwpa_request: control command: command commandLength: commandLength reply: writeBackReply replyLength: writeBackReplyLength [
+	^self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String command , FFISizeT commandLength , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , #LWpaMessageCallback * 0))
+]
+
+{ #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_request: control command: command commandLength: commandLength reply: writeBackReply replyLength: writeBackReplyLength callback: callback [
+	^self ffiCall: #(int wpa_ctrl_request(LWpaControlHandle * control , String command , FFISizeT commandLength , LWpaWritebackString writeBackReply , LWpaWritebackSizeT * writeBackReplyLength , #LWpaMessageCallback * callback))
 ]
 
 { #category : #'accessing platform' }
