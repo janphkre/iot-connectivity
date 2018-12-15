@@ -22,7 +22,9 @@ Class {
 	#instVars : [
 		'interface',
 		'path',
-		'handle'
+		'handle',
+		'buffer',
+		'bufferSize'
 	],
 	#category : #'LibWpa-FFI-Handling'
 }
@@ -57,25 +59,37 @@ LWpaControl class >> onAny [
 	^ instance.
 ]
 
+{ #category : #accessing }
+LWpaControl >> buffer [
+	^ buffer
+]
+
 { #category : #commands }
 LWpaControl >> command: aString [
-	| result commandReply |
-	commandReply := LWpaWritebackString new.
-	result := self ffiLibraryInstance
+	| resultCode |
+	bufferSize value: buffer size.
+	resultCode := self ffiLibraryInstance
 		libwpa_request: handle
 		command: aString
 		commandLength: (aString size)
-		reply: commandReply
-		replyLength: (LWpaWritebackSizeT new)
+		reply: buffer
+		replyLength: bufferSize
 		callback: LWpaMessageCallback null.
-	self validate: result.
-	^ commandReply
+	self validate: resultCode.
+	^ buffer asString: bufferSize value.
 ]
 
 { #category : #deleting }
 LWpaControl >> destroy [
 	self stop.
 	self flag: 'TODO instance registry.'
+]
+
+{ #category : #initialization }
+LWpaControl >> initialize [
+	super initialize.
+	buffer := LWpaStringBuffer new: 1024.
+	bufferSize := LWpaReadWriteSizeT new: buffer size.
 ]
 
 { #category : #accessing }
