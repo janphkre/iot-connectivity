@@ -22,6 +22,14 @@ LWpaStringBuffer >> asString: length [
 	^ data fromCString: length
 ]
 
+{ #category : #'initialize-release' }
+LWpaStringBuffer >> free [
+	handle isExternalAddress
+		ifFalse: [ ^ self ].
+	self class finalizeResourceData: handle.
+	self assert: handle isNull
+]
+
 { #category : #initialization }
 LWpaStringBuffer >> initialize: size [
 	bufferSize := size.

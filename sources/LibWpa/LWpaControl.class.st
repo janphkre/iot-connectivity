@@ -21,42 +21,99 @@ Class {
 	#classTraits : 'TLWpaFFITrait classTrait',
 	#instVars : [
 		'interface',
-		'path',
 		'handle',
 		'buffer',
-		'bufferSize'
+		'bufferSize',
+		'isStarted',
+		'isAttached'
+	],
+	#classInstVars : [
+		'socketPath',
+		'registry'
 	],
 	#category : #'LibWpa-FFI-Handling'
 }
 
-{ #category : #'instance creation' }
-LWpaControl class >> on: aString [
- | instance |
-	instance := self new.
-	instance interface: aString.
-	instance start.
-	self flag: 'TODO: instance registry'.
-	^ instance.
+{ #category : #'class initialization' }
+LWpaControl class >> initialize [
+	registry := WeakRegistry new.
+	Smalltalk addToStartUpList: self; addToShutDownList: self.
+	
 ]
 
 { #category : #'instance creation' }
-LWpaControl class >> on: interfaceString path: pathString [
- | instance |
-	instance := self new.
-	instance path: pathString.
-	instance interface: interfaceString.
-	instance start.
-	self flag: 'TODO: instance registry'.
-	^ instance.
+LWpaControl class >> on: aString [
+ ^ self onFile: (self socketPath resolveString: aString)
+]
+
+{ #category : #'instance creation' }
+LWpaControl class >> on: interfaceString path: pathReference [
+ ^ self onFile: (pathReference resolveString: interfaceString)
 ]
 
 { #category : #'instance creation' }
 LWpaControl class >> onAny [
+	"Creates a control interface on any interface it can find."
+	| interface |
+	interface := socketPath entries anyOne.
+	^ self onFile: interface.
+]
+
+{ #category : #'instance creation' }
+LWpaControl class >> onFile: aFileReference [
 	| instance |
 	instance := self new.
+	instance interface: aFileReference.
 	instance start.
-	self flag: 'TODO: instance registry'.
-	^ instance.
+	self register: instance.
+	^ instance 
+]
+
+{ #category : #registry }
+LWpaControl class >> register: aLWpaControl [
+	registry add: aLWpaControl
+]
+
+{ #category : #accessing }
+LWpaControl class >> registry [ 
+	^ registry
+]
+
+{ #category : #registry }
+LWpaControl class >> restoreRegistry [
+	registry do: [ :aLWpaControl |
+		aLWpaControl restoreForSystem.
+		self flag: 'TODO: restore control state (restore selected messages?)' ]
+]
+
+{ #category : #'system startup' }
+LWpaControl class >> shutDown: quitting [
+	quitting ifFalse: [ ^ self ].
+	self teardownRegistry.
+]
+
+{ #category : #'instance creation' }
+LWpaControl class >> socketPath [
+	^ socketPath ifNil: [ socketPath := '/var/run/wpa_supplicant' asFileReference ]
+]
+
+{ #category : #'instance creation' }
+LWpaControl class >> socketPath: aFileReference [
+	"Sets the socket path file reference for the default methods to be used. If you do not want to overwrite that value you can also just use #on:path: and specify a path explicitly."
+	socketPath := aFileReference 
+]
+
+{ #category : #'system startup' }
+LWpaControl class >> startUp: isImageStarting [
+	isImageStarting ifFalse: [ ^ self ].
+	self restoreRegistry.
+]
+
+{ #category : #registry }
+LWpaControl class >> teardownRegistry [
+	registry do: [ :aWlpaControl |
+		aWlpaControl teardownForSystem ]
+	
 ]
 
 { #category : #accessing }
@@ -82,14 +139,8 @@ LWpaControl >> command: aString [
 { #category : #deleting }
 LWpaControl >> destroy [
 	self stop.
+	Transcript show: 'DESTROYED ME'.
 	self flag: 'TODO instance registry.'
-]
-
-{ #category : #initialization }
-LWpaControl >> initialize [
-	super initialize.
-	buffer := LWpaStringBuffer new: 1024.
-	bufferSize := LWpaReadWriteSizeT new: buffer size.
 ]
 
 { #category : #accessing }
@@ -98,47 +149,69 @@ LWpaControl >> interface [
 ]
 
 { #category : #accessing }
-LWpaControl >> interface: aString [
-	interface := aString
+LWpaControl >> interface: aFileReference [
+	interface := aFileReference
 ]
 
 { #category : #commands }
 LWpaControl >> interfaces [
 	"List all available interfaces."
-	^ (self command: 'interface').
+	^ (self command: 'INTERFACES') lines.
+]
+
+{ #category : #commands }
+LWpaControl >> ping [
+	^ self command: 'PING'
 ]
 
 { #category : #accessing }
-LWpaControl >> path [
-	^ path
-]
-
-{ #category : #accessing }
-LWpaControl >> path: aFileReference [
-	"path to folder with unix sockets"
-	path := aFileReference
+LWpaControl >> restoreForSystem [
+	isStarted = true
+		ifFalse: [ ^ self ].
+	self startInternal.
+	isAttached = true
+		ifTrue: [ self flag: 'TODO' ]
 ]
 
 { #category : #private }
 LWpaControl >> start [
-	| controlPath result |
-	handle := handle ifNil: [ 
-		controlPath := path ifNil: [ '/var/run/wpa_supplicant' asFileReference ].
-		
-		controlPath := controlPath pathString, '/', interface.
-		result := self ffiLibraryInstance libwpa_open: controlPath.
-		result isNull
-			ifTrue: [ LWpaError signal: 'Failed to open a control handle.' ].
-		result ].
-	^ self
+	isStarted
+		ifTrue: [ LWpaError signal: 'Control has already been started!' ].
+	self startInternal.
+]
+
+{ #category : #private }
+LWpaControl >> startInternal [
+	| result |
+	result := self ffiLibraryInstance libwpa_open: interface fullName.
+	result isNull
+		ifTrue: [ LWpaError signal: 'Failed to open a control handle.' ].
+	handle := result.
+	buffer := LWpaStringBuffer new: 1024.
+	bufferSize := LWpaReadWriteSizeT new: buffer size.
+	isStarted := true
 ]
 
 { #category : #private }
 LWpaControl >> stop [ 
+	[ self teardownForSystem ]
+	ensure: [
+		isStarted := nil.
+		isAttached := nil ]
+]
+
+{ #category : #private }
+LWpaControl >> teardownForSystem [
 	[ handle ifNotNil: [ :delete |
-			(self ffiLibraryInstance) libwpa_detach: handle;
-			libwpa_close: handle ] ]
-	ensure: [ handle := nil ]
+			isAttached = true
+				ifTrue: [ self ffiLibraryInstance libwpa_detach: handle ].
+			self ffiLibraryInstance libwpa_close: handle ] ]
+	ensure: [
+		handle free.
+		buffer free.
+		handle := nil.
+		buffer := nil.
+		bufferSize := nil ]
 ]
 
 { #category : #private }

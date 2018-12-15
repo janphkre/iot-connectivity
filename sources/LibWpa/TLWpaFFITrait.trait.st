@@ -37,9 +37,3 @@ TLWpaFFITrait >> ffiNull [
 
 	^FFIExternalObject null
 ]
-
-{ #category : #testing }
-TLWpaFFITrait >> ifNotReady: aBlock [
-	"use extra block so compiler can optimize"
-	self isReady ifFalse: [ aBlock value ]
-]
