@@ -50,31 +50,8 @@ P2PDevice class >> interfaces [
 ]
 
 { #category : #commands }
-P2PDevice >> find: aBlock [
-	"Finds nearby devices as possible peers.
-	This is a async call and the given block will return all findings.
-	Success is indicated by the return value being true."
-	self flag: 'TODO: register aBlock as a callback of scan results'.
-	^ (self command: 'p2p_find') beginsWith: 'OK'
-]
-
-{ #category : #commands }
-P2PDevice >> flush [ 
-	"Flushes the configuration for the interface.
-	If this returns false you may want to use another interface."
-  ^ (self command: 'p2p_flush') beginsWith: 'OK'
-]
-
-{ #category : #commands }
 P2PDevice >> invite: aString [
 	^ (self command: 'invite ', aString) beginsWith: 'OK'
-]
-
-{ #category : #commands }
-P2PDevice >> listen [
-	"Listens for events from nearby devices.
-	Success is indicated by the return value being true."
-	^ (self command: 'p2p_listen') beginsWith: 'OK'
 ]
 
 { #category : #accessing }
@@ -84,36 +61,6 @@ P2PDevice >> openSocket [
 ]
 
 { #category : #commands }
-P2PDevice >> peers [
-	"Gives an array of possible peers found through find:"
-	^ (self command: 'p2p_peers') lines
-]
-
-{ #category : #commands }
 P2PDevice >> reject: aString [
 	^ (self command: 'p2p_reject ', aString) beginsWith: 'OK'
-]
-
-{ #category : #'service-discovery' }
-P2PDevice >> serviceAdd: aService [
-	"Add a service to service discovery"
-	^ (self command: ('p2p_service_add ', aService build)) beginsWith: 'OK'
-]
-
-{ #category : #'service-discovery' }
-P2PDevice >> serviceFlush [
-	^ (self command: 'p2p_service_flush') beginsWith: 'OK'
-]
-
-{ #category : #'service-discovery' }
-P2PDevice >> serviceUpdate [
-	"Updates the service counter to indicate that available services on this device have changed."
-	^ (self command: 'p2p_service_update') beginsWith: 'OK'
-]
-
-{ #category : #commands }
-P2PDevice >> stopFind [
-	"Stops the discovery of nearby devices started by find:
-	Success is indicated by the return value being true."
-	^ (self command: 'p2p_stop_find') beginsWith: 'OK'
 ]

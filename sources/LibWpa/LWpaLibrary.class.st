@@ -59,7 +59,7 @@ LWpaLibrary >> libwpa_pending: control [
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_recieve: control reply: reply replyLength: replyLength [ 
-	^ self ffiCall: #(#int #wpa_ctrl_pending(#LWpaControlHandle #* #control #, #LWpaStringBuffer #reply #, #LWpaReadWriteSizeT #replyLength))
+	^ self ffiCall: #(#int #wpa_ctrl_recv(#LWpaControlHandle #* #control #, #LWpaStringBuffer #reply #, #LWpaReadWriteSizeT #replyLength))
 
 ]
 

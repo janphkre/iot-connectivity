@@ -14,18 +14,18 @@ According to that the structure is as follows for responses:
  |              RDATA (variable)                |
 "
 Class {
-	#name : #BonjourService,
-	#superclass : #P2PService,
+	#name : #LWpaBonjourService,
+	#superclass : #LWpaP2PService,
 	#instVars : [
 		'serviceValues',
 		'instanceName',
 		'serviceType'
 	],
-	#category : #'IOTConnectivity-P2P-FFI-Access'
+	#category : #'LibWpa-Commands'
 }
 
 { #category : #'instance creation' }
-BonjourService class >> new: aInstanceString as: aTypeString with: aDictionary [
+LWpaBonjourService class >> new: aInstanceString as: aTypeString with: aDictionary [
 	^ self new
 	instanceName: aInstanceString;
 	serviceType: aTypeString;
@@ -34,7 +34,7 @@ BonjourService class >> new: aInstanceString as: aTypeString with: aDictionary [
 ]
 
 { #category : #building }
-BonjourService >> compressName: aString [
+LWpaBonjourService >> compressName: aString [
 	| resultString data workString i stream |
 	resultString := ''.
 	workString := aString asLowercase.
@@ -60,18 +60,18 @@ BonjourService >> compressName: aString [
 ]
 
 { #category : #building }
-BonjourService >> idDump [
+LWpaBonjourService >> idDump [
 	"Last 3 bytes are type(2B) = txt = 16 = 0x0010 and version(1B) = 0x01"
 	^ (self compressName: (instanceName, '.', serviceType, '.local.')), '001001'.
 ]
 
 { #category : #accessing }
-BonjourService >> instanceName: aString [
+LWpaBonjourService >> instanceName: aString [
 	instanceName := aString
 ]
 
 { #category : #building }
-BonjourService >> serviceDump [
+LWpaBonjourService >> serviceDump [
 	"Dumps the key value map for the service."
 	| valuesCollection index |
 	serviceValues isEmptyOrNil
@@ -88,31 +88,31 @@ BonjourService >> serviceDump [
 ]
 
 { #category : #accessing }
-BonjourService >> serviceType: aString [
+LWpaBonjourService >> serviceType: aString [
 	serviceType := aString
 ]
 
 { #category : #accessing }
-BonjourService >> serviceValues: aDictionary [
+LWpaBonjourService >> serviceValues: aDictionary [
 	serviceValues := aDictionary.
 ]
 
 { #category : #accessing }
-BonjourService >> type [
+LWpaBonjourService >> type [
 	^ 'bonjour'
 ]
 
 { #category : #building }
-BonjourService >> validate: aKey value: aValue [
+LWpaBonjourService >> validate: aKey value: aValue [
 	"Validates a key value pair wether they can be used in the bonjour service for a DNS txt record."
 	aKey isAsciiString
-			ifFalse: [ FormatError signal: 'key ', aKey, 'i s not a ascii string!' ].
+			ifFalse: [ LWpaFormatError signal: 'key ', aKey, ' is not a ascii string!' ].
 	(aKey anySatisfy: [ :char | char = $=])
-		ifTrue: [ FormatError signal: 'key ', aKey, ' contains a = sign!' ].
+		ifTrue: [ LWpaFormatError signal: 'key ', aKey, ' contains a = sign!' ].
 	
 	((aValue isNil
 		ifTrue: [ 0 ]
 		ifFalse: [ aValue size ] ) + aKey size) * 2 >= 255
-		ifTrue: [ HexTooBigError signal: 'key ', aKey, 'combined with it`s value are too long!' ]
+		ifTrue: [ LWpaHexTooBigError signal: 'key ', aKey, 'combined with it`s value are too long!' ]
 		
 ]

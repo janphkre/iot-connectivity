@@ -25,7 +25,9 @@ Class {
 		'buffer',
 		'bufferSize',
 		'isStarted',
-		'isAttached'
+		'attachedBlock',
+		'process',
+		'isRunning'
 	],
 	#classInstVars : [
 		'socketPath',
@@ -33,6 +35,17 @@ Class {
 	],
 	#category : #'LibWpa-FFI-Handling'
 }
+
+{ #category : #accessing }
+LWpaControl class >> anyDevice [
+	^ socketPath entries anyOne.
+]
+
+{ #category : #accessing }
+LWpaControl class >> anyP2PDevice [
+	^ (socketPath entries select: [ :entry |
+		entry basename beginsWith: 'p2p-dev' ]) anyOne.
+]
 
 { #category : #'class initialization' }
 LWpaControl class >> initialize [
@@ -54,9 +67,13 @@ LWpaControl class >> on: interfaceString path: pathReference [
 { #category : #'instance creation' }
 LWpaControl class >> onAny [
 	"Creates a control interface on any interface it can find."
-	| interface |
-	interface := socketPath entries anyOne.
-	^ self onFile: interface.
+	^ self onFile: self anyDevice.
+]
+
+{ #category : #'instance creation' }
+LWpaControl class >> onAnyP2P [
+	"Creates a control interface on any p2p interface it can find."
+	^ self onFile: self anyP2PDevice.
 ]
 
 { #category : #'instance creation' }
@@ -116,6 +133,25 @@ LWpaControl class >> teardownRegistry [
 	
 ]
 
+{ #category : #events }
+LWpaControl >> attach: aBlock [
+	self attachInternal: aBlock.
+	((self ffiLibraryInstance libwpa_attach: handle) beginsWith: 'OK')
+		ifTrue: [ ^ self ].
+	self detachInternal.
+	LWpaError signal: 'Failed to attach handle.'
+]
+
+{ #category : #events }
+LWpaControl >> attachInternal: aBlock [
+	self isAttached
+		ifTrue: [ self detachInternal ].
+	attachedBlock := aBlock.
+	process := [ [ self listenLoop ] repeat ]
+		forkAt: Processor highIOPriority 
+		named: self processName.
+]
+
 { #category : #accessing }
 LWpaControl >> buffer [
 	^ buffer
@@ -139,8 +175,29 @@ LWpaControl >> command: aString [
 { #category : #deleting }
 LWpaControl >> destroy [
 	self stop.
-	Transcript show: 'DESTROYED ME'.
-	self flag: 'TODO instance registry.'
+]
+
+{ #category : #events }
+LWpaControl >> detach [
+	self 	detachInternal.
+	^ self ffiLibraryInstance libwpa_detach: handle.
+]
+
+{ #category : #events }
+LWpaControl >> detachForSystem [
+	self isAttached ifTrue: [ 
+		process terminate. 
+		process := nil ].
+	self ffiLibraryInstance libwpa_detach: handle.
+]
+
+{ #category : #events }
+LWpaControl >> detachInternal [
+	attachedBlock := nil.
+	self isAttached ifFalse: [ ^ self ].
+	process terminate. 
+	process := nil.
+	
 ]
 
 { #category : #accessing }
@@ -159,9 +216,27 @@ LWpaControl >> interfaces [
 	^ (self command: 'INTERFACES') lines.
 ]
 
+{ #category : #accessing }
+LWpaControl >> isAttached [
+	^ process isNotNil
+]
+
+{ #category : #events }
+LWpaControl >> listenLoop [
+	self flag: #TODO.
+	
+]
+
 { #category : #commands }
 LWpaControl >> ping [
+	"Will reply with pong. This is a very simple command to check if everything is set up correctly."
 	^ self command: 'PING'
+]
+
+{ #category : #private }
+LWpaControl >> processName [
+	^ String streamContents: [ :stream |
+		 stream nextPutAll: self class name; nextPutAll: ' interface '; nextPutAll: self interface basename ]
 ]
 
 { #category : #accessing }
@@ -169,13 +244,13 @@ LWpaControl >> restoreForSystem [
 	isStarted = true
 		ifFalse: [ ^ self ].
 	self startInternal.
-	isAttached = true
-		ifTrue: [ self flag: 'TODO' ]
+	attachedBlock isNil
+		ifFalse: [ self attach: attachedBlock ]
 ]
 
 { #category : #private }
 LWpaControl >> start [
-	isStarted
+	isStarted = true
 		ifTrue: [ LWpaError signal: 'Control has already been started!' ].
 	self startInternal.
 ]
@@ -197,14 +272,14 @@ LWpaControl >> stop [
 	[ self teardownForSystem ]
 	ensure: [
 		isStarted := nil.
-		isAttached := nil ]
+		attachedBlock := nil ]
 ]
 
 { #category : #private }
 LWpaControl >> teardownForSystem [
 	[ handle ifNotNil: [ :delete |
-			isAttached = true
-				ifTrue: [ self ffiLibraryInstance libwpa_detach: handle ].
+			self isAttached
+				ifTrue: [ self detachForSystem ].
 			self ffiLibraryInstance libwpa_close: handle ] ]
 	ensure: [
 		handle free.
