@@ -26,8 +26,7 @@ Class {
 		'bufferSize',
 		'isStarted',
 		'attachedBlock',
-		'process',
-		'isRunning'
+		'process'
 	],
 	#classInstVars : [
 		'socketPath',
@@ -136,7 +135,7 @@ LWpaControl class >> teardownRegistry [
 { #category : #events }
 LWpaControl >> attach: aBlock [
 	self attachInternal: aBlock.
-	((self ffiLibraryInstance libwpa_attach: handle) beginsWith: 'OK')
+	(self ffiLibraryInstance libwpa_attach: handle) isOk
 		ifTrue: [ ^ self ].
 	self detachInternal.
 	LWpaError signal: 'Failed to attach handle.'
@@ -168,7 +167,10 @@ LWpaControl >> command: aString [
 		reply: buffer
 		replyLength: bufferSize
 		callback: LWpaMessageCallback null.
-	self validate: resultCode.
+	resultCode = -1
+		ifTrue: [ LWpaError signal: 'Error for performing request!' ].
+	resultCode = -2
+		ifTrue: [ LWpaTimeoutError signal: 'Performing the request timed out.' ].
 	^ buffer asString: bufferSize value.
 ]
 
@@ -223,8 +225,8 @@ LWpaControl >> isAttached [
 
 { #category : #events }
 LWpaControl >> listenLoop [
-	self flag: #TODO.
-	
+	self flag: 'TODO socket select before this method!'.
+	attachedBlock value: self receive.
 ]
 
 { #category : #commands }
@@ -239,6 +241,16 @@ LWpaControl >> processName [
 		 stream nextPutAll: self class name; nextPutAll: ' interface '; nextPutAll: self interface basename ]
 ]
 
+{ #category : #events }
+LWpaControl >> receive [
+	| resultCode |
+	bufferSize value: buffer size.
+	resultCode := (self ffiLibraryInstance libwpa_recieve: handle reply: buffer replyLength: bufferSize).
+	resultCode = -1
+		ifTrue: [ LWpaError signal: 'Error while receiving event!' ].
+	^ buffer asString: bufferSize value.
+]
+
 { #category : #accessing }
 LWpaControl >> restoreForSystem [
 	isStarted = true
@@ -246,6 +258,14 @@ LWpaControl >> restoreForSystem [
 	self startInternal.
 	attachedBlock isNil
 		ifFalse: [ self attach: attachedBlock ]
+]
+
+{ #category : #accessing }
+LWpaControl >> socket [
+	| result |
+	self flag: 'TODO!'.
+	result := self ffiLibraryInstance libwpa_get_fd: handle.
+	
 ]
 
 { #category : #private }
@@ -262,7 +282,7 @@ LWpaControl >> startInternal [
 	result isNull
 		ifTrue: [ LWpaError signal: 'Failed to open a control handle.' ].
 	handle := result.
-	buffer := LWpaStringBuffer new: 1024.
+	buffer := LWpaStringBuffer new: 2048.
 	bufferSize := LWpaReadWriteSizeT new: buffer size.
 	isStarted := true
 ]
@@ -287,13 +307,4 @@ LWpaControl >> teardownForSystem [
 		handle := nil.
 		buffer := nil.
 		bufferSize := nil ]
-]
-
-{ #category : #private }
-LWpaControl >> validate: resultCode [
-	resultCode = -1
-		ifTrue: [ LWpaError signal ].
-	resultCode = -2
-		ifTrue: [ LWpaTimeoutError signal ].
-	
 ]

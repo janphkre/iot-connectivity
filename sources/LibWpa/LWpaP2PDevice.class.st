@@ -34,11 +34,6 @@ LWpaP2PDevice class >> onAny [
 	^ self on: LWpaControl anyP2PDevice.
 ]
 
-{ #category : #validation }
-LWpaP2PDevice >> check: aString [
-	^ aString beginsWith: 'OK'
-]
-
 { #category : #accessing }
 LWpaP2PDevice >> commandControl [
 	^ commandControl
@@ -65,14 +60,14 @@ LWpaP2PDevice >> find: aBlock [
 	This is a async call and the given block will return all findings.
 	Success is indicated by the return value being true."
 	self flag: 'TODO: register aBlock as a callback of scan results'.
-	^ self check: (commandControl command: 'P2P_FIND')
+	^ (commandControl command: 'P2P_FIND') isOk
 ]
 
 { #category : #commands }
 LWpaP2PDevice >> flush [ 
 	"Flushes the configuration for the interface.
 	If this returns false you may want to use another interface."
-  ^ self check: (commandControl command: 'p2p_flush')
+  ^ (commandControl command: 'p2p_flush') isOk
 ]
 
 { #category : #commands }
@@ -84,23 +79,23 @@ LWpaP2PDevice >> peers [
 { #category : #'service-discovery' }
 LWpaP2PDevice >> serviceAdd: aLWpaService [
 	"Add a local service to service discovery"
-	^ self check: (commandControl command: ('P2P_SERVICE_ADD ', aLWpaService build))
+	^ (commandControl command: ('P2P_SERVICE_ADD ', aLWpaService build)) isOk
 ]
 
 { #category : #'service-discovery' }
 LWpaP2PDevice >> serviceFlush [
-	^ self check: (commandControl command: 'P2P_SERVICE_FLUSH')
+	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
 ]
 
 { #category : #'service-discovery' }
 LWpaP2PDevice >> serviceUpdate [
 	"Updates the service counter to indicate that available services on this device have changed."
-	^ self check: (commandControl command: 'P2P_SERVICE_UPDATE')
+	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
 ]
 
 { #category : #commands }
 LWpaP2PDevice >> stopFind [
 	"Stops the discovery of nearby devices started by find:
 	Success is indicated by the return value being true."
-	^ self check: (commandControl command: 'P2P_STOP_FIND')
+	^ (commandControl command: 'P2P_STOP_FIND') isOk
 ]
