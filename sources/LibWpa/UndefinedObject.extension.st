@@ -4,3 +4,8 @@ Extension { #name : #UndefinedObject }
 UndefinedObject >> free [
 	^ self
 ]
+
+{ #category : #'*LibWpa' }
+UndefinedObject >> value: aArg [
+	^ self
+]
