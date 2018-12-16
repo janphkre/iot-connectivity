@@ -1,0 +1,7 @@
+service := BonjourService new: 'TestService' as: 'pharo_connectivity' with: (
+SmallDictionary newFromPairs: #('identifier' 'I am a pharo instance!')).
+
+device := P2PDevice onAny.
+device serviceFlush.
+device serviceAdd: service.
+device listen.
