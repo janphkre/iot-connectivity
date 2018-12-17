@@ -44,6 +44,17 @@ LWpaP2PDevice >> commandControl: aLWpaControl [
 	commandControl := aLWpaControl
 ]
 
+{ #category : #configuration }
+LWpaP2PDevice >> configure [
+	"Define a sequence of commands to configure this device.
+	This sequence will be replayed on every start of the vm.
+	Please be aware that you are probably sending commands when
+	replying to events so you should run this configuration sequence
+	before registering a event listener."
+	commandControl startRecording.
+	eventControl startRecording.
+]
+
 { #category : #accessing }
 LWpaP2PDevice >> eventControl [
 	^ eventControl
@@ -55,11 +66,10 @@ LWpaP2PDevice >> eventControl: aLWpaControl [
 ]
 
 { #category : #commands }
-LWpaP2PDevice >> find: aBlock [
+LWpaP2PDevice >> find [
 	"Finds nearby devices as possible peers.
 	This is a async call and the given block will return all findings.
 	Success is indicated by the return value being true."
-	self flag: 'TODO: register aBlock as a callback of scan results'.
 	^ (commandControl command: 'P2P_FIND') isOk
 ]
 
@@ -67,13 +77,34 @@ LWpaP2PDevice >> find: aBlock [
 LWpaP2PDevice >> flush [ 
 	"Flushes the configuration for the interface.
 	If this returns false you may want to use another interface."
-  ^ (commandControl command: 'p2p_flush') isOk
+  ^ (commandControl command: 'P2P_FLUSH') isOk
+]
+
+{ #category : #configuration }
+LWpaP2PDevice >> forgetConfiguration [
+	commandControl forgetRecording.
+	eventControl forgetRecording.
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> listen [
+	"Listens for events and peers without sending any active p2p requests. Replies to Service Discovery and Find requests though."
+	^ (commandControl command: 'P2P_LISTEN') isOk 
 ]
 
 { #category : #commands }
 LWpaP2PDevice >> peers [
 	"Gives an array of possible peers found through find:"
-	^ (commandControl command: 'p2p_peers') lines
+	^ (commandControl command: 'P2P_PEERS') lines
+]
+
+{ #category : #events }
+LWpaP2PDevice >> recieveEvents: aBlock [
+	
+	eventControl attach: [ :eventString |
+		| event |
+		event := LWpaEvent from: eventString.
+		event ifNotNil: [ aBlock value: event ] ].
 ]
 
 { #category : #'service-discovery' }
@@ -93,9 +124,20 @@ LWpaP2PDevice >> serviceUpdate [
 	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
 ]
 
+{ #category : #configuration }
+LWpaP2PDevice >> stopConfigure [
+	commandControl stopRecording.
+	eventControl stopRecording.
+]
+
 { #category : #commands }
 LWpaP2PDevice >> stopFind [
 	"Stops the discovery of nearby devices started by find:
 	Success is indicated by the return value being true."
 	^ (commandControl command: 'P2P_STOP_FIND') isOk
+]
+
+{ #category : #events }
+LWpaP2PDevice >> stopRecieve [
+	eventControl detach.
 ]

@@ -26,7 +26,9 @@ Class {
 		'bufferSize',
 		'isStarted',
 		'attachedBlock',
-		'process'
+		'process',
+		'isRecording',
+		'recording'
 	],
 	#classInstVars : [
 		'socketPath',
@@ -37,12 +39,12 @@ Class {
 
 { #category : #accessing }
 LWpaControl class >> anyDevice [
-	^ socketPath entries anyOne.
+	^ self socketPath entries anyOne.
 ]
 
 { #category : #accessing }
 LWpaControl class >> anyP2PDevice [
-	^ (socketPath entries select: [ :entry |
+	^ (self socketPath entries select: [ :entry |
 		entry basename beginsWith: 'p2p-dev' ]) anyOne.
 ]
 
@@ -158,6 +160,12 @@ LWpaControl >> buffer [
 
 { #category : #commands }
 LWpaControl >> command: aString [
+	isRecording = true ifTrue: [ self record: aString ].
+	^ self commandInternal: aString.
+]
+
+{ #category : #private }
+LWpaControl >> commandInternal: aString [
 	| resultCode |
 	bufferSize value: buffer size.
 	resultCode := self ffiLibraryInstance
@@ -200,6 +208,12 @@ LWpaControl >> detachInternal [
 	process terminate. 
 	process := nil.
 	
+]
+
+{ #category : #configuration }
+LWpaControl >> forgetRecording [
+	"Clear the recording which is run on restart of this control."
+	recording := nil
 ]
 
 { #category : #accessing }
@@ -256,13 +270,28 @@ LWpaControl >> receive [
 	^ buffer asString: bufferSize value.
 ]
 
+{ #category : #configuration }
+LWpaControl >> record: aString [
+	self flag: 'TODO: maybe a arraylist is more fitting here.'.
+	(recording ifNil: [ recording := LinkedList new ])
+		addLast: aString
+]
+
+{ #category : #configuration }
+LWpaControl >> replay [
+	recording ifNotNil: [ :it |
+		it do: [ :record | 
+			self commandInternal: record ] ].
+]
+
 { #category : #accessing }
 LWpaControl >> restoreForSystem [
 	isStarted = true
 		ifFalse: [ ^ self ].
 	self startInternal.
 	attachedBlock isNil
-		ifFalse: [ self attach: attachedBlock ]
+		ifFalse: [ self attach: attachedBlock ].
+	self replay.
 ]
 
 { #category : #private }
@@ -284,12 +313,22 @@ LWpaControl >> startInternal [
 	isStarted := true
 ]
 
+{ #category : #configuration }
+LWpaControl >> startRecording [
+	isRecording := true
+]
+
 { #category : #private }
 LWpaControl >> stop [ 
 	[ self teardownForSystem ]
 	ensure: [
 		isStarted := nil.
 		attachedBlock := nil ]
+]
+
+{ #category : #configuration }
+LWpaControl >> stopRecording [
+	isRecording := nil
 ]
 
 { #category : #private }
