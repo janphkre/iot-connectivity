@@ -210,6 +210,13 @@ LWpaControl >> detachInternal [
 	
 ]
 
+{ #category : #accessing }
+LWpaControl >> flush [
+	self command: 'P2P_SERVICE_FLUSH';
+	command: 'P2P_FLUSH';
+	command: 'FLUSH'
+]
+
 { #category : #configuration }
 LWpaControl >> forgetRecording [
 	"Clear the recording which is run on restart of this control."
@@ -333,6 +340,7 @@ LWpaControl >> stopRecording [
 
 { #category : #private }
 LWpaControl >> teardownForSystem [
+	self flush.
 	[ handle ifNotNil: [ :delete |
 			self isAttached
 				ifTrue: [ self detachForSystem ].
