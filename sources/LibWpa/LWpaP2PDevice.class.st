@@ -45,14 +45,19 @@ LWpaP2PDevice >> commandControl: aLWpaControl [
 ]
 
 { #category : #configuration }
-LWpaP2PDevice >> configure [
-	"Define a sequence of commands to configure this device.
+LWpaP2PDevice >> configure: aBlock [
+	"Define a sequence of commands in the block to configure this device.
 	This sequence will be replayed on every start of the vm.
 	Please be aware that you are probably sending commands when
 	replying to events so you should run this configuration sequence
-	before registering a event listener."
+	before registering a event listener.
+	Multiple configure blocks can be run.
+	Each sequence of commands will then be appended to the previous one."
 	commandControl startRecording.
 	eventControl startRecording.
+	aBlock value.
+	commandControl stopRecording.
+	eventControl stopRecording.
 ]
 
 { #category : #accessing }
@@ -122,12 +127,6 @@ LWpaP2PDevice >> serviceFlush [
 LWpaP2PDevice >> serviceUpdate [
 	"Updates the service counter to indicate that available services on this device have changed."
 	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
-]
-
-{ #category : #configuration }
-LWpaP2PDevice >> stopConfigure [
-	commandControl stopRecording.
-	eventControl stopRecording.
 ]
 
 { #category : #commands }
