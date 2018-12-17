@@ -2,17 +2,22 @@
 I am a facade to interact with this library through a control communication channel.
 You can open multiple channels at the same time, which is also recommended,
 to split up events from command results.
+Instead of using this class consider using LWpaP2PDevice.
 
-	LWpaControl onAny
-is equivalent to 
-	LWpaControl on: nil path: 'var/run/wpa_supplicant'
+	LWpaControl onAny.
 A specific interface can be specified at creation as well:
 	| control |
-	control:= LWpaControl on: 'wlan0'
+	control:= LWpaControl on: ('/var/run/wpa_supplicant/wlan0' asFileReference).
+	
 All the commands will then be sent to that interface. If no interface is specified the first one returned from wpacontrol will be chosen.
 The Control can then be used to send and receives messages:
-	control interfaces.
-	control 
+	control ping.
+	control command: 'INTERFACES'.
+	
+Event messages can be recieved by:
+	control attach: [ :eventString | eventString inspect. ].
+Once you don't want to recieve events anymore simply call:
+	control detach.
 "
 Class {
 	#name : #LWpaControl,

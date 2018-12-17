@@ -6,9 +6,10 @@ The wpa_supplicant control interface also allows a lot more messages to control 
 		SmallDictionary newFromPairs: #('identifier' 'I am a pharo instance!')).
 
 	device := LWpaP2PDevice onAny.
-	device serviceFlush.
+	device configure: [ serviceFlush.
 	device serviceAdd: service.
-	device listen.
+	device listen. ].
+	device interfaces inspect.
 	
 The above example creates a DNS-SD service and registers it as a local service on a p2p interface. It then listens for requests in order to answer any service discovery request with the registered service.
 
@@ -16,8 +17,9 @@ I represent the following commands on wpa_cli:
 p2p_service_add           p2p_service_flush         p2p_service_update        p2p_flush
 p2p_find                  p2p_stop_find             p2p_peers                 p2p_listen
                 
+interfaces                
 
-Currently not implemented commands are:
+Not implemented commands are:
 p2p_asp_provision         p2p_group_add             p2p_reject                p2p_invite
 p2p_asp_provision_resp    p2p_group_remove          p2p_remove_client         p2p_service_rep
 p2p_cancel                p2p_serv_disc_cancel_req  p2p_service_update
@@ -105,6 +107,11 @@ LWpaP2PDevice >> flush [
 LWpaP2PDevice >> forgetConfiguration [
 	commandControl forgetRecording.
 	eventControl forgetRecording.
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> interfaces [
+	^ (commandControl command: 'INTERFACES') lines.
 ]
 
 { #category : #commands }
