@@ -20,6 +20,10 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
+/**
+ * I list all devices that are available through the beacon provider.
+ * Every item in my list can be clicked to start the DeviceConfigActivity on it.
+ */
 class DeviceListActivity: AppCompatActivity(), Observer<Device> {
 
     private lateinit var deviceAdapter: DeviceAdapter

@@ -9,6 +9,8 @@ import rx.Observable
 
 internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context) {
 
+    private val serviceType = "connectivity.pharo._tcp"
+
     @Throws(Exception::class)
     override fun getBeacons(context: Context): Observable<Device> {
         val channel = getChannel(context)
@@ -19,8 +21,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                 return@create
             }
 
-            val request = WifiP2pDnsSdServiceRequest.newInstance()
-            // TODO: SPECIFY FILTER FOR REQUEST
+            val request = WifiP2pDnsSdServiceRequest.newInstance(serviceType)
             wifiManager.addServiceRequest(channel, request, object: WifiP2pManager.ActionListener {
                 override fun onSuccess() {
                     wifiManager.setDnsSdResponseListeners(channel,
