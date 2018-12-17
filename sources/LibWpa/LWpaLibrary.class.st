@@ -58,6 +58,11 @@ LWpaLibrary >> libwpa_pending: control [
 ]
 
 { #category : #'libwpa-calls' }
+LWpaLibrary >> libwpa_poll: control timeout: timeout [
+	^ self ffiCall: #(#int #wpa_ctrl_poll(#LWpaControlHandle #* #control #, #int #timeout))
+]
+
+{ #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_recieve: control reply: reply replyLength: replyLength [ 
 	^ self ffiCall: #(#int #wpa_ctrl_recv(#LWpaControlHandle #* #control #, #LWpaStringBuffer #reply #, #LWpaReadWriteSizeT #replyLength))
 

@@ -225,8 +225,13 @@ LWpaControl >> isAttached [
 
 { #category : #events }
 LWpaControl >> listenLoop [
-	self flag: 'TODO socket select before this method!'.
-	attachedBlock value: self receive.
+	| library resultCode |
+	library := self ffiLibraryInstance.
+  resultCode := library libwpa_poll: handle timeout: 1234.
+	resultCode = -1
+	ifTrue: [ LWpaError signal: 'Error while polling for events!' ].
+	[ (library libwpa_pending: handle) = 1 ]
+	whileTrue: [ attachedBlock value: self receive ].
 ]
 
 { #category : #commands }
@@ -258,14 +263,6 @@ LWpaControl >> restoreForSystem [
 	self startInternal.
 	attachedBlock isNil
 		ifFalse: [ self attach: attachedBlock ]
-]
-
-{ #category : #accessing }
-LWpaControl >> socket [
-	| result |
-	self flag: 'TODO!'.
-	result := self ffiLibraryInstance libwpa_get_fd: handle.
-	
 ]
 
 { #category : #private }
