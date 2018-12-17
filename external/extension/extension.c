@@ -1,9 +1,14 @@
 #include <poll.h>
 
-int wpa_ctrl_poll(int fileDescriptor, short requestedEvents, short *returnedEvents, int timeout) {
-	struct pollfd descriptorStruct = { .fd = fileDescriptor, .events = requestedEvents };
+/* Polls on a file descriptor until the timeout is hit or a event has been received.
+ * returning 0 on success, -1 on timeout and -2 on a poll error.
+ */
+int wpa_ctrl_poll(int fileDescriptor, int timeout) {
+	struct pollfd descriptorStruct = {
+		.fd = fileDescriptor,
+		.events = POLLIN | POLLPRI
+	};
 	int resultCode = poll(&descriptorStruct, 1, timeout);
-	*returnedEvents = descriptorStruct.revents;
-	return resultCode;
+	return resultCode - 1;
 }
 
