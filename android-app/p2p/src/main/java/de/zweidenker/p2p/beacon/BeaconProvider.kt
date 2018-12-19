@@ -1,9 +1,10 @@
 package de.zweidenker.p2p.beacon
 
-import android.content.Context
+import de.zweidenker.p2p.core.Device
 import rx.Observable
 
 interface BeaconProvider {
     @Throws(Exception::class)
-    fun getBeacons(context: Context): Observable<Device>
+    fun getBeacons(): Observable<Device>
+    fun destroy()
 }

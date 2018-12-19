@@ -1,14 +1,14 @@
-package de.zweidenker.p2p.beacon
+package de.zweidenker.p2p.core
 
 import android.os.Parcel
 import android.os.Parcelable
-import de.zweidenker.p2p.core.IdGenerator
 
 class Device(
     val id: Long,
     val userIdentifier: String,
     val domainName: String,
-    val connectionStatus: ConnectionStatus) : Parcelable {
+    val connectionStatus: ConnectionStatus,
+    val port: Int) : Parcelable {
 
     enum class ConnectionStatus {
         UNKNOWN, UP, DOWN, PROBLEM
@@ -18,21 +18,23 @@ class Device(
         parcel.readLong(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
-        ConnectionStatus.values()[parcel.readInt()]) {
+        ConnectionStatus.values()[parcel.readInt()],
+        parcel.readInt()) {
     }
 
     /*TODO: DO WE REALLY NEED THE DOMAIN NAME WHEN WE HAVE THE FILTER ON THE DOMAIN NAME ALREADY?*/
     constructor(macAddress: String, domainName: String, txtRecordMap: Map<String, String>): this (
         //Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
         IdGenerator.getId(macAddress),
-        txtRecordMap[KEY_IDENTIFIER] ?: macAddress,
+        txtRecordMap[P2PConstants.KEY_IDENTIFIER] ?: macAddress,
         domainName,
-        when(txtRecordMap[KEY_CONNECTION]?.toUpperCase()) {
+        when(txtRecordMap[P2PConstants.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.UP.name -> ConnectionStatus.UP
             ConnectionStatus.DOWN.name -> ConnectionStatus.DOWN
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN
-        }
+        },
+        txtRecordMap[P2PConstants.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -40,6 +42,7 @@ class Device(
         parcel.writeString(userIdentifier)
         parcel.writeString(domainName)
         parcel.writeInt(connectionStatus.ordinal)
+        parcel.writeInt(port)
     }
 
     override fun describeContents(): Int {
@@ -47,8 +50,6 @@ class Device(
     }
 
     companion object CREATOR : Parcelable.Creator<Device> {
-        private const val KEY_IDENTIFIER = "identifier"
-        private const val KEY_CONNECTION = "connection"
 
         override fun createFromParcel(parcel: Parcel): Device {
             return Device(parcel)

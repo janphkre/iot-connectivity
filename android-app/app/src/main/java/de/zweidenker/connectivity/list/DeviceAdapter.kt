@@ -1,7 +1,6 @@
 package de.zweidenker.connectivity.list
 
 import android.content.Context
-import android.content.Intent
 import android.os.Build
 import android.support.annotation.RequiresApi
 import android.support.v7.widget.RecyclerView
@@ -11,7 +10,7 @@ import android.view.ViewGroup
 import android.view.WindowInsets
 import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.config.DeviceConfigActivity
-import de.zweidenker.p2p.beacon.Device
+import de.zweidenker.p2p.core.Device
 import de.zweidenker.p2p.core.IdGenerator
 import kotlinx.android.synthetic.main.item_device.view.*
 import java.util.LinkedList

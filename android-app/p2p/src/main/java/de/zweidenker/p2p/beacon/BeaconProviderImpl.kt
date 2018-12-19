@@ -4,45 +4,65 @@ import android.content.Context
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
 import de.zweidenker.p2p.core.AbstractWifiProvider
+import de.zweidenker.p2p.core.Device
+import de.zweidenker.p2p.core.P2PConstants
 import de.zweidenker.p2p.core.WifiP2PException
 import rx.Observable
+import rx.Subscription
+import rx.schedulers.Schedulers
+import rx.subjects.ReplaySubject
 
-internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context) {
+internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context, P2PConstants.NAME_BEACON_THREAD) {
 
-    private val serviceType = "connectivity.pharo._tcp"
+    private val observable = Observable.create<Device> { subscriber ->
+        if(wifiManager == null || wifiChannel == null) {
+            val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
+            subscriber.onError(throwable)
+            return@create
+        }
 
-    @Throws(Exception::class)
-    override fun getBeacons(context: Context): Observable<Device> {
-        val channel = getChannel(context)
-        return Observable.create<Device> { subscriber ->
-            if(wifiManager == null) {
-                val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
-                subscriber.onError(throwable)
-                return@create
+        val request = WifiP2pDnsSdServiceRequest.newInstance(P2PConstants.TYPE_SERVICE)
+        wifiManager.addServiceRequest(wifiChannel, request, object: WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                wifiManager.setDnsSdResponseListeners(wifiChannel,
+                    { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
+                    subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
+                })
+                wifiManager.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {
+                    override fun onSuccess() { }
+
+                    override fun onFailure(errorCode: Int) {
+                        val throwable = WifiP2PException("Failed to discover services!", errorCode)
+                        subscriber.onError(throwable)
+                    }
+                })
             }
 
-            val request = WifiP2pDnsSdServiceRequest.newInstance(serviceType)
-            wifiManager.addServiceRequest(channel, request, object: WifiP2pManager.ActionListener {
-                override fun onSuccess() {
-                    wifiManager.setDnsSdResponseListeners(channel,
-                        { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
-                            subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
-                    })
-                    wifiManager.discoverServices(channel, object: WifiP2pManager.ActionListener {
-                        override fun onSuccess() { }
+            override fun onFailure(errorCode: Int) {
+                val throwable = WifiP2PException("Failed to add a service request!", errorCode)
+                subscriber.onError(throwable)
+            }
+        })
+    }
+    private var subscription: Subscription? = null
+    private var deviceSubject = ReplaySubject.create<Device>()
 
-                        override fun onFailure(errorCode: Int) {
-                            val throwable = WifiP2PException("Failed to discover services!", errorCode)
-                            subscriber.onError(throwable)
-                        }
-                    })
-                }
 
-                override fun onFailure(errorCode: Int) {
-                    val throwable = WifiP2PException("Failed to add a service request!", errorCode)
-                    subscriber.onError(throwable)
-                }
-            })
+    @Throws(Exception::class)
+    override fun getBeacons(): Observable<Device> {
+        if(subscription == null) {
+            subscription = observable
+                .subscribeOn(Schedulers.io())
+                .subscribe(deviceSubject)
         }
+        return deviceSubject.doOnUnsubscribe {
+            deviceSubject = ReplaySubject.create()
+        }
+    }
+
+    override fun destroy() {
+        subscription?.unsubscribe()
+        subscription = null
+        destroyProvider()
     }
 }

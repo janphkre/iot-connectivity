@@ -6,12 +6,11 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.util.PermissionHandler
 import de.zweidenker.connectivity.util.withPermissions
 import de.zweidenker.p2p.beacon.BeaconProvider
-import de.zweidenker.p2p.beacon.Device
+import de.zweidenker.p2p.core.Device
 import kotlinx.android.synthetic.main.activity_device_list.*
 import org.koin.android.ext.android.inject
 import rx.Observer
@@ -35,7 +34,6 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
         setContentView(R.layout.activity_device_list)
         setupDeviceList()
         setupHeader()
-        setupBeacons()
     }
 
     private fun setupDeviceList() {
@@ -61,7 +59,6 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
         //TODO!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             frame_device.setOnApplyWindowInsetsListener { v, insets ->
-                Log.e("TEST","GOT WINDOW INSETS ${insets.systemWindowInsetTop}")
                 deviceAdapter.setInsets(insets)
                 insets
             }
@@ -69,13 +66,14 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
 
     }
 
-    private fun setupBeacons() {
+    override fun onStart() {
+        super.onStart()
         withPermissions(
-                Manifest.permission.INTERNET,
-                Manifest.permission.ACCESS_WIFI_STATE,
-                Manifest.permission.CHANGE_WIFI_STATE,
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                permissionRationalRes = R.string.permission_rationale_text) { success ->
+            Manifest.permission.INTERNET,
+            Manifest.permission.ACCESS_WIFI_STATE,
+            Manifest.permission.CHANGE_WIFI_STATE,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            permissionRationalRes = R.string.permission_rationale_text) { success ->
             if(success) {
                 beaconProvider.getBeacons(this)
                     .subscribeOn(Schedulers.io())
@@ -102,9 +100,9 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
 
     override fun onCompleted() { /* should never be called */ }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onPause() {
         subscription?.unsubscribe()
         subscription = null
+        super.onPause()
     }
 }

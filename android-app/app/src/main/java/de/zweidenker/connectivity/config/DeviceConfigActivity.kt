@@ -4,26 +4,48 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import de.zweidenker.p2p.beacon.Device
-import rx.Observable
+import de.zweidenker.p2p.core.Device
+import de.zweidenker.p2p.server.DeviceConfigurationProvider
+import org.koin.android.ext.android.inject
+import rx.Observer
 import rx.Subscription
+import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import timber.log.Timber
 
-class DeviceConfigActivity: AppCompatActivity() {
+class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
 
-    private var device: Device? = null
+    private val configurationProvider by inject<DeviceConfigurationProvider>()
     private var subscription: Subscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        device = intent.getParcelableExtra(KEY_DEVICE)
+        val device = intent.getParcelableExtra<Device>(KEY_DEVICE)
         if(device == null) {
             finish()
             return
         }
-        subscription = Observable.create<Unit> {
-            //TODO: CONNECT P2P to device
-        }.subscribeOn(Schedulers.computation()).subscribe()
+        subscription = configurationProvider.connectTo(device)
+            .subscribeOn(Schedulers.computation())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this)
+    }
+
+    override fun onDestroy() {
+        subscription?.unsubscribe()
+        subscription = null
+        super.onDestroy()
+    }
+
+    override fun onError(e: Throwable?) {
+        Timber.e(e)
+//        TODO("not implemented")
+    }
+
+    override fun onNext(t: Unit?) { /* Should never be called for the connectTo call. */ }
+
+    override fun onCompleted() {
+//        TODO("not implemented")
     }
 
     companion object {
