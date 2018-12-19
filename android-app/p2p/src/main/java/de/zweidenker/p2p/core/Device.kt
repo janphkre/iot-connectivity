@@ -61,13 +61,21 @@ class Device(
             port == other.port
     }
 
+    override fun hashCode(): Int {
+        var result = id.hashCode()
+        result = 31 * result + userIdentifier.hashCode()
+        result = 31 * result + address.hashCode()
+        result = 31 * result + connectionStatus.hashCode()
+        result = 31 * result + port
+        return result
+    }
+
     fun asConfig(): WifiP2pConfig {
         return WifiP2pConfig().apply {
             this.deviceAddress = this@Device.address
             this.groupOwnerIntent = 0
         }
     }
-
     companion object CREATOR : Parcelable.Creator<Device> {
 
         override fun createFromParcel(parcel: Parcel): Device {

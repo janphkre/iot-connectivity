@@ -9,4 +9,7 @@ internal object P2PConstants {
     const val KEY_IDENTIFIER = "identifier"
     const val KEY_CONNECTION = "connection"
     const val KEY_PORT = "port"
+
+
+    const val TIMEOUT_SOCKET = 5000
 }

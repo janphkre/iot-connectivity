@@ -1,13 +1,17 @@
 package de.zweidenker.p2p.server
 
 import android.content.Context
-import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pManager
+import android.util.Log
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.core.Device
 import de.zweidenker.p2p.core.P2PConstants
 import de.zweidenker.p2p.core.WifiP2PException
 import rx.Observable
+import java.io.IOException
+import java.net.InetSocketAddress
+import java.net.Socket
+
 
 internal class DeviceConfigurationProviderImpl(context: Context): DeviceConfigurationProvider, AbstractWifiProvider(context, P2PConstants.NAME_CONFIG_THREAD) {
 
@@ -20,6 +24,7 @@ internal class DeviceConfigurationProviderImpl(context: Context): DeviceConfigur
             }
             wifiManager.connect(wifiChannel, device.asConfig(), object: WifiP2pManager.ActionListener {
                 override fun onSuccess() {
+                    socketConnect(device.address, device.port)
                     subscriber.onCompleted()
                 }
 
@@ -29,6 +34,29 @@ internal class DeviceConfigurationProviderImpl(context: Context): DeviceConfigur
                 }
 
             })
+        }
+    }
+
+    private fun socketConnect(host: String, port: Int) {
+        val socket = Socket()
+        try {
+            Log.d("TEST", "Opening client socket - ")
+            socket.bind(null)
+            socket.connect(InetSocketAddress(host, port), P2PConstants.TIMEOUT_SOCKET)
+            Log.d("TEST", "Client socket - " + socket.isConnected)
+
+        } catch (e: Exception) {
+            Log.e("TEST", e.message)
+        } finally {
+            if (socket.isConnected) {
+                try {
+                    socket.close()
+                } catch (e: IOException) {
+                    // Give up
+                    e.printStackTrace()
+                }
+
+            }
         }
     }
 }
