@@ -28,7 +28,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                 wifiManager.setDnsSdResponseListeners(wifiChannel,
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
                     if(fullDomainName.isValidType()) {
-                        subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
+                        subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
                     }
                 })
                 wifiManager.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {

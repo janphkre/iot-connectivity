@@ -1,12 +1,14 @@
 package de.zweidenker.p2p.core
 
+import android.net.wifi.p2p.WifiP2pConfig
+import android.net.wifi.p2p.WifiP2pDevice
 import android.os.Parcel
 import android.os.Parcelable
 
 class Device(
     val id: Long,
     val userIdentifier: String,
-    val domainName: String,
+    val address: String,
     val connectionStatus: ConnectionStatus,
     val port: Int) : Parcelable {
 
@@ -19,15 +21,14 @@ class Device(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         ConnectionStatus.values()[parcel.readInt()],
-        parcel.readInt()) {
-    }
+        parcel.readInt()
+    )
 
-    /*TODO: DO WE REALLY NEED THE DOMAIN NAME WHEN WE HAVE THE FILTER ON THE DOMAIN NAME ALREADY?*/
-    constructor(macAddress: String, domainName: String, txtRecordMap: Map<String, String>): this (
+    constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
         //Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
-        IdGenerator.getId(macAddress),
-        txtRecordMap[P2PConstants.KEY_IDENTIFIER] ?: macAddress,
-        domainName,
+        IdGenerator.getId(p2pDevice.deviceAddress),
+        txtRecordMap[P2PConstants.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
+        p2pDevice.deviceAddress,
         when(txtRecordMap[P2PConstants.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.UP.name -> ConnectionStatus.UP
             ConnectionStatus.DOWN.name -> ConnectionStatus.DOWN
@@ -40,7 +41,7 @@ class Device(
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
         parcel.writeString(userIdentifier)
-        parcel.writeString(domainName)
+        parcel.writeString(address)
         parcel.writeInt(connectionStatus.ordinal)
         parcel.writeInt(port)
     }
@@ -55,9 +56,16 @@ class Device(
         }
         return id == other.id &&
             userIdentifier == other.userIdentifier &&
-            domainName == other.domainName &&
+            address == other.address &&
             connectionStatus == other.connectionStatus &&
             port == other.port
+    }
+
+    fun asConfig(): WifiP2pConfig {
+        return WifiP2pConfig().apply {
+            this.deviceAddress = this@Device.address
+            this.groupOwnerIntent = 0
+        }
     }
 
     companion object CREATOR : Parcelable.Creator<Device> {

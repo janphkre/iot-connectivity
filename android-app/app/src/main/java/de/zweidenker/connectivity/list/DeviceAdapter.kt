@@ -147,7 +147,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
 
         fun bind(device: Device) {
             titleTextView.text = device.userIdentifier
-            subtitleTextView.text = device.domainName
+            subtitleTextView.text = device.address
             detailsTextView.text = device.connectionStatus.name
             itemView.setOnClickListener {
                 DeviceConfigActivity.startActivity(it.context, device)
