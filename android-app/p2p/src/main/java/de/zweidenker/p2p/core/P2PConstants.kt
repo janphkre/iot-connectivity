@@ -1,7 +1,7 @@
 package de.zweidenker.p2p.core
 
 internal object P2PConstants {
-    const val TYPE_SERVICE = "connectivity.pharo._tcp"
+    const val TYPE_SERVICE = "connectivity.pharo._tcp.local."
 
     const val NAME_BEACON_THREAD = "BeaconBackgroundThread"
     const val NAME_CONFIG_THREAD ="ConfigurationBackgroundThread"

@@ -21,12 +21,15 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
             return@create
         }
 
-        val request = WifiP2pDnsSdServiceRequest.newInstance(P2PConstants.TYPE_SERVICE)
+        //Internal filtering does not seem to work correctly. We will filter by ourselves.
+        val request = WifiP2pDnsSdServiceRequest.newInstance()
         wifiManager.addServiceRequest(wifiChannel, request, object: WifiP2pManager.ActionListener {
             override fun onSuccess() {
                 wifiManager.setDnsSdResponseListeners(wifiChannel,
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
-                    subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
+                    if(fullDomainName.isValidType()) {
+                        subscriber.onNext(Device(wifiP2pDevice.deviceAddress, fullDomainName, txtRecordMap))
+                    }
                 })
                 wifiManager.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {
                     override fun onSuccess() { }
@@ -47,6 +50,9 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
     private var subscription: Subscription? = null
     private var deviceSubject = ReplaySubject.create<Device>()
 
+    private fun String.isValidType(): Boolean {
+        return endsWith(P2PConstants.TYPE_SERVICE, true)
+    }
 
     @Throws(Exception::class)
     override fun getBeacons(): Observable<Device> {

@@ -13,15 +13,17 @@
         <activity
             android:name="de.zweidenker.connectivity.LaunchActivity"
             android:launchMode="singleInstance">
+
+        </activity>
+
+        <activity
+            android:name="de.zweidenker.connectivity.list.DeviceListActivity"
+            android:launchMode="singleInstance">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
-        <activity
-            android:name="de.zweidenker.connectivity.list.DeviceListActivity"
-            android:launchMode="standard"/>
         <activity android:name=".config.DeviceConfigActivity" />
     </application>
 </manifest>

@@ -75,7 +75,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             permissionRationalRes = R.string.permission_rationale_text) { success ->
             if(success) {
-                beaconProvider.getBeacons(this)
+                beaconProvider.getBeacons()
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this)
