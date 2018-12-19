@@ -4,7 +4,13 @@ Class {
 	#category : 'IOTConnectivity-REST'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
+IOTConnectivityAPI class >> delegate [
+	^ (ZnRestServerDelegate new
+			uriSpace: (IOTConnectivityUriSpace new))
+]
+
+{ #category : #accessing }
 IOTConnectivityAPI class >> rootCallClass [
 	^ IOTConnectivityCall
 ]
