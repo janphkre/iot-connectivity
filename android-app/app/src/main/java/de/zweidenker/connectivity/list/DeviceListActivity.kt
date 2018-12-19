@@ -58,7 +58,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
     private fun setupHeader() {
         //TODO!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-            frame_device.setOnApplyWindowInsetsListener { v, insets ->
+            frame_device.setOnApplyWindowInsetsListener { _, insets ->
                 deviceAdapter.setInsets(insets)
                 insets
             }
@@ -77,7 +77,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
             if(success) {
                 beaconProvider.getBeacons()
                     .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
+                    .observeOn(Schedulers.computation())
                     .subscribe(this)
             } else {
                 //TODO NOTIFY: THIS APP WILL NOT WORK WITHOUT THE REQUESTED PERMISSIONS!

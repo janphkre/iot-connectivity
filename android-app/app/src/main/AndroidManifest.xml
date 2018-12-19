@@ -10,11 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity
-            android:name="de.zweidenker.connectivity.LaunchActivity"
-            android:launchMode="singleInstance">
-
-        </activity>
 
         <activity
             android:name="de.zweidenker.connectivity.list.DeviceListActivity"
@@ -24,6 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".config.DeviceConfigActivity" />
+
+        <activity android:name="de.zweidenker.connectivity.config.DeviceConfigActivity" />
     </application>
 </manifest>

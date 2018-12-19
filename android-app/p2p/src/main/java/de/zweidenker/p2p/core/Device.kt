@@ -49,6 +49,17 @@ class Device(
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if(other !is Device) {
+            return false
+        }
+        return id == other.id &&
+            userIdentifier == other.userIdentifier &&
+            domainName == other.domainName &&
+            connectionStatus == other.connectionStatus &&
+            port == other.port
+    }
+
     companion object CREATOR : Parcelable.Creator<Device> {
 
         override fun createFromParcel(parcel: Parcel): Device {
