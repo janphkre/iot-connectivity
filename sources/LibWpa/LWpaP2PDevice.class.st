@@ -98,15 +98,30 @@ LWpaP2PDevice >> find [
 
 { #category : #commands }
 LWpaP2PDevice >> flush [ 
-	"Flushes the configuration for the interface.
-	If this returns false you may want to use another interface."
-  ^ (commandControl command: 'P2P_FLUSH') isOk
+	"Flushes the configuration for the interface."
+	commandControl flush.
+	eventControl flush.
+	commandControl forgetRecording.
+	eventControl forgetRecording.
 ]
 
 { #category : #configuration }
 LWpaP2PDevice >> forgetConfiguration [
 	commandControl forgetRecording.
 	eventControl forgetRecording.
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> groupAdd [
+	"Set up this device as an autonomous group owner."
+	^ (commandControl command: 'P2P_GROUP_ADD') isOk
+
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> groupRemove: aString [
+	"Remove the group with the given network id string."
+	^ (commandControl command: ('P2P_GROUP_REMOVE ', aString)) isOk
 ]
 
 { #category : #commands }
@@ -118,6 +133,12 @@ LWpaP2PDevice >> interfaces [
 LWpaP2PDevice >> listen [
 	"Listens for events and peers without sending any active p2p requests. Replies to Service Discovery and Find requests though."
 	^ (commandControl command: 'P2P_LISTEN') isOk 
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> note: aString [
+	"Add a note to the wpa_supplicant debug log."
+	^ (commandControl command: ('NOTE ', aString)) isOk
 ]
 
 { #category : #commands }
@@ -150,6 +171,11 @@ LWpaP2PDevice >> serviceFlush [
 LWpaP2PDevice >> serviceUpdate [
 	"Updates the service counter to indicate that available services on this device have changed."
 	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
+]
+
+{ #category : #commands }
+LWpaP2PDevice >> ssidPostfix: aString [
+	^ (commandControl command: ('P2P_SET SSID_POSTFIX ', aString)) isOk
 ]
 
 { #category : #commands }
