@@ -12,7 +12,7 @@ IOTConnectivityDeviceLogCall class >> description [
 	^ 'The log of a device may contain further information for the user as of why the device is in its current status.'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityDeviceLogCall class >> parameterDeviceName [
 	<openApiParameter: #( common )>
 	^ OAParameter new

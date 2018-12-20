@@ -9,7 +9,7 @@ IOTConnectivityCall class >> description [
 	^ ''
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> httpMethods [
 	^ #( get update )
 ]
@@ -40,13 +40,13 @@ IOTConnectivityCall class >> match: request [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> objectsForPragmas: aCollection [
 	^ aCollection
 		collect: [:each | each method valueWithReceiver: self arguments: #() ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> openApiPragmasNamed: aSymbol [
 	^ Pragma 
 		allNamed: aSymbol
@@ -54,12 +54,12 @@ IOTConnectivityCall class >> openApiPragmasNamed: aSymbol [
 		to: IOTConnectivityCall class.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> operationForMethod: aString [ 
 	^ self pathItem perform: aString asSymbol.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> parametersForMethod: aSymbol [
 	^ self objectsForPragmas: ( self pragmas: #openApiParameter: includingMethod: aSymbol )
 ]
@@ -78,7 +78,7 @@ IOTConnectivityCall class >> pathItem [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> pragmas: pragmaName includingMethod: aSymbol [
 	^ (self openApiPragmasNamed: pragmaName) 
 		select: [ :each | 
@@ -90,7 +90,7 @@ IOTConnectivityCall class >> requestBody [
 	^ OARequestBody new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall class >> requestBodyForMethod: aSymbol [
 
 	| body pragmas |
@@ -156,12 +156,12 @@ IOTConnectivityCall >> initializeParameters [
 		fromRequest: self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall >> postProcess [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall >> preProcess [
 	self initializeParameters 
 ]
@@ -171,7 +171,7 @@ IOTConnectivityCall >> requestBody [
 	^ OARequestBody new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityCall >> requestBodyForMethod: aSymbol [
 
 	| body pragmas |

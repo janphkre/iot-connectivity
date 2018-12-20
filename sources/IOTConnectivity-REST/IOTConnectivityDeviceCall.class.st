@@ -12,7 +12,7 @@ IOTConnectivityDeviceCall class >> description [
 	^ 'A device may be used to querry its log or update its configuration.'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 IOTConnectivityDeviceCall class >> parameterDeviceName [
 	<openApiParameter: #( common )>
 	^ OAParameter new
