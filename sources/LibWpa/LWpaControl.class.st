@@ -225,7 +225,8 @@ LWpaControl >> flush [
 { #category : #configuration }
 LWpaControl >> forgetRecording [
 	"Clear the recording which is run on restart of this control."
-	recording := nil
+	recording := nil.
+	isRecording := nil
 ]
 
 { #category : #accessing }

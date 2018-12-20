@@ -6,9 +6,12 @@ The wpa_supplicant control interface also allows a lot more messages to control 
 		SmallDictionary newFromPairs: #('identifier' 'I am a pharo instance!')).
 
 	device := LWpaP2PDevice onAny.
-	device configure: [ serviceFlush.
-	device serviceAdd: service.
-	device listen. ].
+	device configure: [
+		device note: 'Setting up p2p with pharo';
+		flush;
+		serviceAdd: service;
+		serviceUpdate;
+		listen ].
 	device interfaces inspect.
 	
 The above example creates a DNS-SD service and registers it as a local service on a p2p interface. It then listens for requests in order to answer any service discovery request with the registered service.
@@ -98,11 +101,8 @@ LWpaP2PDevice >> find [
 
 { #category : #commands }
 LWpaP2PDevice >> flush [ 
-	"Flushes the configuration for the interface."
+	"Flushes the interface."
 	commandControl flush.
-	eventControl flush.
-	commandControl forgetRecording.
-	eventControl forgetRecording.
 ]
 
 { #category : #configuration }
