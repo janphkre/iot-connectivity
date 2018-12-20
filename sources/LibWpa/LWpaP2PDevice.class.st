@@ -19,13 +19,13 @@ The above example creates a DNS-SD service and registers it as a local service o
 I represent the following commands on wpa_cli:
 p2p_service_add           p2p_service_flush         p2p_service_update        p2p_flush
 p2p_find                  p2p_stop_find             p2p_peers                 p2p_listen
-                
-interfaces                
+p2p_group_add             p2p_group_remove          
+interfaces                ping                      flush                     note
 
 Not implemented commands are:
-p2p_asp_provision         p2p_group_add             p2p_reject                p2p_invite
-p2p_asp_provision_resp    p2p_group_remove          p2p_remove_client         p2p_service_rep
-p2p_cancel                p2p_serv_disc_cancel_req  p2p_service_update
+p2p_asp_provision                      p2p_reject                p2p_invite
+p2p_asp_provision_resp              p2p_remove_client         p2p_service_rep
+p2p_cancel                p2p_serv_disc_cancel_req
 p2p_connect               p2p_serv_disc_external    p2p_set
 p2p_ext_listen            p2p_peer                  p2p_serv_disc_req
 p2p_serv_disc_resp        p2p_unauthorize
@@ -148,7 +148,7 @@ LWpaP2PDevice >> peers [
 ]
 
 { #category : #events }
-LWpaP2PDevice >> recieveEvents: aBlock [
+LWpaP2PDevice >> receiveEvents: aBlock [
 	
 	eventControl attach: [ :eventString |
 		| event |
@@ -186,6 +186,6 @@ LWpaP2PDevice >> stopFind [
 ]
 
 { #category : #events }
-LWpaP2PDevice >> stopRecieve [
+LWpaP2PDevice >> stopReceive [
 	eventControl detach.
 ]
