@@ -175,7 +175,7 @@ LWpaP2PDevice >> serviceUpdate [
 
 { #category : #commands }
 LWpaP2PDevice >> ssidPostfix: aString [
-	^ (commandControl command: ('P2P_SET SSID_POSTFIX ', aString)) isOk
+	^ (commandControl command: ('P2P_SET ssid_postfix ', aString)) isOk
 ]
 
 { #category : #commands }
