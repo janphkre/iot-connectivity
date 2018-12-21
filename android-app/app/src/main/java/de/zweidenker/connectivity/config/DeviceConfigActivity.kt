@@ -5,7 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import de.zweidenker.p2p.core.Device
-import de.zweidenker.p2p.server.DeviceConfigurationProvider
+import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import org.koin.android.ext.android.inject
 import rx.Observer
 import rx.Subscription
@@ -32,8 +32,10 @@ class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
     }
 
     override fun onDestroy() {
+        //TODO: MOVE SUBSCRIPTION TO ONSTART/ONPAUSE
         subscription?.unsubscribe()
         subscription = null
+        configurationProvider.destroy(this)
         super.onDestroy()
     }
 
@@ -52,8 +54,9 @@ class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
         private const val KEY_DEVICE = "config.device"
 
         fun startActivity(context: Context, device: Device) {
-            val intent = Intent(context, this::class.java)
+            val intent = Intent(context, DeviceConfigActivity::class.java)
             intent.putExtra(KEY_DEVICE, device)
+            context.startActivity(intent)
         }
     }
 }

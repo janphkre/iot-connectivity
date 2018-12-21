@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.NetworkInfo
 import android.net.wifi.p2p.WifiP2pManager
+import android.util.Log
 
 class Broadcasts(private val connected: () -> Unit): BroadcastReceiver() {
 
@@ -14,6 +15,8 @@ class Broadcasts(private val connected: () -> Unit): BroadcastReceiver() {
                 val networkInfo: NetworkInfo? = intent.getParcelableExtra(WifiP2pManager.EXTRA_NETWORK_INFO) as NetworkInfo
                 if (networkInfo?.isConnected == true) {
                     connected.invoke()
+                } else {
+                    Log.e("TEST","connectionChanged:" + networkInfo?.detailedState?.name)
                 }
             }
         }

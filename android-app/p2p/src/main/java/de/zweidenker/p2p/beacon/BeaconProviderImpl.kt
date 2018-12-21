@@ -3,16 +3,16 @@ package de.zweidenker.p2p.beacon
 import android.content.Context
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
+import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.core.Device
-import de.zweidenker.p2p.core.P2PConstants
 import de.zweidenker.p2p.core.WifiP2PException
 import rx.Observable
 import rx.Subscription
 import rx.schedulers.Schedulers
 import rx.subjects.ReplaySubject
 
-internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context, P2PConstants.NAME_BEACON_THREAD) {
+internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
 
     private val observable = Observable.create<Device> { subscriber ->
         if(wifiManager == null || wifiChannel == null) {
@@ -35,7 +35,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                     override fun onSuccess() { }
 
                     override fun onFailure(errorCode: Int) {
-                        val throwable = WifiP2PException("Failed to discover services!", errorCode)
+                        val throwable = WifiP2PException("Failed to discover services!", errorCode)//TODO: MAY FAIL SOMETIMES; RETRY AFTER A MOMENT?
                         subscriber.onError(throwable)
                     }
                 })
@@ -51,7 +51,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
     private var deviceSubject = ReplaySubject.create<Device>()
 
     private fun String.isValidType(): Boolean {
-        return endsWith(P2PConstants.TYPE_SERVICE, true)
+        return endsWith(P2PModule.TYPE_SERVICE, true)
     }
 
     @Throws(Exception::class)
@@ -69,6 +69,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
     override fun destroy() {
         subscription?.unsubscribe()
         subscription = null
+        wifiManager?.clearServiceRequests(wifiChannel, null)
         destroyProvider()
     }
 }

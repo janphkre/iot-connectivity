@@ -4,6 +4,7 @@ import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.os.Parcel
 import android.os.Parcelable
+import de.zweidenker.p2p.P2PModule
 
 class Device(
     val id: Long,
@@ -27,15 +28,15 @@ class Device(
     constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
         //Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
         IdGenerator.getId(p2pDevice.deviceAddress),
-        txtRecordMap[P2PConstants.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
+        txtRecordMap[P2PModule.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
         p2pDevice.deviceAddress,
-        when(txtRecordMap[P2PConstants.KEY_CONNECTION]?.toUpperCase()) {
+        when(txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.UP.name -> ConnectionStatus.UP
             ConnectionStatus.DOWN.name -> ConnectionStatus.DOWN
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN
         },
-        txtRecordMap[P2PConstants.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!")
+        txtRecordMap[P2PModule.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
