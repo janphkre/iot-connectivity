@@ -93,6 +93,11 @@ LWpaBonjourService >> serviceType: aString [
 ]
 
 { #category : #accessing }
+LWpaBonjourService >> serviceValues [
+	^ serviceValues.
+]
+
+{ #category : #accessing }
 LWpaBonjourService >> serviceValues: aDictionary [
 	serviceValues := aDictionary.
 ]
