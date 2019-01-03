@@ -34,7 +34,7 @@ p2p_get_passphrase        p2p_prov_disc             p2p_service_del
 
 "
 Class {
-	#name : #LWpaP2PDevice,
+	#name : #LWpaDevice,
 	#superclass : #Object,
 	#instVars : [
 		'commandControl',
@@ -44,29 +44,34 @@ Class {
 }
 
 { #category : #'instance creation' }
-LWpaP2PDevice class >> on: p2pDevicePath [
+LWpaDevice class >> on: p2pDevicePath [
 	^ (self new) commandControl: (LWpaControl onFile: p2pDevicePath);
 	eventControl: (LWpaControl onFile: p2pDevicePath);
 	yourself.
 ]
 
 { #category : #'instance creation' }
-LWpaP2PDevice class >> onAny [
+LWpaDevice class >> onAny [
+	^ self on: LWpaControl anyDevice.
+]
+
+{ #category : #'instance creation' }
+LWpaDevice class >> onAnyP2P [
 	^ self on: LWpaControl anyP2PDevice.
 ]
 
 { #category : #accessing }
-LWpaP2PDevice >> commandControl [
+LWpaDevice >> commandControl [
 	^ commandControl
 ]
 
 { #category : #accessing }
-LWpaP2PDevice >> commandControl: aLWpaControl [
+LWpaDevice >> commandControl: aLWpaControl [
 	commandControl := aLWpaControl
 ]
 
 { #category : #configuration }
-LWpaP2PDevice >> configure: aBlock [
+LWpaDevice >> configure: aBlock [
 	"Define a sequence of commands in the block to configure this device.
 	This sequence will be replayed on every start of the vm.
 	Please be aware that you are probably sending commands when
@@ -82,73 +87,102 @@ LWpaP2PDevice >> configure: aBlock [
 ]
 
 { #category : #accessing }
-LWpaP2PDevice >> eventControl [
+LWpaDevice >> eventControl [
 	^ eventControl
 ]
 
 { #category : #accessing }
-LWpaP2PDevice >> eventControl: aLWpaControl [
+LWpaDevice >> eventControl: aLWpaControl [
 	eventControl := aLWpaControl
 ]
 
 { #category : #commands }
-LWpaP2PDevice >> find [
+LWpaDevice >> flush [ 
+	"Flushes the interface."
+	commandControl flush.
+]
+
+{ #category : #configuration }
+LWpaDevice >> forgetConfiguration [
+	commandControl forgetRecording.
+	eventControl forgetRecording.
+]
+
+{ #category : #commands }
+LWpaDevice >> interfaces [
+	^ (commandControl command: 'INTERFACES') lines.
+]
+
+{ #category : #commands }
+LWpaDevice >> note: aString [
+	"Add a note to the wpa_supplicant debug log."
+	^ (commandControl command: ('NOTE ', aString)) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pFind [
 	"Finds nearby devices as possible peers.
 	This is a async call and the given block will return all findings.
 	Success is indicated by the return value being true."
 	^ (commandControl command: 'P2P_FIND') isOk
 ]
 
-{ #category : #commands }
-LWpaP2PDevice >> flush [ 
-	"Flushes the interface."
-	commandControl flush.
-]
-
-{ #category : #configuration }
-LWpaP2PDevice >> forgetConfiguration [
-	commandControl forgetRecording.
-	eventControl forgetRecording.
-]
-
-{ #category : #commands }
-LWpaP2PDevice >> groupAdd [
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pGroupAdd [
 	"Set up this device as an autonomous group owner."
 	^ (commandControl command: 'P2P_GROUP_ADD') isOk
 
 ]
 
-{ #category : #commands }
-LWpaP2PDevice >> groupRemove: aString [
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pGroupRemove: aString [
 	"Remove the group with the given network id string."
 	^ (commandControl command: ('P2P_GROUP_REMOVE ', aString)) isOk
 ]
 
-{ #category : #commands }
-LWpaP2PDevice >> interfaces [
-	^ (commandControl command: 'INTERFACES') lines.
-]
-
-{ #category : #commands }
-LWpaP2PDevice >> listen [
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pListen [
 	"Listens for events and peers without sending any active p2p requests. Replies to Service Discovery and Find requests though."
 	^ (commandControl command: 'P2P_LISTEN') isOk 
 ]
 
-{ #category : #commands }
-LWpaP2PDevice >> note: aString [
-	"Add a note to the wpa_supplicant debug log."
-	^ (commandControl command: ('NOTE ', aString)) isOk
-]
-
-{ #category : #commands }
-LWpaP2PDevice >> peers [
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pPeers [
 	"Gives an array of possible peers found through find:"
 	^ (commandControl command: 'P2P_PEERS') lines
 ]
 
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pServiceAdd: aLWpaService [
+	"Add a local service to service discovery"
+	^ (commandControl command: ('P2P_SERVICE_ADD ', aLWpaService build)) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pServiceFlush [
+	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pServiceUpdate [
+	"Updates the service counter to indicate that available services on this device have changed."
+	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pSsidPostfix: aString [
+	^ (commandControl command: ('P2P_SET ssid_postfix ', aString)) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pStopFind [
+	"Stops the discovery of nearby devices started by find:
+	Success is indicated by the return value being true."
+	^ (commandControl command: 'P2P_STOP_FIND') isOk
+]
+
 { #category : #events }
-LWpaP2PDevice >> receiveEvents: aBlock [
+LWpaDevice >> receiveEvents: aBlock [
 	
 	eventControl attach: [ :eventString |
 		| event |
@@ -156,36 +190,12 @@ LWpaP2PDevice >> receiveEvents: aBlock [
 		event ifNotNil: [ aBlock value: event ] ].
 ]
 
-{ #category : #'service-discovery' }
-LWpaP2PDevice >> serviceAdd: aLWpaService [
-	"Add a local service to service discovery"
-	^ (commandControl command: ('P2P_SERVICE_ADD ', aLWpaService build)) isOk
-]
-
-{ #category : #'service-discovery' }
-LWpaP2PDevice >> serviceFlush [
-	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
-]
-
-{ #category : #'service-discovery' }
-LWpaP2PDevice >> serviceUpdate [
-	"Updates the service counter to indicate that available services on this device have changed."
-	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
-]
-
 { #category : #commands }
-LWpaP2PDevice >> ssidPostfix: aString [
-	^ (commandControl command: ('P2P_SET ssid_postfix ', aString)) isOk
-]
-
-{ #category : #commands }
-LWpaP2PDevice >> stopFind [
-	"Stops the discovery of nearby devices started by find:
-	Success is indicated by the return value being true."
-	^ (commandControl command: 'P2P_STOP_FIND') isOk
+LWpaDevice >> status [
+	^ (commandControl command: 'STATUS') lines.
 ]
 
 { #category : #events }
-LWpaP2PDevice >> stopReceive [
+LWpaDevice >> stopReceive [
 	eventControl detach.
 ]
