@@ -2,7 +2,8 @@ Class {
 	#name : #LWpaEvent,
 	#superclass : #Object,
 	#instVars : [
-		'type'
+		'type',
+		'parameters'
 	],
 	#category : #'LibWpa-Commands'
 }
@@ -14,15 +15,27 @@ LWpaEvent class >> from: aString [
 	parameters := aString splitOn: [ :char |
 		char = (Character space) ifTrue: [ escapingChar isNil ]
 		ifFalse: [
-			(char = $") | (char = $') ifTrue: [ 
+			self flag: 'TODO what is a searching literal?'.
+			(char = $") | (char = $') | (char = $[) | (char = $]) ifTrue: [ 
 				escapingChar ifNil: [ escapingChar := char ] ifNotNil: [
-					escapingChar = char ifTrue: [ escapingChar := nil ] ] ].
+					escapingChar = char | ((escapingChar = $[) & (char = $])) ifTrue: [ escapingChar := nil ] ] ].
 			false ] ].
-	
-	^ (self new) type: (parameters at: 1) asSymbol;
+	self flag: 'TODO allButFirst is copying stuff instead of creating a view on the underlying string.'.
+	^ (self new) type: ((((parameters at: 1) allButFirst: 3) replaceAll: $- with: $_), ':') asSymbol;
 	parameters: parameters;
 	yourself.
 	
+]
+
+{ #category : #accessing }
+LWpaEvent >> parameters [
+	^ parameters
+]
+
+{ #category : #accessing }
+LWpaEvent >> parameters: aCollection [
+	parameters := aCollection.
+	^ self
 ]
 
 { #category : #accessing }

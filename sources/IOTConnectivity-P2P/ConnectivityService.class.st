@@ -1,6 +1,8 @@
 Class {
 	#name : #ConnectivityService,
 	#superclass : #Object,
+	#traits : 'TConnectivityEventHandler',
+	#classTraits : 'TConnectivityEventHandler classTrait',
 	#instVars : [
 		'serviceDescription',
 		'serviceValues',
@@ -14,6 +16,12 @@ Class {
 { #category : #'instance creation' }
 ConnectivityService class >> new: aPortNumber [
 	^ (self new) initialize: aPortNumber.
+]
+
+{ #category : #events }
+ConnectivityService >> handle: anEvent [
+	(TConnectivityEventHandler methodNamed: (anEvent type)) inspect.
+	
 ]
 
 { #category : #initialization }
