@@ -1,7 +1,7 @@
 Class {
 	#name : #IOTConnectivityAPI,
 	#superclass : #OpenAPI,
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }

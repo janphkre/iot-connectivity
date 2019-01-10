@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'deviceName'
 	],
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }

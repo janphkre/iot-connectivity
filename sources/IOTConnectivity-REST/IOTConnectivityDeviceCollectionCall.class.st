@@ -1,7 +1,7 @@
 Class {
 	#name : #IOTConnectivityDeviceCollectionCall,
 	#superclass : #IOTConnectivityCall,
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }

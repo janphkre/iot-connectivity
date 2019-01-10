@@ -1,7 +1,7 @@
 Class {
 	#name : #IOTConnectivityCall,
 	#superclass : #ZnRestCall,
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }

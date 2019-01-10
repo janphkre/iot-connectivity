@@ -8,7 +8,7 @@ Class {
 	#classInstVars : [
 		'instances'
 	],
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Data'
 }
 
 { #category : #accessing }
@@ -23,7 +23,7 @@ Device class >> neoJsonMapping: mapper [
 		mapping mapInstVars: #( name status ) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 Device class >> resetInstances [
 	instances := nil
 ]

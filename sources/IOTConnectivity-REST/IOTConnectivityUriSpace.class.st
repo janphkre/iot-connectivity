@@ -1,7 +1,7 @@
 Class {
 	#name : #IOTConnectivityUriSpace,
 	#superclass : #ZnRestUriSpace,
-	#category : 'IOTConnectivity-REST'
+	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #public }
