@@ -1,14 +1,15 @@
 Class {
 	#name : #ConnectivityService,
 	#superclass : #Object,
-	#traits : 'TConnectivityEventHandler',
-	#classTraits : 'TConnectivityEventHandler classTrait',
 	#instVars : [
 		'serviceDescription',
 		'serviceValues',
-		'device',
+		'p2pDevice',
+		'p2pEventHandler',
 		'port',
-		'server'
+		'server',
+		'targetDevice',
+		'scanSemaphore'
 	],
 	#category : #'IOTConnectivity-P2P'
 }
@@ -20,7 +21,15 @@ ConnectivityService class >> new: aPortNumber [
 
 { #category : #events }
 ConnectivityService >> handle: anEvent [
-	(TConnectivityEventHandler methodNamed: (anEvent type)) inspect.
+	(TargetEventHandler methodNamed: (anEvent type))
+	ifNotNil: [ :method | method value: anEvent. ]
+	
+]
+
+{ #category : #events }
+ConnectivityService >> handleP2P: anEvent [
+	(ConnectivityP2PEventHandler methodNamed: (anEvent type))
+	ifNotNil: [ :method | method value: anEvent. ]
 	
 ]
 
@@ -32,23 +41,39 @@ ConnectivityService >> initialize: aPortNumber [
 	at: #ports put: (aPortNumber asString).
 	
 	serviceDescription := LWpaBonjourService new: 'ConfigurationService' as: 'connectivity.pharo._tcp' with: serviceValues.
-	
-	device := LWpaDevice onAnyP2P.
 	port := aPortNumber.
+	
+	p2pDevice := LWpaDevice onAnyP2P.
+	p2pEventHandler := ConnectivityP2PEventHandler on: self.
+	
+	scanSemaphore := Semaphore new.
 	^ self
+]
+
+{ #category : #scanning }
+ConnectivityService >> scan [
+	scanSemaphore consumeAllSignals.
+	targetDevice scan.
+	scanSemaphore wait.
+	^ targetDevice scanResults.
+]
+
+{ #category : #events }
+ConnectivityService >> scanCompleted [
+	scanSemaphore signal.
 ]
 
 { #category : #accessing }
 ConnectivityService >> start [ 
-	device configure: [
-	device note: 'Setting up p2p with pharo';
+	p2pDevice configure: [
+	p2pDevice note: 'Setting up p2p with pharo';
 	flush;
 	ssidPostfix: '-pharo';
 	serviceAdd: serviceDescription;
 	serviceUpdate;
 	listen;
 	groupAdd;
-	receiveEvents: [  ] ].
+	receiveEvents: [ :event | self handle: event ] ].
 
 	server := ZnServer startDefaultOn: port.
 	server delegate: IOTConnectivityAPI delegate.
@@ -57,9 +82,15 @@ ConnectivityService >> start [
 
 { #category : #accessing }
 ConnectivityService >> stop [
-	device forgetConfiguration.
+	p2pDevice forgetConfiguration.
 	server ifNotNil: [ :notNil |
 		server stop.
 	  server := nil ].
 	^ self
+]
+
+{ #category : #events }
+ConnectivityService >> updateStatus [
+	self flag: #TODO.
+	serviceValues at: #connection put: 'unknown'
 ]

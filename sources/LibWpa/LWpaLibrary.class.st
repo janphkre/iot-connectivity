@@ -59,6 +59,7 @@ LWpaLibrary >> libwpa_pending: control [
 
 { #category : #'libwpa-calls' }
 LWpaLibrary >> libwpa_poll: control timeout: timeout [
+	"This is a blocking polling call which awaits events. Since it is a blocking ffi call, it is not feasable in pharo at the time being."
 	^ self ffiCall: #(#int #wpa_ctrl_poll(#LWpaControlHandle #* #control #, #int #timeout))
 ]
 

@@ -105,8 +105,7 @@ LWpaControl class >> registry [
 { #category : #registry }
 LWpaControl class >> restoreRegistry [
 	registry do: [ :aLWpaControl |
-		aLWpaControl restoreForSystem.
-		self flag: 'TODO: restore control state (restore selected messages?)' ]
+		aLWpaControl restoreForSystem. ]
 ]
 
 { #category : #'system startup' }
@@ -150,11 +149,16 @@ LWpaControl >> attach: aBlock [
 
 { #category : #events }
 LWpaControl >> attachInternal: aBlock [
+	| delay |
 	self isAttached
 		ifTrue: [ self detachInternal ].
 	attachedBlock := aBlock.
-	process := [ [ self listenLoop ] repeat ]
-		forkAt: Processor highIOPriority 
+	delay := Delay forMilliseconds: 200.
+	process := [ [
+			self listenLoop.
+			delay wait.
+			] repeat ]
+		forkAt: Processor userSchedulingPriority 
 		named: self processName.
 ]
 
@@ -252,12 +256,7 @@ LWpaControl >> isAttached [
 
 { #category : #events }
 LWpaControl >> listenLoop [
-	| library resultCode |
-	library := self ffiLibraryInstance.
-  resultCode := library libwpa_poll: handle timeout: 1234.
-	resultCode = -1
-	ifTrue: [ LWpaError signal: 'Error while polling for events!' ].
-	[ (library libwpa_pending: handle) = 1 ]
+	[ (self ffiLibraryInstance libwpa_pending: handle) = 1 ]
 	whileTrue: [ attachedBlock value: self receive ].
 ]
 
@@ -285,7 +284,6 @@ LWpaControl >> receive [
 
 { #category : #configuration }
 LWpaControl >> record: aString [
-	self flag: 'TODO: maybe a arraylist is more fitting here.'.
 	(recording ifNil: [ recording := LinkedList new ])
 		addLast: aString
 ]

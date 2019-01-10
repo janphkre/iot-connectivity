@@ -44,9 +44,9 @@ Class {
 }
 
 { #category : #'instance creation' }
-LWpaDevice class >> on: p2pDevicePath [
-	^ (self new) commandControl: (LWpaControl onFile: p2pDevicePath);
-	eventControl: (LWpaControl onFile: p2pDevicePath);
+LWpaDevice class >> on: deviceName [
+	^ (self new) commandControl: (LWpaControl on: deviceName);
+	eventControl: (LWpaControl on: deviceName);
 	yourself.
 ]
 
@@ -111,6 +111,11 @@ LWpaDevice >> forgetConfiguration [
 { #category : #commands }
 LWpaDevice >> interfaces [
 	^ (commandControl command: 'INTERFACES') lines.
+]
+
+{ #category : #commands }
+LWpaDevice >> listNetworks [
+	^ (commandControl command: 'LIST_NETWORKS') lines allButFirst.
 ]
 
 { #category : #commands }
@@ -188,6 +193,18 @@ LWpaDevice >> receiveEvents: aBlock [
 		| event |
 		event := LWpaEvent from: eventString.
 		event ifNotNil: [ aBlock value: event ] ].
+]
+
+{ #category : #commands }
+LWpaDevice >> scan [
+	"Start a scan for available networks"
+	^ (commandControl command: 'SCAN') isOk
+]
+
+{ #category : #commands }
+LWpaDevice >> scanResults [
+	"Start a scan for available networks"
+	^ (commandControl command: 'SCAN_RESULTS') lines allButFirst.
 ]
 
 { #category : #commands }
