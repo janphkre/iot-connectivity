@@ -125,6 +125,11 @@ LWpaDevice >> interfaces [
 ]
 
 { #category : #commands }
+LWpaDevice >> interfacesNonP2P [
+	^ self interfaces reject: [ :elem | elem beginsWith: 'p2p-' ]
+]
+
+{ #category : #commands }
 LWpaDevice >> listNetworks [
 	^ (commandControl command: 'LIST_NETWORKS') lines allButFirst.
 ]

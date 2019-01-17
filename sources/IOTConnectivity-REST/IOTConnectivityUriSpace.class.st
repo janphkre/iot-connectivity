@@ -12,3 +12,9 @@ IOTConnectivityUriSpace >> match: request [
 				^ callClass new ] ].
 	^ nil
 ]
+
+{ #category : #accessing }
+IOTConnectivityUriSpace >> target: aLWpaDevice [
+	IOTConnectivityCall target: aLWpaDevice.
+	
+]

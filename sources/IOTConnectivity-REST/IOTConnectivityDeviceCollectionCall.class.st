@@ -21,6 +21,8 @@ IOTConnectivityDeviceCollectionCall class >> summary [
 
 { #category : #public }
 IOTConnectivityDeviceCollectionCall >> get [
+	| deviceList |
+	deviceList := targetDevice interfacesNonP2P.
 	response := ZnResponse ok: (ZnEntity 
 		with: (NeoJSONWriter toString: Device instances)
 		type: ZnMimeType  applicationJson setCharSetUTF8).

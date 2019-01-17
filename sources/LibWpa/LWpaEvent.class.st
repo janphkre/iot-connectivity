@@ -17,7 +17,7 @@ LWpaEvent class >> from: aString [
 		ifFalse: [
 			( { $". $'. $[. $]. } includes: char) ifTrue: [ 
 				escapingChar ifNil: [ escapingChar := char ] ifNotNil: [
-					escapingChar = char | ((escapingChar = $[) & (char = $])) ifTrue: [ escapingChar := nil ] ] ].
+					(escapingChar = char or: [(escapingChar = $[) and: [ (char = $]) ] ] ) ifTrue: [ escapingChar := nil ] ] ].
 			false ] ].
 	^ (self new) type: ((((parameters at: 1) allButFirst: 3) replaceAll: $- with: $_), ':') asSymbol;
 	parameters: parameters;

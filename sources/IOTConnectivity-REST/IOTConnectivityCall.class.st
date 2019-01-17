@@ -1,6 +1,9 @@
 Class {
 	#name : #IOTConnectivityCall,
 	#superclass : #ZnRestCall,
+	#instVars : [
+		'targetDevice'
+	],
 	#category : #'IOTConnectivity-REST-Calls'
 }
 
@@ -191,6 +194,11 @@ IOTConnectivityCall >> requestBodyForMethod: aSymbol [
 { #category : #accessing }
 IOTConnectivityCall >> summary [
 	^ ''
+]
+
+{ #category : #accessing }
+IOTConnectivityCall >> target: aLWpaDevice [
+	targetDevice := aLWpaDevice
 ]
 
 { #category : #accessing }
