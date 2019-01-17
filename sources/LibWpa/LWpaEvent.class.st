@@ -15,12 +15,10 @@ LWpaEvent class >> from: aString [
 	parameters := aString splitOn: [ :char |
 		char = (Character space) ifTrue: [ escapingChar isNil ]
 		ifFalse: [
-			self flag: 'TODO what is a searching literal?'.
-			(char = $") | (char = $') | (char = $[) | (char = $]) ifTrue: [ 
+			( { $". $'. $[. $]. } includes: char) ifTrue: [ 
 				escapingChar ifNil: [ escapingChar := char ] ifNotNil: [
 					escapingChar = char | ((escapingChar = $[) & (char = $])) ifTrue: [ escapingChar := nil ] ] ].
 			false ] ].
-	self flag: 'TODO allButFirst is copying stuff instead of creating a view on the underlying string.'.
 	^ (self new) type: ((((parameters at: 1) allButFirst: 3) replaceAll: $- with: $_), ':') asSymbol;
 	parameters: parameters;
 	yourself.

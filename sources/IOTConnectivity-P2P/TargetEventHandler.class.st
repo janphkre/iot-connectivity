@@ -27,6 +27,11 @@ TargetEventHandler >> CTRL_EVENT_SCAN_RESULTS: anEvent [
 	service scanCompleted.
 ]
 
+{ #category : #'as yet unclassified' }
+TargetEventHandler >> CTRL_EVENT_SCAN_STARTED: anEvent [
+	UIManager default inform: 'Scan started!'.
+]
+
 { #category : #accessing }
 TargetEventHandler >> service: aService [
 	service := aService.

@@ -279,12 +279,13 @@ LWpaControl >> processName [
 
 { #category : #events }
 LWpaControl >> receive [
-	| resultCode |
+	| resultCode result |
 	bufferSize value: buffer size.
 	resultCode := (self ffiLibraryInstance libwpa_receive: handle reply: buffer replyLength: bufferSize).
 	resultCode = -1
 		ifTrue: [ LWpaError signal: 'Error while receiving event!' ].
-	^ buffer asString: bufferSize value.
+	result := buffer asString: bufferSize value.
+	^ result.
 ]
 
 { #category : #configuration }

@@ -16,21 +16,23 @@ Class {
 }
 
 { #category : #'instance creation' }
-ConnectivityService class >> new: aPortNumber [
+ConnectivityService class >> on: aPortNumber [
 	^ (self new) initialize: aPortNumber.
 ]
 
 { #category : #events }
 ConnectivityService >> handle: anEvent [
 	[ targetEventHandler perform: (anEvent type) with: anEvent. ]
-	ifError: [ :err :rcvr |  ]
+	on: MessageNotUnderstood 
+	do: [ :err | "UIManager default inform: 'Unknown Event: ', anEvent type" ]
 	
 ]
 
 { #category : #events }
 ConnectivityService >> handleP2P: anEvent [
 	[ p2pEventHandler perform: (anEvent type) with: anEvent. ]
-	ifError: [ :err :rcvr |  ]
+	on: MessageNotUnderstood 
+	do: [ :err | UIManager default inform: 'Unknown P2P-Event: ', anEvent type ]
 	
 ]
 
@@ -63,8 +65,7 @@ ConnectivityService >> p2pDevice [
 ConnectivityService >> scan [
 	scanSemaphore consumeAllSignals.
 	targetDevice scan.
-	(scanSemaphore wait: (Duration seconds: 10))
-		ifTrue: [ ^ Array new. ].
+	scanSemaphore wait: (Duration seconds: 10).
 		^ targetDevice scanResults.
 
 ]
@@ -91,7 +92,7 @@ ConnectivityService >> start [
 		targetDevice note: 'Setting up device with pharo';
 		receiveEvents: [ :event | self handle: event ] ].
 
-	server := ZnServer startDefaultOn: port.
+	server := ZnSingleThreadedServer startDefaultOn: port.
 	server delegate: IOTConnectivityAPI delegate.
 	^ self
 ]
@@ -103,6 +104,8 @@ ConnectivityService >> stop [
 	server ifNotNil: [ :notNil |
 		server stop.
 	  server := nil ].
+	p2pDevice stopReceive.
+	targetDevice stopReceive.
 	^ self
 ]
 
