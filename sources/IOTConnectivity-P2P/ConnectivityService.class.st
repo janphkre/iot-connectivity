@@ -4,12 +4,13 @@ Class {
 	#instVars : [
 		'serviceDescription',
 		'serviceValues',
+		'port',
 		'p2pDevice',
 		'p2pEventHandler',
-		'port',
-		'server',
 		'targetDevice',
-		'scanSemaphore'
+		'targetEventHandler',
+		'scanSemaphore',
+		'server'
 	],
 	#category : #'IOTConnectivity-P2P'
 }
@@ -21,15 +22,15 @@ ConnectivityService class >> new: aPortNumber [
 
 { #category : #events }
 ConnectivityService >> handle: anEvent [
-	(TargetEventHandler methodNamed: (anEvent type))
-	ifNotNil: [ :method | method value: anEvent. ]
+	[ targetEventHandler perform: (anEvent type) with: anEvent. ]
+	ifError: [ :err :rcvr |  ]
 	
 ]
 
 { #category : #events }
 ConnectivityService >> handleP2P: anEvent [
-	(ConnectivityP2PEventHandler methodNamed: (anEvent type))
-	ifNotNil: [ :method | method value: anEvent. ]
+	[ p2pEventHandler perform: (anEvent type) with: anEvent. ]
+	ifError: [ :err :rcvr |  ]
 	
 ]
 
@@ -37,8 +38,9 @@ ConnectivityService >> handleP2P: anEvent [
 ConnectivityService >> initialize: aPortNumber [
 	serviceValues := (SmallDictionary new: 3)
 	at: #identifier put: 'Pharo Device';
-	at: #connection put: 'unknown';
-	at: #ports put: (aPortNumber asString).
+	at: #connection put: 'up';
+	at: #port put: (aPortNumber asString);
+	yourself.
 	
 	serviceDescription := LWpaBonjourService new: 'ConfigurationService' as: 'connectivity.pharo._tcp' with: serviceValues.
 	port := aPortNumber.
@@ -46,20 +48,30 @@ ConnectivityService >> initialize: aPortNumber [
 	p2pDevice := LWpaDevice onAnyP2P.
 	p2pEventHandler := ConnectivityP2PEventHandler on: self.
 	
+	targetDevice := LWpaDevice onAny.
+	targetEventHandler := TargetEventHandler on: self.
 	scanSemaphore := Semaphore new.
 	^ self
 ]
 
-{ #category : #scanning }
+{ #category : #accessing }
+ConnectivityService >> p2pDevice [
+	^ p2pDevice
+]
+
+{ #category : #commands }
 ConnectivityService >> scan [
 	scanSemaphore consumeAllSignals.
 	targetDevice scan.
-	scanSemaphore wait.
-	^ targetDevice scanResults.
+	(scanSemaphore wait: (Duration seconds: 10))
+		ifTrue: [ ^ Array new. ].
+		^ targetDevice scanResults.
+
 ]
 
 { #category : #events }
 ConnectivityService >> scanCompleted [
+	UIManager default inform: 'Scan Completed!'.
 	scanSemaphore signal.
 ]
 
@@ -68,12 +80,16 @@ ConnectivityService >> start [
 	p2pDevice configure: [
 	p2pDevice note: 'Setting up p2p with pharo';
 	flush;
-	ssidPostfix: '-pharo';
-	serviceAdd: serviceDescription;
-	serviceUpdate;
-	listen;
-	groupAdd;
-	receiveEvents: [ :event | self handle: event ] ].
+	p2pSsidPostfix: '-pharo';
+	p2pServiceAdd: serviceDescription;
+	p2pServiceUpdate;
+	p2pListen;
+	p2pGroupAdd;
+	receiveEvents: [ :event | self handleP2P: event ] ].
+
+	targetDevice configure: [ 
+		targetDevice note: 'Setting up device with pharo';
+		receiveEvents: [ :event | self handle: event ] ].
 
 	server := ZnServer startDefaultOn: port.
 	server delegate: IOTConnectivityAPI delegate.
@@ -83,14 +99,25 @@ ConnectivityService >> start [
 { #category : #accessing }
 ConnectivityService >> stop [
 	p2pDevice forgetConfiguration.
+	targetDevice forgetConfiguration.
 	server ifNotNil: [ :notNil |
 		server stop.
 	  server := nil ].
 	^ self
 ]
 
+{ #category : #accessing }
+ConnectivityService >> target: anInterfaceString [
+	^ targetDevice interface: anInterfaceString.
+]
+
+{ #category : #accessing }
+ConnectivityService >> targetDevice [
+	^ targetDevice
+]
+
 { #category : #events }
 ConnectivityService >> updateStatus [
 	self flag: #TODO.
-	serviceValues at: #connection put: 'unknown'
+	serviceValues at: #connection put: 'up'
 ]

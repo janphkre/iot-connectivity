@@ -62,7 +62,7 @@ LWpaControl class >> initialize [
 
 { #category : #'instance creation' }
 LWpaControl class >> on: aString [
- ^ self onFile: (self socketPath resolveString: aString)
+ ^ self onFile: (self resolve: aString).
 ]
 
 { #category : #'instance creation' }
@@ -100,6 +100,11 @@ LWpaControl class >> register: aLWpaControl [
 { #category : #accessing }
 LWpaControl class >> registry [ 
 	^ registry
+]
+
+{ #category : #accessing }
+LWpaControl class >> resolve: interfaceString [
+	^ self socketPath resolveString: interfaceString.
 ]
 
 { #category : #registry }
@@ -141,7 +146,7 @@ LWpaControl class >> teardownRegistry [
 { #category : #events }
 LWpaControl >> attach: aBlock [
 	self attachInternal: aBlock.
-	(self ffiLibraryInstance libwpa_attach: handle) isOk
+	(self ffiLibraryInstance libwpa_attach: handle) = 0
 		ifTrue: [ ^ self ].
 	self detachInternal.
 	LWpaError signal: 'Failed to attach handle.'

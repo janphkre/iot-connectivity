@@ -23,7 +23,7 @@ TargetEventHandler >> CTRL_EVENT_DISCONNECTED: anEvent [
 ]
 
 { #category : #events }
-TargetEventHandler >> CTRL_EVENT_SCAN_RESULT: anEvent [
+TargetEventHandler >> CTRL_EVENT_SCAN_RESULTS: anEvent [
 	service scanCompleted.
 ]
 

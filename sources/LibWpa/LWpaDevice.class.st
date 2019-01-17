@@ -44,9 +44,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-LWpaDevice class >> on: deviceName [
-	^ (self new) commandControl: (LWpaControl on: deviceName);
-	eventControl: (LWpaControl on: deviceName);
+LWpaDevice class >> on: aDeviceEntry [
+	| deviceFile |
+	deviceFile := aDeviceEntry asFileReference.
+	^ (self new) commandControl: (LWpaControl onFile: deviceFile);
+	eventControl: (LWpaControl onFile: deviceFile);
 	yourself.
 ]
 
@@ -108,6 +110,15 @@ LWpaDevice >> forgetConfiguration [
 	eventControl forgetRecording.
 ]
 
+{ #category : #accessing }
+LWpaDevice >> interface: aDeviceString [
+	self forgetConfiguration.
+	self stopReceive.
+	self commandControl: (LWpaControl on: aDeviceString).
+	self eventControl: (LWpaControl on: aDeviceString).
+	
+]
+
 { #category : #commands }
 LWpaDevice >> interfaces [
 	^ (commandControl command: 'INTERFACES') lines.
@@ -166,6 +177,11 @@ LWpaDevice >> p2pServiceAdd: aLWpaService [
 { #category : #'p2p commands' }
 LWpaDevice >> p2pServiceFlush [
 	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaDevice >> p2pServiceRespond: services on: frequency to: destination [
+	^ (commandControl command: ('P2P_SERV_DISC_RESP ', frequency, ' ', destination, ' ', services)) isOk.
 ]
 
 { #category : #'p2p commands' }
