@@ -10,12 +10,11 @@ import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.util.PermissionHandler
 import de.zweidenker.connectivity.util.withPermissions
 import de.zweidenker.p2p.beacon.BeaconProvider
-import de.zweidenker.p2p.core.Device
+import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.activity_device_list.*
 import org.koin.android.ext.android.inject
 import rx.Observer
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 

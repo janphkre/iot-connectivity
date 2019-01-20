@@ -1,4 +1,4 @@
-package de.zweidenker.p2p.client
+package de.zweidenker.p2p.connection
 
 import android.content.BroadcastReceiver
 import android.content.Context

@@ -2,8 +2,8 @@ package de.zweidenker.p2p
 
 import de.zweidenker.p2p.beacon.BeaconProvider
 import de.zweidenker.p2p.beacon.BeaconProviderImpl
-import de.zweidenker.p2p.client.DeviceConfigurationProvider
-import de.zweidenker.p2p.client.DeviceConfigurationProviderImpl
+import de.zweidenker.p2p.connection.DeviceConnectionProvider
+import de.zweidenker.p2p.connection.DeviceConnectionProviderImpl
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinContext
 import org.koin.dsl.context.ModuleDefinition
@@ -24,6 +24,6 @@ object P2PModule: Module {
 
     override fun invoke(koinContext: KoinContext): ModuleDefinition = module {
         single { BeaconProviderImpl(androidContext()) as BeaconProvider }
-        factory { DeviceConfigurationProviderImpl(androidContext()) as DeviceConfigurationProvider }
+        factory { DeviceConnectionProviderImpl(androidContext()) as DeviceConnectionProvider }
     }(koinContext)
 }

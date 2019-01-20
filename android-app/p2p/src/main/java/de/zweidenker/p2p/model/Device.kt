@@ -1,10 +1,11 @@
-package de.zweidenker.p2p.core
+package de.zweidenker.p2p.model
 
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.os.Parcel
 import android.os.Parcelable
 import de.zweidenker.p2p.P2PModule
+import de.zweidenker.p2p.core.IdGenerator
 
 class Device(
     val id: Long,

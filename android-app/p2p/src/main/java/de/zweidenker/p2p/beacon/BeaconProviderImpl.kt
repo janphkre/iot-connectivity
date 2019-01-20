@@ -5,7 +5,7 @@ import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.AbstractWifiProvider
-import de.zweidenker.p2p.core.Device
+import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.core.WifiP2PException
 import rx.Observable
 import rx.Subscription
@@ -28,7 +28,11 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                 wifiManager.setDnsSdResponseListeners(wifiChannel,
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
                     if(fullDomainName.isValidType()) {
-                        subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
+                        try {
+                            subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
+                        } catch(e: Exception) {
+                            subscriber.onError(e)
+                        }
                     }
                 })
                 wifiManager.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {

@@ -4,8 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import de.zweidenker.p2p.core.Device
-import de.zweidenker.p2p.client.DeviceConfigurationProvider
+import de.zweidenker.p2p.model.Device
+import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import org.koin.android.ext.android.inject
 import rx.Observer
 import rx.Subscription
@@ -15,7 +15,7 @@ import timber.log.Timber
 
 class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
 
-    private val configurationProvider by inject<DeviceConfigurationProvider>()
+    private val configurationProvider by inject<DeviceConnectionProvider>()
     private var subscription: Subscription? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

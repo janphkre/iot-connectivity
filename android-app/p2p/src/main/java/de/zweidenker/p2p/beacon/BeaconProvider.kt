@@ -1,6 +1,6 @@
 package de.zweidenker.p2p.beacon
 
-import de.zweidenker.p2p.core.Device
+import de.zweidenker.p2p.model.Device
 import rx.Observable
 
 interface BeaconProvider {
