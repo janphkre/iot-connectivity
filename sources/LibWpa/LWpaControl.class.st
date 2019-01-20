@@ -174,6 +174,7 @@ LWpaControl >> buffer [
 
 { #category : #commands }
 LWpaControl >> command: aString [
+	isStarted = true ifFalse: [ LWpaError signal: 'This Control has not been started! Maybe the interface does not exist anymore?' ].
 	isRecording = true ifTrue: [ self record: aString ].
 	^ self commandInternal: aString.
 ]
@@ -305,7 +306,11 @@ LWpaControl >> replay [
 LWpaControl >> restoreForSystem [
 	isStarted = true
 		ifFalse: [ ^ self ].
-	self startInternal.
+	[ self startInternal. ]
+	on: LWpaError
+	do: [
+		isStarted := nil.
+		^ self ].
 	attachedBlock isNil
 		ifFalse: [ self attach: attachedBlock ].
 	self replay.
