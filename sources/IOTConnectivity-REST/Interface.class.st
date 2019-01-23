@@ -1,5 +1,5 @@
 Class {
-	#name : #Device,
+	#name : #Interface,
 	#superclass : #Object,
 	#instVars : [
 		'name',
@@ -12,28 +12,34 @@ Class {
 }
 
 { #category : #accessing }
-Device class >> instances [
+Interface class >> forNames: nameList [
+	nameList inspect.
+	self flag: #TODO.
+]
+
+{ #category : #accessing }
+Interface class >> instances [
 	^ instances ifNil: [ 
 		instances := IdentitySet new ]
 ]
 
 { #category : #accessing }
-Device class >> neoJsonMapping: mapper [
+Interface class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
 		mapping mapInstVars: #( name status ) ]
 ]
 
 { #category : #accessing }
-Device class >> resetInstances [
+Interface class >> resetInstances [
 	instances := nil
 ]
 
 { #category : #accessing }
-Device >> name: aString [ 
+Interface >> name: aString [ 
 	name := aString
 ]
 
 { #category : #accessing }
-Device >> status: aString [
+Interface >> status: aString [
 	status := aString
 ]
