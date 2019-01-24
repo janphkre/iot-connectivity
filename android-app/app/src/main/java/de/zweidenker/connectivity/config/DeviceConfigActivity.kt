@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import org.koin.android.ext.android.inject
@@ -13,7 +14,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
+class DeviceConfigActivity: AppCompatActivity(), Observer<DeviceConfigurationProvider> {
 
     private val configurationProvider by inject<DeviceConnectionProvider>()
     private var subscription: Subscription? = null
@@ -44,7 +45,7 @@ class DeviceConfigActivity: AppCompatActivity(), Observer<Unit> {
 //        TODO("not implemented")
     }
 
-    override fun onNext(t: Unit?) { /* Should never be called for the connectTo call. */ }
+    override fun onNext(t: DeviceConfigurationProvider) { /* Should never be called for the connectTo call. */ }
 
     override fun onCompleted() {
 //        TODO("not implemented")
