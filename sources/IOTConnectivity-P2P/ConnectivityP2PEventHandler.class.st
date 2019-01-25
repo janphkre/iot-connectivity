@@ -21,9 +21,9 @@ ConnectivityP2PEventHandler >> P2P_PROV_DISC_PBC_REQ: anEvent [
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_SERV_DISC_REQ: anEvent [
 	"Indicate reception of a P2P service discovery request. The following parameters are included after the event prefix: frequency in MHz, source address, dialog token, Service Update Indicator, Service Query TLV(s) as hexdump."
+	anEvent parameters size = 6 ifFalse: [ ^ self ].
 	UIManager default inform: (anEvent type).
-	anEvent inspect.
-	self flag: 'TODO: reply with P2P_SERV_DISC_RESP'
+	service serviceRespondTo: anEvent.
 ]
 
 { #category : #accessing }

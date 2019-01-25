@@ -69,10 +69,10 @@ ConnectivityService >> initialize: aPortNumber [
 	serviceDescription := LWpaBonjourService new: 'ConfigurationService' as: 'connectivity.pharo._tcp' with: serviceValues.
 	port := aPortNumber.
 	
-	p2pDevice := LWpaDevice onAnyP2P.
+	p2pDevice := LWpaInterface onAnyP2P.
 	p2pEventHandler := ConnectivityP2PEventHandler on: self.
 	
-	targetDevice := LWpaDevice onAny.
+	targetDevice := LWpaInterface onAny.
 	targetEventHandler := TargetEventHandler on: self.
 	scanSemaphore := Semaphore new.
 	^ self
@@ -98,6 +98,14 @@ ConnectivityService >> scanCompleted [
 	scanSemaphore signal.
 ]
 
+{ #category : #events }
+ConnectivityService >> serviceRespondTo: anEvent [
+	"This is widely generalized because Services were missing on Android from time to time.
+	Therefore we reply always to a disc req no matter what."
+	p2pDevice p2pServiceUpdate.
+	p2pDevice p2pServiceRespond: serviceDescription to: anEvent.
+]
+
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |
@@ -105,15 +113,14 @@ ConnectivityService >> start [
 	p2pDevice note: 'Setting up p2p with pharo';
 	flush;
 	p2pSsidPostfix: '-pharo';
-	p2pServiceAdd: serviceDescription;
-	p2pServiceUpdate;
+	p2pExternalServiceDiscovery: true;
 	p2pListen;
 	p2pGroupAdd;
-	receiveEvents: [ :event | self handleP2P: event ] ].
+	receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
 
 	targetDevice configure: [ 
 		targetDevice note: 'Setting up device with pharo';
-		receiveEvents: [ :event | self handle: event ] ].
+		receiveEvents: [ :event | [ self handle: event ] on: Error fork: [ :error | error pass ] ] ].
 
 	serverDelegate := IOTConnectivityAPI delegate.
 	serverDelegate uriSpace target: targetDevice.
@@ -129,8 +136,11 @@ ConnectivityService >> stop [
 	p2pDevice forgetConfiguration.
 	targetDevice forgetConfiguration.
 	server ifNotNil: [ :notNil |
-		[ server stop. ]
-		ensure: [ server := nil ] ].
+		[ notNil closeDelegate.
+			notNil stop. ]
+		ensure: [ 
+			server delegate: nil.
+			server := nil ] ].
 	p2pDevice stopReceive.
 	targetDevice stopReceive.
 	^ self

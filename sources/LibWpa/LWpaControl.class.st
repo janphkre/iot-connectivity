@@ -48,6 +48,12 @@ LWpaControl class >> anyDevice [
 ]
 
 { #category : #accessing }
+LWpaControl class >> anyNonP2PDevice [
+	^ (self socketPath entries reject: [ :entry |
+		entry basename beginsWith: 'p2p-' ]) anyOne.
+]
+
+{ #category : #accessing }
 LWpaControl class >> anyP2PDevice [
 	^ (self socketPath entries select: [ :entry |
 		entry basename beginsWith: 'p2p-dev' ]) anyOne.
@@ -77,6 +83,12 @@ LWpaControl class >> onAny [
 ]
 
 { #category : #'instance creation' }
+LWpaControl class >> onAnyNonP2P [
+	"Creates a control interface on any interface it can find."
+	^ self onFile: self anyNonP2PDevice.
+]
+
+{ #category : #'instance creation' }
 LWpaControl class >> onAnyP2P [
 	"Creates a control interface on any p2p interface it can find."
 	^ self onFile: self anyP2PDevice.
@@ -94,12 +106,18 @@ LWpaControl class >> onFile: aFileReference [
 
 { #category : #registry }
 LWpaControl class >> register: aLWpaControl [
-	registry add: aLWpaControl
+	registry finalizeValues.
+	registry add: aLWpaControl.
 ]
 
 { #category : #accessing }
 LWpaControl class >> registry [ 
 	^ registry
+]
+
+{ #category : #accessing }
+LWpaControl class >> registry: aRegistry [
+	registry := aRegistry
 ]
 
 { #category : #accessing }
@@ -109,6 +127,7 @@ LWpaControl class >> resolve: interfaceString [
 
 { #category : #registry }
 LWpaControl class >> restoreRegistry [
+registry finalizeValues.
 	registry do: [ :aLWpaControl |
 		aLWpaControl restoreForSystem. ]
 ]
@@ -139,8 +158,8 @@ LWpaControl class >> startUp: isImageStarting [
 { #category : #registry }
 LWpaControl class >> teardownRegistry [
 	registry do: [ :aWlpaControl |
-		aWlpaControl teardownForSystem ]
-	
+		aWlpaControl teardownForSystem ].
+	registry finalizeValues.
 ]
 
 { #category : #events }
@@ -170,6 +189,12 @@ LWpaControl >> attachInternal: aBlock [
 { #category : #accessing }
 LWpaControl >> buffer [
 	^ buffer
+]
+
+{ #category : #private }
+LWpaControl >> close [ 
+	handle isNull ifTrue: [ ^ self ].
+	self ffiLibraryInstance libwpa_close: handle.
 ]
 
 { #category : #commands }
@@ -205,6 +230,7 @@ LWpaControl >> destroy [
 { #category : #events }
 LWpaControl >> detach [
 	self 	detachInternal.
+	handle isNull ifTrue: [ ^ 0 ].
 	^ self ffiLibraryInstance libwpa_detach: handle.
 ]
 
@@ -213,6 +239,7 @@ LWpaControl >> detachForSystem [
 	self isAttached ifTrue: [ 
 		process terminate. 
 		process := nil ].
+	handle isNull ifTrue: [ ^ self ].
 	self ffiLibraryInstance libwpa_detach: handle.
 ]
 
@@ -225,11 +252,16 @@ LWpaControl >> detachInternal [
 	
 ]
 
+{ #category : #finalization }
+LWpaControl >> finalize [
+	[ self stop. ] on: LWpaError do: [ :err | "We ignore this error because we are finalizing this object anyway." ]
+]
+
 { #category : #accessing }
 LWpaControl >> flush [
+	handle isNull ifTrue: [ ^ self ].
 	self command: 'P2P_SERVICE_FLUSH';
-	command: 'P2P_FLUSH';
-	command: 'FLUSH'
+	command: 'P2P_FLUSH'
 ]
 
 { #category : #configuration }
@@ -356,10 +388,10 @@ LWpaControl >> stopRecording [
 { #category : #private }
 LWpaControl >> teardownForSystem [
 	self flush.
-	[ handle ifNotNil: [ :delete |
+	[ handle isNull ifFalse: [
 			self isAttached
 				ifTrue: [ self detachForSystem ].
-			self ffiLibraryInstance libwpa_close: handle ] ]
+			self close ] ]
 	ensure: [
 		handle free.
 		buffer free.

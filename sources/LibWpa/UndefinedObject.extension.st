@@ -6,6 +6,11 @@ UndefinedObject >> free [
 ]
 
 { #category : #'*LibWpa' }
+UndefinedObject >> isNull [
+	^ true
+]
+
+{ #category : #'*LibWpa' }
 UndefinedObject >> value: aArg [
 	^ self
 ]

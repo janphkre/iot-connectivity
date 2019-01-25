@@ -2,7 +2,7 @@ Class {
 	#name : #IOTConnectivityCall,
 	#superclass : #ZnRestCall,
 	#instVars : [
-		'targetDevice'
+		'targetInterface'
 	],
 	#category : #'IOTConnectivity-REST-Calls'
 }
@@ -198,7 +198,7 @@ IOTConnectivityCall >> summary [
 
 { #category : #accessing }
 IOTConnectivityCall >> target: aLWpaDevice [
-	targetDevice := aLWpaDevice
+	targetInterface := aLWpaDevice
 ]
 
 { #category : #accessing }

@@ -22,10 +22,9 @@ IOTConnectivityInterfaceCollectionCall class >> summary [
 { #category : #public }
 IOTConnectivityInterfaceCollectionCall >> get [
 	| interfaceNameList |
-	interfaceNameList := targetDevice interfacesNonP2P.
-	self flag: 'TODO: ERRORHANDLING'.
-	Interface forNames: interfaceNameList.
+	interfaceNameList := targetInterface interfacesNonP2P.
+	self flag: 'TODO ERROR HANDLING OF INTERFACE FORNAMES: …'.
 	response := ZnResponse ok: (ZnEntity 
-		with: (NeoJSONWriter toString: Interface instances)
+		with: (NeoJSONWriter toString: (Interface forNames: interfaceNameList))
 		type: ZnMimeType  applicationJson setCharSetUTF8).
 ]

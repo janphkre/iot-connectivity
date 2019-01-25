@@ -26,6 +26,11 @@ LWpaEvent class >> from: aString [
 ]
 
 { #category : #accessing }
+LWpaEvent >> parameter: index [
+	^ parameters at: index
+]
+
+{ #category : #accessing }
 LWpaEvent >> parameters [
 	^ parameters
 ]

@@ -35,10 +35,11 @@ IOTConnectivityInterfaceCall class >> summary [
 
 { #category : #accessing }
 IOTConnectivityInterfaceCall >> get [
-	response := nil
+	response := (Interface instanceOrError: interfaceName)
 		ifNotNil: [:interface |
+			self flag: 'TODO: check if "interface" is an error!'.
 			ZnResponse  ok: (ZnEntity 
-				with: (NeoJSONWriter toStringPretty: interface)
+				with: (NeoJSONWriter toString: interface)
 				type: ZnMimeType applicationJson setCharSetUTF8) ]
 		ifNil: [ ZnResponse notFound: '/interfaces/',interfaceName asString ]
 ]

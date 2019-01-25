@@ -4,7 +4,7 @@ Class {
 	#category : #'LibWpa-Commands'
 }
 
-{ #category : #accessing }
+{ #category : #building }
 LWpaUPnpService >> type [
 	^ 'upnp'
 ]

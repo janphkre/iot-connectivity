@@ -34,7 +34,7 @@ p2p_get_passphrase        p2p_prov_disc             p2p_service_del
 
 "
 Class {
-	#name : #LWpaDevice,
+	#name : #LWpaInterface,
 	#superclass : #Object,
 	#instVars : [
 		'commandControl',
@@ -44,36 +44,48 @@ Class {
 }
 
 { #category : #'instance creation' }
-LWpaDevice class >> on: aDeviceEntry [
+LWpaInterface class >> on: aDeviceEntry [
 	| deviceFile |
 	deviceFile := aDeviceEntry asFileReference.
+	deviceFile exists ifFalse: [ ^ nil ].
 	^ (self new) commandControl: (LWpaControl onFile: deviceFile);
-	eventControl: (LWpaControl onFile: deviceFile);
 	yourself.
 ]
 
 { #category : #'instance creation' }
-LWpaDevice class >> onAny [
+LWpaInterface class >> onAny [
 	^ self on: LWpaControl anyDevice.
 ]
 
 { #category : #'instance creation' }
-LWpaDevice class >> onAnyP2P [
+LWpaInterface class >> onAnyNonP2P [
+	^ self on: LWpaControl anyNonP2PDevice.
+]
+
+{ #category : #'instance creation' }
+LWpaInterface class >> onAnyP2P [
 	^ self on: LWpaControl anyP2PDevice.
 ]
 
+{ #category : #'instance creation' }
+LWpaInterface class >> onName: aString [
+	| anEntry |
+	anEntry := (LWpaControl resolve: aString).
+	^ self on: anEntry.
+]
+
 { #category : #accessing }
-LWpaDevice >> commandControl [
+LWpaInterface >> commandControl [
 	^ commandControl
 ]
 
 { #category : #accessing }
-LWpaDevice >> commandControl: aLWpaControl [
+LWpaInterface >> commandControl: aLWpaControl [
 	commandControl := aLWpaControl
 ]
 
 { #category : #configuration }
-LWpaDevice >> configure: aBlock [
+LWpaInterface >> configure: aBlock [
 	"Define a sequence of commands in the block to configure this device.
 	This sequence will be replayed on every start of the vm.
 	Please be aware that you are probably sending commands when
@@ -82,66 +94,69 @@ LWpaDevice >> configure: aBlock [
 	Multiple configure blocks can be run.
 	Each sequence of commands will then be appended to the previous one."
 	commandControl startRecording.
-	eventControl startRecording.
 	aBlock value.
 	commandControl stopRecording.
-	eventControl stopRecording.
 ]
 
 { #category : #accessing }
-LWpaDevice >> eventControl [
+LWpaInterface >> eventControl [
 	^ eventControl
 ]
 
 { #category : #accessing }
-LWpaDevice >> eventControl: aLWpaControl [
+LWpaInterface >> eventControl: aLWpaControl [
 	eventControl := aLWpaControl
 ]
 
 { #category : #commands }
-LWpaDevice >> flush [ 
+LWpaInterface >> flush [ 
 	"Flushes the interface."
 	commandControl flush.
 ]
 
 { #category : #configuration }
-LWpaDevice >> forgetConfiguration [
+LWpaInterface >> forgetConfiguration [
 	commandControl forgetRecording.
-	eventControl forgetRecording.
 ]
 
 { #category : #accessing }
-LWpaDevice >> interface: aDeviceString [
+LWpaInterface >> interface: aDeviceString [
 	self forgetConfiguration.
 	self stopReceive.
 	self commandControl: (LWpaControl on: aDeviceString).
-	self eventControl: (LWpaControl on: aDeviceString).
+	eventControl := nil.
 	
 ]
 
 { #category : #commands }
-LWpaDevice >> interfaces [
+LWpaInterface >> interfaces [
 	^ (commandControl command: 'INTERFACES') lines.
 ]
 
 { #category : #commands }
-LWpaDevice >> interfacesNonP2P [
+LWpaInterface >> interfacesNonP2P [
 	^ self interfaces reject: [ :elem | elem beginsWith: 'p2p-' ]
 ]
 
 { #category : #commands }
-LWpaDevice >> listNetworks [
+LWpaInterface >> listNetworks [
 	^ (commandControl command: 'LIST_NETWORKS') lines allButFirst.
 ]
 
 { #category : #commands }
-LWpaDevice >> note: aString [
+LWpaInterface >> note: aString [
 	"Add a note to the wpa_supplicant debug log."
 	^ (commandControl command: ('NOTE ', aString)) isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pFind [
+LWpaInterface >> p2pExternalServiceDiscovery: enabled [
+	"Updates the service counter to indicate that available services on this device have changed."
+	^ (commandControl command: ('P2P_SERV_DISC_EXTERNAL', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaInterface >> p2pFind [
 	"Finds nearby devices as possible peers.
 	This is a async call and the given block will return all findings.
 	Success is indicated by the return value being true."
@@ -149,91 +164,94 @@ LWpaDevice >> p2pFind [
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pGroupAdd [
+LWpaInterface >> p2pGroupAdd [
 	"Set up this device as an autonomous group owner."
 	^ (commandControl command: 'P2P_GROUP_ADD') isOk
 
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pGroupRemove: aString [
+LWpaInterface >> p2pGroupRemove: aString [
 	"Remove the group with the given network id string."
 	^ (commandControl command: ('P2P_GROUP_REMOVE ', aString)) isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pListen [
+LWpaInterface >> p2pListen [
 	"Listens for events and peers without sending any active p2p requests. Replies to Service Discovery and Find requests though."
 	^ (commandControl command: 'P2P_LISTEN') isOk 
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pPeers [
+LWpaInterface >> p2pPeers [
 	"Gives an array of possible peers found through find:"
 	^ (commandControl command: 'P2P_PEERS') lines
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pServiceAdd: aLWpaService [
+LWpaInterface >> p2pServiceAdd: aLWpaService [
 	"Add a local service to service discovery"
 	^ (commandControl command: ('P2P_SERVICE_ADD ', aLWpaService build)) isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pServiceFlush [
+LWpaInterface >> p2pServiceFlush [
 	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pServiceRespond: services on: frequency to: destination [
-	^ (commandControl command: ('P2P_SERV_DISC_RESP ', frequency, ' ', destination, ' ', services)) isOk.
+LWpaInterface >> p2pServiceRespond: aLWpaService to: aLWpaEvent [
+	"Responds to an P2P_SERV_DISC_REQ. You may want to call (p2pExternalServiceDiscovery: true) first."
+	| response |
+	response := aLWpaService buildResponse.
+	^ (commandControl command: ('P2P_SERV_DISC_RESP ', (aLWpaEvent parameter: 2), ' ', (aLWpaEvent parameter: 3), ' ', (aLWpaEvent parameter: 4), ' ', response)) isOk.
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pServiceUpdate [
+LWpaInterface >> p2pServiceUpdate [
 	"Updates the service counter to indicate that available services on this device have changed."
 	^ (commandControl command: 'P2P_SERVICE_UPDATE') isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pSsidPostfix: aString [
+LWpaInterface >> p2pSsidPostfix: aString [
 	^ (commandControl command: ('P2P_SET ssid_postfix ', aString)) isOk
 ]
 
 { #category : #'p2p commands' }
-LWpaDevice >> p2pStopFind [
+LWpaInterface >> p2pStopFind [
 	"Stops the discovery of nearby devices started by find:
 	Success is indicated by the return value being true."
 	^ (commandControl command: 'P2P_STOP_FIND') isOk
 ]
 
 { #category : #events }
-LWpaDevice >> receiveEvents: aBlock [
-	
+LWpaInterface >> receiveEvents: aBlock [
+	eventControl ifNil: [ eventControl := (LWpaControl onFile: (commandControl interface) ) ].
 	eventControl attach: [ :eventString |
 		| event |
 		event := LWpaEvent from: eventString.
-		event ifNotNil: [ aBlock value: event ] ].
+		event ifNotNil: [ aBlock value: event] ].
 ]
 
 { #category : #commands }
-LWpaDevice >> scan [
+LWpaInterface >> scan [
 	"Start a scan for available networks"
 	^ (commandControl command: 'SCAN') isOk
 ]
 
 { #category : #commands }
-LWpaDevice >> scanResults [
+LWpaInterface >> scanResults [
 	"Start a scan for available networks"
 	^ (commandControl command: 'SCAN_RESULTS') lines allButFirst.
 ]
 
 { #category : #commands }
-LWpaDevice >> status [
+LWpaInterface >> status [
 	^ (commandControl command: 'STATUS') lines.
 ]
 
 { #category : #events }
-LWpaDevice >> stopReceive [
-	eventControl detach.
+LWpaInterface >> stopReceive [
+	eventControl ifNotNil: [ :control | control detach ].
 ]
