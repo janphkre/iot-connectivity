@@ -152,7 +152,7 @@ LWpaInterface >> note: aString [
 { #category : #'p2p commands' }
 LWpaInterface >> p2pExternalServiceDiscovery: enabled [
 	"Updates the service counter to indicate that available services on this device have changed."
-	^ (commandControl command: ('P2P_SERV_DISC_EXTERNAL', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk
+	^ (commandControl command: ('P2P_SERV_DISC_EXTERNAL ', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk
 ]
 
 { #category : #'p2p commands' }
@@ -197,14 +197,6 @@ LWpaInterface >> p2pServiceAdd: aLWpaService [
 { #category : #'p2p commands' }
 LWpaInterface >> p2pServiceFlush [
 	^ (commandControl command: 'P2P_SERVICE_FLUSH') isOk
-]
-
-{ #category : #'p2p commands' }
-LWpaInterface >> p2pServiceRespond: aLWpaService to: aLWpaEvent [
-	"Responds to an P2P_SERV_DISC_REQ. You may want to call (p2pExternalServiceDiscovery: true) first."
-	| response |
-	response := aLWpaService buildResponse.
-	^ (commandControl command: ('P2P_SERV_DISC_RESP ', (aLWpaEvent parameter: 2), ' ', (aLWpaEvent parameter: 3), ' ', (aLWpaEvent parameter: 4), ' ', response)) isOk.
 ]
 
 { #category : #'p2p commands' }

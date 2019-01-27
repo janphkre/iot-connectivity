@@ -27,16 +27,6 @@ LWpaP2PService >> build [
 	^ self type, ' ', self idDump, ' ', self serviceDump.
 ]
 
-{ #category : #building }
-LWpaP2PService >> buildResponse [
-	"Service discovery has the following header: Length(2b), Type(1b) TransmissionId(1b), Status(1b), vendor specific(variable)."
-	| responseValue |
-	self flag: 'TODO build correct header!'.
-	responseValue :=	(self idDump), (self serviceDump).
-	^ (self responseType), (responseValue size printStringBase: 16 length: 4 padded: true), responseValue.
-	
-]
-
 { #category : #private }
 LWpaP2PService >> hexDump: aString [
 	"Hexdumps a string without 16r prefixing.
@@ -54,11 +44,6 @@ LWpaP2PService >> hexDump: aString [
 { #category : #building }
 LWpaP2PService >> idDump [
 	^ SubclassResponsibility
-]
-
-{ #category : #building }
-LWpaP2PService >> responseType [ 
-	^ SubclassResponsibility 
 ]
 
 { #category : #building }

@@ -72,7 +72,7 @@ ConnectivityService >> initialize: aPortNumber [
 	p2pDevice := LWpaInterface onAnyP2P.
 	p2pEventHandler := ConnectivityP2PEventHandler on: self.
 	
-	targetDevice := LWpaInterface onAny.
+	targetDevice := LWpaInterface onAnyNonP2P.
 	targetEventHandler := TargetEventHandler on: self.
 	scanSemaphore := Semaphore new.
 	^ self
@@ -98,30 +98,30 @@ ConnectivityService >> scanCompleted [
 	scanSemaphore signal.
 ]
 
-{ #category : #events }
-ConnectivityService >> serviceRespondTo: anEvent [
-	"This is widely generalized because Services were missing on Android from time to time.
-	Therefore we reply always to a disc req no matter what."
-	p2pDevice p2pServiceUpdate.
-	p2pDevice p2pServiceRespond: serviceDescription to: anEvent.
-]
-
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |
 	p2pDevice configure: [
-	p2pDevice note: 'Setting up p2p with pharo';
-	flush;
-	p2pSsidPostfix: '-pharo';
-	p2pExternalServiceDiscovery: true;
-	p2pListen;
-	p2pGroupAdd;
-	receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
+		p2pDevice note: 'Setting up p2p with pharo';
+		flush;
+		p2pSsidPostfix: '-pharo';
+		p2pExternalServiceDiscovery: false;
+		p2pListen;
+		p2pGroupAdd;
+		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
 
+	p2pDevice configureDynamic: [ 
+		p2pDevice p2pServiceAdd: serviceDescription;
+		p2pServiceUpdate. ].
+
+	self flag: 'TODO: make sure that p2pGroup gets destroyed in stop!'.
+	self flag: 'TODO: select the correct target device!'.
+	self flag: 'TODO: '.
+	
 	targetDevice configure: [ 
 		targetDevice note: 'Setting up device with pharo';
 		receiveEvents: [ :event | [ self handle: event ] on: Error fork: [ :error | error pass ] ] ].
-
+	
 	serverDelegate := IOTConnectivityAPI delegate.
 	serverDelegate uriSpace target: targetDevice.
 	
@@ -159,5 +159,6 @@ ConnectivityService >> targetDevice [
 { #category : #events }
 ConnectivityService >> updateStatus [
 	self flag: #TODO.
-	serviceValues at: #connection put: 'up'
+	serviceValues at: #connection put: 'up'.
+	p2pDevice runDynamicConfig.
 ]

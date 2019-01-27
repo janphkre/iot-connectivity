@@ -71,11 +71,6 @@ LWpaBonjourService >> instanceName: aString [
 ]
 
 { #category : #building }
-LWpaBonjourService >> responseType [
-	^ '6000'
-]
-
-{ #category : #building }
 LWpaBonjourService >> serviceDump [
 	"Dumps the key value map for the service."
 	| valuesCollection index |
