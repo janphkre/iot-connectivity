@@ -36,6 +36,11 @@ ConnectivityService class >> onDefault: aPortNumber [
 ]
 
 { #category : #events }
+ConnectivityService >> connectPbc: address [
+	^ p2pDevice p2pConnectPbc: address.
+]
+
+{ #category : #events }
 ConnectivityService >> handle: anEvent [
 	[ targetEventHandler perform: (anEvent type) with: anEvent. ]
 	on: MessageNotUnderstood 
@@ -123,7 +128,6 @@ ConnectivityService >> start [
 		receiveEvents: [ :event | [ self handle: event ] on: Error fork: [ :error | error pass ] ] ].
 	
 	serverDelegate := IOTConnectivityAPI delegate.
-	serverDelegate uriSpace target: targetDevice.
 	
 	server := ZnSingleThreadedServer startDefaultOn: port.
 	server delegate: serverDelegate.

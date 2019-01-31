@@ -1,9 +1,6 @@
 Class {
 	#name : #IOTConnectivityUriSpace,
 	#superclass : #ZnRestUriSpace,
-	#instVars : [
-		'targetInterface'
-	],
 	#category : #'IOTConnectivity-REST-Calls'
 }
 
@@ -12,12 +9,6 @@ IOTConnectivityUriSpace >> match: request [
 	(IOTConnectivityCall allSubclasses reject: #isAbstract)
 		do: [ :callClass |
 			(callClass match: request) ifTrue: [ 
-				^ (callClass new) target: targetInterface; yourself ] ].
+				^ callClass new ] ].
 	^ nil
-]
-
-{ #category : #accessing }
-IOTConnectivityUriSpace >> target: aLWpaInterface [
-	targetInterface := aLWpaInterface.
-	
 ]

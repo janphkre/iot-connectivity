@@ -38,7 +38,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'commandControl',
-		'eventControl'
+		'eventControl',
+		'recordedBlock'
 	],
 	#category : #'LibWpa-Commands'
 }
@@ -98,6 +99,12 @@ LWpaInterface >> configure: aBlock [
 	commandControl stopRecording.
 ]
 
+{ #category : #configuration }
+LWpaInterface >> configureDynamic: aBlock [
+	commandControl dynamicRecording: aBlock.
+	aBlock value.
+]
+
 { #category : #accessing }
 LWpaInterface >> eventControl [
 	^ eventControl
@@ -147,6 +154,11 @@ LWpaInterface >> listNetworks [
 LWpaInterface >> note: aString [
 	"Add a note to the wpa_supplicant debug log."
 	^ (commandControl command: ('NOTE ', aString)) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaInterface >> p2pConnectPbc: address [
+	^ (commandControl command: ('P2P_CONNECT ', address, ' pbc join')) isOk.
 ]
 
 { #category : #'p2p commands' }

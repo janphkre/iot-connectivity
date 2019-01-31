@@ -33,7 +33,8 @@ Class {
 		'attachedBlock',
 		'process',
 		'isRecording',
-		'recording'
+		'recording',
+		'dynamicRecording'
 	],
 	#classInstVars : [
 		'socketPath',
@@ -252,6 +253,11 @@ LWpaControl >> detachInternal [
 	
 ]
 
+{ #category : #accessing }
+LWpaControl >> dynamicRecording: aBlock [
+	dynamicRecording := aBlock.
+]
+
 { #category : #finalization }
 LWpaControl >> finalize [
 	[ self stop. ] on: LWpaError do: [ :err | "We ignore this error because we are finalizing this object anyway." ]
@@ -268,7 +274,8 @@ LWpaControl >> flush [
 LWpaControl >> forgetRecording [
 	"Clear the recording which is run on restart of this control."
 	recording := nil.
-	isRecording := nil
+	isRecording := nil.
+	dynamicRecording := nil.
 ]
 
 { #category : #accessing }
@@ -332,6 +339,8 @@ LWpaControl >> replay [
 	recording ifNotNil: [ :it |
 		it do: [ :record | 
 			self commandInternal: record ] ].
+	dynamicRecording ifNotNil: [ :it |
+		it value. ]
 ]
 
 { #category : #accessing }
