@@ -18,6 +18,7 @@ pharo-local/*
 pharo-ui
 pharo-vm/*
 *.log
+crash.dmp
 
 pharo6/*
 pharo7/*
