@@ -39,7 +39,7 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
             wifiManager.connect(wifiChannel, device.asConfig(), object: WifiP2pManager.ActionListener {
                 override fun onSuccess() {
                     Log.e("TEST","CONNECT SUCCESS")
-                    //TODO: subscriber.onNext()
+                    //TODO: subscriber.onNext(DeviceConfiurationProvider)
                 }
 
                 override fun onFailure(reason: Int) {

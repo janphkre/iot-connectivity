@@ -45,11 +45,12 @@ class DeviceConfigActivity: AppCompatActivity(), Observer<DeviceConfigurationPro
 //        TODO("not implemented")
     }
 
-    override fun onNext(t: DeviceConfigurationProvider) { /* Should never be called for the connectTo call. */ }
-
-    override fun onCompleted() {
-//        TODO("not implemented")
+    override fun onNext(t: DeviceConfigurationProvider)  {
+        Timber.e("Got DeviceConfigurationProvider")
+        //TODO!
     }
+
+    override fun onCompleted() { }
 
     companion object {
         private const val KEY_DEVICE = "config.device"

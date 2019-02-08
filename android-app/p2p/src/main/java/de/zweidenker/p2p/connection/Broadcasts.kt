@@ -16,7 +16,7 @@ class Broadcasts(private val connected: () -> Unit): BroadcastReceiver() {
                 if (networkInfo?.isConnected == true) {
                     connected.invoke()
                 } else {
-                    Log.e("TEST","connectionChanged:" + networkInfo?.detailedState?.name)
+                    Log.e("TEST","connectionChanged:" + networkInfo?.detailedState?.name + " " + networkInfo?.extraInfo)
                 }
             }
         }
