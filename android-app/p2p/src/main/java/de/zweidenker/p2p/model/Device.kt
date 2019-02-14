@@ -1,5 +1,6 @@
 package de.zweidenker.p2p.model
 
+import android.net.wifi.WpsInfo
 import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.os.Parcel
@@ -76,6 +77,7 @@ class Device(
         return WifiP2pConfig().apply {
             this.deviceAddress = this@Device.address
             this.groupOwnerIntent = 0
+            this.wps.setup = WpsInfo.PBC
         }
     }
     companion object CREATOR : Parcelable.Creator<Device> {
