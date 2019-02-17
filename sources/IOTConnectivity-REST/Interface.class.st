@@ -13,6 +13,11 @@ Class {
 	#category : #'IOTConnectivity-REST-Data'
 }
 
+{ #category : #'instance creation' }
+Interface class >> allInstancesOrError [
+	^ LWpaInterface onAll collect: [ :aLibInterface | self instanceOrError: aLibInterface ].
+]
+
 { #category : #private }
 Interface class >> arrayToInstance: anArray with: aString [
 	| foundSsid foundMode foundState |
@@ -46,37 +51,29 @@ Interface class >> arrayToInstance: anArray with: aString [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-Interface class >> forNames: nameList [
-	^ nameList collect: [ :aName | self instanceOrError: aName ].
-]
-
 { #category : #private }
-Interface class >> instance: aString [
-	| libInterface statusArray |
-	libInstances ifNil: [ libInstances := Dictionary new ].
-	libInterface := libInstances at: name ifAbsentPut: [
-		libInterface := LWpaInterface onName: aString.
-		libInterface isNil ifTrue: [ ^ nil ].
-		libInterface ].
-	statusArray := libInterface status.
-	^ self arrayToInstance: statusArray with: aString
+Interface class >> instance: aLibInterface [
+	| statusArray |
+	aLibInterface isNil ifTrue: [ ^ nil ].
+	statusArray := aLibInterface status.
+	^ self arrayToInstance: statusArray with: (aLibInterface interface).
 ]
 
 { #category : #'instance creation' }
-Interface class >> instanceOrError: aString [
-	^ ([ self instance: aString ] on: LWpaError do: [ :error | error ]) value
+Interface class >> instanceOrError: aLibInterface [
+	^ ([ self instance: aLibInterface ] on: LWpaError do: [ :error | error ]) value
+]
+
+{ #category : #'instance creation' }
+Interface class >> instanceOrErrorFromName: aString [
+  ^ self instanceOrError: (LWpaInterface onName: aString).
+  
 ]
 
 { #category : #accessing }
 Interface class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
 		mapping mapInstVars: #( name ssid mode state ) ]
-]
-
-{ #category : #accessing }
-Interface class >> resetInstances [
-	libInstances := nil
 ]
 
 { #category : #accessing }

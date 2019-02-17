@@ -166,7 +166,7 @@ LWpaControl class >> teardownRegistry [
 { #category : #events }
 LWpaControl >> attach: aBlock [
 	self attachInternal: aBlock.
-	(self ffiLibraryInstance libwpa_attach: handle) = 0
+	(self ffiLibraryInstance libwpa_attach: handle) >= -1
 		ifTrue: [ ^ self ].
 	self detachInternal.
 	LWpaError signal: 'Failed to attach handle.'
