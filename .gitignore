@@ -1,13 +1,13 @@
 #General folder: latex and books
 general/backups/*
 general/books/*.pdf
-general/latex/ai-project-pharo-things.pdf
+general/latex/*.pdf
 general/latex/*.aux
 general/latex/*.fdb_latexmk
 general/latex/*.fls
 general/latex/*.log
 general/latex/*.synctex.gz
-
+general/latex/*.toc
 #Pharo folder: pharo images and vm
 *.changes
 *.image

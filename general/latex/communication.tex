@@ -96,7 +96,8 @@
         Dies wird ermöglicht, indem verbindungslose Broadcast, die Nutzerdaten enthalten können definiert werden, sowie aktive Verbindungen zwischen zwei Geräten auf eine kurze Übertragung von 6 Packeten pro Verbindungsevent limitiert werden. Verbindungsevents sind dabei durch ein wählbares Intervall zwischen 7.5ms und 4s von einander getrennt. Weiterhin beschränkt sich Bluetooth LE im Hinblick auf die Reichweite darauf, möglichst wenig Energie zu verbrauchen, da eine hohe Sendeleistung in einem hohen Energieverbrauch resultiert. Da sich die Sendeleistung jedoch pro Gerät konfigurieren lässt, ist die theoretische Reichweite ähnlich zu Bluetooth gegeben.\cite[S.7f.]{Townsend}
 
         \paragraph{Nutzung unter Android}
-        Android stellt sowohl Bluetooth als auch Bluetooth LE
+        Android stellt sowohl Bluetooth als auch Bluetooth LE als {\it BluetoothAdapter} bereit. Ähnlich zu Wi-Fi Direct  Android bietet ab API 5 bzw. API 18 die Möglichkeit, über Bluetooth als möglicher peer anderen Geräten zu präsentieren und
+        p2p Verbindungen aufzubauen. Über Bluetooth LE können hingegen Services als Broadcasts bereitgestellt werden. Bluetooth in Verbindung mit Bluetooth LE lässt sich somit im Rahmen dieser Arbeit ohne Probleme auf Android benutzen.
 
     \subsection{Kommunikation über NFC}
         Die Near Field Communication (NFC)-Technologie basiert auf RFID-Systemen und erlaubt die Übertragung von Daten auf eine Distanz bis zu 10 Zentimeter.
@@ -115,6 +116,7 @@
         Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu initiieren.\cite[S91.f, S.97]{Langer}
 
         \paragraph{Nutzung unter Android}
+        NFC wurde unter Android, verteilt über die API Versionen 9, 10 \& 14,  als {\it NfcManager} und {\it NfcAdapter} zur Verfügung gestellt. Im Gegensatz zu Wifi, wo lediglich Verbindungszustände als Broadcasts gemeldet werden, werden bei Nfc die gelesenen Daten als Broadcasts an alle zuhörenden Apps gesendet, wodurch sich eine gesicherte Verbindung nicht gewährleisten lässt.
 
     \subsection{Kommunikation über USB}
         Im Gegensatz zu den vorhergehenden Übertragungsmedien ist der Universal Serial Bus (USB) eine kabelgebundene Schnittstelle. Aus der maximalen Kabellänge von 5 Metern
@@ -122,11 +124,11 @@
         Der Host stellt hierbei eine minimale Versorgungsspannung auf dem Bus bereit, sodass Geräte sich beim Host registrieren können und eine höhere Stromversorgung anfordern können.
         Weiterhin übernimmt der Host zwangsläufig auch die Kontrolle über die Verbindung, da Geräte zu jedem Zeitpunkt physisch vom Bus entfernt werden können, sodass Hot-Plug-and-Play
         möglich wird. \cite[S.21-24]{Kelm}
-        Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.
-        \footnote{TODO: speziferischere Literatur, über USB schreiben}\cite[S.197]{Kelm}
+        Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig in den meisten Fällen einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.\cite[S.197]{Kelm}
+        \footnote{TODO: speziferischere Literatur, über USB schreiben}
 
         \paragraph{Nutzung unter Android}
-        \footnote{TODO:}\cite{AOA}
+        Durch das Android Open Accessory Framework, welches ab API 10 angeboten wird, ist es möglich, mit einem Android-Gerät über USB zu kommunizieren und dabei als Host zu agieren. Es ist hierbei jedoch nötig einen Treiber auf Host-Seite zu schreiben, um dieses Framework nutzen zu können.\cite{AOA}
 
     \subsection{Evaluation der Übertragungsmedien}
     Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden.

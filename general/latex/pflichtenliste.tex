@@ -1,0 +1,55 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[a4paper, textwidth=15cm, textheight=23cm]{geometry}
+
+\title{Pflichtenliste: PharoThings-Connectivity SS19}
+\begin{document}
+\subsection*{Pflichtenliste: PharoThings-Connectivity WS18/19}
+Es wird eine Pflichtenliste für ein System bestehend aus 3 Subystemen definiert:
+1. Ein REST-Server, welcher es erlaubt, Netzwerke auf WiFi-Geräten zu konfigurieren.
+2. Eine P2P-Schnittstelle, welche den REST-Server ohne bestehende Netzwerkverbindung lokal zur Verfügung stellt.
+3. Eine Android App, welche die P2P-Schnittstelle verwendet, um sich mit dem REST-Server zu verbinden, sodass die WiFi-Geräte über eine UI konfiguriert werden können.
+
+\subsubsection*{Implementierung des wpa\_supplicant ctrl-Headers in pharo}
+	\begin{itemize}
+	\item Senden von Befehlen an wpa\_supplicant
+	\item Empfangen von Events aus wpa\_supplicant
+	\item Speichern einer Konfiguration pro offenem Gerät
+	\end{itemize}
+\subsubsection*{REST-Server zur Konfiguration von WiFi-Geräten auf Raspberry Pi}
+	\begin{itemize}
+	\item Auflisten aller verfügbaren WiFi-Interfaces incl. Verbindungsstatus
+	\item Auflisten aller erreichbaren Netzwerke für ein WiFi-Interface
+	\item Ausgabe der aktuellen Netzwerkkonfiguration für ein WiFi-Interface
+	\item Hinzufügen von Netzwerkkonfiguration für ein WiFi-Interface
+	\item Auflisten von Netzwerkkonfigurationen für ein WiFi-Interface
+	\item Auswählen einer Netzwerkkonfiguration für ein WiFi-Interface zum Verbindungsaufbau
+	\item Ausgabe des aktuellen Verbingsstatus für ein WiFi-Interface
+	\item Dokumentation des REST-Servers mittels OpenAPI
+	\end{itemize}
+\subsubsection*{P2P Schnittstelle auf Basis von WiFi-Direct zur Anbindung des REST-Servers}
+	\begin{itemize}
+	\item Nutzung des wpa\_supplicant zum Aufbau einer IP-Verbindung mittels WiFi-Direct
+	\item Aufrufen von Befehlen an wpa\_supplicant zur Annahme von Verbindungsversuchen 
+	\item Antwort auf Events aus wpa\_supplicant zur Annahme von Verbindungsversuchen
+	\item Registrieren des REST-Servers als P2P-Service in wpa\_supplicant
+	\item Senden des aktuellen Verbindungsstatus im registrierten P2P-Service
+	\end{itemize}
+\subsubsection*{Android App als Anwendung des Endanwenders zur Verbindungskonfiguration}
+	\begin{itemize}
+	\item UI zur Auflistung aller in der Nähe verfügbaren P2P-Services des definierten Typs
+	\item UI zum Verbindungsaufbau mit einem P2P-Services/REST-Server
+	\item UI zur Auflistung aller verfügbaren WiFi-Geräte auf einem verbundenen REST-Server
+	\item UI zur WiFi-Verbindungskonfiguration auf einem verbundenen REST-Server
+	\end{itemize}
+\subsubsection*{wpa\_supplicant Befehle und Events}
+	Implementierung einer ausgewählten Liste von Events und Befehlen des wpa\_supplicant:\linebreak
+	https://w1.fi/wpa\_supplicant/devel/ctrl\_iface\_page.html\linebreak
+	P2P\_LISTEN, P2P\_SERVICE\_ADD, P2P\_SERVICE\_UPDATE,\linebreak
+	P2P\_SERVICE\_FLUSH, INTERFACES, P2P\_PROV\_DISC\_PBC\_REQ,\linebreak
+	P2P\_PROV\_DISC\_PBC\_RESP, P2P\_GROUP\_ADD, CTRL\_EVENT\_CONNECTED,\linebreak
+	CTRL\_EVENT\_DISCONNECTED, SCAN, SCAN\_RESULTS, SCAN\_COMPLETED, LIST\_NETWORKS, SELECT\_NETWORK, ENABLE\_NETWORK,\linebreak
+	DISABLE\_NETWORK, ADD\_NETWORK, REMOVE\_NETWORK,\linebreak
+	SET\_NETWORK, GET\_ENTWORK \linebreak
+\end{document}
