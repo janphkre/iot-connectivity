@@ -216,8 +216,8 @@ LWpaControl >> commandInternal: aString [
 		reply: buffer
 		replyLength: bufferSize
 		callback: LWpaMessageCallback null.
-	resultCode = -1
-		ifTrue: [ LWpaError signal: 'Error for performing request!' ].
+"	resultCode = -1
+		ifTrue: [ LWpaError signal: 'Error for performing request!' ]."
 	resultCode = -2
 		ifTrue: [ LWpaTimeoutError signal: 'Performing the request timed out.' ].
 	^ buffer asString: bufferSize value.
