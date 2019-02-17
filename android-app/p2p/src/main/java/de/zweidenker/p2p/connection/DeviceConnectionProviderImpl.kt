@@ -16,7 +16,6 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 
-
 internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
     private val broadcastReceiver = Broadcasts {
@@ -28,7 +27,6 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
                     //TODO: FAIL HERE AND CLOSE CONNECTION?!
                     return@requestConnectionInfo
                 } else {
-                    //TODO: TRY TO SOCKET CONNECT HERE
                     Observable.fromCallable {
                         socketConnect(info.groupOwnerAddress, 8889)
                     }.subscribeOn(Schedulers.io()).subscribe()
