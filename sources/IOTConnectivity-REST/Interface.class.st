@@ -7,9 +7,6 @@ Class {
 		'mode',
 		'state'
 	],
-	#classInstVars : [
-		'libInstances'
-	],
 	#category : #'IOTConnectivity-REST-Data'
 }
 
