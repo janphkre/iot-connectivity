@@ -54,6 +54,11 @@ LWpaInterface class >> on: aDeviceEntry [
 ]
 
 { #category : #'instance creation' }
+LWpaInterface class >> onAll [
+  ^ LWpaControl socketPath entries collect: [ :aEntry | self on: aEntry ].
+]
+
+{ #category : #'instance creation' }
 LWpaInterface class >> onAny [
 	^ self on: LWpaControl anyDevice.
 ]
@@ -127,6 +132,11 @@ LWpaInterface >> forgetConfiguration [
 ]
 
 { #category : #accessing }
+LWpaInterface >> interface [ 
+	^ commandControl interface.
+]
+
+{ #category : #accessing }
 LWpaInterface >> interface: aDeviceString [
 	self forgetConfiguration.
 	self stopReceive.
@@ -158,7 +168,7 @@ LWpaInterface >> note: aString [
 
 { #category : #'p2p commands' }
 LWpaInterface >> p2pConnectPbc: address [
-	^ (commandControl command: ('P2P_CONNECT ', address, ' pbc join')) isOk.
+	^ (commandControl command: ('P2P_CONNECT ', address, ' pbc')).
 ]
 
 { #category : #'p2p commands' }

@@ -112,7 +112,6 @@ ConnectivityService >> start [
 		p2pSsidPostfix: '-pharo';
 		p2pExternalServiceDiscovery: false;
 		p2pListen;
-		p2pGroupAdd;
 		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
 
 	p2pDevice configureDynamic: [ 

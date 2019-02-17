@@ -21,10 +21,17 @@ IOTConnectivityInterfaceCollectionCall class >> summary [
 
 { #category : #public }
 IOTConnectivityInterfaceCollectionCall >> get [
-	| interfaceNameList |
-	interfaceNameList := targetInterface interfacesNonP2P.
-	self flag: 'TODO ERROR HANDLING OF INTERFACE FORNAMES: …'.
-	response := ZnResponse ok: (ZnEntity 
-		with: (NeoJSONWriter toString: (Interface forNames: interfaceNameList))
-		type: ZnMimeType  applicationJson setCharSetUTF8).
+  | strippedInterfaces |
+  response := (Interface allInstancesOrError)
+		ifNotNil: [ :interfaces |
+			(interfaces isEmpty)
+			ifTrue: [ ZnResponse notFound: '/interfaces' ]
+			ifFalse: [
+			  strippedInterfaces := interfaces select: [ :item | item isKindOf: Exception ].
+			  (strippedInterfaces isEmpty)
+	         ifTrue: [ ZnResponse serverError: interfaces anyOne messageText ]
+	         ifFalse: [ ZnResponse  ok: (ZnEntity 
+				  with: (NeoJSONWriter toString: strippedInterfaces)
+				  type: ZnMimeType applicationJson setCharSetUTF8) ] ] ]
+		ifNil: [ ZnResponse notFound: '/interfaces' ]
 ]

@@ -166,7 +166,7 @@ LWpaControl class >> teardownRegistry [
 { #category : #events }
 LWpaControl >> attach: aBlock [
 	self attachInternal: aBlock.
-	(self ffiLibraryInstance libwpa_attach: handle) = 0
+	(self ffiLibraryInstance libwpa_attach: handle) >= -1
 		ifTrue: [ ^ self ].
 	self detachInternal.
 	LWpaError signal: 'Failed to attach handle.'
@@ -216,8 +216,8 @@ LWpaControl >> commandInternal: aString [
 		reply: buffer
 		replyLength: bufferSize
 		callback: LWpaMessageCallback null.
-	resultCode = -1
-		ifTrue: [ LWpaError signal: 'Error for performing request!' ].
+"	resultCode = -1
+		ifTrue: [ LWpaError signal: 'Error for performing request!' ]."
 	resultCode = -2
 		ifTrue: [ LWpaTimeoutError signal: 'Performing the request timed out.' ].
 	^ buffer asString: bufferSize value.
