@@ -12,14 +12,17 @@ ConnectivityP2PEventHandler class >> on: aService [
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
   "<3>P2P-GO-NEG-REQUEST 94:65:2d:d6:65:72 dev_passwd_id=4 go_intent=0"
-  	anEvent parameters size < 4
+  anEvent parameters size < 4
 	ifTrue: [ ^ self ].
 	service p2pInvite: (anEvent parameter: 2).
 ]
 
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
- self flag: #TODO.
+  "<3>P2P-GROUP-STARTED p2p-wlan0-3 GO ssid=DIRECT-Sx freq=5180 passphrase=922JFxeQ go_dev_addr=ba:27:eb:23:9c:d0"
+  anEvent parameters size < 7
+	ifTrue: [ ^ self ].
+  service groupStarted: (anEvent parameter: 2).
 ]
 
 { #category : #events }

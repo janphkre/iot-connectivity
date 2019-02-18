@@ -38,6 +38,14 @@ ConnectivityService class >> onDefault: aPortNumber [
 ]
 
 { #category : #events }
+ConnectivityService >> groupStarted: aString [
+  self stopGroup.
+  groupDevice := LWpaInterface onName: aString.
+  groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
+	groupDevice wpsPbc.
+]
+
+{ #category : #events }
 ConnectivityService >> groupWpsPbc [
  ^ groupDevice wpsPbc.
 ]
@@ -107,6 +115,7 @@ ConnectivityService >> scanCompleted [
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |
+	self flag: 'TODO: CHECK IF THERE IS A GROUP INTERFACE ALREADY!'.
 	p2pDevice configure: [
 		p2pDevice note: 'Setting up p2p with pharo';
 		flush;
@@ -114,13 +123,13 @@ ConnectivityService >> start [
 		p2pExternalServiceDiscovery: false;
 		p2pDiscoverability: true;
 		p2pListen;
-		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
+		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ];
+		p2pGroupAdd ].
 
 	p2pDevice configureDynamic: [ 
 		p2pDevice p2pServiceAdd: serviceDescription;
 		p2pServiceUpdate. ].
 
-	self flag: 'TODO: make sure that p2pGroup gets destroyed in stop!'.
 	self flag: 'TODO: select the correct target device!'.
 	self flag: 'TODO: '.
 	
@@ -149,7 +158,18 @@ ConnectivityService >> stop [
 			server := nil ] ].
 	p2pDevice stopReceive.
 	targetDevice stopReceive.
+	
+	self stopGroup.
+	groupDevice := nil.
+	
 	^ self
+]
+
+{ #category : #private }
+ConnectivityService >> stopGroup [
+	groupDevice isNil ifFalse: [ 
+		groupDevice stopReceive.
+		p2pDevice p2pGroupRemove: (groupDevice interface baseName) ].
 ]
 
 { #category : #accessing }
