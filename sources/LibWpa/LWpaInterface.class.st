@@ -54,8 +54,8 @@ LWpaInterface class >> on: aDeviceEntry [
 ]
 
 { #category : #'instance creation' }
-LWpaInterface class >> onAll [
-  ^ LWpaControl socketPath entries collect: [ :aEntry | self on: aEntry ].
+LWpaInterface class >> onAllNonP2P [
+  ^ (LWpaControl socketPath entries select: [ :anEntry | (anEntry name beginsWith: 'p2p') = false]) collect: [ :anEntry | self on: anEntry ].
 ]
 
 { #category : #'instance creation' }
@@ -172,6 +172,12 @@ LWpaInterface >> p2pConnectPbc: address [
 ]
 
 { #category : #'p2p commands' }
+LWpaInterface >> p2pDiscoverability: enabled [
+	"Updates the discoverability of this device."
+	^ (commandControl command: ('P2P_SET DISCOVERABILITY', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk
+]
+
+{ #category : #'p2p commands' }
 LWpaInterface >> p2pExternalServiceDiscovery: enabled [
 	"Updates the service counter to indicate that available services on this device have changed."
 	^ (commandControl command: ('P2P_SERV_DISC_EXTERNAL ', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk
@@ -196,6 +202,11 @@ LWpaInterface >> p2pGroupAdd [
 LWpaInterface >> p2pGroupRemove: aString [
 	"Remove the group with the given network id string."
 	^ (commandControl command: ('P2P_GROUP_REMOVE ', aString)) isOk
+]
+
+{ #category : #'p2p commands' }
+LWpaInterface >> p2pInvite: address [
+ ^ (commandControl command: ('P2P_INVITE ', address)) isOk.
 ]
 
 { #category : #'p2p commands' }
@@ -268,4 +279,9 @@ LWpaInterface >> status [
 { #category : #events }
 LWpaInterface >> stopReceive [
 	eventControl ifNotNil: [ :control | control detach ].
+]
+
+{ #category : #'p2p commands' }
+LWpaInterface >> wpsPbc [
+	^ (commandControl command: 'WPS_PBC') isOk.
 ]

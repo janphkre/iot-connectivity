@@ -35,7 +35,7 @@ IOTConnectivityInterfaceCall class >> summary [
 
 { #category : #accessing }
 IOTConnectivityInterfaceCall >> get [
-	response := (Interface instanceOrError: interfaceName)
+	response := (Interface instanceOrErrorFromName: interfaceName)
 		ifNotNil: [:interfaceOrError |
 			(interfaceOrError isKindOf: Exception)
 			ifTrue: [ ZnResponse serverError: interfaceOrError messageText ]

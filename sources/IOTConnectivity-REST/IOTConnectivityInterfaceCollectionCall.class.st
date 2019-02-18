@@ -27,7 +27,7 @@ IOTConnectivityInterfaceCollectionCall >> get [
 			(interfaces isEmpty)
 			ifTrue: [ ZnResponse notFound: '/interfaces' ]
 			ifFalse: [
-			  strippedInterfaces := interfaces select: [ :item | item isKindOf: Exception ].
+			  strippedInterfaces := interfaces select: [ :item | (item isKindOf: Exception) = false ].
 			  (strippedInterfaces isEmpty)
 	         ifTrue: [ ZnResponse serverError: interfaces anyOne messageText ]
 	         ifFalse: [ ZnResponse  ok: (ZnEntity 

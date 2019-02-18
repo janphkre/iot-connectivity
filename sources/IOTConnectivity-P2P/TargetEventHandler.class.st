@@ -1,9 +1,6 @@
 Class {
 	#name : #TargetEventHandler,
-	#superclass : #Object,
-	#instVars : [
-		'service'
-	],
+	#superclass : #EventHandler,
 	#category : #'IOTConnectivity-P2P'
 }
 
@@ -46,9 +43,4 @@ TargetEventHandler >> CTRL_EVENT_SCAN_RESULTS: anEvent [
 TargetEventHandler >> CTRL_EVENT_SCAN_STARTED: anEvent [
 	"Started a new scan"
 	UIManager default inform: 'Scan started!'.
-]
-
-{ #category : #accessing }
-TargetEventHandler >> service: aService [
-	service := aService.
 ]

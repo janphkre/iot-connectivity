@@ -12,7 +12,7 @@ Class {
 
 { #category : #'instance creation' }
 Interface class >> allInstancesOrError [
-	^ LWpaInterface onAll collect: [ :aLibInterface | self instanceOrError: aLibInterface ].
+	^ LWpaInterface onAllNonP2P collect: [ :aLibInterface | self instanceOrError: aLibInterface ].
 ]
 
 { #category : #private }
@@ -53,7 +53,7 @@ Interface class >> instance: aLibInterface [
 	| statusArray |
 	aLibInterface isNil ifTrue: [ ^ nil ].
 	statusArray := aLibInterface status.
-	^ self arrayToInstance: statusArray with: (aLibInterface interface).
+	^ self arrayToInstance: statusArray with: (aLibInterface interface basename).
 ]
 
 { #category : #'instance creation' }

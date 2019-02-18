@@ -9,6 +9,8 @@ Class {
 		'p2pEventHandler',
 		'targetDevice',
 		'targetEventHandler',
+		'groupDevice',
+		'groupEventHandler',
 		'scanSemaphore',
 		'server'
 	],
@@ -36,31 +38,23 @@ ConnectivityService class >> onDefault: aPortNumber [
 ]
 
 { #category : #events }
-ConnectivityService >> connectPbc: address [
-	^ p2pDevice p2pConnectPbc: address.
+ConnectivityService >> groupWpsPbc [
+ ^ groupDevice wpsPbc.
 ]
 
 { #category : #events }
 ConnectivityService >> handle: anEvent [
-	[ targetEventHandler perform: (anEvent type) with: anEvent. ]
-	on: MessageNotUnderstood 
-	do: [ :err | 
-		(err receiver = targetEventHandler) ifTrue: [
-			UIManager default inform: 'Unknown Event: ', anEvent type.
-			^ self ].
-		err pass. ]
+	targetEventHandler handle: anEvent.
+]
+
+{ #category : #events }
+ConnectivityService >> handleGroup: anEvent [
+	groupEventHandler handle: anEvent.
 ]
 
 { #category : #events }
 ConnectivityService >> handleP2P: anEvent [
-	[ p2pEventHandler perform: (anEvent type) with: anEvent. ]
-	on: MessageNotUnderstood 
-	do: [ :err | 
-		(err receiver = p2pEventHandler) ifTrue: [
-			UIManager default inform: 'Unknown P2P-Event: ', anEvent type.
-			^ self ].
-		err pass. ]
-	
+	p2pEventHandler handle: anEvent.
 ]
 
 { #category : #initialization }
@@ -77,6 +71,8 @@ ConnectivityService >> initialize: aPortNumber [
 	p2pDevice := LWpaInterface onAnyP2P.
 	p2pEventHandler := ConnectivityP2PEventHandler on: self.
 	
+	groupEventHandler := ConnectivityGroupEventHandler on: self.
+	
 	targetDevice := LWpaInterface onAnyNonP2P.
 	targetEventHandler := TargetEventHandler on: self.
 	scanSemaphore := Semaphore new.
@@ -86,6 +82,11 @@ ConnectivityService >> initialize: aPortNumber [
 { #category : #accessing }
 ConnectivityService >> p2pDevice [
 	^ p2pDevice
+]
+
+{ #category : #events }
+ConnectivityService >> p2pInvite: address [
+	p2pDevice p2pInvite: address.
 ]
 
 { #category : #commands }
@@ -111,6 +112,7 @@ ConnectivityService >> start [
 		flush;
 		p2pSsidPostfix: '-pharo';
 		p2pExternalServiceDiscovery: false;
+		p2pDiscoverability: true;
 		p2pListen;
 		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
 
@@ -129,6 +131,7 @@ ConnectivityService >> start [
 	serverDelegate := IOTConnectivityAPI delegate.
 	
 	server := ZnSingleThreadedServer startDefaultOn: port.
+	server debugMode: true.
 	server delegate: serverDelegate.
 	
 	^ self
