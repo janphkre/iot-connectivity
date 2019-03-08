@@ -1,5 +1,5 @@
 Class {
-	#name : #IOTConnectivityInterfaceCall,
+	#name : #IOTConnectivityInterfaceConfigCall,
 	#superclass : #IOTConnectivityCall,
 	#instVars : [
 		'interfaceName'
@@ -8,12 +8,12 @@ Class {
 }
 
 { #category : #accessing }
-IOTConnectivityInterfaceCall class >> description [
-	^ 'An interface may be used to querry its log or update its configuration.'
+IOTConnectivityInterfaceConfigCall class >> description [ 
+	^ 'Provides configuration capabilities for an interface.'
 ]
 
 { #category : #accessing }
-IOTConnectivityInterfaceCall class >> parameterInterfaceName [
+IOTConnectivityInterfaceConfigCall class >> parameterInterfaceName [
 	<openApiParameter: #( common )>
 	^ OAParameter new
 		name: 'interfaceName';
@@ -24,17 +24,17 @@ IOTConnectivityInterfaceCall class >> parameterInterfaceName [
 ]
 
 { #category : #accessing }
-IOTConnectivityInterfaceCall class >> path [ 
-	^ '/interfaces/{interfaceName}'
+IOTConnectivityInterfaceConfigCall class >> path [ 
+	^ '/interfaces/{interfaceName}/config'
 ]
 
 { #category : #accessing }
-IOTConnectivityInterfaceCall class >> summary [
-	^ 'A call to acquire an interface.'
+IOTConnectivityInterfaceConfigCall class >> summary [ 
+	^ 'A call to get and set the configuration of an interface.'
 ]
 
 { #category : #public }
-IOTConnectivityInterfaceCall >> get [
+IOTConnectivityInterfaceConfigCall >> get [
 	response := (Interface instanceOrErrorFromName: interfaceName)
 		ifNotNil: [:interfaceOrError |
 			(interfaceOrError isKindOf: Exception)
@@ -43,4 +43,8 @@ IOTConnectivityInterfaceCall >> get [
 				with: (NeoJSONWriter toString: interfaceOrError)
 				type: ZnMimeType applicationJson setCharSetUTF8) ] ]
 		ifNil: [ ZnResponse notFound: '/interfaces/',interfaceName asString ]
+]
+
+{ #category : #public }
+IOTConnectivityInterfaceConfigCall >> put [
 ]

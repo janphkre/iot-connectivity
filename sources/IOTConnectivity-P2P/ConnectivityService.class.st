@@ -167,9 +167,10 @@ ConnectivityService >> stop [
 
 { #category : #private }
 ConnectivityService >> stopGroup [
-	groupDevice isNil ifFalse: [ 
-		groupDevice stopReceive.
-		p2pDevice p2pGroupRemove: (groupDevice interface baseName) ].
+	groupDevice isNil ifTrue: [ ^ self ]. 
+	groupDevice stopReceive.
+	p2pDevice p2pGroupRemove: (groupDevice interface basename).
+	groupDevice := nil.
 ]
 
 { #category : #accessing }

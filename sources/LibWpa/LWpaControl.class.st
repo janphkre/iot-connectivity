@@ -339,8 +339,14 @@ LWpaControl >> replay [
 	recording ifNotNil: [ :it |
 		it do: [ :record | 
 			self commandInternal: record ] ].
-	dynamicRecording ifNotNil: [ :it |
+	self replayDynamic.
+]
+
+{ #category : #configuration }
+LWpaControl >> replayDynamic [
+  dynamicRecording ifNotNil: [ :it |
 		it value. ]
+  
 ]
 
 { #category : #accessing }

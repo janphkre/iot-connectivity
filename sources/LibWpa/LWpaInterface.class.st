@@ -259,6 +259,11 @@ LWpaInterface >> receiveEvents: aBlock [
 		event ifNotNil: [ aBlock value: event] ].
 ]
 
+{ #category : #configuration }
+LWpaInterface >> runDynamicConfig [
+  commandControl replayDynamic.
+]
+
 { #category : #commands }
 LWpaInterface >> scan [
 	"Start a scan for available networks"
