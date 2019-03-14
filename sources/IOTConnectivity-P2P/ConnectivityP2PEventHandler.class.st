@@ -10,6 +10,16 @@ ConnectivityP2PEventHandler class >> on: aService [
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> AP_STA_CONNECTED: anEvent [
+ "Can be ignored"
+]
+
+{ #category : #events }
+ConnectivityP2PEventHandler >> AP_STA_DISCONNECTED: anEvent [
+ "Can be ignored"
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_DEVICE_FOUND: anEvent [
   "Signals that a p2p device has been discovered"
 ]
@@ -34,6 +44,12 @@ ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
   anEvent parameters size < 7
 	ifTrue: [ ^ self ].
   service groupStarted: (anEvent parameter: 2).
+]
+
+{ #category : #events }
+ConnectivityP2PEventHandler >> P2P_INVITATION_RECEIVED: anEvent [
+	"Received an invitation to join a group. This crashes the wpa_supplicant, therefor we have to restart it and this image afterwards."
+	UIManager default inform: 'Received a p2p invitation. wpa_supplicant has probably crashed!'.
 ]
 
 { #category : #events }
