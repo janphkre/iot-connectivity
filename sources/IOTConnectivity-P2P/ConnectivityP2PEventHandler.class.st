@@ -10,11 +10,22 @@ ConnectivityP2PEventHandler class >> on: aService [
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> P2P_DEVICE_FOUND: anEvent [
+  "Signals that a p2p device has been discovered"
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
   "<3>P2P-GO-NEG-REQUEST 94:65:2d:d6:65:72 dev_passwd_id=4 go_intent=0"
   anEvent parameters size < 4
 	ifTrue: [ ^ self ].
 	service p2pInvite: (anEvent parameter: 2).
+]
+
+{ #category : #events }
+ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_FAILURE: anEvent [
+	"This usually indicates that the group formation with a peer has failed. Problem is, that this Event crashes the wpa_supplicant, therefor we have to restart it and this image afterwards."
+	UIManager default inform: 'Group formation failure. wpa_supplicant has probably crashed!'.
 ]
 
 { #category : #events }
