@@ -3,16 +3,20 @@ package de.zweidenker.p2p.beacon
 import android.content.Context
 import android.net.wifi.p2p.WifiP2pManager
 import android.net.wifi.p2p.nsd.WifiP2pDnsSdServiceRequest
+import android.os.Handler
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.core.WifiP2PException
 import rx.Observable
+import rx.Subscriber
 import rx.Subscription
 import rx.schedulers.Schedulers
 import rx.subjects.ReplaySubject
 
 internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
+
+    private val discoverHandler = Handler()
 
     private val observable = Observable.create<Device> { subscriber ->
         if(wifiManager == null || wifiChannel == null) {
@@ -35,14 +39,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                         }
                     }
                 })
-                wifiManager.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {
-                    override fun onSuccess() { }
-
-                    override fun onFailure(errorCode: Int) {
-                        val throwable = WifiP2PException("Failed to discover services!", errorCode)//TODO: MAY FAIL SOMETIMES; RETRY AFTER A MOMENT?
-                        subscriber.onError(throwable)
-                    }
-                })
+                discoverHandler.post { discoverServices(subscriber) }
             }
 
             override fun onFailure(errorCode: Int) {
@@ -50,12 +47,31 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
                 subscriber.onError(throwable)
             }
         })
+    }.doOnUnsubscribe {
+        discoverHandler.removeCallbacksAndMessages(null)
     }
+
     private var subscription: Subscription? = null
     private var deviceSubject = ReplaySubject.create<Device>()
 
     private fun String.isValidType(): Boolean {
         return endsWith(P2PModule.TYPE_SERVICE, true)
+    }
+
+    private fun discoverServices(subscriber: Subscriber<in Device>) {
+        wifiManager?.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                discoverHandler.postDelayed({
+                    discoverServices(subscriber)
+                },60000)
+            }
+
+            override fun onFailure(errorCode: Int) {
+                discoverHandler.postDelayed({
+                    discoverServices(subscriber)
+                },2000)
+            }
+        })
     }
 
     @Throws(Exception::class)
