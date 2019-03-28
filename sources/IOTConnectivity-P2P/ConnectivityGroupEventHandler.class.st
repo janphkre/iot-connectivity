@@ -24,6 +24,10 @@ ConnectivityGroupEventHandler >> CTRL_EVENT_EAP_FAILURE: anEvent [
 ]
 
 { #category : #events }
+ConnectivityGroupEventHandler >> CTRL_EVENT_EAP_PROPOSED_METHOD: anEvent [
+]
+
+{ #category : #events }
 ConnectivityGroupEventHandler >> CTRL_EVENT_EAP_STARTED: anEvent [
 ]
 
