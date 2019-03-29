@@ -4,9 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.view.View
+import android.widget.Toast
+import de.zweidenker.connectivity.ApplicationModule
+import de.zweidenker.connectivity.R
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.model.Device
-import de.zweidenker.p2p.connection.DeviceConnectionProvider
+import kotlinx.android.synthetic.main.activity_device_config.*
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
 import rx.Observer
 import rx.Subscription
@@ -14,46 +19,91 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceConfigActivity: AppCompatActivity(), Observer<DeviceConfigurationProvider> {
+class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<DeviceConfigurationProvider> {
 
-    private val configurationProvider by inject<DeviceConnectionProvider>()
-    private var subscription: Subscription? = null
+    private val viewModel by inject<DeviceConfigViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getKoin().createScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
         val device = intent.getParcelableExtra<Device>(KEY_DEVICE)
         if(device == null) {
             finish()
             return
         }
-        subscription = configurationProvider.connectTo(device)
+        viewModel.device = device
+        createView(device)
+        viewModel.connectTo(device)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(this)
+            .store()
     }
 
     override fun onDestroy() {
-        //TODO: MOVE SUBSCRIPTION TO ONSTART/ONPAUSE
-        subscription?.unsubscribe()
-        subscription = null
-        configurationProvider.destroy(this)
+        viewModel.destroy(this)
+        getKoin().detachScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
         super.onDestroy()
     }
 
-    override fun onError(e: Throwable?) {
-        Timber.e(e)
-//        TODO("not implemented")
+    private fun createView(device: Device) {
+        setContentView(R.layout.activity_device_config)
+        toolbar.title = device.userIdentifier
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
     }
 
-    override fun onNext(t: DeviceConfigurationProvider)  {
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
+    }
+
+    private fun Subscription.store() {
+        viewModel.store(this)
+    }
+
+    override fun startLoading() {
+        loading_view
+            .animate()
+            .setDuration(DURATION_LOADING_FADING)
+            .alpha(1.0f)
+            .withStartAction {
+                loading_view.visibility = View.VISIBLE
+            }
+            .start()
+    }
+
+    override fun stopLoading() {
+        loading_view
+            .animate()
+            .setDuration(DURATION_LOADING_FADING)
+            .alpha(0.0f)
+            .withEndAction {
+                loading_view.visibility = View.GONE
+            }
+            .start()
+    }
+
+    override fun onError(e: Throwable) {
+        Timber.e(e)
+        Toast.makeText(this@DeviceConfigActivity, "Failed to connect to the device!", Toast.LENGTH_SHORT).show()
+        stopLoading()
+    }
+
+    override fun onNext(configurationProvider: DeviceConfigurationProvider) {
         Timber.e("Got DeviceConfigurationProvider")
-        //TODO!
+        //TODO: WE SHOULD PRBABLY ONLY CHANGE TO THE DEVICE INTERFACES FRAGMENT ONCE THE INTERFACES HAVE LOADED?
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, DeviceInterfacesFragment())
+            .commitNowAllowingStateLoss()
     }
 
     override fun onCompleted() { }
 
     companion object {
         private const val KEY_DEVICE = "config.device"
+        private const val DURATION_LOADING_FADING = 1500L
 
         fun startActivity(context: Context, device: Device) {
             val intent = Intent(context, DeviceConfigActivity::class.java)

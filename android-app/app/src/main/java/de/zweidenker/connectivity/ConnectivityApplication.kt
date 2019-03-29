@@ -17,7 +17,8 @@ class ConnectivityApplication: Application() {
     }
 
     private fun getKoinModules(): List<Module> = listOf(
-        P2PModule
+        P2PModule,
+        ApplicationModule
     )
 
     private fun setupLogging(): Logger {

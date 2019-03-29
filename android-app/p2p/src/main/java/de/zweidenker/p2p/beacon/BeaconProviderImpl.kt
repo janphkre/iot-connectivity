@@ -25,6 +25,8 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
             return@create
         }
 
+        subscriber.onNext(Device(0L,"MockDevice", "MockAddress", Device.ConnectionStatus.UNKNOWN, 0))
+
         //Internal filtering does not seem to work correctly. We will filter by ourselves.
         val request = WifiP2pDnsSdServiceRequest.newInstance()
         wifiManager.addServiceRequest(wifiChannel, request, object: WifiP2pManager.ActionListener {
@@ -63,13 +65,13 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
             override fun onSuccess() {
                 discoverHandler.postDelayed({
                     discoverServices(subscriber)
-                },60000)
+                }, P2PModule.DISCOVER_INTERVAL_MS)
             }
 
             override fun onFailure(errorCode: Int) {
                 discoverHandler.postDelayed({
                     discoverServices(subscriber)
-                },2000)
+                }, P2PModule.ERROR_RETRY_INTERVAL_MS)
             }
         })
     }

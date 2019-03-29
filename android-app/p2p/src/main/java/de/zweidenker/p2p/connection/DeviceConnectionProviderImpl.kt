@@ -21,12 +21,13 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
     private val broadcastReceiver = Broadcasts {
         Log.e("TEST", "GOT INTENT")
         wifiManager?.requestConnectionInfo(wifiChannel) { info ->
-            Log.e("TEST", "info: " + info.toString())
+            Log.e("TEST", "info: $info")
             if(info.groupFormed) {
                 if(info.isGroupOwner) {
                     //TODO: FAIL HERE AND CLOSE CONNECTION?!
                     return@requestConnectionInfo
                 } else {
+                    //TODO: REMOVE THIS OBSERVABLE HERE?!
                     Observable.fromCallable {
                         socketConnect(info.groupOwnerAddress, 8889)
                     }.subscribeOn(Schedulers.io()).subscribe()
@@ -37,6 +38,7 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
 
     init {
         context.registerReceiver(broadcastReceiver, IntentFilter(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION))
+        Log.e("TEST","Registered broadcast receiver")
     }
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
@@ -64,7 +66,9 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
     }
 
     override fun destroy(context: Context) {
-        context.unregisterReceiver(broadcastReceiver)
+        try {
+            context.unregisterReceiver(broadcastReceiver)
+        } catch(ignored: IllegalArgumentException) { }
     }
 
     private fun socketConnect(host: InetAddress, port: Int) {
@@ -72,7 +76,7 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
         try {
             Log.d("TEST", "Opening client socket - host: $host port: $port")
             socket.bind(null)
-            socket.connect(InetSocketAddress(host, port), P2PModule.TIMEOUT_SOCKET)
+            socket.connect(InetSocketAddress(host, port), P2PModule.SOCKET_TIMEOUT_MS)
             Log.d("TEST", "Client socket - " + socket.isConnected)
 
         } catch (e: Exception) {

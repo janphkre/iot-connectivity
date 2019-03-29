@@ -20,7 +20,10 @@ object P2PModule: Module {
     internal const val KEY_CONNECTION = "connection"
     internal const val KEY_PORT = "port"
 
-    internal const val TIMEOUT_SOCKET = 5000
+    internal const val SOCKET_TIMEOUT_MS = 5000
+
+    internal const val ERROR_RETRY_INTERVAL_MS = 2000L
+    internal const val DISCOVER_INTERVAL_MS = 60000L
 
     override fun invoke(koinContext: KoinContext): ModuleDefinition = module {
         single { BeaconProviderImpl(androidContext()) as BeaconProvider }
