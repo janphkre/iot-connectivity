@@ -8,6 +8,8 @@ import android.view.View
 import android.widget.Toast
 import de.zweidenker.connectivity.ApplicationModule
 import de.zweidenker.connectivity.R
+import de.zweidenker.connectivity.config.interfaces.DeviceInterfacesFragment
+import de.zweidenker.connectivity.config.networks.DeviceNetworksFragment
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.activity_device_config.*
@@ -21,6 +23,9 @@ import timber.log.Timber
 
 class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<DeviceConfigurationProvider> {
 
+    //TODO: SETUP STATE RETENTION
+
+    //This view model is tied to the device config scope
     private val viewModel by inject<DeviceConfigViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,9 +98,20 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
 
     override fun onNext(configurationProvider: DeviceConfigurationProvider) {
         Timber.e("Got DeviceConfigurationProvider")
-        //TODO: WE SHOULD PRBABLY ONLY CHANGE TO THE DEVICE INTERFACES FRAGMENT ONCE THE INTERFACES HAVE LOADED?
+        switchToInterfaces()
+    }
+
+    private fun switchToInterfaces() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DeviceInterfacesFragment())
+            .disallowAddToBackStack()
+            .commitNowAllowingStateLoss()
+    }
+
+    private fun switchToNetworks() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragment_container, DeviceNetworksFragment())
+            .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
     }
 

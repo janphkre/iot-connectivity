@@ -15,6 +15,7 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     lateinit var device: Device
     lateinit var configurationProvider: DeviceConfigurationProvider
     private set
+    var interfaceId: String? = null
     var isLoading = true
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
