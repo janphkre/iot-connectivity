@@ -40,6 +40,7 @@ abstract class DeviceFragment: Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //TODO: SET TITLE!
+        (activity as? LoadingDisplay)?.setTitle(getTitle())
         setupView()
         loadData()
 

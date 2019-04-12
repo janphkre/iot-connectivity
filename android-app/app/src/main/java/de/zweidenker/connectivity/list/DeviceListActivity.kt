@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.widget.Toast
 import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.util.PermissionHandler
 import de.zweidenker.connectivity.util.withPermissions
@@ -79,7 +80,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
                     .observeOn(Schedulers.computation())
                     .subscribe(this)
             } else {
-                //TODO NOTIFY: THIS APP WILL NOT WORK WITHOUT THE REQUESTED PERMISSIONS!
+                Toast.makeText(this, "We require all of the requested permissions in order to find p2p devices!", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -90,6 +91,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
 
     override fun onError(e: Throwable) {
         //TODO? report error to user?
+        //TODO: JUST RETRY?
         Timber.e(e)
     }
 

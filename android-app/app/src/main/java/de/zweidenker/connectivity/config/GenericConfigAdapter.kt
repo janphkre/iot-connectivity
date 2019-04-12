@@ -17,6 +17,11 @@ class GenericConfigAdapter<T>(
     private var items: List<T> = emptyList()
     private val inflater = LayoutInflater.from(context)
 
+    fun setItems(newItems: List<T>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(parent)
     }

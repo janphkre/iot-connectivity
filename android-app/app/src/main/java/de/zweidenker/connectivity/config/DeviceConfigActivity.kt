@@ -53,7 +53,7 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
 
     private fun createView(device: Device) {
         setContentView(R.layout.activity_device_config)
-        toolbar.title = device.userIdentifier
+        setTitle(device.userIdentifier)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -101,18 +101,22 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
         switchToInterfaces()
     }
 
-    private fun switchToInterfaces() {
+    fun switchToInterfaces() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DeviceInterfacesFragment())
             .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
     }
 
-    private fun switchToNetworks() {
+    fun switchToNetworks() {
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DeviceNetworksFragment())
             .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
+    }
+
+    override fun setTitle(title: String) {
+        toolbar.title = title
     }
 
     override fun onCompleted() { }

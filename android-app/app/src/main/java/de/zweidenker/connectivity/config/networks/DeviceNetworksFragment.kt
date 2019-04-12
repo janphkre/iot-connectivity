@@ -14,17 +14,14 @@ import timber.log.Timber
 
 class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
 
+    private lateinit var recyclerAdapter: GenericConfigAdapter<Network>
+
     override fun getTitle(): String {
-        TODO("not implemented")
+        return "${viewModel.device.userIdentifier} - ${viewModel.interfaceId}"
     }
 
     override fun loadData() {
-        val interfaceId = viewModel.interfaceId
-        if(interfaceId == null) {
-            //TODO: DO SOMETHING?
-            return
-
-        }
+        val interfaceId = viewModel.interfaceId ?: return //TODO: SHOW AN ERROR?
         configurationProvider.getAvailableNetworks(interfaceId)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -35,9 +32,10 @@ class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
     override fun setupView() {
         view_recycler.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = GenericConfigAdapter<Network>(context, R.layout.item_network, ::selectNetwork) { network, view ->
-                TODO("BIND!")
+            recyclerAdapter = GenericConfigAdapter(context, R.layout.item_network, ::selectNetwork) { network, view ->
+                TODO("BIND network to view!")
             }
+            adapter = recyclerAdapter
         }
     }
 
@@ -48,7 +46,9 @@ class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
     }
 
     override fun onNext(networks: List<Network>) {
-        TODO("not implemented")
+        recyclerAdapter.setItems(networks)
+        stopLoading()
+        //TODO: ADD A PERIODIC RELOAD OF AVAILABLE NETWORKS
     }
 
     override fun onCompleted() { }

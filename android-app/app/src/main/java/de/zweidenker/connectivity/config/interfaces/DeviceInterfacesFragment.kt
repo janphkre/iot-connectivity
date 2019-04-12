@@ -14,8 +14,10 @@ import timber.log.Timber
 
 class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
 
+    private lateinit var recyclerAdapter: GenericConfigAdapter<Interface>
+
     override fun getTitle(): String {
-        TODO("not implemented")
+        return viewModel.device.userIdentifier
     }
 
     override fun loadData() {
@@ -29,9 +31,10 @@ class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
     override fun setupView() {
         view_recycler.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter = GenericConfigAdapter<Interface>(context, R.layout.item_interface, ::selectInterface) { iface, view ->
+            recyclerAdapter = GenericConfigAdapter(context, R.layout.item_interface, ::selectInterface) { iface, view ->
                 TODO("BIND!")
             }
+            adapter = recyclerAdapter
         }
     }
 
@@ -44,15 +47,15 @@ class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
     override fun onNext(interfaces: List<Interface>) {
         when(interfaces.size) {
             0 -> {
+                recyclerAdapter.setItems(emptyList())
                 stopLoading()
-                //TODO("SHOW EMPTY VIEW")
             }
             1 -> {
                 selectInterface(interfaces.first())
             }
             else -> {
+                recyclerAdapter.setItems(interfaces)
                 stopLoading()
-                //TODO: ADD INTERFACES TO THE FRAGMENT
             }
         }
     }
