@@ -7,12 +7,12 @@ Class {
 { #category : #accessing }
 IOTConnectivityAPI class >> delegate [
 	^ (ZnRestServerDelegate new
-			uriSpace: (IOTConnectivityUriSpace new))
+			uriSpace: (ICUriSpace new))
 ]
 
 { #category : #accessing }
 IOTConnectivityAPI class >> rootCallClass [
-	^ IOTConnectivityCall
+	^ ICCall
 ]
 
 { #category : #accessing }

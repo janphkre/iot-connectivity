@@ -1,21 +1,21 @@
 Class {
-	#name : #IOTConnectivitySpecCall,
-	#superclass : #IOTConnectivityCall,
+	#name : #ICSpecCall,
+	#superclass : #ICCall,
 	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }
-IOTConnectivitySpecCall class >> path [
+ICSpecCall class >> path [
 	^ '/spec'
 ]
 
 { #category : #accessing }
-IOTConnectivitySpecCall class >> summary [
+ICSpecCall class >> summary [
 	^ 'A call to get the OpenAPI specification for this server.'
 ]
 
 { #category : #public }
-IOTConnectivitySpecCall >> get [
+ICSpecCall >> get [
 	response := ZnResponse ok:(
 		ZnEntity 
 			with: IOTConnectivityAPI new specString 
