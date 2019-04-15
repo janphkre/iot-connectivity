@@ -13,7 +13,7 @@ EventHandler >> handle: anEvent [
 	on: MessageNotUnderstood 
 	do: [ :err | 
 		(err receiver = self) ifTrue: [
-			UIManager default inform: 'Unknown Event: ', anEvent type.
+			UIManager default inform: ('Unknown Event: ', anEvent type) actionOnClick: [ anEvent inspect. ].
 			^ self ].
 		err pass. ]
 ]

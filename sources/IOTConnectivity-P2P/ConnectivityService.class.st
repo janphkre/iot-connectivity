@@ -97,21 +97,6 @@ ConnectivityService >> p2pInvite: address [
 	p2pDevice p2pInvite: address.
 ]
 
-{ #category : #commands }
-ConnectivityService >> scan [
-	scanSemaphore consumeAllSignals.
-	targetDevice scan.
-	scanSemaphore wait: (Duration seconds: 15).
-		^ targetDevice scanResults.
-
-]
-
-{ #category : #events }
-ConnectivityService >> scanCompleted [
-	UIManager default inform: 'Scan Completed!'.
-	scanSemaphore signal.
-]
-
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |

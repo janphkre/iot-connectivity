@@ -36,7 +36,6 @@ TargetEventHandler >> CTRL_EVENT_DISCONNECTED: anEvent [
 { #category : #events }
 TargetEventHandler >> CTRL_EVENT_SCAN_RESULTS: anEvent [
 	"New scan results available"
-	service scanCompleted.
 ]
 
 { #category : #events }

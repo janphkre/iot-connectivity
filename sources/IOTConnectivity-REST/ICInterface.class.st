@@ -1,5 +1,5 @@
 Class {
-	#name : #Interface,
+	#name : #ICInterface,
 	#superclass : #Object,
 	#instVars : [
 		'name',
@@ -11,12 +11,12 @@ Class {
 }
 
 { #category : #'instance creation' }
-Interface class >> allInstancesOrError [
+ICInterface class >> allInstancesOrError [
 	^ LWpaInterface onAllNonP2P collect: [ :aLibInterface | self instanceOrError: aLibInterface ].
 ]
 
 { #category : #private }
-Interface class >> arrayToInstance: anArray with: aString [
+ICInterface class >> arrayToInstance: anArray with: aString [
 	| foundSsid foundMode foundState |
 	anArray isEmptyOrNil
 		ifTrue: [ LWpaError signal: 'Received an empty status array!' ].
@@ -49,7 +49,7 @@ Interface class >> arrayToInstance: anArray with: aString [
 ]
 
 { #category : #private }
-Interface class >> instance: aLibInterface [
+ICInterface class >> instance: aLibInterface [
 	| statusArray |
 	aLibInterface isNil ifTrue: [ ^ nil ].
 	statusArray := aLibInterface status.
@@ -57,58 +57,58 @@ Interface class >> instance: aLibInterface [
 ]
 
 { #category : #'instance creation' }
-Interface class >> instanceOrError: aLibInterface [
+ICInterface class >> instanceOrError: aLibInterface [
 	^ ([ self instance: aLibInterface ] on: LWpaError do: [ :error | error ]) value
 ]
 
 { #category : #'instance creation' }
-Interface class >> instanceOrErrorFromName: aString [
+ICInterface class >> instanceOrErrorFromName: aString [
   ^ self instanceOrError: (LWpaInterface onName: aString).
   
 ]
 
 { #category : #accessing }
-Interface class >> neoJsonMapping: mapper [
+ICInterface class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
 		mapping mapInstVars: #( name ssid mode state ) ]
 ]
 
 { #category : #accessing }
-Interface >> mode [
+ICInterface >> mode [
 	^ mode
 ]
 
 { #category : #accessing }
-Interface >> mode: aString [
+ICInterface >> mode: aString [
 	mode := aString
 ]
 
 { #category : #accessing }
-Interface >> name [
+ICInterface >> name [
 	^ name
 ]
 
 { #category : #accessing }
-Interface >> name: aString [ 
+ICInterface >> name: aString [ 
 	name := aString
 ]
 
 { #category : #accessing }
-Interface >> ssid [
+ICInterface >> ssid [
 	^ ssid
 ]
 
 { #category : #accessing }
-Interface >> ssid: aString [
+ICInterface >> ssid: aString [
 	ssid := aString
 ]
 
 { #category : #accessing }
-Interface >> state [ 
+ICInterface >> state [ 
 	^ state
 ]
 
 { #category : #accessing }
-Interface >> state: aString [
+ICInterface >> state: aString [
 	state := aString
 ]

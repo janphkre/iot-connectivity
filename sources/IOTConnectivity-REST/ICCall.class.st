@@ -1,31 +1,31 @@
 Class {
-	#name : #IOTConnectivityCall,
+	#name : #ICCall,
 	#superclass : #ZnRestCall,
 	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #accessing }
-IOTConnectivityCall class >> description [
+ICCall class >> description [
 	^ ''
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> httpMethods [
-	^ #( get update )
+ICCall class >> httpMethods [
+	^ #( get )
 ]
 
 { #category : #printing }
-IOTConnectivityCall class >> implementedMethods [
+ICCall class >> implementedMethods [
 	^ self httpMethods select: [ :method | self includesSelector: method asSymbol ]
 ]
 
 { #category : #testing }
-IOTConnectivityCall class >> isAbstract [
-	^ self = IOTConnectivityCall
+ICCall class >> isAbstract [
+	^ self = ICCall
 ]
 
 { #category : #public }
-IOTConnectivityCall class >> match: request [
+ICCall class >> match: request [
 	| callPath requestPath |
 	requestPath := $/ split: request uri path.
 	callPath := $/ split: self path allButFirst.
@@ -41,31 +41,31 @@ IOTConnectivityCall class >> match: request [
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> objectsForPragmas: aCollection [
+ICCall class >> objectsForPragmas: aCollection [
 	^ aCollection
 		collect: [:each | each method valueWithReceiver: self arguments: #() ]
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> openApiPragmasNamed: aSymbol [
+ICCall class >> openApiPragmasNamed: aSymbol [
 	^ Pragma 
 		allNamed: aSymbol
 		from: self class 
-		to: IOTConnectivityCall class.
+		to: ICCall class.
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> operationForMethod: aString [ 
+ICCall class >> operationForMethod: aString [ 
 	^ self pathItem perform: aString asSymbol.
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> parametersForMethod: aSymbol [
+ICCall class >> parametersForMethod: aSymbol [
 	^ self objectsForPragmas: ( self pragmas: #openApiParameter: includingMethod: aSymbol )
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> pathItem [
+ICCall class >> pathItem [
 	| item |
 	item := OAPathItem new.
 	self implementedMethods do: [ :method |
@@ -79,19 +79,19 @@ IOTConnectivityCall class >> pathItem [
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> pragmas: pragmaName includingMethod: aSymbol [
+ICCall class >> pragmas: pragmaName includingMethod: aSymbol [
 	^ (self openApiPragmasNamed: pragmaName) 
 		select: [ :each | 
 			each arguments first includesAny: { aSymbol . #common } ]
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> requestBody [
+ICCall class >> requestBody [
 	^ OARequestBody new
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> requestBodyForMethod: aSymbol [
+ICCall class >> requestBodyForMethod: aSymbol [
 
 	| body pragmas |
 	pragmas := (self pragmas: #openApiRequestBody:contentType: includingMethod: aSymbol)
@@ -108,24 +108,24 @@ IOTConnectivityCall class >> requestBodyForMethod: aSymbol [
 ]
 
 { #category : #accessing }
-IOTConnectivityCall class >> summary [
+ICCall class >> summary [
 	^ ''
 ]
 
 { #category : #private }
-IOTConnectivityCall >> errorEntityFor: anError [
+ICCall >> errorEntityFor: anError [
 	^ ZnEntity 
 		with:(NeoJSONWriter toStringPretty: anError)
 		type: ZnMimeType applicationJson setCharSetUTF8
 ]
 
 { #category : #private }
-IOTConnectivityCall >> errorResponseFor: anError [
+ICCall >> errorResponseFor: anError [
 	^ ZnResponse statusLine: ZnStatusLine badRequest
 ]
 
 { #category : #public }
-IOTConnectivityCall >> execute [
+ICCall >> execute [
 	"execution of the api call"
 	^ (self respondsTo: self method)	
 		ifTrue: [ 
@@ -140,7 +140,7 @@ IOTConnectivityCall >> execute [
 ]
 
 { #category : #private }
-IOTConnectivityCall >> handleError: anError [
+ICCall >> handleError: anError [
 
 	^ (self errorResponseFor: anError) 
 		entity: (self errorEntityFor: anError)
@@ -148,7 +148,7 @@ IOTConnectivityCall >> handleError: anError [
 ]
 
 { #category : #initialization }
-IOTConnectivityCall >> initializeParameters [
+ICCall >> initializeParameters [
 	| operation |
 	operation := self class operationForMethod: request method asLowercase.
 	operation 
@@ -157,22 +157,22 @@ IOTConnectivityCall >> initializeParameters [
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> postProcess [
+ICCall >> postProcess [
 	
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> preProcess [
+ICCall >> preProcess [
 	self initializeParameters 
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> requestBody [
+ICCall >> requestBody [
 	^ OARequestBody new
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> requestBodyForMethod: aSymbol [
+ICCall >> requestBodyForMethod: aSymbol [
 
 	| body pragmas |
 	pragmas := (self pragmas: #openApiRequestBody:contentType: includingMethod: aSymbol)
@@ -189,11 +189,11 @@ IOTConnectivityCall >> requestBodyForMethod: aSymbol [
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> summary [
+ICCall >> summary [
 	^ ''
 ]
 
 { #category : #accessing }
-IOTConnectivityCall >> valueDelegate [
+ICCall >> valueDelegate [
 	^ self 
 ]

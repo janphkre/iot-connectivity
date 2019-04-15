@@ -1,12 +1,12 @@
 Class {
-	#name : #IOTConnectivityUriSpace,
+	#name : #ICUriSpace,
 	#superclass : #ZnRestUriSpace,
 	#category : #'IOTConnectivity-REST-Calls'
 }
 
 { #category : #public }
-IOTConnectivityUriSpace >> match: request [
-	(IOTConnectivityCall allSubclasses reject: #isAbstract)
+ICUriSpace >> match: request [
+	(ICCall allSubclasses reject: #isAbstract)
 		do: [ :callClass |
 			(callClass match: request) ifTrue: [ 
 				^ callClass new ] ].
