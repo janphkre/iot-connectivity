@@ -1,6 +1,7 @@
 package de.zweidenker.connectivity.config
 
 import android.content.Context
+import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -15,11 +16,15 @@ class GenericConfigAdapter<T>(
 ): RecyclerView.Adapter<GenericConfigAdapter<T>.ViewHolder>() {
 
     private var items: List<T> = emptyList()
-    private val inflater = LayoutInflater.from(context)
+    private var foregroundHandler = Handler(context.mainLooper)
 
     fun setItems(newItems: List<T>) {
-        items = newItems
-        notifyDataSetChanged()
+        synchronized(this) {
+            items = newItems
+            foregroundHandler.post {
+                notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,7 +41,7 @@ class GenericConfigAdapter<T>(
         holder.clear()
     }
 
-    inner class ViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(inflater.inflate(itemLayout, parent, false)) {
+    inner class ViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false)) {
         private var item: T? = null
 
         init {

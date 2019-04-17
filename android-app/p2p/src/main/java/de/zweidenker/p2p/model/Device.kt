@@ -15,10 +15,6 @@ class Device(
     val connectionStatus: ConnectionStatus,
     val port: Int) : Parcelable {
 
-    enum class ConnectionStatus {
-        UNKNOWN, UP, DOWN, PROBLEM
-    }
-
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
@@ -34,7 +30,7 @@ class Device(
         p2pDevice.deviceAddress,
         when(txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.UP.name -> ConnectionStatus.UP
-            ConnectionStatus.DOWN.name -> ConnectionStatus.DOWN
+            ConnectionStatus.DISCONNECTED.name -> ConnectionStatus.DISCONNECTED
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN
         },
@@ -57,20 +53,11 @@ class Device(
         if(other !is Device) {
             return false
         }
-        return id == other.id &&
-            userIdentifier == other.userIdentifier &&
-            address == other.address &&
-            connectionStatus == other.connectionStatus &&
-            port == other.port
+        return id == other.id
     }
 
     override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + userIdentifier.hashCode()
-        result = 31 * result + address.hashCode()
-        result = 31 * result + connectionStatus.hashCode()
-        result = 31 * result + port
-        return result
+        return id.hashCode()
     }
 
     fun asConfig(): WifiP2pConfig {

@@ -7,6 +7,7 @@ import android.os.Handler
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.core.WifiP2PException
+import de.zweidenker.p2p.model.ConnectionStatus
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 import rx.Subscriber
@@ -26,7 +27,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
             return@create
         }
 
-        subscriber.onNext(Device(0L,"MockDevice", "MockAddress", Device.ConnectionStatus.UNKNOWN, 0))
+        subscriber.onNext(Device(0L,"MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0))
 
         //Internal filtering does not seem to work correctly. We will filter by ourselves.
         val request = WifiP2pDnsSdServiceRequest.newInstance()

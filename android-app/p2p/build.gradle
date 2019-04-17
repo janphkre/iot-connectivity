@@ -1,3 +1,7 @@
 dependencies {
     api "io.reactivex:rxandroid:$rxandroid_version"
+    api "com.google.code.gson:gson:$gson_version"
+    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    api "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
 }
