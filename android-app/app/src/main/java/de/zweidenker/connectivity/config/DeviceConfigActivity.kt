@@ -3,13 +3,12 @@ package de.zweidenker.connectivity.config
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
 import de.zweidenker.connectivity.ApplicationModule
 import de.zweidenker.connectivity.R
-import de.zweidenker.connectivity.config.interfaces.DeviceInterfacesFragment
-import de.zweidenker.connectivity.config.networks.DeviceNetworksFragment
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.activity_device_config.*
@@ -21,10 +20,9 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<DeviceConfigurationProvider> {
+class DeviceConfigActivity: AppCompatActivity(), ConfigContainer, Observer<DeviceConfigurationProvider> {
 
-    //TODO: SETUP STATE RETENTION
-
+    private var currentFragment = FragmentTypes.NONE
     //This view model is tied to the device config scope
     private val viewModel by inject<DeviceConfigViewModel>()
 
@@ -64,6 +62,14 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
         return true
     }
 
+    override fun onBackPressed() {
+        if(currentFragment == FragmentTypes.NETWORKS) {
+            switchToInterfaces()
+        } else {
+            finish()
+        }
+    }
+
     private fun Subscription.store() {
         viewModel.store(this)
     }
@@ -98,17 +104,25 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
 
     override fun onNext(configurationProvider: DeviceConfigurationProvider) {
         Timber.e("Got DeviceConfigurationProvider")
-        switchToInterfaces()
+        if(currentFragment != FragmentTypes.NETWORKS) {
+            switchToInterfaces()
+        } else {
+            switchToNetworks()
+        }
     }
 
-    fun switchToInterfaces() {
+    override fun onCompleted() { }
+
+    override fun switchToInterfaces() {
+        currentFragment = FragmentTypes.INTERFACES
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DeviceInterfacesFragment())
             .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
     }
 
-    fun switchToNetworks() {
+    override fun switchToNetworks() {
+        currentFragment = FragmentTypes.NETWORKS
         supportFragmentManager.beginTransaction()
             .add(R.id.fragment_container, DeviceNetworksFragment())
             .disallowAddToBackStack()
@@ -119,9 +133,14 @@ class DeviceConfigActivity: AppCompatActivity(), LoadingDisplay, Observer<Device
         toolbar.title = title
     }
 
-    override fun onCompleted() { }
+    override fun showDialog(dialog: DialogFragment) {
+        dialog.show(supportFragmentManager, TAG_DIALOG)
+    }
+
+    enum class FragmentTypes { NONE, INTERFACES, NETWORKS }
 
     companion object {
+        private const val TAG_DIALOG = "config.dialog"
         private const val KEY_DEVICE = "config.device"
         private const val DURATION_LOADING_FADING = 1500L
 

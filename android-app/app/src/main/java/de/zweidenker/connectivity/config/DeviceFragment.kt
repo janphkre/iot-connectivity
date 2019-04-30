@@ -20,13 +20,16 @@ abstract class DeviceFragment: Fragment() {
 
     protected fun stopLoading() {
         if(viewModel.isLoading) {
-            (activity as? LoadingDisplay)?.stopLoading()
+            (activity as? ConfigContainer)?.stopLoading()
             viewModel.isLoading = false
         }
     }
 
-    protected fun goBack() {
-        activity?.supportFragmentManager?.popBackStack()
+    protected fun startLoading() {
+        if(!viewModel.isLoading) {
+            (activity as? ConfigContainer)?.startLoading()
+            viewModel.isLoading = true
+        }
     }
 
     protected abstract fun loadData()
@@ -39,10 +42,21 @@ abstract class DeviceFragment: Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //TODO: SET TITLE!
-        (activity as? LoadingDisplay)?.setTitle(getTitle())
-        setupView()
-        loadData()
+        (activity as? ConfigContainer)?.setTitle(getTitle())
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupView()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        loadData()
+    }
+
+    override fun onPause() {
+        viewModel.unsubscribeAll()
+        super.onPause()
     }
 }

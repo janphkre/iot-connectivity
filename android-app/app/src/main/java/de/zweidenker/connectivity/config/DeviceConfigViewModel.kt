@@ -5,6 +5,7 @@ import android.content.Context
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.model.Device
+import de.zweidenker.p2p.model.Network
 import rx.Observable
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
@@ -16,6 +17,8 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     lateinit var configurationProvider: DeviceConfigurationProvider
     private set
     var interfaceId: String? = null
+    var network: Network? = null
+
     var isLoading = true
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
@@ -25,8 +28,7 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     }
 
     override fun destroy(context: Context) {
-        subscriptions?.unsubscribe()
-        subscriptions = null
+        unsubscribeAll()
         connectionProvider.destroy(context)
     }
 
@@ -35,5 +37,10 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
             subscriptions = CompositeSubscription()
         }
         subscriptions?.add(subscription)
+    }
+
+    fun unsubscribeAll() {
+        subscriptions?.unsubscribe()
+        subscriptions = null
     }
 }

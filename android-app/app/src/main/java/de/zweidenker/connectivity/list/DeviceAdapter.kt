@@ -11,10 +11,10 @@ import android.view.ViewGroup
 import android.view.WindowInsets
 import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.config.DeviceConfigActivity
-import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.core.IdGenerator
-import kotlinx.android.synthetic.main.item_device.view.*
-import kotlinx.android.synthetic.main.item_loading.view.*
+import de.zweidenker.p2p.model.Device
+import kotlinx.android.synthetic.main.item_card.view.*
+import kotlinx.android.synthetic.main.item_card_loading.view.*
 
 /**
  * This Adapter displays a list of Device through a RecyclerView.
@@ -48,7 +48,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         return when(viewType) {
             ViewTypes.Device.ordinal -> {
                 val inflater = LayoutInflater.from(parent.context)
-                val view = inflater.inflate(R.layout.item_device, parent, false)
+                val view = inflater.inflate(R.layout.item_card, parent, false)
                 DeviceViewHolder(view)
             }
             ViewTypes.Header.ordinal -> {
@@ -58,7 +58,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
             }
             else -> {
                 val inflater = LayoutInflater.from(parent.context)
-                val view = inflater.inflate(R.layout.item_loading, parent, false)
+                val view = inflater.inflate(R.layout.item_card_loading, parent, false)
                 SpacerViewHolder(view, view.loading_spacer)
             }
         }

@@ -59,7 +59,6 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
                 }
 
             })
-            //TODO: DISCONNECT FROM GROUP ONCE DONE!
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->
             DeviceConfigurationProvider.getInstance(device, hostAddress)
         }

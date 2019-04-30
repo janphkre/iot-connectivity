@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Interface
 import de.zweidenker.p2p.model.Network
+import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
@@ -48,11 +49,16 @@ interface DeviceConfigurationProvider {
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
             val httpClient = clientBuilder.build()
             val gson = Gson()
+            val httpUrl = HttpUrl.Builder()
+                .host(deviceIpAddress)
+                .port(device.port)
+                .scheme("http")
+                .build()
             val RETROFIT = Retrofit.Builder()
                 .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .baseUrl("$deviceIpAddress:${device.port}")
+                .baseUrl(httpUrl)
                 .build()
             return RETROFIT.create(DeviceConfigurationProvider::class.java)
         }

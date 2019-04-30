@@ -1,12 +1,11 @@
-package de.zweidenker.connectivity.config.interfaces
+package de.zweidenker.connectivity.config
 
 import android.support.v7.widget.LinearLayoutManager
 import android.widget.Toast
 import de.zweidenker.connectivity.R
-import de.zweidenker.connectivity.config.DeviceFragment
-import de.zweidenker.connectivity.config.GenericConfigAdapter
 import de.zweidenker.p2p.model.Interface
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.item_card.view.*
 import rx.Observer
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
@@ -31,8 +30,10 @@ class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
     override fun setupView() {
         view_recycler.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            recyclerAdapter = GenericConfigAdapter(context, R.layout.item_interface, ::selectInterface) { iface, view ->
-                TODO("BIND!")
+            recyclerAdapter = GenericConfigAdapter(context, R.layout.item_card, ::selectInterface) { iface, view ->
+                view.card_title.text = iface.name
+                view.card_subtitle.text = resources.getString(R.string.config_subtitle, iface.status, iface.ssid)
+                view.card_detail.text = iface.mode
             }
             adapter = recyclerAdapter
         }
@@ -63,6 +64,8 @@ class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
     override fun onCompleted() { }
 
     private fun selectInterface(iface: Interface) {
-        //TODO!
+        startLoading()
+        viewModel.interfaceId = iface.name
+        (activity as? ConfigContainer)?.switchToNetworks()
     }
 }
