@@ -30,7 +30,11 @@ object PermissionHandler {
     }
 }
 
-fun Activity.withPermissions(vararg permissions: String, @StringRes permissionRationalRes: Int? = null, callback: (Boolean) -> Unit) {
+fun Activity.withPermissions(
+    vararg permissions: String,
+    @StringRes permissionRationalRes: Int? = null,
+    callback: (Boolean) -> Unit
+) {
     if (PermissionUtils.hasSelfPermissions(this ?: return, *permissions)) {
         callback(true)
     } else {

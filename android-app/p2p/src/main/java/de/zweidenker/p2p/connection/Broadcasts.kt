@@ -7,7 +7,7 @@ import android.net.NetworkInfo
 import android.net.wifi.p2p.WifiP2pManager
 import android.util.Log
 
-class Broadcasts(private val connected: () -> Unit): BroadcastReceiver() {
+class Broadcasts(private val connected: () -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
@@ -16,7 +16,7 @@ class Broadcasts(private val connected: () -> Unit): BroadcastReceiver() {
                 if (networkInfo?.isConnected == true) {
                     connected.invoke()
                 } else {
-                    Log.e("TEST","connectionChanged:" + networkInfo?.detailedState?.name + " " + networkInfo?.extraInfo)
+                    Log.e("TEST", "connectionChanged:" + networkInfo?.detailedState?.name + " " + networkInfo?.extraInfo)
                 }
             }
         }

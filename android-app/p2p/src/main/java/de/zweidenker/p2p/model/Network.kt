@@ -30,7 +30,7 @@ class Network(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other !is Network) {
+        if (other !is Network) {
             return false
         }
 
@@ -43,7 +43,6 @@ class Network(
         result = 31 * result + ssid.hashCode()
         return result
     }
-
 
     companion object CREATOR : Parcelable.Creator<Network> {
         override fun createFromParcel(parcel: Parcel): Network {

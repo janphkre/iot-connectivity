@@ -45,7 +45,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             ViewTypes.Device.ordinal -> {
                 val inflater = LayoutInflater.from(parent.context)
                 val view = inflater.inflate(R.layout.item_card, parent, false)
@@ -140,7 +140,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         Footer
     }
 
-    private class DeviceViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+    private class DeviceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val titleTextView = itemView.card_title
         private val subtitleTextView = itemView.card_subtitle
         private val detailsTextView = itemView.card_detail
@@ -151,7 +151,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
             detailsTextView.text = device.connectionStatus.name
             itemView.setOnClickListener {
                 DeviceConfigActivity.startActivity(it.context, device)
-                //TODO: Overwrite pending transition?
+                // TODO: Overwrite pending transition?
             }
         }
 
@@ -160,7 +160,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         }
     }
 
-    private class SpacerViewHolder(itemView: View, private val spacingView: View): RecyclerView.ViewHolder(itemView) {
+    private class SpacerViewHolder(itemView: View, private val spacingView: View) : RecyclerView.ViewHolder(itemView) {
 
         fun bind(size: Int) {
             spacingView.layoutParams = spacingView.layoutParams.apply {

@@ -7,12 +7,12 @@ import org.koin.dsl.module.Module
 import org.koin.log.Logger
 import timber.log.Timber
 
-class ConnectivityApplication: Application() {
+class ConnectivityApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
         val koinLogger = setupLogging()
-        startKoin(this, getKoinModules(), logger= koinLogger)
+        startKoin(this, getKoinModules(), logger = koinLogger)
     }
 
     private fun getKoinModules(): List<Module> = listOf(

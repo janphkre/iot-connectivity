@@ -11,7 +11,7 @@ import rx.Observable
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
 
-class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProvider): ViewModel(), DeviceConnectionProvider {
+class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProvider) : ViewModel(), DeviceConnectionProvider {
 
     private var subscriptions: CompositeSubscription? = null
     lateinit var device: Device
@@ -38,7 +38,7 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     }
 
     fun store(subscription: Subscription) {
-        if(subscriptions == null) {
+        if (subscriptions == null) {
             subscriptions = CompositeSubscription()
         }
         subscriptions?.add(subscription)

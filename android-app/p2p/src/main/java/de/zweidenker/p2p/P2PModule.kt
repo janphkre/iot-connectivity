@@ -10,11 +10,11 @@ import org.koin.dsl.context.ModuleDefinition
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.module
 
-object P2PModule: Module {
+object P2PModule : Module {
     internal const val TYPE_SERVICE = "connectivity.pharo._tcp.local."
 
     internal const val NAME_BEACON_THREAD = "BeaconBackgroundThread"
-    internal const val NAME_CONFIG_THREAD ="ConfigurationBackgroundThread"
+    internal const val NAME_CONFIG_THREAD = "ConfigurationBackgroundThread"
 
     internal const val KEY_IDENTIFIER = "identifier"
     internal const val KEY_CONNECTION = "connection"

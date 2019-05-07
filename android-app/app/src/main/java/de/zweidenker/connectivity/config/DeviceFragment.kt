@@ -9,7 +9,7 @@ import de.zweidenker.connectivity.R
 import org.koin.android.ext.android.inject
 import rx.Subscription
 
-abstract class DeviceFragment: Fragment() {
+abstract class DeviceFragment : Fragment() {
 
     protected val viewModel by inject<DeviceConfigViewModel>()
     protected val configurationProvider get() = viewModel.configurationProvider
@@ -19,14 +19,14 @@ abstract class DeviceFragment: Fragment() {
     }
 
     protected fun stopLoading() {
-        if(viewModel.isLoading) {
+        if (viewModel.isLoading) {
             (activity as? ConfigContainer)?.stopLoading()
             viewModel.isLoading = false
         }
     }
 
     protected fun startLoading() {
-        if(!viewModel.isLoading) {
+        if (!viewModel.isLoading) {
             (activity as? ConfigContainer)?.startLoading()
             viewModel.isLoading = true
         }
@@ -36,7 +36,11 @@ abstract class DeviceFragment: Fragment() {
     protected abstract fun setupView()
     protected abstract fun getTitle(): String
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fragment_list, container, true)
     }
 

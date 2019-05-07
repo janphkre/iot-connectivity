@@ -15,10 +15,10 @@ object IdGenerator {
 
     fun getId(macAddress: String): Long {
         var result = 0L
-        for(i in 0 until MAC_ADDRESS_BYTES) {
+        for (i in 0 until MAC_ADDRESS_BYTES) {
             val currentIndex = i * 3
             result = (result shl BITS_PER_BYTE) + (Character.digit(macAddress[currentIndex], HEXADECIMAL) shl 4) +
-                    Character.digit(macAddress[currentIndex+1], HEXADECIMAL)
+                    Character.digit(macAddress[currentIndex + 1], HEXADECIMAL)
         }
         return result
     }

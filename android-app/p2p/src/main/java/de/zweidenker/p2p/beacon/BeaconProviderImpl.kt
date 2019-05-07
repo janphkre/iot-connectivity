@@ -16,32 +16,32 @@ import rx.schedulers.Schedulers
 import rx.subjects.ReplaySubject
 import timber.log.Timber
 
-internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
+internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
 
     private val discoverHandler = Handler()
 
     private val observable = Observable.create<Device> { subscriber ->
-        if(wifiManager == null || wifiChannel == null) {
+        if (wifiManager == null || wifiChannel == null) {
             val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
             subscriber.onError(throwable)
             return@create
         }
 
-        subscriber.onNext(Device(0L,"MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0))
+        subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0))
 
-        //Internal filtering does not seem to work correctly. We will filter by ourselves.
+        // Internal filtering does not seem to work correctly. We will filter by ourselves.
         val request = WifiP2pDnsSdServiceRequest.newInstance()
-        wifiManager.addServiceRequest(wifiChannel, request, object: WifiP2pManager.ActionListener {
+        wifiManager.addServiceRequest(wifiChannel, request, object : WifiP2pManager.ActionListener {
             override fun onSuccess() {
                 wifiManager.setDnsSdResponseListeners(wifiChannel,
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
-                    if(fullDomainName.isValidType()) {
+                    if (fullDomainName.isValidType()) {
                         try {
                             subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
-                        } catch(e: Exception) {
+                        } catch (e: Exception) {
                             Timber.e(e)
-                            //TODO: DOES RX UNSUBSCRIBE IN ONERROR?
-                            //subscriber.onError(e)
+                            // TODO: DOES RX UNSUBSCRIBE IN ONERROR?
+                            // subscriber.onError(e)
                         }
                     }
                 })
@@ -65,7 +65,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
     }
 
     private fun discoverServices(subscriber: Subscriber<in Device>) {
-        wifiManager?.discoverServices(wifiChannel, object: WifiP2pManager.ActionListener {
+        wifiManager?.discoverServices(wifiChannel, object : WifiP2pManager.ActionListener {
             override fun onSuccess() {
                 discoverHandler.postDelayed({
                     discoverServices(subscriber)
@@ -82,7 +82,7 @@ internal class BeaconProviderImpl(context: Context): BeaconProvider, AbstractWif
 
     @Throws(Exception::class)
     override fun getBeacons(): Observable<Device> {
-        if(subscription == null) {
+        if (subscription == null) {
             subscription = observable
                 .subscribeOn(Schedulers.io())
                 .subscribe(deviceSubject)

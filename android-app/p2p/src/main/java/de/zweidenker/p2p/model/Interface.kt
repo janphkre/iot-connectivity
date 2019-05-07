@@ -8,7 +8,7 @@ class Interface(
     var ssid: String?,
     var mode: String?,
     var status: ConnectionStatus
-    ) : Parcelable {
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
@@ -26,7 +26,7 @@ class Interface(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other !is Interface) {
+        if (other !is Interface) {
             return false
         }
 
@@ -36,7 +36,6 @@ class Interface(
     override fun hashCode(): Int {
         return name.hashCode()
     }
-
 
     companion object CREATOR : Parcelable.Creator<Interface> {
         override fun createFromParcel(parcel: Parcel): Interface {

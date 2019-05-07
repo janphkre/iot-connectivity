@@ -34,7 +34,10 @@ interface DeviceConfigurationProvider {
     fun getNetworkConfigs(@Path("interfaceId") interfaceId: String): Observable<List<NetworkConfig>>
 
     @PUT("/interfaces/{interfaceId}/networks")
-    fun selectNetworkConfig(@Path("interfaceId") interfaceId: String, @Query("selectedNetwork") networkId: String): Observable<Unit>
+    fun selectNetworkConfig(
+        @Path("interfaceId") interfaceId: String,
+        @Query("selectedNetwork") networkId: String
+    ): Observable<Unit>
 
     @GET("/interfaces/{interfaceId}/log")
     fun getLog(@Path("interfaceId") interfaceId: String): Observable<List<String>>

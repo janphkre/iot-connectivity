@@ -13,7 +13,8 @@ class Device(
     val userIdentifier: String,
     val address: String,
     val connectionStatus: ConnectionStatus,
-    val port: Int) : Parcelable {
+    val port: Int
+) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
@@ -24,11 +25,11 @@ class Device(
     )
 
     constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
-        //Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
+        // Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
         IdGenerator.getId(p2pDevice.deviceAddress),
         txtRecordMap[P2PModule.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
         p2pDevice.deviceAddress,
-        when(txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
+        when (txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.UP.name -> ConnectionStatus.UP
             ConnectionStatus.DISCONNECTED.name -> ConnectionStatus.DISCONNECTED
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
@@ -50,7 +51,7 @@ class Device(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other !is Device) {
+        if (other !is Device) {
             return false
         }
         return id == other.id
@@ -77,5 +78,4 @@ class Device(
             return arrayOfNulls(size)
         }
     }
-
 }

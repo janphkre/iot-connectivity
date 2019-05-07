@@ -16,21 +16,21 @@ import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class DeviceNetworkDialogFragment: DialogFragment(), Observer<String> {
+class DeviceNetworkDialogFragment : DialogFragment(), Observer<String> {
     private val viewModel by inject<DeviceConfigViewModel>()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_network_config, null, false)
         view.network_connect.setOnClickListener {
-            val network  = viewModel.network
+            val network = viewModel.network
             val interfaceId = viewModel.interfaceId
-            if(interfaceId == null || network == null) {
+            if (interfaceId == null || network == null) {
                 Toast.makeText(it.context, R.string.network_viewmodel_error, Toast.LENGTH_SHORT).show()
                 close()
                 return@setOnClickListener
             }
             val password = view?.password_input?.text
-            if(password?.isNotBlank() != true) {
+            if (password?.isNotBlank() != true) {
                 Toast.makeText(it.context, R.string.network_password_blank, Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -83,8 +83,8 @@ class DeviceNetworkDialogFragment: DialogFragment(), Observer<String> {
     }
 
     override fun onNext(t: String?) {
-        //TODO: WHAT IS THE STRING NEEDED FOR?
-        //TODO: MAYBE PROVIDE SOME FEEDBACK TO THE USER
+        // TODO: WHAT IS THE STRING NEEDED FOR?
+        // TODO: MAYBE PROVIDE SOME FEEDBACK TO THE USER
         context?.let {
             Toast.makeText(it, R.string.network_success, Toast.LENGTH_SHORT).show()
         }

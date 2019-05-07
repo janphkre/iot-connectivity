@@ -31,7 +31,7 @@ class NetworkConfig(
     }
 
     override fun equals(other: Any?): Boolean {
-        if(other !is NetworkConfig) {
+        if (other !is NetworkConfig) {
             return false
         }
 
@@ -44,7 +44,6 @@ class NetworkConfig(
         result = 31 * result + ssid.hashCode()
         return result
     }
-
 
     companion object CREATOR : Parcelable.Creator<NetworkConfig> {
         override fun createFromParcel(parcel: Parcel): NetworkConfig {

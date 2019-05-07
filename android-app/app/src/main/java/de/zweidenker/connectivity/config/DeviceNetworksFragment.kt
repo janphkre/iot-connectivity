@@ -13,7 +13,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
+class DeviceNetworksFragment : DeviceFragment(), Observer<List<Network>> {
 
     private val reloadIntervalMs = 5000L
     private val errorThreshold = 4
@@ -26,7 +26,7 @@ class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
     }
 
     override fun loadData() {
-        val interfaceId = viewModel.interfaceId ?: return //TODO: SHOW AN ERROR?
+        val interfaceId = viewModel.interfaceId ?: return // TODO: SHOW AN ERROR?
         configurationProvider.getAvailableNetworks(interfaceId)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())
@@ -70,7 +70,7 @@ class DeviceNetworksFragment: DeviceFragment(), Observer<List<Network>> {
 
     override fun onError(e: Throwable) {
         Timber.e(e)
-        if(errorCount == 1) {
+        if (errorCount == 1) {
             Toast.makeText(context, "Could not obtain a list of networks on the interface!", Toast.LENGTH_SHORT).show()
         }
         errorCount = (errorCount + 1) % errorThreshold

@@ -13,7 +13,7 @@ class GenericConfigAdapter<T>(
     @LayoutRes private val itemLayout: Int,
     private val onClick: (T) -> Unit,
     private val bind: (T, View) -> Unit
-): RecyclerView.Adapter<GenericConfigAdapter<T>.ViewHolder>() {
+) : RecyclerView.Adapter<GenericConfigAdapter<T>.ViewHolder>() {
 
     private var items: List<T> = emptyList()
     private var foregroundHandler = Handler(context.mainLooper)
@@ -41,7 +41,7 @@ class GenericConfigAdapter<T>(
         holder.clear()
     }
 
-    inner class ViewHolder(parent: ViewGroup): RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false)) {
+    inner class ViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(LayoutInflater.from(parent.context).inflate(itemLayout, parent, false)) {
         private var item: T? = null
 
         init {

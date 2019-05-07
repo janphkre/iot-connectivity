@@ -16,15 +16,15 @@ import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
 
-internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
+internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
     private val broadcastReceiver = Broadcasts {
         Log.e("TEST", "GOT INTENT")
         wifiManager?.requestConnectionInfo(wifiChannel) { info ->
             Log.e("TEST", "info: $info")
-            if(info.groupFormed) {
-                if(info.isGroupOwner) {
+            if (info.groupFormed) {
+                if (info.isGroupOwner) {
                     groupOwnerObservable.onError(IsGroupOwnerException())
                 } else {
                     groupOwnerObservable.onNext(info.groupOwnerAddress.hostAddress)
@@ -36,19 +36,19 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
 
     init {
         context.registerReceiver(broadcastReceiver, IntentFilter(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION))
-        Log.e("TEST","Registered broadcast receiver")
+        Log.e("TEST", "Registered broadcast receiver")
     }
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
         return Observable.create<Unit> { subscriber ->
-            if(wifiManager == null || wifiChannel == null) {
+            if (wifiManager == null || wifiChannel == null) {
                 val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
                 subscriber.onError(throwable)
                 return@create
             }
-            wifiManager.connect(wifiChannel, device.asConfig(), object: WifiP2pManager.ActionListener {
+            wifiManager.connect(wifiChannel, device.asConfig(), object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
-                    Log.e("TEST","CONNECT SUCCESS")
+                    Log.e("TEST", "CONNECT SUCCESS")
                     subscriber.onNext(Unit)
                     subscriber.onCompleted()
                 }
@@ -57,7 +57,6 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
                     val throwable = WifiP2PException("Failed to connect to the device!", reason)
                     subscriber.onError(throwable)
                 }
-
             })
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->
             DeviceConfigurationProvider.getInstance(device, hostAddress)
@@ -67,7 +66,7 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
     override fun destroy(context: Context) {
         try {
             context.unregisterReceiver(broadcastReceiver)
-        } catch(ignored: IllegalArgumentException) { }
+        } catch (ignored: IllegalArgumentException) { }
     }
 
     private fun socketConnect(host: InetAddress, port: Int) {
@@ -77,7 +76,6 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
             socket.bind(null)
             socket.connect(InetSocketAddress(host, port), P2PModule.SOCKET_TIMEOUT_MS)
             Log.d("TEST", "Client socket - " + socket.isConnected)
-
         } catch (e: Exception) {
             Log.e("TEST", e.message)
         } finally {
@@ -88,10 +86,9 @@ internal class DeviceConnectionProviderImpl(context: Context): DeviceConnectionP
                     // Give up
                     e.printStackTrace()
                 }
-
             }
         }
     }
 
-    class IsGroupOwnerException: Exception("This device is the group owner of the p2p group!")
+    class IsGroupOwnerException : Exception("This device is the group owner of the p2p group!")
 }

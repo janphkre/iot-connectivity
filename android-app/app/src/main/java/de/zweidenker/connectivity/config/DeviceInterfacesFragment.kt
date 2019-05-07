@@ -11,7 +11,7 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
+class DeviceInterfacesFragment : DeviceFragment(), Observer<List<Interface>> {
 
     private lateinit var recyclerAdapter: GenericConfigAdapter<Interface>
 
@@ -42,11 +42,11 @@ class DeviceInterfacesFragment: DeviceFragment(), Observer<List<Interface>> {
     override fun onError(e: Throwable) {
         Timber.e(e)
         Toast.makeText(context, "Could not obtain a list of interfaces on the device!", Toast.LENGTH_SHORT).show()
-        //TODO??
+        // TODO??
     }
 
     override fun onNext(interfaces: List<Interface>) {
-        when(interfaces.size) {
+        when (interfaces.size) {
             0 -> {
                 recyclerAdapter.setItems(emptyList())
                 stopLoading()

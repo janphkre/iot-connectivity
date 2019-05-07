@@ -23,7 +23,7 @@ import timber.log.Timber
  * I list all devices that are available through the beacon provider.
  * Every item in my list can be clicked to start the DeviceConfigActivity on it.
  */
-class DeviceListActivity: AppCompatActivity(), Observer<Device> {
+class DeviceListActivity : AppCompatActivity(), Observer<Device> {
 
     private lateinit var deviceAdapter: DeviceAdapter
     private val beaconProvider by inject<BeaconProvider>()
@@ -62,7 +62,6 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
                 insets
             }
         }
-
     }
 
     override fun onStart() {
@@ -73,7 +72,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             permissionRationalRes = R.string.permission_rationale_text) { success ->
-            if(success) {
+            if (success) {
                 beaconProvider.getBeacons()
                     .subscribeOn(Schedulers.io())
                     .observeOn(Schedulers.computation())
@@ -84,13 +83,17 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
         PermissionHandler.onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onError(e: Throwable) {
         Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
-        //TODO: JUST RETRY?
+        // TODO: JUST RETRY?
         Timber.e(e)
     }
 

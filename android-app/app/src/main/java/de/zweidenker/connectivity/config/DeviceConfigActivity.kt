@@ -20,17 +20,17 @@ import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 import timber.log.Timber
 
-class DeviceConfigActivity: AppCompatActivity(), ConfigContainer, Observer<DeviceConfigurationProvider> {
+class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<DeviceConfigurationProvider> {
 
     private var currentFragment = FragmentTypes.NONE
-    //This view model is tied to the device config scope
+    // This view model is tied to the device config scope
     private val viewModel by inject<DeviceConfigViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getKoin().createScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
         val device = intent.getParcelableExtra<Device>(KEY_DEVICE)
-        if(device == null) {
+        if (device == null) {
             finish()
             return
         }
@@ -63,7 +63,7 @@ class DeviceConfigActivity: AppCompatActivity(), ConfigContainer, Observer<Devic
     }
 
     override fun onBackPressed() {
-        if(currentFragment == FragmentTypes.NETWORKS) {
+        if (currentFragment == FragmentTypes.NETWORKS) {
             switchToInterfaces()
         } else {
             finish()
@@ -104,7 +104,7 @@ class DeviceConfigActivity: AppCompatActivity(), ConfigContainer, Observer<Devic
 
     override fun onNext(configurationProvider: DeviceConfigurationProvider) {
         Timber.e("Got DeviceConfigurationProvider")
-        if(currentFragment != FragmentTypes.NETWORKS) {
+        if (currentFragment != FragmentTypes.NETWORKS) {
             switchToInterfaces()
         } else {
             switchToNetworks()
