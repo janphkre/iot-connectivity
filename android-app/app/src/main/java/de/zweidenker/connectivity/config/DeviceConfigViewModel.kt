@@ -6,6 +6,7 @@ import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Network
+import de.zweidenker.p2p.model.NetworkConfig
 import rx.Observable
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
