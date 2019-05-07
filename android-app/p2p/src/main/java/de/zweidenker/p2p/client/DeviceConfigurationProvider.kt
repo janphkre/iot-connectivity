@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Interface
 import de.zweidenker.p2p.model.Network
+import de.zweidenker.p2p.model.NetworkConfig
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,10 +28,10 @@ interface DeviceConfigurationProvider {
     fun getAvailableNetworks(@Path("interfaceId") interfaceId: String): Observable<List<Network>>
 
     @POST("/interfaces/{interfaceId}/configs")
-    fun addNetworkConfig(@Path("interfaceId") interfaceId: String, @Body network: Network): Observable<String>
+    fun addNetworkConfig(@Path("interfaceId") interfaceId: String, @Body network: NetworkConfig): Observable<String>
 
     @GET("/interfaces/{interfaceId}/configs")
-    fun getNetworkConfigs(@Path("interfaceId") interfaceId: String): Observable<List<Network>>
+    fun getNetworkConfigs(@Path("interfaceId") interfaceId: String): Observable<List<NetworkConfig>>
 
     @PUT("/interfaces/{interfaceId}/networks")
     fun selectNetworkConfig(@Path("interfaceId") interfaceId: String, @Query("selectedNetwork") networkId: String): Observable<Unit>

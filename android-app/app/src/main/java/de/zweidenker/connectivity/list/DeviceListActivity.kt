@@ -56,7 +56,6 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
     }
 
     private fun setupHeader() {
-        //TODO!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             frame_device.setOnApplyWindowInsetsListener { _, insets ->
                 deviceAdapter.setInsets(insets)
@@ -90,7 +89,7 @@ class DeviceListActivity: AppCompatActivity(), Observer<Device> {
     }
 
     override fun onError(e: Throwable) {
-        //TODO? report error to user?
+        Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
         //TODO: JUST RETRY?
         Timber.e(e)
     }

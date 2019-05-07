@@ -26,6 +26,7 @@
             android:id="@+id/card_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/textSecondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_title" />
 
@@ -33,6 +34,7 @@
             android:id="@+id/card_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/textSecondary"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/card_subtitle" />
 

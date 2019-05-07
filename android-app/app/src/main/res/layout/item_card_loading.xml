@@ -16,7 +16,6 @@
         android:background="@color/backgroundSecondary">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading_animation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"

@@ -1,10 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<EditText xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/password_input"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:hint="@string/password_text"
-    android:importantForAutofill="no"
-    android:inputType="textPassword"
-    android:password="true"
-    android:singleLine="true" />
+    android:background="@color/backgroundSecondary">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/password_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/base_space"
+            android:hint="@string/network_password"
+            android:importantForAutofill="no"
+            android:inputType="textPassword"
+            android:password="true"
+            android:singleLine="true"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/network_connect"
+            style="@style/DialogButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/network_connect"
+            android:layout_margin="@dimen/base_space"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/password_input" />
+
+        <Button
+            android:id="@+id/network_cancel"
+            style="@style/DialogButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/network_cancel"
+            android:layout_margin="@dimen/base_space"
+            app:layout_constraintEnd_toStartOf="@id/network_connect"
+            app:layout_constraintTop_toBottomOf="@id/password_input" />
+    </android.support.constraint.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/loading_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/backgroundSecondary"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="loading.json"
+            app:lottie_loop="true"/>
+    </FrameLayout>
+</FrameLayout>

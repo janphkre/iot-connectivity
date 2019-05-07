@@ -134,7 +134,9 @@ class DeviceConfigActivity: AppCompatActivity(), ConfigContainer, Observer<Devic
     }
 
     override fun showDialog(dialog: DialogFragment) {
-        dialog.show(supportFragmentManager, TAG_DIALOG)
+        supportFragmentManager.beginTransaction()
+            .add(dialog, TAG_DIALOG)
+            .commitAllowingStateLoss()
     }
 
     enum class FragmentTypes { NONE, INTERFACES, NETWORKS }

@@ -7,13 +7,19 @@
     android:background="@color/backgroundPrimary">
 
     <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/loading_view"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
+    <FrameLayout
         android:id="@+id/loading_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/backgroundPrimary">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/loading_animation"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/card_height"
             android:layout_gravity="center"
@@ -23,13 +29,6 @@
             app:lottie_fileName="loading.json"
             app:lottie_loop="true" />
     </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/loading_view"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

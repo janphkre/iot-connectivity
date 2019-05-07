@@ -5,5 +5,10 @@
     <string name="configuration_title">Configuration</string>
     <string name="ok">OK</string>
     <string name="config_subtitle">%s [%s]</string>
-    <string name="password_text">Password</string>
+    <string name="network_password">Password</string>
+    <string name="network__viewmodel_error">Looks like something went wrong. Let\'s try that again.</string>
+    <string name="network_success">Success!</string>
+    <string name="network_password_blank">The password may not be blank!</string>
+    <string name="network_connect">Connect</string>
+    <string name="network_cancel">Cancel</string>
 </resources>

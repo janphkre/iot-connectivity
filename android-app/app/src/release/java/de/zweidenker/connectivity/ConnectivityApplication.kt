@@ -22,19 +22,18 @@ class ConnectivityApplication: Application() {
     )
 
     private fun setupLogging(): Logger {
-        Timber.plant(Timber.DebugTree())
-//        Timber.plant(object : Timber.Tree() {
-//            override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-//                if (priority == Log.DEBUG) {
-//                    return
-//                }
-//                if (t == null) {
-//                    Log.i(tag, message)
-//                } else {
-//                    Log.e(tag, message, t)
-//                }
-//            }
-//        })
+        Timber.plant(object : Timber.Tree() {
+            override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+                if (priority == Log.DEBUG) {
+                    return
+                }
+                if (t == null) {
+                    Log.i(tag, message)
+                } else {
+                    Log.e(tag, message, t)
+                }
+            }
+        })
 
         return object : Logger {
             override fun err(msg: String) {

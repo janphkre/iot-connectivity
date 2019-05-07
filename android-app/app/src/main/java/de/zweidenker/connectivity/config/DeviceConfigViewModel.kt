@@ -27,6 +27,10 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
         }
     }
 
+    fun addNetworkConfig(interfaceId: String, network: NetworkConfig): Observable<String> {
+        return configurationProvider.addNetworkConfig(interfaceId, network)
+    }
+
     override fun destroy(context: Context) {
         unsubscribeAll()
         connectionProvider.destroy(context)

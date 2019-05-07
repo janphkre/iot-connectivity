@@ -5,5 +5,6 @@
     <color name="accent">#a9c3cb</color>
     <color name="backgroundPrimary">#e4e7e9</color>
     <color name="backgroundSecondary">#ffffff</color>
-
+    <color name="textPrimary">#000</color>
+    <color name="textSecondary">#666</color>
 </resources>
