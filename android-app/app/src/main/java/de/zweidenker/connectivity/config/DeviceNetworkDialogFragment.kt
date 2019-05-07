@@ -25,7 +25,7 @@ class DeviceNetworkDialogFragment: DialogFragment(), Observer<String> {
             val network  = viewModel.network
             val interfaceId = viewModel.interfaceId
             if(interfaceId == null || network == null) {
-                Toast.makeText(it.context, R.string.network__viewmodel_error, Toast.LENGTH_SHORT).show()
+                Toast.makeText(it.context, R.string.network_viewmodel_error, Toast.LENGTH_SHORT).show()
                 close()
                 return@setOnClickListener
             }
