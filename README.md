@@ -2,6 +2,12 @@
 
 ```
 Metacello new
+    repository: 'github://janphkre/iot-connectivity/source';
+    baseline: #default;
+    load.
+
+
+Metacello new
     repository: 'github://zweidenker/JSONSchema/source';
     baseline: #JSONSchema;
     load.
