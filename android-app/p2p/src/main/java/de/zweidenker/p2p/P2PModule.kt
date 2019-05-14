@@ -19,6 +19,7 @@ object P2PModule : Module {
     internal const val KEY_IDENTIFIER = "identifier"
     internal const val KEY_CONNECTION = "connection"
     internal const val KEY_PORT = "port"
+    internal const val KEY_IP = "ip"
 
     internal const val SOCKET_TIMEOUT_MS = 5000
 

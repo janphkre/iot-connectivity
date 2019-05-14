@@ -13,7 +13,8 @@ class Device(
     val userIdentifier: String,
     val address: String,
     val connectionStatus: ConnectionStatus,
-    val port: Int
+    val port: Int,
+    val ip: String
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -21,7 +22,8 @@ class Device(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         ConnectionStatus.values()[parcel.readInt()],
-        parcel.readInt()
+        parcel.readInt(),
+        parcel.readString() ?: ""
     )
 
     constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
@@ -35,7 +37,8 @@ class Device(
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN
         },
-        txtRecordMap[P2PModule.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!")
+        txtRecordMap[P2PModule.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!"),
+        txtRecordMap[P2PModule.KEY_IP] ?: ""
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -44,6 +47,7 @@ class Device(
         parcel.writeString(address)
         parcel.writeInt(connectionStatus.ordinal)
         parcel.writeInt(port)
+        parcel.writeString(ip)
     }
 
     override fun describeContents(): Int {

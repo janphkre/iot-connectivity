@@ -11,4 +11,8 @@
     <string name="network_password_blank">The password may not be blank!</string>
     <string name="network_connect">Connect</string>
     <string name="network_cancel">Cancel</string>
+    <string name="connection_status_up">Up: %s</string>
+    <string name="connection_status_unknown">Unknown</string>
+    <string name="connection_status_problem">Problem</string>
+    <string name="connection_status_disconnected">Disconnected</string>
 </resources>

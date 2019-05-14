@@ -12,6 +12,7 @@ import android.view.WindowInsets
 import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.config.DeviceConfigActivity
 import de.zweidenker.p2p.core.IdGenerator
+import de.zweidenker.p2p.model.ConnectionStatus
 import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.item_card.view.*
 import kotlinx.android.synthetic.main.item_card_loading.view.*
@@ -148,7 +149,20 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         fun bind(device: Device) {
             titleTextView.text = device.userIdentifier
             subtitleTextView.text = device.address
-            detailsTextView.text = device.connectionStatus.name
+            detailsTextView.text = when(device.connectionStatus) {
+                ConnectionStatus.UP -> {
+                    detailsTextView.resources.getString(R.string.connection_status_up, device.ip)
+                }
+                ConnectionStatus.DISCONNECTED -> {
+                    detailsTextView.resources.getString(R.string.connection_status_disconnected)
+                }
+                ConnectionStatus.PROBLEM -> {
+                    detailsTextView.resources.getString(R.string.connection_status_problem)
+                }
+                else -> {
+                    detailsTextView.resources.getString(R.string.connection_status_unknown)
+                }
+            }
             itemView.setOnClickListener {
                 DeviceConfigActivity.startActivity(it.context, device)
                 // TODO: Overwrite pending transition?
