@@ -1,0 +1,15 @@
+[Unit]
+Description=Pharo Service
+After=network.target
+
+[Service]
+ExecStart=/bin/bash -- /home/pi/iot/pharo.sh
+WorkingDirectory=/home/pi
+StandardOutput=inherit
+StandardError=inherit
+Restart=always
+User=root
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

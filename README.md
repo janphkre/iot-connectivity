@@ -9,7 +9,15 @@ cp Pharo.changes PharoThings.changes
 ./pharo --headless PharoThings.image eval --save "Iceberg enableMetacelloIntegration: false. Metacello new baseline: 'PharoThings'; repository: 'github://pharo-iot/PharoThings/src'; load: #(RemoteDevServer Raspberry)."
 cp PharoThings.image iot.image
 cp PharoThings.changes iot.changes
-./pharo --headless iot.image eval --save "Iceberg enableMetacelloIntegration: false. Metacello new repository: 'github://janphkre/iot-connectivity/sources'; baseline: #IOTConnectivity; load."
+./pharo --headless iot.image eval --save "ClySystemEnvironmentPlugin disableSlowPlugins. Iceberg enableMetacelloIntegration: false. Metacello new repository: 'github://janphkre/iot-connectivity/sources'; baseline: #IOTConnectivity; load."
+
+cp Pharo.image TelePharo.image
+cp Pharo.changes TelePharo.changes
+./pharo --headless TelePharo.image eval --save "Iceberg enableMetacelloIntegration: false. Metacello new baseline: 'TelePharo'; repository: 'github://pharo-ide/TelePharo'; load: 'Server'."
+cp TelePharo.image iot.image
+cp TelePharo.changes iot.changes
+./pharo --headless iot.image eval --save "ClySystemEnvironmentPlugin disableSlowPlugins. Iceberg enableMetacelloIntegration: false. Metacello new repository: 'github://janphkre/iot-connectivity/sources'; baseline: #IOTConnectivity; load."
+
 ```
 ```
 service := ConnectivityService onDefault: 8889.
