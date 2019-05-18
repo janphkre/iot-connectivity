@@ -108,8 +108,7 @@ ConnectivityService >> start [
 		p2pExternalServiceDiscovery: false;
 		p2pDiscoverability: true;
 		p2pListen;
-		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ];
-		p2pGroupAdd ].
+		receiveEvents: [ :event | [ self handleP2P: event ] on: Error fork: [ :error | error pass ] ] ].
 
 	p2pDevice configureDynamic: [ 
 		p2pDevice p2pServiceAdd: serviceDescription;
