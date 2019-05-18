@@ -1,9 +1,11 @@
-#!/bin/sh
+#!/bin/bash
+set -xe
 
-cd "$( dirname "${BASH_SOURCE[0]}" )"
+cd "${0%/*}"
+pwd
 
 make -C ./hostap/src/ clean
-rm -r ./build
+rm -rf ./build
 mkdir ./build
 cd ./build
 gcc -g -c -Wall -Werror -fpic ../hostap/src/common/wpa_ctrl.c ../hostap/src/utils/common.c ../hostap/src/utils/os_unix.c ../extension/extension.c -I ../hostap/src/utils/ -I ../hostap/src -DCONFIG_CTRL_IFACE -DCONFIG_CTRL_IFACE_UNIX

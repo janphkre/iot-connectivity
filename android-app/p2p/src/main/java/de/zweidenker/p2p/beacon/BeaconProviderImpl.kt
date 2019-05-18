@@ -27,7 +27,7 @@ internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWi
             return@create
         }
 
-        subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0))
+        subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0, "Mock-IP"))
 
         // Internal filtering does not seem to work correctly. We will filter by ourselves.
         val request = WifiP2pDnsSdServiceRequest.newInstance()
