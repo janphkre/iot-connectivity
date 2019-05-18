@@ -39,7 +39,7 @@ ConnectivityService class >> onDefault: aPortNumber [
 
 { #category : #events }
 ConnectivityService >> groupStarted: aString [
-  self stopGroup.
+  self stopGroupInternal.
   groupDevice := LWpaInterface onName: aString.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
 	groupDevice wpsPbc.
@@ -152,9 +152,17 @@ ConnectivityService >> stop [
 
 { #category : #private }
 ConnectivityService >> stopGroup [
+	| groupInterfaceName |
 	groupDevice isNil ifTrue: [ ^ self ]. 
+	groupInterfaceName := (groupDevice interface basename).
+	self 	stopGroupInternal.
+	p2pDevice p2pGroupRemove: groupInterfaceName.
+]
+
+{ #category : #private }
+ConnectivityService >> stopGroupInternal [
+  groupDevice isNil ifTrue: [ ^ self ]. 
 	groupDevice stopReceive.
-	p2pDevice p2pGroupRemove: (groupDevice interface basename).
 	groupDevice := nil.
 ]
 
