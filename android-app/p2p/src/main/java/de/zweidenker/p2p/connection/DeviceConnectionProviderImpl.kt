@@ -18,6 +18,7 @@ import java.net.Socket
 
 internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
+    private val ipRecieverServer = IpRecieverServer()
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
     private val broadcastReceiver = Broadcasts {
         Log.e("TEST", "GOT INTENT")
@@ -25,7 +26,8 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             Log.e("TEST", "info: $info")
             if (info.groupFormed) {
                 if (info.isGroupOwner) {
-                    groupOwnerObservable.onError(IsGroupOwnerException())
+                    ipRecieverServer.recieve(groupOwnerObservable)
+
                 } else {
                     groupOwnerObservable.onNext(info.groupOwnerAddress.hostAddress)
                     groupOwnerObservable.onCompleted()
@@ -89,6 +91,4 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             }
         }
     }
-
-    class IsGroupOwnerException : Exception("This device is the group owner of the p2p group!")
 }
