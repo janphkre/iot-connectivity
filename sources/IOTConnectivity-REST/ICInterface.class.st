@@ -63,7 +63,7 @@ ICInterface class >> instanceOrError: aLibInterface [
 
 { #category : #'instance creation' }
 ICInterface class >> instanceOrErrorFromName: aString [
-  ^ self instanceOrError: (LWpaInterface onName: aString).
+  ^ ([ self instance: (LWpaInterface onName: aString) ] on: LWpaError do: [ :error | error ]) value
   
 ]
 
