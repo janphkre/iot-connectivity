@@ -6,9 +6,6 @@ Class {
 
 { #category : #public }
 ICNetworkWrapper class >> getNetworks: interfaceName [
-	| interfaceOrResponse |
-	[ interfaceOrResponse :=  ICInterfaceWrapper getInterface: interfaceName.
-    (interfaceOrResponse isKindOf: ZnResponse) ifTrue: [ ^ interfaceOrResponse ].
-    ^ ICNetwork allInstancesOrError: interfaceOrResponse.
+	[ ^ ICNetwork allInstancesOrError: interfaceName.
   ] on: Error do: [ :error | ^ ZnResponse serverError: error messageText ]
 ]

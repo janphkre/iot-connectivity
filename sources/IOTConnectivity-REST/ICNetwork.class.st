@@ -13,7 +13,7 @@ Class {
 ICNetwork class >> allInstancesOrError: interfaceName [
   | libInterface |
 	libInterface := LWpaInterface onName: interfaceName.
-  ^ (ICNetworkScan on: libInterface) scan collect: [ :aNetwork | self instanceOrError: aNetwork ]
+	^ (ICNetworkScan on: libInterface) scan collect: [ :aNetwork | self instanceOrError: aNetwork ]
   
 ]
 
@@ -28,12 +28,18 @@ ICNetwork class >> arrayToInstance: anArray [
 
 { #category : #accessing }
 ICNetwork class >> instance: aNetworkScanResult [
-  ^ self arrayToInstance: (aNetworkScanResult splitOn: [ :char | char = (Character space) ])
+  ^ self arrayToInstance: (aNetworkScanResult splitOn: [ :char | char = (Character tab) ])
 ]
 
 { #category : #'instance creation' }
 ICNetwork class >> instanceOrError: aNetworkScanResult [
   ^ ([ self instance: aNetworkScanResult ] on: Error do: [ :error | error ]) value
+]
+
+{ #category : #accessing }
+ICNetwork class >> neoJsonMapping: mapper [
+	mapper for: self do: [ :mapping |
+		mapping mapInstVars: #( mac ssid signalStrength ) ]
 ]
 
 { #category : #accessing }
