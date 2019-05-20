@@ -58,7 +58,9 @@ ICConfigCall >> get [
 { #category : #public }
 ICConfigCall >> put [
 	| data config |
-	data := self jsonRequest.
+	[ data := self jsonRequest. ] on: Error do: [
+		self badRequest: 'JSON expected'.
+		^ self ].
 	data isDictionary
 		ifFalse: [
 			self badRequest: 'JSON map expected'.

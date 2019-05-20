@@ -55,8 +55,8 @@ ICConfig >> createOn: interfaceName [
 
 { #category : #public }
 ICConfig >> createOrErrorOn: interfaceName [
-	[ ^ self createOn: interfaceName
-  ] on: Error do: [ :error | ^ error ] value
+	([ ^ self createOn: interfaceName
+  ] on: Error do: [ :error | ^ error ]) value
 ]
 
 { #category : #accessing }
