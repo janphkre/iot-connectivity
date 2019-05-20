@@ -306,6 +306,12 @@ LWpaInterface >> scanResults [
 	^ (commandControl command: 'SCAN_RESULTS') lines allButFirst.
 ]
 
+{ #category : #commands }
+LWpaInterface >> selectNetwork: anInteger [
+	"Select a confgured network as the current active connection."
+	^ (commandControl command: ('SELECT_NETWORK ', anInteger asString)) isOk
+]
+
 { #category : #initialization }
 LWpaInterface >> setNetwork: key data: value on: id [
 	"Set a parameter of a created network identified by its id.

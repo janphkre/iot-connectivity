@@ -5,7 +5,8 @@ Class {
 		'ssid',
 		'password',
 		'networkId',
-		'disabled'
+		'disabled',
+		'selected'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
@@ -35,7 +36,7 @@ ICConfig class >> instance: anItem [
 { #category : #accessing }
 ICConfig class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( ssid password networkId disabled) ]
+		mapping mapInstVars: #( networkId ssid password disabled selected) ]
 ]
 
 { #category : #public }
@@ -97,6 +98,22 @@ ICConfig >> password [
 { #category : #accessing }
 ICConfig >> password: aString [
 	password := aString
+]
+
+{ #category : #writing }
+ICConfig >> selectNetworkOn: aLibInterface [
+	selected ifNotNil: [ :data |
+		data ifTrue: [ aLibInterface selectNetwork: networkId. ] ].
+]
+
+{ #category : #accessing }
+ICConfig >> selected [
+	^ selected.
+]
+
+{ #category : #accessing }
+ICConfig >> selected: aBoolean [
+	selected := aBoolean.
 ]
 
 { #category : #accessing }
