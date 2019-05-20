@@ -68,6 +68,7 @@ ICConfigCall >> put [
 			self badRequest: 'No change provided!'.
 			^ self ].
 	config := ICConfig new.
+	config networkId: networkId.
 	(data at: #'ssid' ifAbsent: nil)
 		ifNotNil: [ :result | 
 			config ssid: result.
