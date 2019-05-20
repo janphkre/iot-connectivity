@@ -19,6 +19,7 @@ ICConfig class >> arrayToInstance: anArray [
 		networkId: (anArray at: 1);
 		ssid: (anArray at: 2);
 		disabled: (flags anySatisfy: [ :item | item = #DISABLED ]);
+		selected: (flags anySatisfy: [ :item | item = #CURRENT ]);
 		obscure;
 		yourself
 ]
