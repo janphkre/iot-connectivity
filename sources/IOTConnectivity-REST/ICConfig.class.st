@@ -150,7 +150,7 @@ ICConfig >> writeSsidTo: aLibInterface [
 ICConfig >> writeTo: aLibInterface [
 	self writeSsidTo: aLibInterface.
 	self writePasswordTo: aLibInterface.
-	self writeTypeTo: aLibInterface.
+	"self writeTypeTo: aLibInterface."
 	self enableNetworkOn: aLibInterface.
 	self selectNetworkOn: aLibInterface.
 	aLibInterface saveConfig.
