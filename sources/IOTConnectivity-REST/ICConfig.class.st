@@ -45,10 +45,11 @@ ICConfig >> createOn: interfaceName [
 | libInterface |
 	libInterface := LWpaInterface onName: interfaceName.
 	networkId := libInterface createNetwork.
+	disabled := false.
+	selected := true.
 	[ self writeTo: libInterface. ] on: Error do: [ :error |
 		libInterface removeNetwork: networkId.
 		error signal. ].
-	disabled := true.
 	self obscure.
 	^ self
 ]
