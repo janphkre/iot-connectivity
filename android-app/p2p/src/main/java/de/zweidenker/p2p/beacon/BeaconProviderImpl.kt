@@ -11,23 +11,41 @@ import de.zweidenker.p2p.model.ConnectionStatus
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 import rx.Subscriber
-import rx.Subscription
-import rx.schedulers.Schedulers
-import rx.subjects.ReplaySubject
 import timber.log.Timber
 
 internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
 
     private val discoverHandler = Handler()
 
-    private val observable = Observable.create<Device> { subscriber ->
+    private fun String.isValidType(): Boolean {
+        return endsWith(P2PModule.TYPE_SERVICE, true)
+    }
+
+    private fun discoverServices(subscriber: Subscriber<in Device>) {
+        wifiManager?.discoverServices(wifiChannel, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                discoverHandler.postDelayed({
+                    discoverServices(subscriber)
+                }, P2PModule.DISCOVER_INTERVAL_MS)
+            }
+
+            override fun onFailure(errorCode: Int) {
+                discoverHandler.postDelayed({
+                    discoverServices(subscriber)
+                }, P2PModule.ERROR_RETRY_INTERVAL_MS)
+            }
+        })
+    }
+
+    @Throws(Exception::class)
+    override fun getBeacons(): Observable<Device> = Observable.create<Device> { subscriber ->
         if (wifiManager == null || wifiChannel == null) {
             val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
             subscriber.onError(throwable)
             return@create
         }
 
-        subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0, "Mock-IP"))
+        subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0, "Mock-IP", System.currentTimeMillis()))
 
         // Internal filtering does not seem to work correctly. We will filter by ourselves.
         val request = WifiP2pDnsSdServiceRequest.newInstance()
@@ -57,44 +75,7 @@ internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWi
         discoverHandler.removeCallbacksAndMessages(null)
     }
 
-    private var subscription: Subscription? = null
-    private var deviceSubject = ReplaySubject.create<Device>()
-
-    private fun String.isValidType(): Boolean {
-        return endsWith(P2PModule.TYPE_SERVICE, true)
-    }
-
-    private fun discoverServices(subscriber: Subscriber<in Device>) {
-        wifiManager?.discoverServices(wifiChannel, object : WifiP2pManager.ActionListener {
-            override fun onSuccess() {
-                discoverHandler.postDelayed({
-                    discoverServices(subscriber)
-                }, P2PModule.DISCOVER_INTERVAL_MS)
-            }
-
-            override fun onFailure(errorCode: Int) {
-                discoverHandler.postDelayed({
-                    discoverServices(subscriber)
-                }, P2PModule.ERROR_RETRY_INTERVAL_MS)
-            }
-        })
-    }
-
-    @Throws(Exception::class)
-    override fun getBeacons(): Observable<Device> {
-        if (subscription == null) {
-            subscription = observable
-                .subscribeOn(Schedulers.io())
-                .subscribe(deviceSubject)
-        }
-        return deviceSubject.doOnUnsubscribe {
-            deviceSubject = ReplaySubject.create()
-        }
-    }
-
     override fun destroy() {
-        subscription?.unsubscribe()
-        subscription = null
         wifiManager?.clearServiceRequests(wifiChannel, null)
         destroyProvider()
     }

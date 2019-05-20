@@ -3,11 +3,12 @@ package de.zweidenker.connectivity.list
 import android.Manifest
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.widget.Toast
-import de.zweidenker.connectivity.R
 import de.zweidenker.connectivity.util.PermissionHandler
 import de.zweidenker.connectivity.util.withPermissions
 import de.zweidenker.p2p.beacon.BeaconProvider
@@ -15,23 +16,66 @@ import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.activity_device_list.*
 import org.koin.android.ext.android.inject
 import rx.Observer
-import rx.Subscription
 import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
+import java.lang.ref.WeakReference
 
 /**
  * I list all devices that are available through the beacon provider.
  * Every item in my list can be clicked to start the DeviceConfigActivity on it.
  */
-class DeviceListActivity : AppCompatActivity(), Observer<Device> {
+class DeviceListActivity : AppCompatActivity() {
 
     private lateinit var deviceAdapter: DeviceAdapter
     private val beaconProvider by inject<BeaconProvider>()
-    private var subscription: Subscription? = null
+    private var subscription = CompositeSubscription()
+
+    private val weakReferenceHandler: WeakReference<Handler> = WeakReference(Handler())
+
+    private val getBeaconsRunnable = object : Runnable {
+        override fun run() {
+            deviceAdapter.removeOutdatedItems()
+            scanBeacons()
+
+            weakReferenceHandler.get()?.postDelayed(this, SCAN_INTERVAL)
+        }
+    }
+
+    private fun scanBeacons() {
+        subscription.add(beaconProvider.getBeacons()
+            .subscribeOn(Schedulers.io())
+            .observeOn(Schedulers.computation())
+            .retry()
+            .subscribe(getScanBeaconsObserver()))
+    }
+
+    private fun getScanBeaconsObserver(): Observer<Device> {
+        return object : Observer<Device> {
+            override fun onError(e: Throwable?) {
+                runOnUiThread {
+                    Toast.makeText(baseContext, e?.localizedMessage, Toast.LENGTH_SHORT).show()
+                }
+                Timber.e(e)
+            }
+
+            override fun onNext(device: Device) {
+                synchronized(this) {
+                    runOnUiThread {
+                        deviceAdapter.addItem(device)
+                    }
+                }
+            }
+
+            override fun onCompleted() {
+                Log.d("test", "test")
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_device_list)
+        setContentView(de.zweidenker.connectivity.R.layout.activity_device_list)
         setupDeviceList()
         setupHeader()
     }
@@ -40,19 +84,6 @@ class DeviceListActivity : AppCompatActivity(), Observer<Device> {
         deviceAdapter = DeviceAdapter(this)
         list_device.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         list_device.adapter = deviceAdapter
-        // TODO: DELETE this comment:
-//                .apply {
-//            addItem(Device("00:11:12:13:14:15","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:16","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:17","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:19","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1A","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1B","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1C","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1D","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1E","DOMAIN_NAME","TYPE"))
-//            addItem(Device("00:11:12:13:14:1F","DOMAIN_NAME","TYPE"))
-//        }
     }
 
     private fun setupHeader() {
@@ -64,23 +95,27 @@ class DeviceListActivity : AppCompatActivity(), Observer<Device> {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
+
         withPermissions(
             Manifest.permission.INTERNET,
             Manifest.permission.ACCESS_WIFI_STATE,
             Manifest.permission.CHANGE_WIFI_STATE,
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            permissionRationalRes = R.string.permission_rationale_text) { success ->
+            permissionRationalRes = de.zweidenker.connectivity.R.string.permission_rationale_text) { success ->
             if (success) {
-                beaconProvider.getBeacons()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.computation())
-                    .subscribe(this)
+                weakReferenceHandler.get()?.post(getBeaconsRunnable)
             } else {
                 Toast.makeText(this, "We require all of the requested permissions in order to find p2p devices!", Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    override fun onPause() {
+        weakReferenceHandler.get()?.removeCallbacks(null)
+        subscription.clear()
+        super.onPause()
     }
 
     override fun onRequestPermissionsResult(
@@ -91,21 +126,7 @@ class DeviceListActivity : AppCompatActivity(), Observer<Device> {
         PermissionHandler.onRequestPermissionsResult(requestCode, grantResults)
     }
 
-    override fun onError(e: Throwable) {
-        Toast.makeText(this, e.localizedMessage, Toast.LENGTH_SHORT).show()
-        // TODO: JUST RETRY?
-        Timber.e(e)
-    }
-
-    override fun onNext(device: Device) {
-        deviceAdapter.addItem(device)
-    }
-
-    override fun onCompleted() { /* should never be called */ }
-
-    override fun onPause() {
-        subscription?.unsubscribe()
-        subscription = null
-        super.onPause()
+    companion object {
+        const val SCAN_INTERVAL = 20000L
     }
 }

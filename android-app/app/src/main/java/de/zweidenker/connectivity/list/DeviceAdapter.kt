@@ -1,9 +1,10 @@
 package de.zweidenker.connectivity.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.os.Handler
 import android.support.annotation.RequiresApi
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -24,14 +25,14 @@ import kotlinx.android.synthetic.main.item_card_loading.view.*
  */
 class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    private val itemIndexMap = HashMap<Long, Int>()
-    private val itemList = ArrayList<Device>()
+    @SuppressLint("UseSparseArrays")
+    private var itemIndexMap = HashMap<Long, Device>()
+    private val itemList = ArrayList<Long>()
     private val headerId = IdGenerator.getId()
     private val footerId = IdGenerator.getId()
     private var headerSize = 0
     private var headerBottomMargin = context.resources.getDimensionPixelSize(R.dimen.list_header_margin)
     private var footerSize = 0
-    private var foregroundHandler = Handler(context.mainLooper)
 
     init {
         setHasStableIds(true)
@@ -40,7 +41,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
     override fun getItemViewType(position: Int): Int {
         return when {
             position == 0 -> ViewTypes.Header.ordinal
-            position >itemList.size -> ViewTypes.Footer.ordinal
+            position > itemList.size -> ViewTypes.Footer.ordinal
             else -> ViewTypes.Device.ordinal
         }
     }
@@ -69,7 +70,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         return when (position) {
             0 -> headerId
             itemList.size + 1 -> footerId
-            else -> itemList[position - 1].id
+            else -> itemIndexMap[itemList[position - 1]]?.id ?: 0
         }
     }
 
@@ -82,7 +83,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
             0 -> (viewHolder as? SpacerViewHolder)?.bind(headerSize)
             itemList.size + 1 -> (viewHolder as? SpacerViewHolder)?.bind(footerSize)
             else -> {
-                val item = itemList[position - 1]
+                val item = itemIndexMap[itemList[position - 1]] ?: return
                 (viewHolder as? DeviceViewHolder)?.bind(item)
             }
         }
@@ -95,33 +96,39 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
 
     fun addItem(device: Device) {
         synchronized(this) {
-            val currentIndex = itemIndexMap[device.id]
-            if (currentIndex == null) {
+            val currentDevice = itemIndexMap[device.id]
+            if (currentDevice == null) {
                 val newIndex = itemList.size
-                itemIndexMap[device.id] = newIndex
-                itemList.add(device)
-                foregroundHandler.post {
-                    notifyItemInserted(newIndex + 1)
-                }
+                itemIndexMap[device.id] = device
+                itemList.add(device.id)
+
+                notifyItemInserted(newIndex + 1)
                 return
             }
-            val currentDevice = itemList[currentIndex]
-            if (device != currentDevice) {
-                itemList[currentIndex] = device
-                foregroundHandler.post {
-                    notifyItemChanged(currentIndex + 1)
-                }
-            }
+            val currentIndex = itemList.indexOf(device.id)
+            device.connectionTime = System.currentTimeMillis()
+            notifyItemChanged(currentIndex + 1)
         }
     }
 
-    fun clear() {
+    fun removeOutdatedItems() {
         synchronized(this) {
-            itemIndexMap.clear()
-            itemList.clear()
-            foregroundHandler.post {
-                notifyDataSetChanged()
-            }
+            val newItemIndexMap = itemIndexMap.filterTo(HashMap()) { System.currentTimeMillis() - it.value.connectionTime <= DeviceListActivity.SCAN_INTERVAL * 2 }
+            val newItemList = itemList.filter { itemIndexMap.containsKey(it) }
+            val changeSet = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
+                override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = itemList[oldItemPosition] == newItemList[newItemPosition]
+
+                override fun getOldListSize(): Int = itemList.size
+
+                override fun getNewListSize(): Int = newItemList.size
+
+                override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+                    val oldItem = itemIndexMap[itemList[oldItemPosition]]
+                    val newItem = newItemIndexMap[newItemList[newItemPosition]]
+                    return oldItem?.equals(newItem) ?: newItem === null
+                }
+            }, true)
+            changeSet.dispatchUpdatesTo(this)
         }
     }
 
@@ -129,7 +136,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
     fun setInsets(insets: WindowInsets) {
         headerSize = insets.systemWindowInsetTop + headerBottomMargin
         footerSize = insets.systemWindowInsetBottom
-        foregroundHandler.post {
+        synchronized(this) {
             notifyItemChanged(0)
             notifyItemChanged(itemList.size + 1)
         }
@@ -149,7 +156,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
         fun bind(device: Device) {
             titleTextView.text = device.userIdentifier
             subtitleTextView.text = device.address
-            detailsTextView.text = when(device.connectionStatus) {
+            detailsTextView.text = when (device.connectionStatus) {
                 ConnectionStatus.UP -> {
                     detailsTextView.resources.getString(R.string.connection_status_up, device.ip)
                 }

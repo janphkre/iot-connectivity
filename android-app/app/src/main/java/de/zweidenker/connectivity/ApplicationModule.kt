@@ -10,8 +10,6 @@ object ApplicationModule : Module {
     const val DEVICE_CONFIG_SCOPE = "DeviceConfigScope"
 
     override fun invoke(koinContext: KoinContext) = module {
-        scope(DEVICE_CONFIG_SCOPE) {
-            factory { DeviceConfigViewModel(get()) }
-        }
+        scope(DEVICE_CONFIG_SCOPE) { DeviceConfigViewModel(get()) }
     }(koinContext)
 }

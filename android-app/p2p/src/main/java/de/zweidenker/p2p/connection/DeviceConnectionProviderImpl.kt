@@ -27,7 +27,6 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             if (info.groupFormed) {
                 if (info.isGroupOwner) {
                     ipRecieverServer.recieve(groupOwnerObservable)
-
                 } else {
                     groupOwnerObservable.onNext(info.groupOwnerAddress.hostAddress)
                     groupOwnerObservable.onCompleted()

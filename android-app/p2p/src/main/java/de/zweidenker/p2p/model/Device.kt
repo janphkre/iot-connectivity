@@ -14,7 +14,8 @@ class Device(
     val address: String,
     val connectionStatus: ConnectionStatus,
     val port: Int,
-    val ip: String
+    val ip: String,
+    var connectionTime: Long
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -23,7 +24,8 @@ class Device(
         parcel.readString() ?: "",
         ConnectionStatus.values()[parcel.readInt()],
         parcel.readInt(),
-        parcel.readString() ?: ""
+        parcel.readString() ?: "",
+        parcel.readLong()
     )
 
     constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
@@ -38,7 +40,8 @@ class Device(
             else -> ConnectionStatus.UNKNOWN
         },
         txtRecordMap[P2PModule.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!"),
-        txtRecordMap[P2PModule.KEY_IP] ?: ""
+        txtRecordMap[P2PModule.KEY_IP] ?: "",
+        System.currentTimeMillis()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -48,6 +51,7 @@ class Device(
         parcel.writeInt(connectionStatus.ordinal)
         parcel.writeInt(port)
         parcel.writeString(ip)
+        parcel.writeLong(connectionTime)
     }
 
     override fun describeContents(): Int {
@@ -59,6 +63,16 @@ class Device(
             return false
         }
         return id == other.id
+    }
+
+    fun contentEquals(other: Any?): Boolean {
+        if (other !is Device) {
+            return false
+        }
+        return userIdentifier == other.userIdentifier &&
+            connectionStatus == other.connectionStatus &&
+            port == other.port &&
+            ip == other.ip
     }
 
     override fun hashCode(): Int {
