@@ -33,7 +33,7 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
                 return@setOnClickListener
             }
             if (networkPair.second != null) {
-                updateNetworkClick(networkPair.first, networkPair.second!!, interfaceId)
+                updateNetworkClick(networkPair.second!!, interfaceId)
             } else {
                 addNetworkClick(networkPair.first!!, interfaceId)
             }
@@ -50,7 +50,7 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
             }
     }
 
-    private fun updateNetworkClick(network: Network?, existingConfig: NetworkConfig, interfaceId: String) {
+    private fun updateNetworkClick(existingConfig: NetworkConfig, interfaceId: String) {
         startLoading()
         val password = view?.password_input?.text
         val passwordString = if (password?.isNotBlank() != true) {
@@ -58,7 +58,7 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
         } else {
             password.toString()
         }
-        val networkConfig = NetworkConfigUpdate(existingConfig.ssid, passwordString, null, network?.security?.firstOrNull())
+        val networkConfig = NetworkConfigUpdate(existingConfig.ssid, passwordString, disabled = false, selected = true)
         viewModel.updateNetworkConfig(interfaceId, existingConfig.networkId.toString(), networkConfig)
             .subscribeOn(Schedulers.computation())
             .observeOn(AndroidSchedulers.mainThread())

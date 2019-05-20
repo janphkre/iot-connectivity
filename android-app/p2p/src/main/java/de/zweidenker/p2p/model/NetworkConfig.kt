@@ -8,7 +8,7 @@ class NetworkConfig(
     var ssid: String,
     var password: String,
     var disabled: Boolean,
-    var security: String?
+    var selected: Boolean
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -19,7 +19,10 @@ class NetworkConfig(
             0 -> false
             else -> true
         },
-        parcel.readString() ?: "")
+        when (parcel.readInt()) {
+            0 -> false
+            else -> true
+        })
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeInt(networkId)
@@ -29,7 +32,10 @@ class NetworkConfig(
             false -> 0
             else -> 1
         })
-        parcel.writeString(security)
+        parcel.writeInt(when (disabled) {
+            false -> 0
+            else -> 1
+        })
     }
 
     override fun describeContents(): Int {

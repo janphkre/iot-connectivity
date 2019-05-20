@@ -113,7 +113,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
 
     fun removeOutdatedItems() {
         synchronized(this) {
-            val newItemIndexMap = itemIndexMap.filterTo(HashMap()) { System.currentTimeMillis() - it.value.connectionTime <= DeviceListActivity.SCAN_INTERVAL * 2 }
+            val newItemIndexMap = itemIndexMap.filterTo(HashMap()) { System.currentTimeMillis() - it.value.connectionTime <= DeviceListActivity.CYCLIC_INTERVAL }
             val newItemList = itemList.filter { itemIndexMap.containsKey(it) }
             val changeSet = DiffUtil.calculateDiff(object : DiffUtil.Callback() {
                 override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean = itemList[oldItemPosition] == newItemList[newItemPosition]

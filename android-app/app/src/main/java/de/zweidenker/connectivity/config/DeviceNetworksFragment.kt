@@ -59,6 +59,11 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
                         view.card_subtitle.text = resources.getString(R.string.config_subtitle, network.connectionStatus.name, network.security.joinToString())
                         if (networkPair.second != null) {
                             view.card_detail.text = resources.getString(R.string.config_saved)
+                            if(networkPair.second?.selected == true) {
+                                view.card_icon.setColorFilter(resources.getColor(R.color.primary))
+                            } else {
+                                view.card_icon.clearColorFilter()
+                            }
                         } else {
                             view.card_detail.text = ""
                         }
@@ -67,14 +72,18 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
                 } else {
                     networkPair.second?.let { config ->
                         view.card_title.text = config.ssid
-                        val disabledString = if (config.disabled) {
+                        view.card_subtitle.text = if (config.disabled) {
                             resources.getString(R.string.config_disabled)
                         } else {
                             resources.getString(R.string.config_enabled)
                         }
-                        view.card_subtitle.text = resources.getString(R.string.config_subtitle, disabledString, config.security)
                         view.card_detail.text = resources.getString(R.string.config_saved)
-                        view.card_icon.setImageResource(R.drawable.ic_signal_wifi_off)
+                        if(config.selected) {
+                            view.card_icon.setImageResource(R.drawable.ic_signal_wifi_off)
+                            view.card_icon.setColorFilter(resources.getColor(R.color.primary))
+                        } else {
+                            view.card_icon.clearColorFilter()
+                        }
                     }
                 }
             }
