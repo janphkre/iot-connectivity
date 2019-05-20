@@ -73,11 +73,11 @@ ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
 	<3>P2P-GROUP-STARTED p2p-wlan0-0 client ssid=""DIRECT-VBSM-G935F"" freq=5180 psk=0f8dc58cc5e97c9565bf0cae5b94e1b3d471f89340d271a70d6196c3c12e7ef8 go_dev_addr=ae:5f:3e:2b:3b:4f ip_addr=192.168.49.200 ip_mask=255.255.255.0 go_ip_addr=192.168.49.1"
   anEvent parameters size < 7
 	ifTrue: [ ^ self ].
-	anEvent parameters size < 9
+	(anEvent parameter: 3) = 'GO'
 	ifTrue: [ 
 		service groupStarted: (anEvent parameter: 2).
 		^ self. ].
-	service groupStarted: (anEvent parameter: 2) on: ((anEvent parameter: 9) allButFirst: 11).
+	service groupStarted: (anEvent parameter: 2) on: ((anEvent parameter: 10) allButFirst: 11).
 	
 ]
 
