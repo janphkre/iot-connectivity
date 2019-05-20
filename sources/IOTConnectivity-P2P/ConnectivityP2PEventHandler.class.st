@@ -37,10 +37,9 @@ ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
 	((anEvent parameters at: 4) allButFirst: 10) asInteger >= 0
 	ifTrue: [ 
 		UIManager default inform: 'Requesting the peer to become GO'.
-		service p2pConnectPbc: (anEvent parameter: 2) parameters: ('go_intent=0').
+		service p2pConnectPbc: (anEvent parameter: 2).
 		^ self ].
 	UIManager default inform: 'Inviting the peer to our group'.
-	service p2pGroupAdd.
 	service p2pInvite: (anEvent parameter: 2).
 ]
 

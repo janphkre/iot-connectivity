@@ -87,6 +87,11 @@ ConnectivityService >> initialize: aPortNumber [
 	^ self
 ]
 
+{ #category : #events }
+ConnectivityService >> p2pConnectPbc: peerAddress [
+ p2pDevice p2pConnectPbc: peerAddress parameters: ('go_intent=0').
+]
+
 { #category : #accessing }
 ConnectivityService >> p2pDevice [
 	^ p2pDevice
@@ -94,6 +99,7 @@ ConnectivityService >> p2pDevice [
 
 { #category : #events }
 ConnectivityService >> p2pInvite: address [
+	p2pDevice p2pGroupAdd.
 	p2pDevice p2pInvite: address.
 ]
 
