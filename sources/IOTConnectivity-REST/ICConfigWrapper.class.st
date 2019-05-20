@@ -36,6 +36,6 @@ ICConfigWrapper class >> update: config on: interfaceName [
 	(config updateOn: interfaceName)
 		ifNotNil: [ :configOrError |
 			(configOrError isKindOf: Error) ifTrue: [ ^ ZnResponse serverError: configOrError messageText ].
-			^ configOrError ].
+			^ self getConfig: (config networkId) on: interfaceName ].
 		^ ZnResponse notFound: ('/interfaces/', interfaceName asString, '/config/', config networkId asString)
 ]

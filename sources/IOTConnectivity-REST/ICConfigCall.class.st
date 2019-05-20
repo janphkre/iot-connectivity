@@ -78,5 +78,6 @@ ICConfigCall >> put [
 	(data at: #'password' ifAbsent: nil)
 		ifNotNil: [ :result | config password: result. ].
 	config disabled: (data at: #'disabled' ifAbsent: nil).
+	config selected: (data at: #'selected' ifAbsent: nil).
 	response := (ICConfigWrapper update: config on: interfaceName) asZnResponse.
 ]
