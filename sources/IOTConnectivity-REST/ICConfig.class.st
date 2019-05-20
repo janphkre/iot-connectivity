@@ -5,8 +5,7 @@ Class {
 		'ssid',
 		'password',
 		'networkId',
-		'disabled',
-		'security'
+		'disabled'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
@@ -19,7 +18,6 @@ ICConfig class >> arrayToInstance: anArray [
 		networkId: (anArray at: 1);
 		ssid: (anArray at: 2);
 		disabled: (flags anySatisfy: [ :item | item = #DISABLED ]);
-		security: (flags copyWithout: #DISABLED);
 		obscure;
 		yourself
 ]
@@ -37,7 +35,7 @@ ICConfig class >> instance: anItem [
 { #category : #accessing }
 ICConfig class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( ssid password networkId disabled security) ]
+		mapping mapInstVars: #( ssid password networkId disabled) ]
 ]
 
 { #category : #public }
@@ -72,8 +70,8 @@ ICConfig >> disabled: aBoolean [
 { #category : #writing }
 ICConfig >> enableNetworkOn: aLibInterface [
 	disabled ifNotNil: [ :data |
-		data ifTrue: [ aLibInterface enableNetwork: networkId. ]
-		ifFalse: [ aLibInterface disableNetwork: networkId. ]. ].
+		data ifFalse: [ aLibInterface enableNetwork: networkId. ]
+		ifTrue: [ aLibInterface disableNetwork: networkId. ]. ].
 ]
 
 { #category : #accessing }
@@ -99,16 +97,6 @@ ICConfig >> password [
 { #category : #accessing }
 ICConfig >> password: aString [
 	password := aString
-]
-
-{ #category : #accessing }
-ICConfig >> security [ 
-	^ security
-]
-
-{ #category : #accessing }
-ICConfig >> security: aList [
-	security := aList.
 ]
 
 { #category : #accessing }
