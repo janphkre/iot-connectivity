@@ -113,7 +113,7 @@ LWpaInterface >> configureDynamic: aBlock [
 { #category : #commands }
 LWpaInterface >> createNetwork [
 	"Creates a new network which can be identified by the returned id"
-	^ (commandControl command: 'ADD_NETWORK')
+	^ (commandControl command: 'ADD_NETWORK') lines first.
 ]
 
 { #category : #commands }
