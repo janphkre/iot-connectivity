@@ -4,5 +4,5 @@ class NetworkConfigUpdate(
     var ssid: String?,
     var password: String?,
     var disabled: Boolean?,
-    var security: String?
+    var selected: Boolean?
 )

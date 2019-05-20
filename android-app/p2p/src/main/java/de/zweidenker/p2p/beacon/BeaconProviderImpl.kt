@@ -16,23 +16,66 @@ import timber.log.Timber
 internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWifiProvider(context, P2PModule.NAME_BEACON_THREAD) {
 
     private val discoverHandler = Handler()
+    private var request = WifiP2pDnsSdServiceRequest.newInstance()
 
     private fun String.isValidType(): Boolean {
         return endsWith(P2PModule.TYPE_SERVICE, true)
     }
 
-    private fun discoverServices(subscriber: Subscriber<in Device>) {
+    private fun cycleAddService(subscriber: Subscriber<in Device>) {
+        // Internal filtering does not seem to work correctly. We will filter by ourselves.
+        wifiManager?.addServiceRequest(wifiChannel, request, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                wifiManager?.setDnsSdResponseListeners(wifiChannel,
+                    { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
+                    if (fullDomainName.isValidType()) {
+                        try {
+                            subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
+                        } catch (e: Exception) {
+                            Timber.e(e)
+                            // TODO: DOES RX UNSUBSCRIBE IN ONERROR?
+                            // subscriber.onError(e)
+                        }
+                    }
+                })
+                discoverHandler.post { cycleDiscoverServices(subscriber) }
+            }
+
+            override fun onFailure(errorCode: Int) {
+                val throwable = WifiP2PException("Failed to add a service request!", errorCode)
+                subscriber.onError(throwable)
+            }
+        })
+    }
+
+    private fun cycleDiscoverServices(subscriber: Subscriber<in Device>) {
         wifiManager?.discoverServices(wifiChannel, object : WifiP2pManager.ActionListener {
             override fun onSuccess() {
                 discoverHandler.postDelayed({
-                    discoverServices(subscriber)
+                    cycleRemoveService(subscriber)
                 }, P2PModule.DISCOVER_INTERVAL_MS)
             }
 
             override fun onFailure(errorCode: Int) {
                 discoverHandler.postDelayed({
-                    discoverServices(subscriber)
+                    cycleRemoveService(subscriber)
                 }, P2PModule.ERROR_RETRY_INTERVAL_MS)
+            }
+        })
+    }
+
+    private fun cycleRemoveService(subscriber: Subscriber<in Device>) {
+        wifiManager?.removeServiceRequest(wifiChannel, request, object : WifiP2pManager.ActionListener {
+            override fun onSuccess() {
+                discoverHandler.post {
+                    cycleAddService(subscriber)
+                }
+            }
+
+            override fun onFailure(errorCode: Int) {
+                discoverHandler.post {
+                    cycleAddService(subscriber)
+                }
             }
         })
     }
@@ -47,35 +90,14 @@ internal class BeaconProviderImpl(context: Context) : BeaconProvider, AbstractWi
 
         subscriber.onNext(Device(0L, "MockDevice", "MockAddress", ConnectionStatus.UNKNOWN, 0, "Mock-IP", System.currentTimeMillis()))
 
-        // Internal filtering does not seem to work correctly. We will filter by ourselves.
-        val request = WifiP2pDnsSdServiceRequest.newInstance()
-        wifiManager.addServiceRequest(wifiChannel, request, object : WifiP2pManager.ActionListener {
-            override fun onSuccess() {
-                wifiManager.setDnsSdResponseListeners(wifiChannel,
-                    { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
-                    if (fullDomainName.isValidType()) {
-                        try {
-                            subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
-                        } catch (e: Exception) {
-                            Timber.e(e)
-                            // TODO: DOES RX UNSUBSCRIBE IN ONERROR?
-                            // subscriber.onError(e)
-                        }
-                    }
-                })
-                discoverHandler.post { discoverServices(subscriber) }
-            }
-
-            override fun onFailure(errorCode: Int) {
-                val throwable = WifiP2PException("Failed to add a service request!", errorCode)
-                subscriber.onError(throwable)
-            }
-        })
+        discoverHandler.post { cycleAddService(subscriber) }
     }.doOnUnsubscribe {
         discoverHandler.removeCallbacksAndMessages(null)
+        wifiManager?.removeServiceRequest(wifiChannel, request, null)
     }
 
     override fun destroy() {
+        discoverHandler.removeCallbacksAndMessages(null)
         wifiManager?.clearServiceRequests(wifiChannel, null)
         destroyProvider()
     }

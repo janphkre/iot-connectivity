@@ -7,7 +7,6 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.widget.Toast
 import de.zweidenker.connectivity.util.PermissionHandler
 import de.zweidenker.connectivity.util.withPermissions
@@ -33,12 +32,10 @@ class DeviceListActivity : AppCompatActivity() {
 
     private val weakReferenceHandler: WeakReference<Handler> = WeakReference(Handler())
 
-    private val getBeaconsRunnable = object : Runnable {
+    private val cyclicRunnable = object : Runnable {
         override fun run() {
             deviceAdapter.removeOutdatedItems()
-            scanBeacons()
-
-            weakReferenceHandler.get()?.postDelayed(this, SCAN_INTERVAL)
+            weakReferenceHandler.get()?.postDelayed(this, CYCLIC_INTERVAL)
         }
     }
 
@@ -67,9 +64,7 @@ class DeviceListActivity : AppCompatActivity() {
                 }
             }
 
-            override fun onCompleted() {
-                Log.d("test", "test")
-            }
+            override fun onCompleted() { }
         }
     }
 
@@ -105,7 +100,8 @@ class DeviceListActivity : AppCompatActivity() {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             permissionRationalRes = de.zweidenker.connectivity.R.string.permission_rationale_text) { success ->
             if (success) {
-                weakReferenceHandler.get()?.post(getBeaconsRunnable)
+                weakReferenceHandler.get()?.post(cyclicRunnable)
+                scanBeacons()
             } else {
                 Toast.makeText(this, "We require all of the requested permissions in order to find p2p devices!", Toast.LENGTH_SHORT).show()
             }
@@ -127,6 +123,6 @@ class DeviceListActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val SCAN_INTERVAL = 20000L
+        const val CYCLIC_INTERVAL = 45000L
     }
 }
