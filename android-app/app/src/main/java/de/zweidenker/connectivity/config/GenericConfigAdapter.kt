@@ -1,7 +1,5 @@
 package de.zweidenker.connectivity.config
 
-import android.content.Context
-import android.os.Handler
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -9,21 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 
 class GenericConfigAdapter<T>(
-    context: Context,
     @LayoutRes private val itemLayout: Int,
     private val onClick: (T) -> Unit,
     private val bind: (T, View) -> Unit
 ) : RecyclerView.Adapter<GenericConfigAdapter<T>.ViewHolder>() {
 
     private var items: List<T> = emptyList()
-    private var foregroundHandler = Handler(context.mainLooper)
 
     fun setItems(newItems: List<T>) {
         synchronized(this) {
             items = newItems
-            foregroundHandler.post {
-                notifyDataSetChanged()
-            }
+            notifyDataSetChanged()
         }
     }
 

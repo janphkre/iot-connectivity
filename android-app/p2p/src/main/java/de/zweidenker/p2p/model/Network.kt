@@ -8,21 +8,23 @@ class Network(
     var ssid: String,
     var signalStrength: Int,
     var connectionStatus: ConnectionStatus,
-    var securityType: String
+    var security: List<String>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
         ConnectionStatus.values()[parcel.readInt()],
-        parcel.readString() ?: "")
+        mutableListOf<String>().apply {
+          parcel.readStringList(this)
+        })
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(mac)
         parcel.writeString(ssid)
         parcel.writeInt(signalStrength)
         parcel.writeInt(connectionStatus.ordinal)
-        parcel.writeString(securityType)
+        parcel.writeStringList(security)
     }
 
     override fun describeContents(): Int {

@@ -4,22 +4,32 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class NetworkConfig(
+    var networkId: Int,
     var ssid: String,
-    var password: String
+    var password: String,
+    var disabled: Boolean,
+    var security: String?
 ) : Parcelable {
 
-    constructor(network: Network, password: String) : this(
-        network.ssid,
-        password
-    )
-
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        when (parcel.readInt()) {
+            0 -> false
+            else -> true
+        },
         parcel.readString() ?: "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeInt(networkId)
         parcel.writeString(ssid)
         parcel.writeString(password)
+        parcel.writeInt(when (disabled) {
+            false -> 0
+            else -> 1
+        })
+        parcel.writeString(security)
     }
 
     override fun describeContents(): Int {
@@ -30,7 +40,6 @@ class NetworkConfig(
         if (other !is NetworkConfig) {
             return false
         }
-
         return ssid != other.ssid
     }
 

@@ -7,6 +7,8 @@ import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Network
 import de.zweidenker.p2p.model.NetworkConfig
+import de.zweidenker.p2p.model.NetworkConfigProposal
+import de.zweidenker.p2p.model.NetworkConfigUpdate
 import rx.Observable
 import rx.Subscription
 import rx.subscriptions.CompositeSubscription
@@ -18,7 +20,7 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     lateinit var configurationProvider: DeviceConfigurationProvider
     private set
     var interfaceId: String? = null
-    var network: Network? = null
+    var network: Pair<Network?, NetworkConfig?>? = null
 
     var isLoading = true
 
@@ -28,8 +30,11 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
         }
     }
 
-    fun addNetworkConfig(interfaceId: String, network: NetworkConfig): Observable<String> {
+    fun addNetworkConfig(interfaceId: String, network: NetworkConfigProposal): Observable<NetworkConfig> {
         return configurationProvider.addNetworkConfig(interfaceId, network)
+    }
+    fun updateNetworkConfig(interfaceId: String, networkId: String, network: NetworkConfigUpdate): Observable<NetworkConfig> {
+        return configurationProvider.updateNetworkConfig(interfaceId, networkId, network)
     }
 
     override fun destroy(context: Context) {
@@ -47,5 +52,9 @@ class DeviceConfigViewModel(private val connectionProvider: DeviceConnectionProv
     fun unsubscribeAll() {
         subscriptions?.unsubscribe()
         subscriptions = null
+    }
+
+    fun getNetworkSsid(): String {
+        return network?.first?.ssid ?: network?.second?.ssid ?: ""
     }
 }

@@ -4,6 +4,9 @@
     <string name="permission_rationale_text">We need to access the wifi chip in order to show nearby devices.</string>
     <string name="configuration_title">Configuration</string>
     <string name="ok">OK</string>
+    <string name="config_saved">Saved</string>
+    <string name="config_disabled">Disabled</string>
+    <string name="config_enabled">Enabled</string>
     <string name="config_subtitle">%s [%s]</string>
     <string name="network_password">Password</string>
     <string name="network_viewmodel_error">Looks like something went wrong. Let\'s try that again.</string>

@@ -125,7 +125,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
                 override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
                     val oldItem = itemIndexMap[itemList[oldItemPosition]]
                     val newItem = newItemIndexMap[newItemList[newItemPosition]]
-                    return oldItem?.equals(newItem) ?: newItem === null
+                    return oldItem?.contentEquals(newItem) ?: newItem === null
                 }
             }, true)
             changeSet.dispatchUpdatesTo(this)
