@@ -50,7 +50,8 @@ ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	self socketPingTo: goIpAddr retries: 5.
+	UIManager default inform: 'Trying to ping ', (goIpAddr asString).
+	self socketPingTo: goIpAddr retries: 100.
 ]
 
 { #category : #events }
@@ -116,7 +117,8 @@ ConnectivityService >> socketPingTo: goIpAddr retries: retryCount [
 	(Socket newTCP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890;
 		waitForConnectionFor: 5 ifTimedOut: [
 			retryCount > 0 ifTrue: [
-				self socketPingTo: goIpAddr retries: (retryCount - 1) ]. ].
+				^ self socketPingTo: goIpAddr retries: (retryCount - 1) ].
+			UIManager default inform: 'Failed to ping the GO'. ].
 ]
 
 { #category : #accessing }

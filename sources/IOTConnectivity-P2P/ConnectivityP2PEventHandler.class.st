@@ -34,6 +34,11 @@ ConnectivityP2PEventHandler >> P2P_DEVICE_LOST: anEvent [
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> P2P_GO_NEG_FAILURE: anEvent [
+
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
   "<3>P2P-GO-NEG-REQUEST 94:65:2d:d6:65:72 dev_passwd_id=4 go_intent=0"
   anEvent parameters size < 4
