@@ -35,7 +35,7 @@ ConnectivityP2PEventHandler >> P2P_DEVICE_LOST: anEvent [
 
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_GO_NEG_FAILURE: anEvent [
-
+	service p2pListen.
 ]
 
 { #category : #events }
@@ -61,6 +61,7 @@ ConnectivityP2PEventHandler >> P2P_GO_NEG_SUCCESS: anEvent [
 ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_FAILURE: anEvent [
 	"This usually indicates that the group formation with a peer has failed. Problem is, that this Event crashes the wpa_supplicant, therefor we have to restart it and this image afterwards."
 	UIManager default inform: 'Group formation failure. wpa_supplicant has probably crashed!'.
+	service p2pListen.
 ]
 
 { #category : #events }
@@ -70,6 +71,7 @@ ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_SUCCESS: anEvent [
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_GROUP_REMOVED: anEvent [
 	"Indicates that a p2p group was removed. The reason will most likely be 'IDLE'."
+	service p2pListen.
 ]
 
 { #category : #events }
