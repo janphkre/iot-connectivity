@@ -4,24 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 
 class NetworkConfig(
-    var mac: String,
     var ssid: String,
     var password: String
 ) : Parcelable {
 
     constructor(network: Network, password: String) : this(
-        network.mac,
         network.ssid,
         password
     )
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
         parcel.readString() ?: "")
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(mac)
         parcel.writeString(ssid)
         parcel.writeString(password)
     }
@@ -35,14 +31,11 @@ class NetworkConfig(
             return false
         }
 
-        return mac != other.mac &&
-            ssid != other.ssid
+        return ssid != other.ssid
     }
 
     override fun hashCode(): Int {
-        var result = mac.hashCode()
-        result = 31 * result + ssid.hashCode()
-        return result
+        return ssid.hashCode()
     }
 
     companion object CREATOR : Parcelable.Creator<NetworkConfig> {
