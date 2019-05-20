@@ -82,7 +82,7 @@ class Device(
     fun asConfig(): WifiP2pConfig {
         return WifiP2pConfig().apply {
             this.deviceAddress = this@Device.address
-            this.groupOwnerIntent = 15
+            this.groupOwnerIntent = 10
             this.wps.setup = WpsInfo.PBC
         }
     }

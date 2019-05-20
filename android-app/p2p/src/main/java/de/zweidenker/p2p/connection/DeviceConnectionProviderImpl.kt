@@ -11,6 +11,7 @@ import de.zweidenker.p2p.core.WifiP2PException
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 import rx.subjects.ReplaySubject
+import timber.log.Timber
 import java.io.IOException
 import java.net.InetAddress
 import java.net.InetSocketAddress
@@ -18,15 +19,15 @@ import java.net.Socket
 
 internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
-    private val ipRecieverServer = IpRecieverServer()
+    private val ipRecieverServer = IpReceiverServer()
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
     private val broadcastReceiver = Broadcasts {
-        Log.e("TEST", "GOT INTENT")
+        Timber.e("GOT INTENT")
         wifiManager?.requestConnectionInfo(wifiChannel) { info ->
-            Log.e("TEST", "info: $info")
+            Timber.e("info: $info")
             if (info.groupFormed) {
                 if (info.isGroupOwner) {
-                    ipRecieverServer.recieve(groupOwnerObservable)
+                    ipRecieverServer.receive(groupOwnerObservable)
                 } else {
                     groupOwnerObservable.onNext(info.groupOwnerAddress.hostAddress)
                     groupOwnerObservable.onCompleted()
@@ -37,19 +38,19 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
 
     init {
         context.registerReceiver(broadcastReceiver, IntentFilter(WifiP2pManager.WIFI_P2P_CONNECTION_CHANGED_ACTION))
-        Log.e("TEST", "Registered broadcast receiver")
+        Timber.e("Registered broadcast receiver")
     }
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
-        return Observable.create<Unit> { subscriber ->
+        return Observable.unsafeCreate<Unit> { subscriber ->
             if (wifiManager == null || wifiChannel == null) {
                 val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
                 subscriber.onError(throwable)
-                return@create
+                return@unsafeCreate
             }
             wifiManager.connect(wifiChannel, device.asConfig(), object : WifiP2pManager.ActionListener {
                 override fun onSuccess() {
-                    Log.e("TEST", "CONNECT SUCCESS")
+                    Timber.e("CONNECT SUCCESS")
                     subscriber.onNext(Unit)
                     subscriber.onCompleted()
                 }
@@ -61,6 +62,8 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             })
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->
             DeviceConfigurationProvider.getInstance(device, hostAddress)
+        }.doOnUnsubscribe {
+            ipRecieverServer.unsubscribe()
         }
     }
 
