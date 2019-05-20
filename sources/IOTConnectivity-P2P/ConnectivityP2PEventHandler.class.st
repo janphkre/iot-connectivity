@@ -20,6 +20,10 @@ ConnectivityP2PEventHandler >> AP_STA_DISCONNECTED: anEvent [
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> CTRL_EVENT_DISCONNECTED: anEvent [
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_DEVICE_FOUND: anEvent [
   "Signals that a p2p device has been discovered"
 ]
@@ -44,17 +48,37 @@ ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> P2P_GO_NEG_SUCCESS: anEvent [
+
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_FAILURE: anEvent [
 	"This usually indicates that the group formation with a peer has failed. Problem is, that this Event crashes the wpa_supplicant, therefor we have to restart it and this image afterwards."
 	UIManager default inform: 'Group formation failure. wpa_supplicant has probably crashed!'.
 ]
 
 { #category : #events }
+ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_SUCCESS: anEvent [
+]
+
+{ #category : #events }
+ConnectivityP2PEventHandler >> P2P_GROUP_REMOVED: anEvent [
+	"Indicates that a p2p group was removed. The reason will most likely be 'IDLE'."
+]
+
+{ #category : #events }
 ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
-  "<3>P2P-GROUP-STARTED p2p-wlan0-3 GO ssid=DIRECT-Sx freq=5180 passphrase=922JFxeQ go_dev_addr=ba:27:eb:23:9c:d0"
+  "<3>P2P-GROUP-STARTED p2p-wlan0-3 GO ssid=DIRECT-Sx freq=5180 passphrase=922JFxeQ go_dev_addr=ba:27:eb:23:9c:d0
+	<3>P2P-GROUP-STARTED p2p-wlan0-0 client ssid=""DIRECT-VBSM-G935F"" freq=5180 psk=0f8dc58cc5e97c9565bf0cae5b94e1b3d471f89340d271a70d6196c3c12e7ef8 go_dev_addr=ae:5f:3e:2b:3b:4f ip_addr=192.168.49.200 ip_mask=255.255.255.0 go_ip_addr=192.168.49.1"
   anEvent parameters size < 7
 	ifTrue: [ ^ self ].
-  service groupStarted: (anEvent parameter: 2).
+	anEvent parameters size < 9
+	ifTrue: [ 
+		service groupStarted: (anEvent parameter: 2).
+		^ self. ].
+	service groupStarted: (anEvent parameter: 2) on: ((anEvent parameter: 9) allButFirst: 11).
+	
 ]
 
 { #category : #events }

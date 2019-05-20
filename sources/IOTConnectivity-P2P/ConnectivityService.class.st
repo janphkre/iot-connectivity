@@ -46,6 +46,14 @@ ConnectivityService >> groupStarted: aString [
 ]
 
 { #category : #events }
+ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
+  self stopGroupInternal.
+  groupDevice := LWpaInterface onName: groupNetworkId.
+  groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
+	(Socket newTCP) connectTo: (SocketAddress fromDottedString: goIpAddr) port: 8890.
+]
+
+{ #category : #events }
 ConnectivityService >> groupWpsPbc [
  ^ groupDevice wpsPbc.
 ]
@@ -106,7 +114,6 @@ ConnectivityService >> p2pInvite: address [
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |
-	self flag: 'TODO: CHECK IF THERE IS A GROUP INTERFACE ALREADY!'.
 	p2pDevice configure: [
 		p2pDevice note: 'Setting up p2p with pharo';
 		flush;
@@ -119,9 +126,6 @@ ConnectivityService >> start [
 	p2pDevice configureDynamic: [ 
 		p2pDevice p2pServiceAdd: serviceDescription;
 		p2pServiceUpdate. ].
-
-	self flag: 'TODO: select the correct target device!'.
-	self flag: 'TODO: '.
 	
 	targetDevice configure: [ 
 		targetDevice note: 'Setting up device with pharo';
