@@ -151,6 +151,7 @@ ICConfig >> writeTo: aLibInterface [
 	self writePasswordTo: aLibInterface.
 	self writeTypeTo: aLibInterface.
 	self enableNetworkOn: aLibInterface.
+	self selectNetworkOn: aLibInterface.
 	aLibInterface saveConfig.
 ]
 
