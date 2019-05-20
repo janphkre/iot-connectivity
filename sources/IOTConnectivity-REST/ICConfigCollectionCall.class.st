@@ -35,7 +35,7 @@ ICConfigCollectionCall class >> path [
 
 { #category : #accessing }
 ICConfigCollectionCall class >> summary [ 
-	^ 'A call to reated network configurations.'
+	^ 'A call to create network configurations.'
 ]
 
 { #category : #public }
@@ -63,7 +63,7 @@ ICConfigCollectionCall >> post [
 	response := ZnResponse created:
 		('/interfaces/{1}/config/{2}' format: { interfaceName. config networkId. })
 		entity: (ZnEntity 
-			with: (NeoJSONWriter toString: self)
+			with: (NeoJSONWriter toString: config)
 			type: ZnMimeType applicationJson setCharSetUTF8).
 
 ]
