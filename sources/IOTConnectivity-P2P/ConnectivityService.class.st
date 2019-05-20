@@ -50,7 +50,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	(Socket newTCP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890.
+	self socketPingTo: goIpAddr retries: 5.
 ]
 
 { #category : #events }
@@ -109,6 +109,14 @@ ConnectivityService >> p2pDevice [
 ConnectivityService >> p2pInvite: address [
 	p2pDevice p2pGroupAdd.
 	p2pDevice p2pInvite: address.
+]
+
+{ #category : #events }
+ConnectivityService >> socketPingTo: goIpAddr retries: retryCount [
+	(Socket newTCP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890;
+		waitForConnectionFor: 5 ifTimedOut: [
+			retryCount > 0 ifTrue: [
+				self socketPingTo: goIpAddr retries: (retryCount - 1) ]. ].
 ]
 
 { #category : #accessing }
