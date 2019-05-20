@@ -52,7 +52,7 @@ ICConfigCall class >> summary [
 
 { #category : #public }
 ICConfigCall >> get [
-	^ (ICConfigWrapper getConfig: networkId on: interfaceName)
+	response := (ICConfigWrapper getConfig: networkId on: interfaceName) asZnResponse.
 ]
 
 { #category : #public }
