@@ -190,6 +190,11 @@ LWpaInterface >> p2pConnectPbc: address [
 ]
 
 { #category : #'p2p commands' }
+LWpaInterface >> p2pConnectPbc: address parameters: params [
+	^ (commandControl command: ('P2P_CONNECT ', address, ' pbc ', params)).
+]
+
+{ #category : #'p2p commands' }
 LWpaInterface >> p2pDiscoverability: enabled [
 	"Updates the discoverability of this device."
 	^ (commandControl command: ('P2P_SET DISCOVERABILITY ', (enabled ifTrue: ['1'] ifFalse: ['0']))) isOk

@@ -34,6 +34,13 @@ ConnectivityP2PEventHandler >> P2P_GO_NEG_REQUEST: anEvent [
   "<3>P2P-GO-NEG-REQUEST 94:65:2d:d6:65:72 dev_passwd_id=4 go_intent=0"
   anEvent parameters size < 4
 	ifTrue: [ ^ self ].
+	((anEvent parameters at: 4) allButFirst: 10) asInteger >= 0
+	ifTrue: [ 
+		UIManager default inform: 'Requesting the peer to become GO'.
+		service p2pConnectPbc: (anEvent parameter: 2) parameters: ('go_intent=0').
+		^ self ].
+	UIManager default inform: 'Inviting the peer to our group'.
+	service p2pGroupAdd.
 	service p2pInvite: (anEvent parameter: 2).
 ]
 
@@ -54,7 +61,7 @@ ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_INVITATION_RECEIVED: anEvent [
 	"Received an invitation to join a group. This crashes the wpa_supplicant, therefor we have to restart it and this image afterwards."
-	UIManager default inform: 'Received a p2p invitation. wpa_supplicant has probably crashed!'.
+	UIManager default inform: 'Received a p2p invitation. wpa_supplicant has probably crashed! ', anEvent parameters asString.
 ]
 
 { #category : #events }
