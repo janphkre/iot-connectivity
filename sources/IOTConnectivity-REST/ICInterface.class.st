@@ -1,6 +1,6 @@
 Class {
 	#name : #ICInterface,
-	#superclass : #Object,
+	#superclass : #ICData,
 	#instVars : [
 		'name',
 		'ssid',
@@ -10,12 +10,7 @@ Class {
 	#category : #'IOTConnectivity-REST-Data'
 }
 
-{ #category : #'instance creation' }
-ICInterface class >> allInstancesOrError [
-	^ LWpaInterface onAllNonP2P collect: [ :aLibInterface | self instanceOrError: aLibInterface ].
-]
-
-{ #category : #private }
+{ #category : #parsing }
 ICInterface class >> arrayToInstance: anArray with: aString [
 	| foundSsid foundMode foundState |
 	anArray isEmptyOrNil
@@ -48,17 +43,17 @@ ICInterface class >> arrayToInstance: anArray with: aString [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : #accessing }
+ICInterface class >> dataCollection [
+	^ LWpaInterface onAllNonP2P
+]
+
+{ #category : #'instance creation' }
 ICInterface class >> instance: aLibInterface [
 	| statusArray |
 	aLibInterface isNil ifTrue: [ ^ nil ].
 	statusArray := aLibInterface status.
 	^ self arrayToInstance: statusArray with: (aLibInterface interface basename).
-]
-
-{ #category : #'instance creation' }
-ICInterface class >> instanceOrError: aLibInterface [
-	^ ([ self instance: aLibInterface ] on: LWpaError do: [ :error | error ]) value
 ]
 
 { #category : #'instance creation' }

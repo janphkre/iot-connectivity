@@ -6,7 +6,7 @@ Class {
 
 { #category : #accessing }
 IOTConnectivityAPI class >> delegate [
-	^ (ZnRestServerDelegate new
+	^ (ZnJSONRestServerDelegate new
 			uriSpace: (ICUriSpace new))
 ]
 

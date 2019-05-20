@@ -112,6 +112,23 @@ ICCall class >> summary [
 	^ ''
 ]
 
+{ #category : #'instance creation' }
+ICCall >> badRequest: message [
+	response := self delegate 
+		errorResponse: request 
+		code: 400 
+		message: message
+]
+
+{ #category : #public }
+ICCall >> created: uri [
+	^ (response := ZnResponse new)
+		statusLine: ZnStatusLine created;
+		headers: ZnHeaders defaultResponseHeaders;
+		setLocation: uri;
+		yourself
+]
+
 { #category : #private }
 ICCall >> errorEntityFor: anError [
 	^ ZnEntity 
@@ -139,6 +156,11 @@ ICCall >> execute [
 		ifFalse: [ self delegate wrongMethod: request ]  
 ]
 
+{ #category : #'instance creation' }
+ICCall >> fromJson: aString [
+	^ self delegate fromJson: aString
+]
+
 { #category : #private }
 ICCall >> handleError: anError [
 
@@ -154,6 +176,15 @@ ICCall >> initializeParameters [
 	operation 
 		initializeValuesOn: self valueDelegate
 		fromRequest: self
+]
+
+{ #category : #accessing }
+ICCall >> jsonRequest [
+	^ (self request contentType matches: ZnMimeType applicationJson)
+		ifTrue: [
+			self fromJson: self request contents ]
+		ifFalse: [
+			self error: 'JSON content expected' ]
 ]
 
 { #category : #accessing }

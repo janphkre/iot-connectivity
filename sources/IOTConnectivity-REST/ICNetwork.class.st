@@ -1,45 +1,49 @@
 Class {
 	#name : #ICNetwork,
-	#superclass : #Object,
+	#superclass : #ICData,
 	#instVars : [
 		'mac',
 		'ssid',
-		'signalStrength'
+		'signalStrength',
+		'flags'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
 
-{ #category : #public }
-ICNetwork class >> allInstancesOrError: interfaceName [
-  | libInterface |
-	libInterface := LWpaInterface onName: interfaceName.
-	^ (ICNetworkScan on: libInterface) scan collect: [ :aNetwork | self instanceOrError: aNetwork ]
-  
-]
-
-{ #category : #'instance creation' }
+{ #category : #parsing }
 ICNetwork class >> arrayToInstance: anArray [
   ^ self new
 		mac: (anArray at: 1);
-		ssid: (anArray at: 5);
 		signalStrength: (Integer readFrom: (anArray at: 3));
+		flags: (self parseFlags: (anArray at: 4));
+		ssid: (anArray at: 5);
 		yourself
 ]
 
 { #category : #accessing }
-ICNetwork class >> instance: aNetworkScanResult [
-  ^ self arrayToInstance: (aNetworkScanResult splitOn: [ :char | char = (Character tab) ])
+ICNetwork class >> dataCollection: aLibInterface [
+  ^ (ICNetworkScan on: aLibInterface) scan
 ]
 
 { #category : #'instance creation' }
-ICNetwork class >> instanceOrError: aNetworkScanResult [
-  ^ ([ self instance: aNetworkScanResult ] on: Error do: [ :error | error ]) value
+ICNetwork class >> instance: anItem [
+  ^ self arrayToInstance: (anItem splitOn: [ :char | char = (Character tab) ])
 ]
 
 { #category : #accessing }
 ICNetwork class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( mac ssid signalStrength ) ]
+		mapping mapInstVars: #( mac ssid signalStrength flags) ]
+]
+
+{ #category : #accessing }
+ICNetwork >> flags [
+	^ flags
+]
+
+{ #category : #accessing }
+ICNetwork >> flags: anArray [
+	flags := anArray
 ]
 
 { #category : #accessing }

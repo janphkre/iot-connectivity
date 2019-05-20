@@ -8,9 +8,9 @@ Class {
 ICInterfaceWrapper class >> getInterface: interfaceName [
 	(ICInterface instanceOrErrorFromName: interfaceName)
 		ifNotNil: [:interfaceOrError |
-			(interfaceOrError isKindOf: Exception) ifTrue: [ ^ ZnResponse serverError: interfaceOrError messageText ].
+			(interfaceOrError isKindOf: Error) ifTrue: [ ^ ZnResponse serverError: interfaceOrError messageText ].
 			^ interfaceOrError ].
-  ^ ZnResponse notFound: '/interfaces/',interfaceName asString
+  ^ ZnResponse notFound: ('/interfaces/', interfaceName asString)
 ]
 
 { #category : #public }
@@ -22,7 +22,7 @@ ICInterfaceWrapper class >> getInterfaces [
 			(interfaces isEmpty)
 			ifTrue: [ ^  Array braceWithNone ]
 			ifFalse: [
-			  strippedInterfaces := interfaces select: [ :item | (item isKindOf: Exception) = false ].
+			  strippedInterfaces := interfaces select: [ :item | (item isKindOf: Error) = false ].
 			  (strippedInterfaces isEmpty) ifTrue: [ ^ ZnResponse serverError: interfaces anyOne messageText ].
 	      ^ strippedInterfaces
 			] ].

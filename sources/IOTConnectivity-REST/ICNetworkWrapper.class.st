@@ -6,6 +6,9 @@ Class {
 
 { #category : #public }
 ICNetworkWrapper class >> getNetworks: interfaceName [
-	[ ^ ICNetwork allInstancesOrError: interfaceName.
-  ] on: Error do: [ :error | ^ ZnResponse serverError: error messageText ]
+  (ICNetwork allInstancesOrError: interfaceName)
+		ifNotNil: [ :networksOrError |
+			(networksOrError isKindOf: Error) ifTrue: [ ^ ZnResponse serverError: networksOrError messageText ].
+			^ networksOrError ].
+	^ ZnResponse notFound: ('/interfaces/', interfaceName asString, '/networks')
 ]

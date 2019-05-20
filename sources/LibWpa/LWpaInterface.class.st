@@ -110,6 +110,24 @@ LWpaInterface >> configureDynamic: aBlock [
 	aBlock value.
 ]
 
+{ #category : #commands }
+LWpaInterface >> createNetwork [
+	"Creates a new network which can be identified by the returned id"
+	^ (commandControl command: 'ADD_NETWORK')
+]
+
+{ #category : #commands }
+LWpaInterface >> disableNetwork: anInteger [
+	"Enable a confgured network"
+	^ (commandControl command: ('DISABLE_NETWORK ', anInteger asString)) isOk
+]
+
+{ #category : #commands }
+LWpaInterface >> enableNetwork: anInteger [
+	"Enable a confgured network"
+	^ (commandControl command: ('ENABLE_NETWORK ', anInteger asString)) isOk
+]
+
 { #category : #accessing }
 LWpaInterface >> eventControl [
 	^ eventControl
@@ -259,9 +277,21 @@ LWpaInterface >> receiveEvents: aBlock [
 		event ifNotNil: [ aBlock value: event] ].
 ]
 
+{ #category : #removing }
+LWpaInterface >> removeNetwork: id [
+	"Removes a network that was created by addNetwork"
+	^ (commandControl command: ('REMOVE_NETWORK ', id)) isOk
+]
+
 { #category : #configuration }
 LWpaInterface >> runDynamicConfig [
   commandControl replayDynamic.
+]
+
+{ #category : #commands }
+LWpaInterface >> saveConfig [
+	"Stores the configuration of this interface on disk"
+	^ (commandControl command: 'SAVE_CONFIG')
 ]
 
 { #category : #commands }
@@ -274,6 +304,13 @@ LWpaInterface >> scan [
 LWpaInterface >> scanResults [
 	"Start a scan for available networks"
 	^ (commandControl command: 'SCAN_RESULTS') lines allButFirst.
+]
+
+{ #category : #initialization }
+LWpaInterface >> setNetwork: key data: value on: id [
+	"Set a parameter of a created network identified by its id.
+	 Valid parameters are e.g. 'ssid', 'psk', 'key_mgmt', 'identity', 'password' ..."
+	^ (commandControl command: ('SET_NETWORK ', id asString, ' ', key, ' "', value, '"')) isOk
 ]
 
 { #category : #commands }
