@@ -52,13 +52,15 @@ ICConfigCall class >> summary [
 
 { #category : #public }
 ICConfigCall >> get [
-	^ (ICConfigWrapper getConfig: networkId on: interfaceName)
+	response := (ICConfigWrapper getConfig: networkId on: interfaceName) asZnResponse.
 ]
 
 { #category : #public }
 ICConfigCall >> put [
 	| data config |
-	data := self jsonRequest.
+	[ data := self jsonRequest. ] on: Error do: [
+		self badRequest: 'JSON expected'.
+		^ self ].
 	data isDictionary
 		ifFalse: [
 			self badRequest: 'JSON map expected'.
@@ -68,6 +70,7 @@ ICConfigCall >> put [
 			self badRequest: 'No change provided!'.
 			^ self ].
 	config := ICConfig new.
+	config networkId: networkId.
 	(data at: #'ssid' ifAbsent: nil)
 		ifNotNil: [ :result | 
 			config ssid: result.
@@ -75,5 +78,6 @@ ICConfigCall >> put [
 	(data at: #'password' ifAbsent: nil)
 		ifNotNil: [ :result | config password: result. ].
 	config disabled: (data at: #'disabled' ifAbsent: nil).
+	config selected: (data at: #'selected' ifAbsent: nil).
 	response := (ICConfigWrapper update: config on: interfaceName) asZnResponse.
 ]

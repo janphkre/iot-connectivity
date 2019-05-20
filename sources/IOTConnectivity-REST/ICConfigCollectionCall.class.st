@@ -14,7 +14,7 @@ ICConfigCollectionCall class >> description [
 
 { #category : #accessing }
 ICConfigCollectionCall class >> httpMethods [
-	^ #( post )
+	^ #( get post )
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ ICConfigCollectionCall class >> path [
 
 { #category : #accessing }
 ICConfigCollectionCall class >> summary [ 
-	^ 'A call to reated network configurations.'
+	^ 'A call to create network configurations.'
 ]
 
 { #category : #public }
@@ -46,7 +46,9 @@ ICConfigCollectionCall >> get [
 { #category : #public }
 ICConfigCollectionCall >> post [
 	| data config |
-	data := self jsonRequest.
+	[ data := self jsonRequest. ] on: Error do: [
+		self badRequest: 'JSON expected'.
+		^ self ].
 	data isDictionary
 		ifFalse: [
 			self badRequest: 'JSON map expected'.
@@ -61,7 +63,7 @@ ICConfigCollectionCall >> post [
 	response := ZnResponse created:
 		('/interfaces/{1}/config/{2}' format: { interfaceName. config networkId. })
 		entity: (ZnEntity 
-			with: (NeoJSONWriter toString: self)
+			with: (NeoJSONWriter toString: config)
 			type: ZnMimeType applicationJson setCharSetUTF8).
 
 ]

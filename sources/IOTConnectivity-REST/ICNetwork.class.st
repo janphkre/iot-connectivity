@@ -5,7 +5,7 @@ Class {
 		'mac',
 		'ssid',
 		'signalStrength',
-		'flags'
+		'security'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
@@ -15,7 +15,7 @@ ICNetwork class >> arrayToInstance: anArray [
   ^ self new
 		mac: (anArray at: 1);
 		signalStrength: (Integer readFrom: (anArray at: 3));
-		flags: (self parseFlags: (anArray at: 4));
+		security: (self parseFlags: (anArray at: 4));
 		ssid: (anArray at: 5);
 		yourself
 ]
@@ -33,17 +33,7 @@ ICNetwork class >> instance: anItem [
 { #category : #accessing }
 ICNetwork class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( mac ssid signalStrength flags) ]
-]
-
-{ #category : #accessing }
-ICNetwork >> flags [
-	^ flags
-]
-
-{ #category : #accessing }
-ICNetwork >> flags: anArray [
-	flags := anArray
+		mapping mapInstVars: #( mac ssid signalStrength security) ]
 ]
 
 { #category : #accessing }
@@ -54,6 +44,16 @@ ICNetwork >> mac [
 { #category : #accessing }
 ICNetwork >> mac: aString [
   mac := aString
+]
+
+{ #category : #accessing }
+ICNetwork >> security [
+	^ security
+]
+
+{ #category : #accessing }
+ICNetwork >> security: anArray [
+	security := anArray
 ]
 
 { #category : #accessing }

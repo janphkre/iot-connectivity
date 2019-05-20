@@ -5,19 +5,21 @@ Class {
 		'ssid',
 		'password',
 		'networkId',
-		'disabled'
+		'disabled',
+		'selected'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
 
 { #category : #parsing }
 ICConfig class >> arrayToInstance: anArray [
-	| status |
-	status := self parseFlags: (anArray at: 4).
+	| flags |
+	flags := self parseFlags: (anArray at: 4).
   ^ self new
 		networkId: (anArray at: 1);
 		ssid: (anArray at: 2);
-		disabled: (status anySatisfy: [ :item | item = #DISABLED ]);
+		disabled: (flags anySatisfy: [ :item | item = #DISABLED ]);
+		selected: (flags anySatisfy: [ :item | item = #CURRENT ]);
 		obscure;
 		yourself
 ]
@@ -35,7 +37,7 @@ ICConfig class >> instance: anItem [
 { #category : #accessing }
 ICConfig class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( ssid password networkId disabled) ]
+		mapping mapInstVars: #( networkId ssid password disabled selected) ]
 ]
 
 { #category : #public }
@@ -43,18 +45,19 @@ ICConfig >> createOn: interfaceName [
 | libInterface |
 	libInterface := LWpaInterface onName: interfaceName.
 	networkId := libInterface createNetwork.
+	disabled := false.
+	selected := true.
 	[ self writeTo: libInterface. ] on: Error do: [ :error |
 		libInterface removeNetwork: networkId.
 		error signal. ].
-	disabled := true.
 	self obscure.
 	^ self
 ]
 
 { #category : #public }
 ICConfig >> createOrErrorOn: interfaceName [
-	[ ^ self createOn: interfaceName
-  ] on: Error do: [ :error | ^ error ] value
+	([ ^ self createOn: interfaceName
+  ] on: Error do: [ :error | ^ error ]) value
 ]
 
 { #category : #accessing }
@@ -70,8 +73,8 @@ ICConfig >> disabled: aBoolean [
 { #category : #writing }
 ICConfig >> enableNetworkOn: aLibInterface [
 	disabled ifNotNil: [ :data |
-		data ifTrue: [ aLibInterface enableNetwork: networkId. ]
-		ifFalse: [ aLibInterface disableNetwork: networkId. ]. ].
+		data ifFalse: [ aLibInterface enableNetwork: networkId. ]
+		ifTrue: [ aLibInterface disableNetwork: networkId. ]. ].
 ]
 
 { #category : #accessing }
@@ -97,6 +100,22 @@ ICConfig >> password [
 { #category : #accessing }
 ICConfig >> password: aString [
 	password := aString
+]
+
+{ #category : #writing }
+ICConfig >> selectNetworkOn: aLibInterface [
+	selected ifNotNil: [ :data |
+		data ifTrue: [ aLibInterface selectNetwork: networkId. ] ].
+]
+
+{ #category : #accessing }
+ICConfig >> selected [
+	^ selected.
+]
+
+{ #category : #accessing }
+ICConfig >> selected: aBoolean [
+	selected := aBoolean.
 ]
 
 { #category : #accessing }
@@ -132,8 +151,9 @@ ICConfig >> writeSsidTo: aLibInterface [
 ICConfig >> writeTo: aLibInterface [
 	self writeSsidTo: aLibInterface.
 	self writePasswordTo: aLibInterface.
-	self writeTypeTo: aLibInterface.
+	"self writeTypeTo: aLibInterface."
 	self enableNetworkOn: aLibInterface.
+	self selectNetworkOn: aLibInterface.
 	aLibInterface saveConfig.
 ]
 

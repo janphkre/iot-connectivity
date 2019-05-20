@@ -113,7 +113,7 @@ LWpaInterface >> configureDynamic: aBlock [
 { #category : #commands }
 LWpaInterface >> createNetwork [
 	"Creates a new network which can be identified by the returned id"
-	^ (commandControl command: 'ADD_NETWORK')
+	^ (commandControl command: 'ADD_NETWORK') lines first.
 ]
 
 { #category : #commands }
@@ -304,6 +304,12 @@ LWpaInterface >> scan [
 LWpaInterface >> scanResults [
 	"Start a scan for available networks"
 	^ (commandControl command: 'SCAN_RESULTS') lines allButFirst.
+]
+
+{ #category : #commands }
+LWpaInterface >> selectNetwork: anInteger [
+	"Select a confgured network as the current active connection."
+	^ (commandControl command: ('SELECT_NETWORK ', anInteger asString)) isOk
 ]
 
 { #category : #initialization }
