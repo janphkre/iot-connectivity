@@ -50,7 +50,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	(Socket newTCP) connectTo: (SocketAddress fromDottedString: goIpAddr) port: 8890.
+	(Socket newTCP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890.
 ]
 
 { #category : #events }
