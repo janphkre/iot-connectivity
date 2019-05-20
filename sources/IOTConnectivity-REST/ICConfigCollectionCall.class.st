@@ -14,7 +14,7 @@ ICConfigCollectionCall class >> description [
 
 { #category : #accessing }
 ICConfigCollectionCall class >> httpMethods [
-	^ #( post )
+	^ #( get post )
 ]
 
 { #category : #accessing }

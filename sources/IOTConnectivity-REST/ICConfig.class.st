@@ -5,19 +5,21 @@ Class {
 		'ssid',
 		'password',
 		'networkId',
-		'disabled'
+		'disabled',
+		'security'
 	],
 	#category : #'IOTConnectivity-REST-Data'
 }
 
 { #category : #parsing }
 ICConfig class >> arrayToInstance: anArray [
-	| status |
-	status := self parseFlags: (anArray at: 4).
+	| flags |
+	flags := self parseFlags: (anArray at: 4).
   ^ self new
 		networkId: (anArray at: 1);
 		ssid: (anArray at: 2);
-		disabled: (status anySatisfy: [ :item | item = #DISABLED ]);
+		disabled: (flags anySatisfy: [ :item | item = #DISABLED ]);
+		security: (flags copyWithout: #DISABLED) 
 		obscure;
 		yourself
 ]
@@ -35,7 +37,7 @@ ICConfig class >> instance: anItem [
 { #category : #accessing }
 ICConfig class >> neoJsonMapping: mapper [
 	mapper for: self do: [ :mapping |
-		mapping mapInstVars: #( ssid password networkId disabled) ]
+		mapping mapInstVars: #( ssid password networkId disabled security) ]
 ]
 
 { #category : #public }
@@ -97,6 +99,16 @@ ICConfig >> password [
 { #category : #accessing }
 ICConfig >> password: aString [
 	password := aString
+]
+
+{ #category : #accessing }
+ICConfig >> security [ 
+	^ security
+]
+
+{ #category : #accessing }
+ICConfig >> security: aList [
+	security := aList.
 ]
 
 { #category : #accessing }
