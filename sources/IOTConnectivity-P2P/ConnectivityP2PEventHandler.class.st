@@ -85,7 +85,7 @@ ConnectivityP2PEventHandler >> P2P_GROUP_STARTED: anEvent [
 	ifTrue: [ 
 		service groupStarted: (anEvent parameter: 2).
 		^ self. ].
-	service groupStarted: (anEvent parameter: 2) on: ((anEvent parameter: 10) allButFirst: 11).
+	service groupStarted: (anEvent parameter: 2) on: ((anEvent parameter: 8) allButFirst: 8).
 	
 ]
 
