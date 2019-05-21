@@ -50,8 +50,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: ipAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	UIManager default inform: 'Offering ', (ipAddr asString).
-	self ipService: ipAddr.
+	self ipService.
 ]
 
 { #category : #events }
@@ -97,12 +96,34 @@ ConnectivityService >> initialize: aPortNumber [
 ]
 
 { #category : #events }
-ConnectivityService >> ipService: aString [
-	| ipServiceValues ipServiceDescription |
+ConnectivityService >> ipService [
+	| ip ipServiceValues ipServiceDescription |
 	ipServiceValues := (SmallDictionary new: 3)
-	at: #ip put: aString;
+	at: #ip put: ip;
 	yourself.
 	ipServiceDescription := LWpaBonjourService new: 'IPService' as: 'ip.pharo._tcp' with: ipServiceValues.
+	UIManager default inform: 'Offering ', ip.
+	p2pDevice p2pServiceAdd: ipServiceDescription;
+	p2pServiceUpdate.
+	self p2pListen.
+]
+
+{ #category : #events }
+ConnectivityService >> ipService: interfaceName [
+	| status ip ipServiceValues ipServiceDescription |
+	status := (LWpaInterface onName: interfaceName) status.
+	ip := (status
+		at: (status findFirst: [ :item | item beginsWith: 'ip_address' ])
+		ifAbsent: [ '' ]) substrings: '='.
+	ip := ip size = 2
+		ifTrue: [ ip second ]
+		ifFalse: [ ^ self ].
+	ipServiceValues := (SmallDictionary new: 3)
+	at: #ip put: ip;
+	at: #port put: port;
+	yourself.
+	ipServiceDescription := LWpaBonjourService new: 'IPService' as: 'ip.pharo._tcp' with: ipServiceValues.
+	UIManager default inform: 'Offering ', ip.
 	p2pDevice p2pServiceAdd: ipServiceDescription;
 	p2pServiceUpdate.
 	self p2pListen.
@@ -127,16 +148,6 @@ ConnectivityService >> p2pInvite: address [
 { #category : #events }
 ConnectivityService >> p2pListen [
 	p2pDevice p2pListen.
-]
-
-{ #category : #events }
-ConnectivityService >> pingTo: goIpAddr retries: retryCount [
-	(Socket newUDP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890;
-		waitForConnectionFor: 5 ifTimedOut: [
-			retryCount > 0 ifTrue: [
-				^ self pingTo: goIpAddr retries: (retryCount - 1) ].
-			UIManager default inform: 'Failed to ping the GO'. ];
-		disconnect.
 ]
 
 { #category : #events }
