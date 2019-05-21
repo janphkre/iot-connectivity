@@ -51,7 +51,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
 	UIManager default inform: 'Trying to ping ', (goIpAddr asString).
-	self socketPingTo: goIpAddr retries: 100.
+	self pingTo: goIpAddr retries: 5.
 ]
 
 { #category : #events }
@@ -113,11 +113,16 @@ ConnectivityService >> p2pInvite: address [
 ]
 
 { #category : #events }
-ConnectivityService >> socketPingTo: goIpAddr retries: retryCount [
-	(Socket newTCP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890;
+ConnectivityService >> p2pListen [
+	p2pDevice p2pListen.
+]
+
+{ #category : #events }
+ConnectivityService >> pingTo: goIpAddr retries: retryCount [
+	(Socket newUDP) connectNonBlockingTo: (SocketAddress fromDottedString: goIpAddr) port: 8890;
 		waitForConnectionFor: 5 ifTimedOut: [
 			retryCount > 0 ifTrue: [
-				^ self socketPingTo: goIpAddr retries: (retryCount - 1) ].
+				^ self pingTo: goIpAddr retries: (retryCount - 1) ].
 			UIManager default inform: 'Failed to ping the GO'. ].
 ]
 
