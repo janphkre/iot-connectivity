@@ -111,7 +111,7 @@ ConnectivityService >> ipService: interfaceName retryCount: retryCount [
 	ip := ip size = 2
 		ifTrue: [ ip second ]
 		ifFalse: [ 
-			[ Delay forMilliseconds: 500 wait.
+			[ (Delay forMilliseconds: 500) wait.
 			self ipService: interfaceName retryCount: (retryCount - 1) ] fork.
 			^ self ].
 	ipServiceValues := (SmallDictionary new: 3)
