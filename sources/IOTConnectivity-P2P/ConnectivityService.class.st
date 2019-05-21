@@ -97,6 +97,11 @@ ConnectivityService >> initialize: aPortNumber [
 
 { #category : #events }
 ConnectivityService >> ipService: interfaceName [
+	self ipService: interfaceName retryCount: 10.
+]
+
+{ #category : #events }
+ConnectivityService >> ipService: interfaceName retryCount: retryCount [
 	| status ip ipServiceValues ipServiceDescription |
 	UIManager default inform: 'Creating an ip service for ', interfaceName.
 	status := (LWpaInterface onName: interfaceName) status.
@@ -105,7 +110,10 @@ ConnectivityService >> ipService: interfaceName [
 		ifAbsent: [ '' ]) substrings: '='.
 	ip := ip size = 2
 		ifTrue: [ ip second ]
-		ifFalse: [ ^ self ].
+		ifFalse: [ 
+			[ Delay forMilliseconds: 500 wait.
+			self ipService: interfaceName retryCount: (retryCount - 1) ] fork.
+			^ self ].
 	ipServiceValues := (SmallDictionary new: 3)
 	at: #ip put: ip;
 	at: #port put: port;
