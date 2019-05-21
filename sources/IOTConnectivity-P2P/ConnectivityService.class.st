@@ -98,6 +98,7 @@ ConnectivityService >> initialize: aPortNumber [
 { #category : #events }
 ConnectivityService >> ipService: interfaceName [
 	| status ip ipServiceValues ipServiceDescription |
+	UIManager default inform: 'Creating an ip service for ', interfaceName.
 	status := (LWpaInterface onName: interfaceName) status.
 	ip := (status
 		at: (status findFirst: [ :item | item beginsWith: 'ip_address' ])
