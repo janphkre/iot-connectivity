@@ -50,7 +50,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: ipAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	self ipService.
+	self ipService: groupNetworkId.
 ]
 
 { #category : #events }
@@ -93,19 +93,6 @@ ConnectivityService >> initialize: aPortNumber [
 	targetEventHandler := TargetEventHandler on: self.
 	scanSemaphore := Semaphore new.
 	^ self
-]
-
-{ #category : #events }
-ConnectivityService >> ipService [
-	| ip ipServiceValues ipServiceDescription |
-	ipServiceValues := (SmallDictionary new: 3)
-	at: #ip put: ip;
-	yourself.
-	ipServiceDescription := LWpaBonjourService new: 'IPService' as: 'ip.pharo._tcp' with: ipServiceValues.
-	UIManager default inform: 'Offering ', ip.
-	p2pDevice p2pServiceAdd: ipServiceDescription;
-	p2pServiceUpdate.
-	self p2pListen.
 ]
 
 { #category : #events }
