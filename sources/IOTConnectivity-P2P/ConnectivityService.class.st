@@ -123,7 +123,8 @@ ConnectivityService >> pingTo: goIpAddr retries: retryCount [
 		waitForConnectionFor: 5 ifTimedOut: [
 			retryCount > 0 ifTrue: [
 				^ self pingTo: goIpAddr retries: (retryCount - 1) ].
-			UIManager default inform: 'Failed to ping the GO'. ].
+			UIManager default inform: 'Failed to ping the GO'. ];
+		disconnect.
 ]
 
 { #category : #accessing }
