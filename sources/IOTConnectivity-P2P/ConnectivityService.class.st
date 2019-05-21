@@ -46,12 +46,12 @@ ConnectivityService >> groupStarted: aString [
 ]
 
 { #category : #events }
-ConnectivityService >> groupStarted: groupNetworkId on: goIpAddr [
+ConnectivityService >> groupStarted: groupNetworkId on: ipAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	UIManager default inform: 'Trying to ping ', (goIpAddr asString).
-	self pingTo: goIpAddr retries: 5.
+	UIManager default inform: 'Offering ', (ipAddr asString).
+	self ipService: ipAddr.
 ]
 
 { #category : #events }
@@ -97,6 +97,18 @@ ConnectivityService >> initialize: aPortNumber [
 ]
 
 { #category : #events }
+ConnectivityService >> ipService: aString [
+	| ipServiceValues ipServiceDescription |
+	ipServiceValues := (SmallDictionary new: 3)
+	at: #ip put: aString;
+	yourself.
+	ipServiceDescription := LWpaBonjourService new: 'IPService' as: 'ip.pharo._tcp' with: ipServiceValues.
+	p2pDevice p2pServiceAdd: ipServiceDescription;
+	p2pServiceUpdate.
+	self p2pListen.
+]
+
+{ #category : #events }
 ConnectivityService >> p2pConnectPbc: peerAddress [
  p2pDevice p2pConnectPbc: peerAddress parameters: ('go_intent=0').
 ]
@@ -125,6 +137,12 @@ ConnectivityService >> pingTo: goIpAddr retries: retryCount [
 				^ self pingTo: goIpAddr retries: (retryCount - 1) ].
 			UIManager default inform: 'Failed to ping the GO'. ];
 		disconnect.
+]
+
+{ #category : #events }
+ConnectivityService >> removeIpService [
+	p2pDevice p2pServiceFlush;
+	runDynamicConfig.
 ]
 
 { #category : #accessing }

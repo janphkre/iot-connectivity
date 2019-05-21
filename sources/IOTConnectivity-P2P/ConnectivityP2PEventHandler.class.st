@@ -71,7 +71,8 @@ ConnectivityP2PEventHandler >> P2P_GROUP_FORMATION_SUCCESS: anEvent [
 { #category : #events }
 ConnectivityP2PEventHandler >> P2P_GROUP_REMOVED: anEvent [
 	"Indicates that a p2p group was removed. The reason will most likely be 'IDLE'."
-	service p2pListen.
+	service removeIpService;
+	p2pListen.
 ]
 
 { #category : #events }
