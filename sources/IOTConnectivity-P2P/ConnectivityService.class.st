@@ -46,6 +46,14 @@ ConnectivityService >> groupStarted: aString [
 ]
 
 { #category : #events }
+ConnectivityService >> groupStarted: groupNetworkId on: ipAddr [
+  self stopGroupInternal.
+  groupDevice := LWpaInterface onName: groupNetworkId.
+  groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
+	self ipService: groupNetworkId.
+]
+
+{ #category : #events }
 ConnectivityService >> groupWpsPbc [
  ^ groupDevice wpsPbc.
 ]
@@ -87,6 +95,41 @@ ConnectivityService >> initialize: aPortNumber [
 	^ self
 ]
 
+{ #category : #events }
+ConnectivityService >> ipService: interfaceName [
+	self ipService: interfaceName retryCount: 10.
+]
+
+{ #category : #events }
+ConnectivityService >> ipService: interfaceName retryCount: retryCount [
+	| status ip ipServiceValues ipServiceDescription |
+	UIManager default inform: 'Creating an ip service for ', interfaceName.
+	status := (LWpaInterface onName: interfaceName) status.
+	ip := (status
+		at: (status findFirst: [ :item | item beginsWith: 'ip_address' ])
+		ifAbsent: [ '' ]) substrings: '='.
+	ip := ip size = 2
+		ifTrue: [ ip second ]
+		ifFalse: [ 
+			[ (Delay forMilliseconds: 500) wait.
+			self ipService: interfaceName retryCount: (retryCount - 1) ] fork.
+			^ self ].
+	ipServiceValues := (SmallDictionary new: 3)
+	at: #ip put: ip;
+	at: #port put: port;
+	yourself.
+	ipServiceDescription := LWpaBonjourService new: 'IPService' as: 'ip.pharo._tcp' with: ipServiceValues.
+	UIManager default inform: 'Offering ', ip.
+	p2pDevice p2pServiceAdd: ipServiceDescription;
+	p2pServiceUpdate.
+	self p2pListen.
+]
+
+{ #category : #events }
+ConnectivityService >> p2pConnectPbc: peerAddress [
+ p2pDevice p2pConnectPbc: peerAddress parameters: ('go_intent=0').
+]
+
 { #category : #accessing }
 ConnectivityService >> p2pDevice [
 	^ p2pDevice
@@ -94,13 +137,24 @@ ConnectivityService >> p2pDevice [
 
 { #category : #events }
 ConnectivityService >> p2pInvite: address [
+	p2pDevice p2pGroupAdd.
 	p2pDevice p2pInvite: address.
+]
+
+{ #category : #events }
+ConnectivityService >> p2pListen [
+	p2pDevice p2pListen.
+]
+
+{ #category : #events }
+ConnectivityService >> removeIpService [
+	p2pDevice p2pServiceFlush;
+	runDynamicConfig.
 ]
 
 { #category : #accessing }
 ConnectivityService >> start [ 
 	| serverDelegate |
-	self flag: 'TODO: CHECK IF THERE IS A GROUP INTERFACE ALREADY!'.
 	p2pDevice configure: [
 		p2pDevice note: 'Setting up p2p with pharo';
 		flush;
@@ -113,9 +167,6 @@ ConnectivityService >> start [
 	p2pDevice configureDynamic: [ 
 		p2pDevice p2pServiceAdd: serviceDescription;
 		p2pServiceUpdate. ].
-
-	self flag: 'TODO: select the correct target device!'.
-	self flag: 'TODO: '.
 	
 	targetDevice configure: [ 
 		targetDevice note: 'Setting up device with pharo';
