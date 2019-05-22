@@ -34,7 +34,7 @@ class Device(
         txtRecordMap[P2PModule.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
         p2pDevice.deviceAddress,
         when (txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
-            ConnectionStatus.UP.name -> ConnectionStatus.UP
+            ConnectionStatus.COMPLETED.name -> ConnectionStatus.COMPLETED
             ConnectionStatus.DISCONNECTED.name -> ConnectionStatus.DISCONNECTED
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN

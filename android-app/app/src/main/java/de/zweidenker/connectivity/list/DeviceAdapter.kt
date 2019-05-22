@@ -157,7 +157,7 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
             titleTextView.text = device.userIdentifier
             subtitleTextView.text = device.address
             detailsTextView.text = when (device.connectionStatus) {
-                ConnectionStatus.UP -> {
+                ConnectionStatus.COMPLETED -> {
                     detailsTextView.resources.getString(R.string.connection_status_up, device.ip)
                 }
                 ConnectionStatus.DISCONNECTED -> {

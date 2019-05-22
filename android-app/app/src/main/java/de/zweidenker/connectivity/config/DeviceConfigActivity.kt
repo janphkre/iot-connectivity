@@ -14,6 +14,7 @@ import de.zweidenker.p2p.model.Device
 import kotlinx.android.synthetic.main.activity_device_config.*
 import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
+import org.koin.android.scope.ext.android.bindScope
 import rx.Observer
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
@@ -28,7 +29,8 @@ class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<Devi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getKoin().createScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
+        val scope = getKoin().createScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
+        bindScope(scope)
         val device = intent.getParcelableExtra<Device>(KEY_DEVICE)
         if (device == null) {
             finish()
@@ -45,7 +47,6 @@ class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<Devi
 
     override fun onDestroy() {
         viewModel.destroy(this)
-        getKoin().detachScope(ApplicationModule.DEVICE_CONFIG_SCOPE)
         super.onDestroy()
     }
 

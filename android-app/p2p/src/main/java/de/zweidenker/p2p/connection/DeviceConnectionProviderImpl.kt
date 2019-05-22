@@ -19,7 +19,7 @@ import java.net.Socket
 
 internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
-    private val ipRecieverServer = IpReceiverServer()
+    private val ipReceiver = IpReceiver(context)
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
     private val broadcastReceiver = Broadcasts {
         Timber.e("GOT INTENT")
@@ -27,7 +27,7 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             Timber.e("info: $info")
             if (info.groupFormed) {
                 if (info.isGroupOwner) {
-                    ipRecieverServer.receive(groupOwnerObservable)
+                    ipReceiver.receive(groupOwnerObservable)
                 } else {
                     groupOwnerObservable.onNext(info.groupOwnerAddress.hostAddress)
                     groupOwnerObservable.onCompleted()
@@ -42,6 +42,7 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
     }
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
+        ipReceiver.targetDeviceAddress = device.address
         return Observable.unsafeCreate<Unit> { subscriber ->
             if (wifiManager == null || wifiChannel == null) {
                 val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
@@ -63,7 +64,8 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->
             DeviceConfigurationProvider.getInstance(device, hostAddress)
         }.doOnUnsubscribe {
-            ipRecieverServer.unsubscribe()
+            wifiManager?.cancelConnect(wifiChannel, null)
+            ipReceiver.unsubscribe()
         }
     }
 
@@ -71,6 +73,7 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
         try {
             context.unregisterReceiver(broadcastReceiver)
         } catch (ignored: IllegalArgumentException) { }
+        ipReceiver.destroy()
     }
 
     private fun socketConnect(host: InetAddress, port: Int) {

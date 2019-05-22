@@ -12,7 +12,9 @@ import org.koin.dsl.module.module
 
 object P2PModule : Module {
     internal const val TYPE_SERVICE = "connectivity.pharo._tcp.local."
+    internal const val TYPE_IP_SERVICE = "ip.pharo._tcp.local."
 
+    internal const val NAME_IP_RECEIVER_THREAD = "IpReceiverBackgroundThread"
     internal const val NAME_BEACON_THREAD = "BeaconBackgroundThread"
     internal const val NAME_CONFIG_THREAD = "ConfigurationBackgroundThread"
 
@@ -21,7 +23,7 @@ object P2PModule : Module {
     internal const val KEY_PORT = "port"
     internal const val KEY_IP = "ip"
 
-    internal const val SOCKET_TIMEOUT_MS = 10000
+    internal const val SOCKET_TIMEOUT_MS = 60000
     internal const val PING_PORT = 8890
 
     internal const val ERROR_RETRY_INTERVAL_MS = 5000L
