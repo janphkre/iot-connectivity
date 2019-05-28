@@ -50,7 +50,7 @@ ConnectivityService >> groupStarted: groupNetworkId on: ipAddr [
   self stopGroupInternal.
   groupDevice := LWpaInterface onName: groupNetworkId.
   groupDevice receiveEvents: [ :event | [ self handleGroup: event ] on: Error fork: [ :error | error pass ] ].
-	self ipService: groupNetworkId.
+	[ self ipService: groupNetworkId. ] fork.
 ]
 
 { #category : #events }
@@ -104,16 +104,18 @@ ConnectivityService >> ipService: interfaceName [
 ConnectivityService >> ipService: interfaceName retryCount: retryCount [
 	| status ip ipServiceValues ipServiceDescription |
 	UIManager default inform: 'Creating an ip service for ', interfaceName.
-	status := (LWpaInterface onName: interfaceName) status.
+	(LWpaInterface onName: interfaceName) ifNotNil: [ :interface |
+		status := interface status. ] ifNil: [ 
+			(Delay forMilliseconds: 500) wait.
+			^ self ipService: interfaceName retryCount: (retryCount - 1) ].
 	ip := (status
 		at: (status findFirst: [ :item | item beginsWith: 'ip_address' ])
 		ifAbsent: [ '' ]) substrings: '='.
 	ip := ip size = 2
 		ifTrue: [ ip second ]
 		ifFalse: [ 
-			[ (Delay forMilliseconds: 500) wait.
-			self ipService: interfaceName retryCount: (retryCount - 1) ] fork.
-			^ self ].
+			(Delay forMilliseconds: 500) wait.
+			^ self ipService: interfaceName retryCount: (retryCount - 1) ].
 	ipServiceValues := (SmallDictionary new: 3)
 	at: #ip put: ip;
 	at: #port put: port;
