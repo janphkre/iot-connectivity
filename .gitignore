@@ -1,7 +1,6 @@
 #General folder: latex and books
 general/backups/*
 general/books/*.pdf
-general/latex/*.pdf
 general/latex/*.aux
 general/latex/*.fdb_latexmk
 general/latex/*.fls
