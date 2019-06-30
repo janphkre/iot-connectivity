@@ -61,7 +61,7 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
                 }
             })
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->*/
-            val hostAddress = "192.168.178.29"
+            val hostAddress = "raspberrypi.fritz.box"
             subscriber.onNext(DeviceConfigurationProvider.getInstance(device, hostAddress))
             subscriber.onCompleted()
         }.doOnUnsubscribe {
