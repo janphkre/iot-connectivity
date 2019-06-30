@@ -32,13 +32,18 @@
     \end{titlepage}
     \tableofcontents
     \pagebreak
-    \include{expose}
-    \pagebreak
-    \include{communication}
-    \pagebreak
-    \include{architecture}
-    \pagebreak
-    \include{implementation}
+    \input{expose}
+    \input{communication}
+    \input{architecture}
+    
+	\begin{figure}[ht]
+		\centering
+	    \includegraphics[width=0.9\textwidth]{IOT-Connectivity-Protocol-Stack}
+    	\caption{Zu sehen sind die Schnittstellen, die nötig sind, um die Client-Server Anwendung über p2p nutzen zu können. Hierbei stehen alle rot hinterlegten Schnittstellen bereits zur Verfügung. Wenn die genutzte p2p Schnittstelle es nicht erlaubt, TCP/HTTP Pakete an die Ports einer Netzwerkschnittstelle des Servers zu senden, muss ein TCP/HTTP-Wrapper erstellt werden. Andernfalls besteht die Implementierung aus einem gewöhnlichem REST-Client/Server-Paar. Getrennt davon muss jedoch auch innerhalb der Anwendung die p2p-Service-Discovery angebunden werden. }
+	    \label{protocol_stack}
+	\end{figure}    
+    
+    \input{implementation}
     \pagebreak
 \section{Ausblick}
 
