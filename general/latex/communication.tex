@@ -2,7 +2,7 @@
     Ein Ad Hoc Netzwerk bietet im Allgemeinen die Möglichkeit {\it peer to peer} (p2p) Verbindungen zwischen Geräten dezentralisiert aufzubauen.
     Geräte können hierbei selbstständig eine Netzwerkverbindung untereinander aushandeln. Da solche Verbindungen nur dann sinnvoll sind,
     wenn es Daten gibt, die nur zwischen den beiden verbundenen Geräten ausgetauscht werden müssen, ergibt ein solches Netzwerk meist nur
-    im Bezug auf eine tatsächlliche Anwendung Sinn. Die erweiterte Definition des Ad Hoc Netzwerks
+    im Bezug auf eine tatsächliche Anwendung Sinn. Die erweiterte Definition des Ad Hoc Netzwerks
     bezieht somit alle Netzwerkschichten des OSI-Modells mit ein.\cite[S.23]{Sikora}
     Obwohl das OSI-Modell vor Allem auf Ethernet und WLAN ausgelegt ist, lässt sich die Definition des Ad Hoc Netzwerks
     dennoch für weitere Kommunikationstechnologie übernehmen, da diese ebenfalls p2p Verbindungen aufbauen können.
@@ -35,16 +35,16 @@
         Der IEEE802.11 Standard siedelt sich im OSI-Modell lediglich in der Physical Layer und Data Link Layer an. Ihr eigentlicher Sinn ist es,
         IP-Pakete der Network Layer im gleichen Maße wie ein LAN übertragen zu können.
         Die Definition des Wireless LAN unterscheidet sich jedoch vom LAN Standard dahingehend, dass eine vollständig eigene Physical Layer geschaffen wurde,
-        da das Übertragungsmedium andere Restrikitionen besitzt. Die Data Link Layer setzt sich für WLAN größtenteils aus drei Teilen zusammen.
+        da das Übertragungsmedium andere Restriktionen besitzt. Die Data Link Layer setzt sich für WLAN größtenteils aus drei Teilen zusammen.
         Die Logic Link Control nach 802.2 und das Bridging nach 802.1 sind mit LAN identisch, um der Network Layer eine einheitliche Schnittstelle unabhängig des Übertragungsmediums zu bieten.
         In der Data Link Layer unterscheidet sich lediglich der Media Access Control (MAC).\cite[S.311]{Sauter}
         Dieser regelt im Fall von WLAN den Zugriff auf das Übertragungsmedium durch unterschiedliche Wartezeiten zwischen Frames und die Reservierung des Mediums zum Senden von Frames.
-        Da das MAC-Protokoll zudem die Addressierung von Geräten ermöglicht, bietet es ebenfalls bereits die Möglichkeit, Broadcasts zu senden.
-        Um die hohe Fehleranfälligkeit eines Drahtlosnetzwerkes für höhere Schichten zu reduzieren, wird jedes Frame vom Empfänger bestätigt.\cite[S.325-327]{Sauter}
+        Da das MAC-Protokoll zudem die Adressierung von Geräten ermöglicht, bietet es ebenfalls bereits die Möglichkeit, Broadcasts zu senden.
+        Um die hohe Fehleranfälligkeit eines Drahtlosnetzwerks für höhere Schichten zu reduzieren, wird jedes Frame vom Empfänger bestätigt.\cite[S.325-327]{Sauter}
         
         Ein Netzwerk nach 802.11 kann hierbei entweder im Infrastruktur Modus, in dem alle Geräte ausschließlich mit einem Access Point kommunizieren,
         oder im Ad Hoc Modus, welcher die direkte Kommunikation zwischen Geräten erlaubt, betrieben werden.\cite[S.82]{Sikora}
-        Ein Verbindungsaufbau ist für eine p2p Verbinung entweder durch eine konkrete Implementierung des Ad Hoc Modus oder
+        Ein Verbindungsaufbau ist für eine p2p Verbindung entweder durch eine konkrete Implementierung des Ad Hoc Modus oder
         im MAC-Protokoll zu ersuchen.
 
         Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\cite[S.80]{Sikora}
@@ -59,7 +59,7 @@
         um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\cite{linuxPacket}
         Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
         wenn eine möglichst große Nutzergruppe angesprochen werden soll.\cite{androidRights}
-        Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
+        Android bietet jedoch ab API 14 die Möglichkeit, sich über Wi-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
         p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
         Android stellt diese p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
         dass dieser bestehende Wi-Fi-Verbindungen während der Service Discovery beibehält.\cite{test-repository}
@@ -74,7 +74,7 @@
         Die Kopplung dient dabei dem Austausch der Frequency Hop Sequenzen, welche festlegt, wann auf welcher Frequenz Pakete gesendet werden, sowie dem Pairing von Geräten, welches sicherstellt,
         dass das richtige Gerät gekoppelt wird und Schlüssel zur Authentifizierung und Verschlüsselung überträgt.\cite[S.402f.]{Sauter}
 
-        Sobald eine Verbindung zwischen den Geräten aufgebaut wurde, können Daten bidirectional übertragen werden, indem ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt wird.
+        Sobald eine Verbindung zwischen den Geräten aufgebaut wurde, können Daten bidirektional übertragen werden, indem ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt wird.
         Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
         agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\cite[S.379f.]{Sauter}
 
@@ -90,10 +90,10 @@
 
         \paragraph{Bluetooth Low Energy}
         Als Teil des Bluetooth Standards ist Bluetooth Low Energy (LE) darauf ausgelegt, Daten mit einem möglichst geringen Energieverbrauch über die Bluetooth-Hardware zu übertragen.
-        Dies wird ermöglicht, indem verbindungslose Broadcast, die Nutzerdaten enthalten können definiert werden, sowie aktive Verbindungen zwischen zwei Geräten auf eine kurze Übertragung von 6 Packeten pro Verbindungsevent limitiert werden. Verbindungsevents sind dabei durch ein wählbares Intervall zwischen 7.5ms und 4s von einander getrennt. Weiterhin beschränkt sich Bluetooth LE im Hinblick auf die Reichweite darauf, möglichst wenig Energie zu verbrauchen, da eine hohe Sendeleistung in einem hohen Energieverbrauch resultiert. Da sich die Sendeleistung jedoch pro Gerät konfigurieren lässt, ist die theoretische Reichweite ähnlich zu Bluetooth gegeben.\cite[S.7f.]{Townsend}
+        Dies wird ermöglicht, indem verbindungslose Broadcast, die Nutzerdaten enthalten können definiert werden, sowie aktive Verbindungen zwischen zwei Geräten auf eine kurze Übertragung von 6 Paketen pro Verbindungsevent limitiert werden. Verbindungsevents sind dabei durch ein wählbares Intervall zwischen 7.5ms und 4s von einander getrennt. Weiterhin beschränkt sich Bluetooth LE im Hinblick auf die Reichweite darauf, möglichst wenig Energie zu verbrauchen, da eine hohe Sendeleistung in einem hohen Energieverbrauch resultiert. Da sich die Sendeleistung jedoch pro Gerät konfigurieren lässt, ist die theoretische Reichweite ähnlich zu Bluetooth gegeben.\cite[S.7f.]{Townsend}
 
         \paragraph{Nutzung unter Android}
-        Android stellt sowohl Bluetooth als auch Bluetooth LE als {\it BluetoothAdapter} bereit. Ähnlich zu Wi-Fi Direct  Android bietet ab API 5 bzw. API 18 die Möglichkeit, über Bluetooth als möglicher peer anderen Geräten zu präsentieren und
+        Android stellt sowohl Bluetooth als auch Bluetooth LE als {\it BluetoothAdapter} bereit. Ähnlich zu Wi-Fi Direct  Android bietet ab API 5 beziehungsweise API 18 die Möglichkeit, über Bluetooth als möglicher peer anderen Geräten zu präsentieren und
         p2p Verbindungen aufzubauen. Über Bluetooth LE können hingegen Services als Broadcasts bereitgestellt werden. Bluetooth in Verbindung mit Bluetooth LE lässt sich somit im Rahmen dieser Arbeit ohne Probleme auf Android benutzen.
 
     \subsection{Kommunikation über NFC}
@@ -120,7 +120,7 @@
         ergibt sich somit auch die maximale Reichweite der Technologie. USB ist primär darauf ausgelegt, (Peripherie-)Geräte an einen Host anzuschließen.
         Der Host stellt hierbei eine minimale Versorgungsspannung auf dem Bus bereit, sodass Geräte sich beim Host registrieren können und eine höhere Stromversorgung anfordern können.
         Weiterhin übernimmt der Host zwangsläufig auch die Kontrolle über die Verbindung, da Geräte zu jedem Zeitpunkt physisch vom Bus entfernt werden können, sodass Hot-Plug-and-Play
-        möglich wird. \cite[S.21-24]{Kelm}
+        möglich wird.\cite[S.21-24]{Kelm}
         Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig in den meisten Fällen einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.\cite[S.197]{Kelm}
 
         \paragraph{Nutzung unter Android}

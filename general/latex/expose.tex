@@ -1,10 +1,10 @@
 \section{Einleitung}
-	Das Unternehmen Zweidenker GmbH ist ein Softwareunternehmen mit Expertise in den Bereichen der App-, Web- und Backend Entwicklung. \cite{zweidenker}
+	Das Unternehmen Zweidenker GmbH ist ein Softwareunternehmen mit Expertise in den Bereichen der App-, Web- und Backend Entwicklung.\cite{zweidenker}
 	Für die unterschiedlichen Bereiche kommen, je nach Bedarf, unterschiedlichste Technologien zum Einsatz, vor Allem baut die Backend Entwicklung jedoch auf der virtuellen Laufzeitumgebung und Programmiersprache Pharo auf.
 	Da die Zweidenker GmbH im engen Kontakt zum französischen Computerinstitut INRIA steht und sich stark in die Pharo-Community einbringt, ist es auch leicht bei Problemen der Umgebung Hilfe zu finden. 
 	Pharo ist eine auf Smalltalk basierende objektorientierte und dynamisch getypte Programmiersprache,
-    welche gleichzeitig ihre eigene live Entwicklungsumgebung mit mächtigen Debugging-Tools ist. \cite{pharo}
-    Aktuell wurde die Laufzeitumgebung PharoThings\cite{pharoThings} vorgestellt, welche es ermöglicht, im Rahmen des Begriffes Internet Of Things (IoT) eine reduzierte Platform auf Kleinstcomputern wie dem Raspberry Pi zu ermöglichen.
+    welche gleichzeitig ihre eigene live Entwicklungsumgebung mit mächtigen Debugging-Tools ist.\cite{pharo}
+    Aktuell wurde die Laufzeitumgebung PharoThings \cite{pharoThings} vorgestellt, welche es ermöglicht, im Rahmen des Begriffes Internet Of Things (IoT) eine reduzierte Plattform auf Kleinstcomputern wie dem Raspberry Pi zu ermöglichen.
     Auf Grund dieser reduzierten Laufzeitumgebung kam im Unternehmen die Idee auf, im Bereich IoT Expertise zu sammeln und in Zukunft Komplettlösungen für diesen Bereich anbieten zu können. Als ersten Schritt in diese Richtung ist diese Projektarbeit zu sehen, in der dem Nutzer die Möglichkeit gegeben werden soll, Drahtlosnetzwerkschnittstellen von IoT Geräten per Smartphone-App konfigurieren zu können. Aktuell ist es mit einem Raspberry Pi nötig, diese Konfiguration über das Dateisystem an einem Computer mit SD-Kartenlesegerät vorzunehmen oder einen Monitor und Tastatur an den Raspberry Pi anzuschließen. Für den allgemeinen Benutzer ist es jedoch wünschenswert eine Lösung anbieten zu können, die ohne Hintergrundwissen der eingesetzten Technologien genutzt werden kann.
     Um die Pharo Things Laufzeitumgebungen als IoT-Geräte simpel nutzen zu können, soll eine Android App den Konfigurationsvorgang übernehmen:
     \begin{enumerate}
@@ -18,7 +18,7 @@
     \begin{enumerate}
         \item Ein Protokoll muss definiert werden, welches die Kommunikation zu PharoThings Instanzen zur Konfiguration festlegt.
         Weiterhin muss festgelegt werden, in welcher Art und Weise ein Beacon-Signal gesendet wird.
-        Um die verfügbare WLAN Bandbreite so wenig wie möglich zu belasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu evaluieren,
+        Um die verfügbare WLAN Bandbreite so wenig wie möglich zu belasten, empfiehlt es sich diese Nachrichten kurz zu halten. Es ist zu überprüfen,
         ob sich Installationen auch gegenseitig erkennen können, sodass ein gebündelter Beacon gesendet werden kann.
         \item Eine Android App, welche den Nutzer durch den beschriebenen Vorgang leitet, muss implementiert werden.
         Der Fokus hierbei liegt darin, diesen Vorgang mit möglichst wenig Nutzerinteraktion durchzuführen.
