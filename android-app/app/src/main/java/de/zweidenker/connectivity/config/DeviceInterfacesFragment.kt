@@ -32,8 +32,8 @@ class DeviceInterfacesFragment : DeviceFragment(), Observer<List<Interface>> {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             recyclerAdapter = GenericConfigAdapter(R.layout.item_card, ::selectInterface) { iface, view ->
                 view.card_title.text = iface.name
-                view.card_subtitle.text = iface.ssid
-                view.card_detail.text = resources.getString(R.string.config_subtitle, iface.status, iface.mode)
+                view.card_subtitle.text = iface.mode?.let { resources.getString(R.string.config_subtitle, iface.state, it) } ?: iface.state.toString()
+                view.card_detail.text = iface.ssid ?: ""
             }
             adapter = recyclerAdapter
         }

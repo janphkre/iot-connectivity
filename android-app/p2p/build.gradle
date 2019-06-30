@@ -4,4 +4,5 @@ dependencies {
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
     api "com.squareup.retrofit2:adapter-rxjava:$retrofit_version"
+    implementation "com.github.ChuckerTeam.Chucker:library:2.0.4"
 }

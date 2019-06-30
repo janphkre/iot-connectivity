@@ -7,7 +7,7 @@ class Interface(
     var name: String,
     var ssid: String?,
     var mode: String?,
-    var status: ConnectionStatus
+    var state: ConnectionStatus
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
@@ -18,7 +18,7 @@ class Interface(
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
-        parcel.writeInt(status.ordinal)
+        parcel.writeInt(state.ordinal)
     }
 
     override fun describeContents(): Int {

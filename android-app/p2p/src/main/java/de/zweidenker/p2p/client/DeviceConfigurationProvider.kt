@@ -1,6 +1,7 @@
 package de.zweidenker.p2p.client
 
 import com.google.gson.Gson
+import com.readystatesoftware.chuck.api.ChuckInterceptor
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Interface
 import de.zweidenker.p2p.model.Network
@@ -9,6 +10,8 @@ import de.zweidenker.p2p.model.NetworkConfigProposal
 import de.zweidenker.p2p.model.NetworkConfigUpdate
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
+import org.koin.standalone.KoinComponent
+import org.koin.standalone.get
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -41,7 +44,7 @@ interface DeviceConfigurationProvider {
         @Body network: NetworkConfigUpdate
     ): Observable<NetworkConfig>
 
-    companion object {
+    companion object: KoinComponent {
 
         private const val TIMEOUT = 30L
 
@@ -50,6 +53,7 @@ interface DeviceConfigurationProvider {
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .addNetworkInterceptor(ChuckInterceptor(get()))
             val httpClient = clientBuilder.build()
             val gson = Gson()
             val httpUrl = HttpUrl.Builder()

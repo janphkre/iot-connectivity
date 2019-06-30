@@ -7,7 +7,6 @@ import android.util.Log
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.core.AbstractWifiProvider
-import de.zweidenker.p2p.core.WifiP2PException
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 import rx.subjects.ReplaySubject
@@ -43,8 +42,8 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
         ipReceiver.targetDeviceAddress = device.address
-        return Observable.unsafeCreate<Unit> { subscriber ->
-            if (wifiManager == null || wifiChannel == null) {
+        return Observable.unsafeCreate<DeviceConfigurationProvider> { subscriber ->
+            /*if (wifiManager == null || wifiChannel == null) {
                 val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
                 subscriber.onError(throwable)
                 return@unsafeCreate
@@ -61,8 +60,10 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
                     subscriber.onError(throwable)
                 }
             })
-        }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->
-            DeviceConfigurationProvider.getInstance(device, hostAddress)
+        }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->*/
+            val hostAddress = "192.168.178.29"
+            subscriber.onNext(DeviceConfigurationProvider.getInstance(device, hostAddress))
+            subscriber.onCompleted()
         }.doOnUnsubscribe {
             wifiManager?.cancelConnect(wifiChannel, null)
             ipReceiver.unsubscribe()

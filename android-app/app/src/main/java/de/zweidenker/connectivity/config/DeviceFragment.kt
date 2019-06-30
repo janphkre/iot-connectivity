@@ -41,7 +41,7 @@ abstract class DeviceFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_list, container, true)
+        return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,5 +62,11 @@ abstract class DeviceFragment : Fragment() {
     override fun onPause() {
         viewModel.unsubscribeAll()
         super.onPause()
+    }
+
+    override fun onDestroyView() {
+        val parentViewGroup = view?.parent as ViewGroup?
+        parentViewGroup?.removeAllViews()
+        super.onDestroyView()
     }
 }

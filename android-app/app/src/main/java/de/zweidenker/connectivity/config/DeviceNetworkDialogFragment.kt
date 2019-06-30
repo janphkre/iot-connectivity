@@ -21,10 +21,11 @@ import rx.schedulers.Schedulers
 
 class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
     private val viewModel by inject<DeviceConfigViewModel>()
+    private var rootView: View? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_network_config, null, false)
-        view.network_connect.setOnClickListener {
+        rootView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_network_config, null, false)
+        rootView?.network_connect?.setOnClickListener {
             val networkPair = viewModel.network
             val interfaceId = viewModel.interfaceId
             if (interfaceId == null || networkPair == null) {
@@ -38,12 +39,12 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
                 addNetworkClick(networkPair.first!!, interfaceId)
             }
         }
-        view.network_cancel.setOnClickListener {
+        rootView?.network_cancel?.setOnClickListener {
             dialog?.dismiss()
         }
         return AlertDialog.Builder(requireContext(), R.style.AlertDialogStyle)
             .setTitle(viewModel.getNetworkSsid())
-            .setView(view)
+            .setView(rootView)
             .setCancelable(true)
             .create().apply {
                 setCanceledOnTouchOutside(true)
@@ -52,7 +53,7 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
 
     private fun updateNetworkClick(existingConfig: NetworkConfig, interfaceId: String) {
         startLoading()
-        val password = view?.password_input?.text
+        val password = rootView?.password_input?.text
         val passwordString = if (password?.isNotBlank() != true) {
             null
         } else {
@@ -67,9 +68,10 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
     }
 
     private fun addNetworkClick(network: Network, interfaceId: String) {
-        val password = view?.password_input?.text
+        rootView?.password_input?.selectAll()
+        val password = rootView?.password_input?.text
         if (password?.isNotBlank() != true) {
-            view?.let {
+            rootView?.let {
                 Toast.makeText(it.context, R.string.network_password_blank, Toast.LENGTH_SHORT).show()
             }
             return
@@ -85,13 +87,13 @@ class DeviceNetworkDialogFragment : DialogFragment(), Observer<NetworkConfig> {
     }
 
     private fun startLoading() {
-        view?.loading_view?.visibility = View.VISIBLE
+        rootView?.loading_view?.visibility = View.VISIBLE
         dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(false)
     }
 
     private fun stopLoading() {
-        view?.loading_view?.visibility = View.GONE
+        rootView?.loading_view?.visibility = View.GONE
         dialog?.setCancelable(true)
         dialog?.setCanceledOnTouchOutside(true)
     }

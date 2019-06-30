@@ -35,7 +35,7 @@ fun Activity.withPermissions(
     @StringRes permissionRationalRes: Int? = null,
     callback: (Boolean) -> Unit
 ) {
-    if (PermissionUtils.hasSelfPermissions(this ?: return, *permissions)) {
+    if (PermissionUtils.hasSelfPermissions(this, *permissions)) {
         callback(true)
     } else {
         if (PermissionUtils.shouldShowRequestPermissionRationale(this, *permissions)) {

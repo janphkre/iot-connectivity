@@ -30,6 +30,7 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
     override fun loadData() {
         val interfaceId = viewModel.interfaceId ?: return // TODO: SHOW AN ERROR?
         configurationProvider.getAvailableNetworks(interfaceId)
+            .map { networks -> networks.distinctBy { "${it.ssid}${it.mac}" } }
             .zipWith(configurationProvider.getNetworkConfigs(interfaceId)) { networks, configs ->
                 val undetectedConfigs = configs.toMutableSet()
                 val result = networks.mapTo(LinkedList<Pair<Network?, NetworkConfig?>>()) { network ->
@@ -56,16 +57,16 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
                 if (networkPair.first != null) {
                     networkPair.first?.let { network ->
                         view.card_title.text = network.ssid
-                        view.card_subtitle.text = resources.getString(R.string.config_subtitle, network.connectionStatus.name, network.security.joinToString())
+                        view.card_subtitle.text = network.security.joinToString(prefix = "[", postfix = "]")
                         if (networkPair.second != null) {
-                            view.card_detail.text = resources.getString(R.string.config_saved)
+                            view.card_detail.text = resources.getString(R.string.config_saved, network.mac)
                             if(networkPair.second?.selected == true) {
                                 view.card_icon.setColorFilter(resources.getColor(R.color.primary))
                             } else {
                                 view.card_icon.clearColorFilter()
                             }
                         } else {
-                            view.card_detail.text = ""
+                            view.card_detail.text = network.mac
                         }
                         view.card_icon.setImageResource(network.signalStrength.toWifiImage())
                     }

@@ -114,10 +114,14 @@ class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<Devi
 
     override fun onCompleted() { }
 
+    private fun clearContainer() {
+        configuration_container.removeAllViews()
+    }
+
     override fun switchToInterfaces() {
         currentFragment = FragmentTypes.INTERFACES
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, DeviceInterfacesFragment())
+            .replace(R.id.configuration_container, DeviceInterfacesFragment())
             .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
     }
@@ -125,7 +129,7 @@ class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<Devi
     override fun switchToNetworks() {
         currentFragment = FragmentTypes.NETWORKS
         supportFragmentManager.beginTransaction()
-            .add(R.id.fragment_container, DeviceNetworksFragment())
+            .replace(R.id.configuration_container, DeviceNetworksFragment())
             .disallowAddToBackStack()
             .commitNowAllowingStateLoss()
     }
@@ -145,7 +149,7 @@ class DeviceConfigActivity : AppCompatActivity(), ConfigContainer, Observer<Devi
     companion object {
         private const val TAG_DIALOG = "config.dialog"
         private const val KEY_DEVICE = "config.device"
-        private const val DURATION_LOADING_FADING = 1500L
+        private const val DURATION_LOADING_FADING = 500L
 
         fun startActivity(context: Context, device: Device) {
             val intent = Intent(context, DeviceConfigActivity::class.java)

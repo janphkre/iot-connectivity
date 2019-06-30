@@ -7,14 +7,12 @@ class Network(
     var mac: String,
     var ssid: String,
     var signalStrength: Int,
-    var connectionStatus: ConnectionStatus,
     var security: List<String>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readInt(),
-        ConnectionStatus.values()[parcel.readInt()],
         mutableListOf<String>().apply {
           parcel.readStringList(this)
         })
@@ -23,7 +21,6 @@ class Network(
         parcel.writeString(mac)
         parcel.writeString(ssid)
         parcel.writeInt(signalStrength)
-        parcel.writeInt(connectionStatus.ordinal)
         parcel.writeStringList(security)
     }
 
