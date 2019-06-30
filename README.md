@@ -50,3 +50,10 @@ Gofer new
 
 ((Smalltalk at: #ConfigurationOfOSProcess) project version: #stable) load.
 ```
+
+To create the iot image basing on the telepharo image run this script:
+```
+cp TelePharo.image iot.image
+cp TelePharo.changes iot.changes
+./pharo --headless iot.image eval --save "ClySystemEnvironmentPlugin disableSlowPlugins.Iceberg enableMetacelloIntegration: false.Metacello new repository: 'github://janphkre/iot-connectivity/sources'; baseline: #IOTConnectivity; load."
+```
