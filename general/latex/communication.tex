@@ -48,19 +48,17 @@
         im MAC-Protokoll zu ersuchen.
 
         Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\cite[S.80]{Sikora}
-        Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\footnote{https://www.wi-fi.org/discover-wi-fi/wi-fi-direct} als ein universeller Standard definiert.
+        Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\cite{wifiDirect} als ein universeller Standard definiert.
         Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
         Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
         Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD) und Universal Plug and Play (UPnP).
-        DNS SD ist die Weiterentwicklung von Apple Bonjour und wird größtenteils genutzt um eine Zero-Configuration Service Discovery von beispielsweise Netzwerkdruckern zu ermöglichen. Da UPnP im Gegensatz zu DNS SD auch die Kontrolle über die Services übernimmt, besitzt es einige Verwundbarkeiten. Man kann es jedoch ähnlich zu DNS SD lediglich dazu benutzen, Services zu ernennen. \footnote{TODO: Quellen}
-
-        \paragraph{Exkurs: AirPlay}
+        DNS SD ist die Weiterentwicklung von Apple Bonjour und wird größtenteils genutzt um eine Zero-Configuration Service Discovery von beispielsweise Netzwerkdruckern zu ermöglichen. Da UPnP im Gegensatz zu DNS SD auch die Kontrolle über die Services übernimmt, besitzt es einige Verwundbarkeiten. Man kann es jedoch ähnlich zu DNS SD lediglich dazu benutzen, Services zu ernennen.\cite{Esnaashari}
     
         \paragraph{Nutzung unter Android}
         Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden. Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
-        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\footnote{http://man7.org/linux/man-pages/man7/packet.7.html}
+        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\cite{linuxPacket}
         Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
-        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\footnote{https://elinux.org/Android\_Security\#Paranoid\_network-ing}
+        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\cite{androidRights}
         Android bietet jedoch ab API 14 die Möglichkeit, sich über WI-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
         p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
         Android stellt diese p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
