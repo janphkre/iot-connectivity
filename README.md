@@ -359,13 +359,13 @@ The interface looks mostly as followed:
 }
 ```
 
-This repository als contains a ./android-app that can be used together with the pharo rest interface:
+This repository als contains an android-app that can be used together with the pharo rest interface:
 ![User flow through the app.][user_flow]
 
 The dokumentation of the associated study porject can be found as a PDF [here](./general/latex-ai-project/ai-project-pharo-things.pdf) (History at commit 446207c).
 
 
-[user_flow]: https://github.com/janphkre/iot-connectivity/raw/master/general/latex-ai-prject/user_flow.png "User visible screens in the app."
+[user_flow]: https://github.com/janphkre/iot-connectivity/raw/master/general/latex-ai-project/user_flow.png "User visible screens in the app."
 
 If you are just checking out p2p consider heading over to https://github.com/janphkre/iot-p2p-test for a sample app that implements Wi-Fi Direct, Bluetooth and NFC.
 
