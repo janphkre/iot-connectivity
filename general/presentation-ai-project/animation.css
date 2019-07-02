@@ -1,0 +1,72 @@
+div, p, tr {
+	-webkit-transition: transform 0.5s ease-in-out, opacity 0.4s linear 0.1s, box-shadow 0.2s ease-out, -webkit-box-shadow 0.2 ease-out;
+	-moz-transition: transform 0.5s ease-in-out, opacity 0.4s linear 0.1s, box-shadow 0.2s ease-out;
+	-ms-transition: transform 0.5s ease-in-out, opacity 0.4s linear 0.1s, box-shadow 0.2s ease-out;
+	-o-transition: transform 0.5s ease-in-out, opacity 0.4s linear 0.1s, box-shadow 0.2s ease-out;
+	transition: transform 0.5s ease-in-out, opacity 0.4s linear 0.1s, box-shadow 0.2s ease-out;
+}
+
+.slow {
+	-webkit-transition: transform 0.5s ease-in-out 0.3s, opacity 0.4s linear 0.4s, box-shadow 0.2s ease-out, -webkit-box-shadow 0.2 ease-out;
+	-moz-transition: transform 0.5s ease-in-out 0.3s, opacity 0.4s linear 0.4s, box-shadow 0.2s ease-out;
+	-ms-transition: transform 0.5s ease-in-out 0.3s, opacity 0.4s linear 0.4s, box-shadow 0.2s ease-out;
+	-o-transition: transform 0.5s ease-in-out 0.3s, opacity 0.4s linear 0.4s, box-shadow 0.2s ease-out;
+	transition: transform 0.5s ease-in-out 0.3s, opacity 0.4s linear 0.4s, box-shadow 0.2s ease-out;
+}
+
+.side_progress_item {
+	-webkit-transition: width 0.2s linear;
+	-moz-transition: width 0.2s linear;
+	-ms-transition: width 0.2s linear;
+	-o-transition: width 0.2s linear;
+	transition: width 0.2s linear;
+}
+
+.unused_left {
+	opacity:0;
+	transform: translateX(-100%);
+}
+
+.unused_right {
+	opacity:0;
+	transform: translateX(100%);
+}
+
+.unused_top {
+	opacity:0;
+	transform: translateY(-100%);
+}
+
+.unused_bottom {
+	opacity:0;
+	transform: translateY(100%);
+}
+
+.unused_bottom_note {
+	opacity:0;
+	transform: translateY(100%) scaleY(0%);
+}
+
+.unused_center {
+	opacity:0;
+	transform: translateY(100%) scaleY(0%);
+}
+
+/*DRAG & DROP:*/
+
+.dragged {
+	opacity:0.25;
+	-webkit-transition: opacity 0.2s linear;
+	-moz-transition: opacity 0.2s linear;
+	-ms-transition: opacity 0.2s linear;
+	-o-transition: opacity 0.2s linear;
+	transition: opacity 0.2s linear;
+}
+
+.table_row {
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	-ms-transition: all 0.2s ease-out;
+	-o-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}

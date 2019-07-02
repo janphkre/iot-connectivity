@@ -1,0 +1,1113 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE assessment [
+<!ELEMENT assessment (interesse+,aufgabe+,auswertung)>
+<!ELEMENT interesse (modul,beschreibung,cp_A,cp_W,cp_M,info)>
+<!ELEMENT aufgabe (beschreibung,grafik,antwort+)>
+<!ELEMENT auswertung (cp_min_svg,cp_A_min,cp_W_min,cp_M_min,cp_A_max,cp_W_max,cp_M_max,AWM,AW,AM,A,WM,W,M,gut,mid,keine)>
+
+<!ELEMENT modul (#PCDATA)>
+<!ELEMENT info (li+)>
+
+<!ELEMENT antwort (beschreibung,cp_A,cp_W,cp_M)>
+
+<!ELEMENT cp_min_svg (#PCDATA)>
+<!ELEMENT cp_A_min_desc (#PCDATA)>
+<!ELEMENT cp_W_min_desc (#PCDATA)>
+<!ELEMENT cp_M_min_desc (#PCDATA)>
+
+]>
+<assessment>
+	<interesse>
+		<modul>Einführung in die Wirtschaftsinformatik</modul>
+		<beschreibung>Schnittstellenprojekte zwischen Betriebswirtschaftslehre und Informatik planen.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Gestaltung computergestüzte Information und Kommunikation</li>
+		<li>Effektivierung der Aufgabenerfüllung in Unternehmen</li>
+		<li>betriebswirtschaftliche Fragestellungen als Domäne und Handlungsrahmen</li>
+		<li>Methoden und Modelle zur Computerunterstützung</li>
+		<li>Zweck/Mittel-Beziehung zwischen BWL und Informatik</li>
+		<li>ERP-Systeme</li>
+		<li>professionelle Entwicklung großer Softwaresysteme</li>
+		<li>nachhaltig geschäftswirksame Gestaltung der computergestützten IuK-Systeme</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Einführung in Betriebssysteme und Rechnerarchitekturen</modul>
+		<beschreibung>Computer, deren Architektur sowie Betriebssysteme in ihrem Konzept verstehen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Zahlen – und Zeichendarstellung in Rechnersystemen</li>
+		<li>Von Neumann Architektur</li>
+		<li>Speicherhierarchie</li>
+		<li>magnetischen und optische Speichermedien</li>
+		<li>Busse und Schnittstellen</li>
+		<li>Programmausführung</li>
+		<li>Dateisysteme</li>
+		<li>Prozess und Scheduling</li>
+		<li>BSD-Unix Scheduler</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Algorithmen und Programmierung 1</modul>
+		<beschreibung>Grundlegende Programmierung in C und Java erlernen und Algorithmen beurteilen, einsetzen sowie selbstständig entwickeln.</beschreibung>
+		<cp_A>8</cp_A>
+		<cp_W>8</cp_W>
+		<cp_M>8</cp_M>
+		<info>
+		
+		<li>Prozedurale Programmierung</li>
+		<li>objektorientierte Programmierung</li>
+		<li>Kontroll- und Datenstrukturen</li>
+		<li>Modularisierungskonzepte</li>
+		<li>Typkonzept</li>
+		<li>Algorithmenbegriff</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Algorithmen und Programmierung 2</modul>
+		<beschreibung>Die Prinzipien der Algorithmenentwicklung und grundlegende Algorithmen verstehen.</beschreibung>
+		<cp_A>7</cp_A>
+		<cp_W>7</cp_W>
+		<cp_M>7</cp_M>
+		<info>
+		
+		<li>Typkonzept</li>
+		<li>Vererbung</li>
+		<li>späte Bindung</li>
+		<li>Polymorphie</li>
+		<li>Suchen und Sortieren</li>
+		<li>dynamische Datenstrukturen</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Mathematik</modul>
+		<beschreibung>Praktische Aufgabenstellungen aus dem Informatik-Umfeld in mathematische Strukturen abstrahieren.</beschreibung>
+		<cp_A>15</cp_A>
+		<cp_W>10</cp_W>
+		<cp_M>15</cp_M>
+		<info>
+		
+		<li>Logik</li>
+		<li>Beschreibende und schließende Statistik</li>
+		<li>Wahrscheinlichkeitsrechnung</li>
+		<li>Lineare Algebra</li>
+		<li>Analysis</li>
+		<li>Optimierung</li>
+		<li>Zahlenfolgen und –reihen</li>
+		<li>Finanzmathematik </li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Theoretische Informatik</modul>
+		<beschreibung>Begriffe, Methoden, Modelle und Arbeitsweise der theoretischen Informatik aneignen.</beschreibung>
+		<cp_A>10</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>10</cp_M>
+		<info>
+		
+		<li>Mengen, Relationen</li>
+		<li>Graphen, Polynome</li>
+		<li>Zahlensysteme, Zahlendarstellung</li>
+		<li>Numerische Aspekte</li>
+		<li>Codierung, Informationstheorie</li>
+		<li>Logik und Boolesche Algebra</li>
+		<li>Aussagenlogik</li>
+		<li>Prädikatenlogik</li>
+		<li>Boolesche Algebra</li>
+		<li>Schaltnetze und Schaltwerke</li>
+		<li>Reguläre (Typ-3) Sprachen</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Grundlagen BWL</modul>
+		<beschreibung>Grundlegende Begriffe und Konzepte des allgemeinen Wirtschaftsverkehrs sowie von Produktion und Logistik erlernen.</beschreibung>
+		<cp_A>10</cp_A>
+		<cp_W>10</cp_W>
+		<cp_M>10</cp_M>
+		<info>
+		
+		<li>Wirtschaft und ihre Elemente</li>
+		<li>Wirtschaftsverkehr in Deutschland</li>
+		<li>Willensbildung, -durchsetzung und -umsetzung</li>
+		<li>Rechtsformwahl</li>
+		<li>Standortwahl</li>
+		<li>Personal-, Material-wirtschaft und Produktion</li>
+		<li>Komplexitätsmanagement</li>
+		<li>Optimale Bestellmenge</li>
+		<li>Lieferantenmanagement</li>
+		<li>Logistik- und Produktionsstrategie</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Modellierung von Anwendungssystemen</modul>
+		<beschreibung>Diverse Modellierungstechniken bewerten und einsetzen, Anforderungen an Anwendungssysteme ermitten.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>12</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Software Engineering</li>
+		<li>Anforderungsmanagment</li>
+		<li>Projektmanagement</li>
+		<li>Qualitätssicherung</li>
+		<li>Anwendungssoftware-Entwicklung</li>
+		<li>Modellierungssprache UML</li>
+		<li>Entwicklung mit objektorientierten Methoden und Techniken</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Kommunikationstechnik</modul>
+		<beschreibung>Grundlagen von technischen Kommunikationsvorgängen und Protokollen erlernen, Netzstrukturen analysieren und konzipieren.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Kommunikationssysteme</li>
+		<li>Protokolle</li>
+		<li>Schnittstellen</li>
+		<li>Dienste</li>
+		<li>Architekturmodelle</li>
+		<li>Standardisierung</li>
+		<li>TCP/IP-Protokollfamilie</li>
+		<li>Klassifizierung von Netzen</li>
+		<li>Routing</li>
+		<li>Netzsicherheit</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Datenbanken und SQL verstehen, planen und einsetzen.</modul>
+		<beschreibung>Datenbanken und SQL verstehen, planen und einsetzen.</beschreibung>
+		<cp_A>10</cp_A>
+		<cp_W>10</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Architektur von Datenbanken</li>
+		<li>Vorgehensmodell</li>
+		<li>Relationale Algebra</li>
+		<li> Anfrageoptimierung</li>
+		<li>Funktionale Abhängigkeiten</li>
+		<li>Datenintegrität</li>
+		<li>Normalisierung</li>
+		<li>Datenmodellierung</li>
+		<li>Implementierung in SQL</li>
+		<li>Transaktionskonzepte</li>
+		<li>Fehlererholung</li>
+		<li>Datensicherheit</li>
+		<li>Physische Speicherstrukturen</li>
+		<li>Objektrelationale Datenmodell</li>
+		<li>Datenbankanwendungsprogrammierung</li>
+		<li>Datenbanktrigger</li>
+		<li>Aktive Datenbanken</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Betriebliche Anwendungssysteme</modul>
+		<beschreibung>Automatisierungsgrade von Vorgängen einschätzen, Anforderungen an Anwendungssysteme aus Kernaufgaben von Unternehmen ableiten, Vorgehensmodelle von SAP anpassen, bewerten und umsetzen.
+		</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>15</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Betriebliche aufgabenbezogene Anwendungen</li>
+		<li>typische Referenzmodelle</li>
+		<li>Einsatzszenarios für Querschnittsaufgaben</li>
+		<li>Architektur und systemtechnischen Grundlagen von Anwendungsarchitekturen</li>
+		<li>mySAP ERP</li>
+		<li>Microsoft Dynamics NAV</li>
+		<li>Dynamics NAV C/SIDE</li>
+		<li>Ereignisgesteuerte Tabellenverarbeitung</li>
+		<li>Auswahlstrategien</li>
+		<li>Customizing</li>
+		<li>Outsourcing</li>
+		<li>ABAP-Programmierung</li>
+		<li>Data Dictionary Konzepte</li>
+		<li>Dynpros und Transaktionen</li>
+		<li>Service Desk Konzepte nach ITIL</li>
+		<li>Service Level Agreements</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Mensch-Computer Interaktion</modul>
+		<beschreibung>Menschliche Sinneswahrnehmung, kognitive Wahrnehmung und kognitive Fähigkeiten des Menschen verstehen und einschätzen, Methodik zur Untersuchung und Anpassung von Benutzerschnittstellen auf Gebrauchstauglichkeit erlernen und einsetzen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Sinneswahrnehmung</li>
+		<li>kognitive Wahrnehmung</li>
+		<li>Wahrnehmungskanäle</li>
+		<li>Leistung des menschlichen Gedächtnisses</li>
+		<li>induktives und deduktives Schließen</li>
+		<li>Nutzung von Computer-Systemen im Arbeits- und Privatleben</li>
+		<li>Gestaltung von Mensch-Computer-Schnittstellen</li>
+		<li>Szenariobasiertes Usability Engineering</li>
+		<li>Zielkonflikte bei User Interfaces</li>
+		<li>Beurteilung aus Benutzersicht</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Spezielle BWL I: Finanzierung und Investition</modul>
+		<beschreibung>Kapitalaufbringung und -verwendung im Unternehmen nachgehen.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Finanzplanung</li>
+		<li>Aussen- versus Innenfinanzierung</li>
+		<li>Eigen- versus Fremdfinanzierung</li>
+		<li>Optimierung der Unternehmnesfinanzierung</li>
+		<li>statische und dynamische	Investitionsrechnung</li>
+		<li>Unternehmensbewertung</li>
+		<li>Vermögensverwaltung</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Spezielle BWL II: Marketing</modul>
+		<beschreibung>Informationsgrundlagen des Marketing sowie elementare Marketingstrategien kennenlernen.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Marketingbegriff und -konzept</li>
+		<li>Marktforschung</li>
+		<li>Käuferverhalten</li>
+		<li>strategisches Marketingbegriff</li>
+		<li>Marketingstrategien</li>
+		<li>Marketingplanung</li>
+		<li>Kundenstrategie</li>
+		<li>Marketingsegmentierung</li>
+		<li>Operative Marketingentscheidungen</li>
+		<li>Produkt- und Programmoptik</li>
+		<li>Kontrahierungspolitik</li>
+		<li>Kommunikationspolitik</li>
+		<li>Distributionspolitik</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Spezielle BWL III: Controlling und Management</modul>
+		<beschreibung>Operative und strategische Dimensionen im Hinblick auf entsprechende Randbedingungen und spezifische Ziele unter Verwendung von ausgewählten Controllinginstrumenten exemplifizieren.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Entstehungszusammenhang Controlling</li>
+		<li>Ausprägungen von Controlling in der Praxis</li>
+		<li>Operatives und strategisches Controlling</li>
+		<li>Flexible Plankostenrechnung</li>
+		<li>Budgetierung</li>
+		<li>Kurzfristige Erfolgsrechnung</li>
+		<li>Nutzwertanalyse</li>
+		<li>Balanced Scorecard</li>
+		<li>Outsourcing</li>
+		<li>Erfahrungskurve</li>
+		<li>Gap-Analyse</li>
+		<li>Prozesskostenmanagement</li>
+		<li>Shareholder-Value</li>
+		<li>Scenario-Technik</li>
+		<li>Zielkostenmanagement</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Informationsmanagement</modul>
+		<beschreibung>Informations- und Kommunikations-Systeme analysieren, bewerten, anpassen und deren zu Grunde liegenden Konzepte verstehen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>8</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Informationsmanagment-Ebenenmodell</li>
+		<li>Business Engineering</li>
+		<li>Arbeitsgestaltung</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Informatik und Gesellschaft</modul>
+		<beschreibung>Aktuelle Fragestellungen des wechselseitigen Einflusses von Informatik und Gesellschaft kritisch betrachten (z.B. Datenschutz).</beschreibung>
+		<cp_A>2.5</cp_A>
+		<cp_W>2.5</cp_W>
+		<cp_M>2.5</cp_M>
+		<info>
+		
+		<li>Informatik und soziale Kontexte</li>
+		<li>Komplexität und Sicherheit in sozio-technischen Systemen</li>
+		<li>Systemgestaltung und Verantwortung der Informatik</li>
+		<li>BGB (- Schuldrecht /	Vertragsrecht, - Verbraucherschutz</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Recht</modul>
+		<beschreibung>Verständnis für deutsches Vertragsrecht sowie Privatrecht entwickeln.</beschreibung>
+		<cp_A>2.5</cp_A>
+		<cp_W>2.5</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Bürgerliches Gesetzbuch:</li>
+		<li>Schuldrecht</li>
+		<li>Verbraucherschutz</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Projektmanagement</modul>
+		<beschreibung>Informatische Projekte im Hinblick auf Teamarbeit, Kosten/Nutzen, Organisation, Aufwandsschätzung sowie Risikomanagement planen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>5</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Kommunikation und Führung</li>
+		<li>Kosten/Nutzen-Analysen</li>
+		<li>Entscheidungstechniken</li>
+		<li>Projektorganisation</li>
+		<li>Projektplanung</li>
+		<li>Detaillierte Aufwandsschätzung</li>
+		<li>Projektcontrolling</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Grundlagen der visuellen Kommunikation</modul>
+		<beschreibung>Gestaltungslösungen in verschiedenen Kontexten realisieren und diskutieren.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Punkt, Linie, Fläche, Form</li>
+		<li>Figur-Grund</li>
+		<li>Farbe, Helligkeit, Struktur, Textur, Kontraste</li>
+		<li>Typographie, Satz</li>
+		<li>Layout, Gestaltungsraster</li>
+		<li>Prototypen, Designmodelle, Varianten</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Medientechnik und Produktion und Audiovisuelles Medienprojekt</modul>
+		<beschreibung>Audiovisuelle Medien kennenlernen und eigenständig produzieren</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>10</cp_M>
+		<info>
+		
+		<li>Zunächst werden grundlegende Eigenschaften analoger Videosignale vorgestellt, anschließend werden die wesentlichen analogen Fernsehnormen dargestellt. Darauf aufbauend werden digitale Video- und Audio-Signale diskutiert (z.B. SNR). Nach einem Einschub bzgl. Wärmestrahlung und Lichtemission(Farbtemperatur etc.) werden die Funktionsprinzipien und Bauformen elektronischer Bildwandler vorgestellt. Die optischen und elektronischen Systeme sowie Automatik- und bildstabilisierende Funktionen von Camcordern werden besprochen. Ein Überblick über Farbmetrik schließt den ersten Teil ab.</li>
+		<li>Im zweiten Teil werden Medienproduktionsaspekte vermittelt; ausgehend von Drehbuch werden über Storyboard, Mis en Scène, Postproduktion, Authoring und Finishing die wesentlichen Arbeitsschritte einer Bewegtbild-Produktion dargestellt und kritisch diskutiert. Montagetechniken und Gestaltungsaspekte werden vorgestellt.</li>
+		<li>In einem dritten Teil stehen wieder medientechnische Inhalte im Fokus. Zunächst werden magnetische Speicher in ihren physikalischen Ausprägungen vorgestellt und verschiedene Technologien der Speicherung zunächst analoger Signale und anschließend digitaler Signale vorgestellt und vergleichend diskutiert. Die Diskussion magneto-optischer Speicher leiten dann zu optischen Speichern über (CD, DVD); verschiedene Quellen- und Kanalcodierungen werden vorgestellt. In einem weiteren Themenkomplex werden die verschiedenen elektronischen Bildwiedergabesysteme dargestellt und kritisch diskutiert.</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Web-basierte Anwedungen 1 und 2</modul>
+		<beschreibung>Web-basierte Projekte konzipieren und realisieren.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>10</cp_M>
+		<info>
+		
+		<li>Technische Grundlagen und Geschichte</li>
+		<li>Klassen web-basierter Anwendungen</li>
+		<li>(X)HTML, CSS und Javascript</li>
+		<li>XML, DTD und XSL</li>
+		<li>Web 2.0, Ajax und Co.</li>
+		<li>Sicherheit</li>
+		<li>Information, Navigation, Transaktion</li>
+		<li>Barrierefreiheit</li>
+		<li>Serverseitige Technologien</li>
+		<li>Modellierung von Daten für die Kommunikation im Web: Datenkommunikation in offenen Umgebungen; Prinzip von Auszeichnungssprachen; Datenmodellierung mit XML und XML Schemasprachen; Datenmodellierung mit RDF und RDFS</li>
+		<li>Infrastruktur und Standards: klassische Middlewaresysteme: RPC,CORBA, nachrichtenorientierte Middleware; Standards und Standardisierung im Internet; quelloffene vs. proprietäre Software</li>
+		<li>Dienstorientierte Architektur: Basisstandards: SOAP, WSDL, UDDI; Dienstkomposition; Transaktionen; Entwurfsprinzipen: top-down vs. bottom-up, Kohäsion, Granularität</li>
+		<li>Kommunikationsarchitekturen: Streaming Protokolle: RTP, RSVP, RTCP; Dienstgüte; Signalisierungsprotokolle: SIP, H.323; Präsenzarchitekturen</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Computergrafik und Animation</modul>
+		<beschreibung>2- und 3-dimensionale Strukturen modellieren und animieren, die grundlegenden Konzepte und Technologien der Computergrafik verstehen.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li> </li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Einführung in die Medieninformatik</modul>
+		<beschreibung>Medienbasierte Software-Systeme zur Unterstützung menschlichen Handelns entwickeln.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Begriffsbestimmung für Informatik, Medien, Medieninformatik. Darstellung von Themen- und Anwendungsgebieten des Lehr- und Forschungsbereichs der Medieninformatik. Darstellung verschiedener Medientheorien. Historischer Abriss der Medientechnik im Kontext gesellschaftlich-ökonomischer Perspektiven.</li>
+		<li>Grundlagen audiovisueller Medientechnologien. Gestaltungsdimensionen medienbasierter Systeme und „gängige" Ausprägungen. Grundsätze der Modellbildung und deren Anwendungsbezug zu Softwaresystemen, computergestützten menschlichen Handeln in relevanten Kontexten (ökonomisch, sozial etc.). Repräsentation von „realen und virtuellen Welten" in interaktiven Systemen.</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Medien und Gesellschaft</modul>
+		<beschreibung>Netzwerke, die sich auf Informations- und Kommunikationstechnologien stützen, als zentrales Charakteristikum der Gesellschaftsstruktur im Informationszeitalter erkennen.</beschreibung>
+		<cp_A>0</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>2.5</cp_M>
+		<info>
+		
+		<li>Medienstrukturen</li>
+		<li>Wechselwirkungen zwischen Medien und Politik</li>
+		<li>der Ablauf politischer Skandale - Defensive Selbstdarstellung</li>
+		<li>Medien in der Bildung</li>
+		<li>e-Business</li>
+		<li>Computerethik</li>
+		<li>Procative Webdesign</li>
+		<li>Internetrecht</li>
+		<li>Verbrechen, Verbrecher und Terror im Internet</li>
+		<li>Netzwerkgesellschaft nach Manuel Castells</li>
+		<li>Überwachung durch IuK-Techniken</li>
+		<li>Vertrauen und performative Konstruktion von Märkten im Internet</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Paradigmen der Programmierung</modul>
+		<beschreibung>Die Unterscheidung zwischen verschiedenen imperativen und deklarativen Programmierparadigmen kennen lernen und die Anwendbarkeit unterschiedlicher Programmierkonzepte einordnen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Grundlagen von Programmiersprachen</li>
+		<li>Vergleich imperativer und deklarativer Paradigmen</li>
+		<li>prozedurale und objektorientierte Programmierung</li>
+		<li>funktionale Programmierung</li>
+		<li>Logikprogrammierung</li>
+		<li>Nebenläufigkeit</li>
+		<li>Aspektorientierte Programmierung</li>
+		<li>visuelle Programmierung</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Künstliche Intelligenz</modul>
+		<beschreibung>Einen Überblick über das Gebiet der künstlichen Intelligenz gewinnen, Inhalte, Methoden, Lösungsansätze, Sprachen und Werkzeuge und Arbeitsgebiete der KI kennnen lernen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Sprachen der KI</li>
+		<li>Lisp</li>
+		<li>Prolog Formale und natürliche Sprachen</li>
+		<li>Konnektionismus</li>
+		<li>Maschinelles Lernen</li>
+		<li>Lernen bei neuronalen Netzwerken</li>
+		<li>Informierte Suchstrategien, Exploration, Logik undlogische Agenten, Wissensrepräsentation</li>
+		<li>Problemlösen durch informierte Suchenstrategien, heuristische Funktionen</li>
+		<li>Aussagen- und Prädikatenlogik in der KI</li>
+		<li>Logikbasierte Repräsentation und Organisation von allgemeinem und bereichsspezifischem Wissen</li>
+		<li>Unsicherheit, Vagheit, Entscheidungstheorie</li>
+		<li>Lernformen und Lernmethoden: Bayessche Lernmethoden, Maximum-Likelihood-Lernen, Erklärungsbasiertes Lernen</li>
+		<li>Inferenz-Prozesse zum Wissenserwerb und zur Wissensnutzung</li>
+		<li>Bedeutung und Einsatz von Wissen beim Lernen</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Algorithmik</modul>
+		<beschreibung>Die Kern- und Laufzeiteigenschaften sowie die Unterschiede verschiedener Algorithmenklassen tief verstehen und anhand algorithmischer Beispiele erklären.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Asymptotische Analyse, O-Notation, Mastertheorem</li>
+		<li>ADT’s u. algebraische Spezifikation für Mengen, Tabellen und Dictionaries</li>
+		<li>Dictionaries: Binäre Suchbäume, Höhen- und gewichtsbalancierte Bäume, Bayer-Bäume, Hash-Techniken</li>
+		<li>Priority Queues: Binäre Heaps, Heapsort, Binomialheaps, Fibonacciheaps</li>
+		<li>Divide And Conquer-Algorithmen</li>
+		<li>Greedy-Algorithmen</li>
+		<li>Graph-Algorithmen</li>
+		<li>Induktionsprinzip am Beispiel Eulerscher Graphen</li>
+		<li>Basisalgorithmen: Tiefen- u. Breitensuche</li>
+		<li>Topologisches Sortieren</li>
+		<li>Kürzeste Wege in gewichteten Graphen</li>
+		<li>Transitive Hülle</li>
+		<li>Spannende Bäume mit minimalen Kosten</li>
+		<li>Flüsse in Graphen</li>
+		<li>Dynamische Programmierung (DP)</li>
+		<li>Matrixketten-Multiplikation</li>
+		<li>Scheduling-Algorithmen</li>
+		<li>Typische Konstruktionsschritte bei der DP</li>
+		<li>Vergleichende Diskussion von DP- (bottom-up) und Greedy-Algorithmen (top-down)</li>
+		<li>Informierte Suchstrategien</li>
+		<li>Randomisierte Algorithmen</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Diskrete Mathematik/Kryptographie</modul>
+		<beschreibung>Aufwandsschätzung von Algorithmen und ganzzahlige Optimierungsmethoden, bis hin zur Optimierung von Netzwerken und Flüssen lernen.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>0</cp_M>
+		<info>
+		
+		<li>Modulare Arithmetik</li>
+		<li>Rekursionen</li>
+		<li>Netzwerke und Matchings</li>
+		<li>Ganzzahlige Optimierung</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Softwaretechnik</modul>
+		<beschreibung>Die Modellierungs- und Spezifikationssprache UML sowie die wichtigsten Methoden der konstruktiven und analytischen Qualitätssicherung beherrschen und in Softwareprojekten anwenden.</beschreibung>
+		<cp_A>10</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Einführung in das Fachgebiet und Einordnung der Lehrveranstaltung</li>
+		<li>Vorgehensmodelle für die Softwareentwicklung</li>
+		<li>Konzepte der Modellgetriebenen Softwareentwicklung</li>
+		<li>Einführung in die Unified Modeling Language (UML) und in die Object Constraint Language (OCL)</li>
+		<li>Metamodelle</li>
+		<li>Prinzipien und Methoden der Anforderungsermittlung der Systemspezifikation und des Softwareentwurfs</li>
+		<li>Analyse-, Architektur- und Entwurfs-Muster</li>
+		<li>Zusammenfassung und offene Punkte</li>
+		<li>Einführung in die Software-Qualitätssicherung</li>
+		<li>Manuelle Prüfmethoden</li>
+		<li>Statische Analyseverfahren</li>
+		<li>Whitebox Teststrategien</li>
+		<li>Blackbox Teststrategien</li>
+		<li>Objektorientiertes Testen</li>
+		<li>Integrationstests</li>
+		
+		</info>
+	</interesse>
+	<interesse>
+		<modul>Betriebssysteme und verteilte Systeme</modul>
+		<beschreibung>Die Prinzipien und Mechanismen von Betriebssystemen und verteilten Systemen am Beispiel von UNIX verstehen und in der Lage sein, selbstständig Systemprogramme zu schreiben.</beschreibung>
+		<cp_A>5</cp_A>
+		<cp_W>0</cp_W>
+		<cp_M>5</cp_M>
+		<info>
+		
+		<li>Systemprogrammierung am Beispiel von UNIX:</li>
+		<li>Shell-Programmierung, Prozess-Modelle, Prozesserzeugung und -synchronisation, UNIX-Prozesse und elementare Synchronisation, Pipes, Shared Memory, Synchronisationsprimitive für den wechselseitigen Synchronisationsprimitive für den wechselseitigen</li>
+		
+		</info>
+	</interesse>
+	<aufgabe>
+		<beschreibung><p>Gegeben seien zwei Quadrate, die ineinander liegen.</p><p>Berechnen Sie den Flächeninhalt des blauen Quadrates. (Sie Bild).</p></beschreibung>
+		<grafik><svg>
+			<rect width="80" height="80" fill="#0000ff"/>
+			<text x="40" y="98" fill="#0000ff">8</text>
+			<text x="82" y="40" fill="#0000ff">8</text>
+			<rect  width="30" height="30" x="15" y="15" fill="#ffffff"/>
+			<text x="30" y="59" fill="#ffffff">x</text>
+		</svg></grafik>
+		<antwort>
+			<beschreibung>x + 64</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>8² – x</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>64 – x²</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>(8 – x)²</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Gegeben seien zwei Kreise, die ineinander liegen. Dabei liegt der weiße Kreis vollständig im blauen Kreis.</p><p>Berechnen Sie den Flächeninhalt des blauen Kreises.</p><p>(Wenn Sie nicht mehr wissen, wie die Fläche eines Kreises berechnet wird, können Sie dies auch kurz recherchieren. Recherchen sind im Studium üblich.)</p><p>Blauer Kreis Radius: 5</p><p>Weißer Kreis Radius: 2</p></beschreibung>
+		<grafik><svg>
+			<circle r="40" cx="40" cy="40" fill="#0000ff"/>
+			<text x="40" y="96" fill="#0000ff">5</text>
+			<circle  r="20" cx="25" cy="30" fill="#ffffff"/>
+			<text x="46" y="34" fill ="#ffffff">2</text>
+		</svg></grafik>
+		<antwort>
+			<beschreibung>15 л</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>21 л</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>18 л</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>9 л</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Welche folgenden Terme sind equivalent:</p></beschreibung>
+		<grafik><svg>
+			<text x="40" y="40">7</text>
+			<line x1="40" y1="23" x2="48" y2="23" stroke="#000000"/>
+			<text x="40" y="19">4</text>
+			<text x="50" y="36">*</text>
+			<text x="55" y="11">3</text>
+			<path d="m 60,18 c -0.710605,-1.96511 -1.829114,-3.30694 -2.77141,-3.32473 -1.357392,-0.0256 -1.31583,-0.23003 0.295057,-1.45122 1.757265,-1.33215 1.956622,-1.22726 3.174866,1.67044 1.473837,3.50561 1.366523,3.68411 4.342828,-7.22065 l 2.047028,-7.5 16.780139,-0.0349 16.780139,-0.0349 -16.018302,0.29079 -16.018303,0.29079 -2.789165,9.99767 c -1.53404,5.49873 -3.20367,10.13591 -3.710286,10.30471 -0.506618,0.1689 -1.457283,-1.1756 -2.112591,-2.9879 z" fill="#000000"/>
+			<text x="70" y="40">11</text>
+			<line x1="56" y1="23" x2="94" y2="23" stroke="#000000"/>
+			<text x="70" y="19">216</text>
+		</svg></grafik>
+		<antwort>
+			<beschreibung>72/231</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>81/213</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>63/231</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>54/213</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Welche folgenden Terme sind equivalent:</p></beschreibung>
+		<grafik><svg>
+			<text x="40" y="40">17</text>
+			<line x1="40" y1="23" x2="56" y2="23" stroke="#000000"/>
+			<text x="40" y="19">65</text>
+			<line x1="58" y1="42" x2="68" y2="7" stroke="#000000"/>
+			<text x="70" y="40">3</text>
+			<line x1="70" y1="23" x2="78" y2="23" stroke="#000000"/>
+			<text x="70" y="19">7</text>
+		</svg></grafik>
+		<antwort>
+			<beschreibung>195/119</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>455/51</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>1105/21</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>65/357</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Gegeben sind 325 Äpfel. Davon sollen 191 Stück verkauft werden. </p><p>Wie viel entspricht das in Prozent?</p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>60 %</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>54,56 %</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>58,77 %</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>62,89 %</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Mit sieben Lastwagen wird eine Ladung Sand in acht Stunden bewegt.</p><p>Wie lange brauchen zwei Lastwagen für eine zwei drittel so große Ladung?</p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>18 Std. 40min.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>9 Std. 20min.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>21 Std. 20min.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>15 Std. 40min.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Führen Sie die Zahlenreihe fort.</p><p><b>5, 3, 8, 6,...</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>14</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>11</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>9</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>keine davon</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Führen Sie die Zahlenreihe fort.</p><p><b>5, 17, 28, 38, 47,...</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>54</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>55</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>57</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>keine davon</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Die Verneinung der Aussage "Alle Regenschirme sind rot" lautet?</p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Einige Regenschirme sind rot.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Ein Regenschirm ist rot.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Mindestens ein Regenschirm ist nicht rot.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>keine davons</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Setzen Sie folgende Zahlenreihe fort:</p><p><b>2, 8, 4, 8, 32, 28, 32,...</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>64, 32, 96</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>28, 82, 72</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>128, 124, 128</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>keine davon</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p>Ein Junge und ein Mädchen unterhalten sich. "Ich bin ein Mädchen", sagt das rothaarige Kind.</p><p>"Ich bin ein Junge", sagt das schwarzhaarige Kind. Mindestens eines der Kinder lügt.</p><p><b>Frage: Welche Haarfarbe hat das Mädchen?</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Schwarz</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Rot</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Braun</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Kann mit den gegebenen Informationen nicht erschlossen werden.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p><b>Alan Turing schreibt über universelle Rechenmaschinen:</b></p>
+<p>„It will seem that given the initial state of the machine and the input signals it is always possible to predict all future states, This is reminiscent of Laplace's view that from the complete state of the universe at one moment of time, as described by the positions and velocities of all particles, it should be possible to predict all future states. The prediction which we are considering is, however, rather nearer to practicability than that considered by Laplace. The system of the "universe as a whole" is such that quite small errors in the initial conditions can have an overwhelming effect at a later time. The displacement of a single electron by a billionth of a centimetre at one moment might make the difference between a man being killed by an avalanche a year later, or escaping. It is an essential property of the mechanical systems which we have called "discrete-state machines" that this phenomenon does not occur. Even when we consider the actual physical machines instead of the idealised machines, reasonably accurate knowledge of the state at one moment yields reasonably accurate knowledge any number of steps later. […]Given the table corresponding to a discrete-state machine it is possible to predict what it will do. There is no reason why this calculation should not be carried out by means of a digital computer. Provided it could be carried out sufficiently quickly the digital computer could mimic the behavior of any discrete-state machine. […]This special property of digital computers, that they can mimic any discrete-state machine, is described by saying that they are universal machines. The existence of machines with this property has the important consequence that, considerations of speed apart, it is unnecessary to design various new machines to do various computing processes. They can all be done with one digital computer, suitably programmed for each case. It will be seen that as a consequence of this all digital computers are in a sense equivalent.“</p>
+<p><small>Aus: Turing, Alan: Computing Machinery and Intelligence, <i>Mind</i> <b>59</b>, 433-460 (1950).</small></p>
+<p><b>Welche der folgenden Aussagen lässt sich aus dem obigen Text <ins>nicht</ins> ableiten?</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Aus dem Ausgangszustand und der Eingabesequenz lässt sich jeder Zustand eines Zustandsautomaten vorhersagen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Im Gegensatz zu idealen Zustandsautomaten können tatsächliche Zustandsautomaten nur eine endliche Anzahl von Zuständen einnehmen.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Ein Digitalrechner kann, zumindest theoretisch, jeden Zustandsautomaten emulieren.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Ein Digitalrechner ist eine universelle Rechenmaschine. Alle Digitalrechner sind in dieser Hinsicht äquivalent.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p><b>Vanevar Bush schreibt über Memex:</b></p>
+<p>„All this is conventional, except for the projection forward of present-day mechanisms and gadgetry. It affords an immediate step, however, to associative indexing, the basic idea of which is a provision whereby any item may be caused at will to select immediately and automatically another. This is the essential feature of the memex. The process of tying two items together is the important thing. When the user is building a trail, he names it, inserts the name in his code book, and taps it out on his keyboard. Before him are the two items to be joined, projected onto adjacent viewing positions. At the bottom of each there are a number of blank code spaces, and a pointer is set to indicate one of these on each item. The user taps a single key, and the items are permanently joined. In each code space appears the code word. Out of view, but also in the code space, is inserted a set of dots for photocell viewing; and on each item these dots by their positions designate the index number of the other item. Thereafter, at any time, when one of these items is in view, the other can be instantly recalled merely by tapping a button below the corresponding code space. Moreover, when numerous items have been thus joined together to form a trail, they can be reviewed in turn, rapidly or slowly, by deflecting a lever like that used for turning the pages of a book. It is exactly as though the physical items had been gathered together from widely separated sources and bound together to form a new book. It is more than this, for any item can be joined into numerous trails.“</p>
+<p><small>Aus: Bush, Vanevar: „As we may think“, <i>The Atlantic</i>, July 1945.</small></p>
+<p><b>Welche der folgenden Aussagen lässt sich aus dem obigen Text <ins>nicht</ins> ableiten?</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Jeder Eintrag im Memex kann automatisch und ohne (nennenswerte) Verzögerung einen Beliebigen anderen aufrufen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Der Benutzer kann die Einträge im Memex auf simple Weise selber verknüpfen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Der Benutzer stellt sich Informationen seiner Wahl zu Pfaden zusammen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Jeder Eintrag im Memex ist Teil eines Pfades.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p><b>Ada Lovelace schreibt über die Analytical Engine:</b></p>
+<p>„[...]The bounds of arithmetic were however outstepped the moment the idea of applying the cards had occurred; and the Analytical Engine does not occupy common ground with mere “calculating machines.” It holds a position wholly its own; and the considerations it suggests are most interesting in their nature. In enabling mechanism to combine together general symbols in successions of unlimited variety and extent, a uniting link is established between the operations of matter and the abstract mental processes of the most abstract branch of mathematical science. A new, a vast, and a powerful language is developed for the future use of analysis, in which to wield its truths so that these may become of more speedy and accurate practical application for the purposes of mankind than the means hitherto in our possession have rendered possible. Thus not only the mental and the material, but the theoretical and the practical in the mathematical world, are brought into more intimate and effective connexion with each other. We are not aware of its being on record that anything partaking in the nature of what is so well designated the Analytical Engine has been hitherto proposed, or even thought of, as a practical possibility, any more than the idea of a thinking or of a reasoning machine.“</p>
+<p><small>Aus: King, Augusta Ada, Countess of Lovelace: „Note A“, In:	Menabrea, Luigi „Sketch of the Analytical Engine Invented by Charles Babbage, with Notes upon the Memoir by the Translator“, <i>Bibliothèque Universelle de Genève</i> <b>82</b>, October 1842.</small></p>
+<p><b>Welche der folgenden Aussagen lässt sich aus dem obigen Text <ins>nicht</ins> ableiten?</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Die Analytical Engine operiert auf einer weitaus höheren Abstraktionsebene als herkömmliche Rechenmaschinen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Die Analytical Engine erlaubt die Manipulation von beliebigen Symbolketten.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Die Analytical Engine ermöglicht die Darstellung und Berechnung von vielen praktischen Problemen mit den abstrakten Begriffen der Mathematik.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Die Analytical Engine ist eine Maschine mit der Fähigkeit zu denken.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+	</aufgabe>
+	<aufgabe>
+		<beschreibung><p><b>Fernando Corbató, Marjorie Daggett und Robert Daley schreiben über Zeitscheibensysteme:</b></p>
+<p>The basic technique for a time-sharing system is to have many persons simultaneously using the computer through typewriter consoles with a time-sharing supervisor program sequentially running each user program in a short burst or quantum of computation. This sequence, which in the most straightforward case is a simple round-robin, should occur often enough so that each user program which is kept in the high-speed memory is run for a quantum at least once during each approximate human reaction time (~.2 seconds). In this way, each user sees a computer fully responsive to even single key strokes each of which may require only trivial computation; in the non-trivial cases, the user sees a gradual reduction of the response time which is proportional to the complexity of the response calculation, the slowness of the computer, and the total number of active users. It should be clear, however, that if there are n users actively requesting service at one time, each user will only see on the average 1/n of the effective computer speed. During the period of high interaction rates while debugging programs, this should not be a hindrance since ordinarily the required amount of computation needed for each debugging computer response is small compared to the ultimate production need. Not only would such a time-sharing system improve the ability to program in the conventional manner by one or two orders of magnitude, but there would be opened up several new forms of computer usage. There would be a gradual reformulation of many scientific and engineering applications so that programs containing decision trees which currently must be specified in advance would be eliminated and instead the particular decision branches would be specified only as needed. Another important area is that of teaching machines which, although frequently trivial computationally, could naturally exploit the consoles of a time-sharing system with the additional bonus that more elaborate and adaptive teaching programs could be used. Finally, as attested by the many small business computers, there are numerous applications in business and in industry where it would be advantageous to have powerful computing facilities available at isolated locations with only the incremental capital investment of each console. But it is important to realize that even without the above and other new applications, the major advance in programming intimacy available from time-sharing would be of immediate value to computer installations in universities, research laboratories, and engineering firms where program debugging is a major problem.</p>
+<p><small>Aus: Fernando J. Corbató et al.: „An Experimental Time Sharing System“, <i>SJCC</i>, May 1962.</small></p>
+<p><b>Welche der folgenden Aussagen lässt sich aus dem obigen Text <ins>nicht</ins> ableiten?</b></p></beschreibung>
+		<grafik></grafik>
+		<antwort>
+			<beschreibung>Mehrere Benutzer können einen Prozessor gleichzeitig verweden.</beschreibung>
+			<cp_A>5</cp_A>
+			<cp_W>5</cp_W>
+			<cp_M>5</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Die Prozessorzeit wird in Zeitscheiben geteilt, die den Benutzern abwechselnd zur Verfügung gestellt werden.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Ein Zeitscheibensystem ermöglicht eine effektive Echtzeit-Benutzerinteraktion mit dem Computer.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+		<antwort>
+			<beschreibung>Die Einführung von Zeitscheibensystemen kann zu weitaus effizienteren Abläufen bei der Programmierung führen.</beschreibung>
+			<cp_A>0</cp_A>
+			<cp_W>0</cp_W>
+			<cp_M>0</cp_M>
+		</antwort>
+	</aufgabe>
+	<auswertung>
+		<cp_min_svg>25</cp_min_svg>
+		<cp_A_min>0.4</cp_A_min>
+		<cp_W_min>0.4</cp_W_min>
+		<cp_M_min>0.4</cp_M_min>
+		<cp_A_max>0.75</cp_A_max>
+		<cp_W_max>0.75</cp_W_max>
+		<cp_M_max>0.75</cp_M_max>
+		<AWM><p>Wenn Sie sich für ein informatisches Fach entscheiden, bringen sie unserer Meinung nach etwa <b>gleich gute Voraussetzungen für jeden der drei Studiengänge</b> mit, die an der Technischen Hochschule Köln angeboten werden. Bei ihrer Interessenlage ist es vielleicht sinnvoll, im späteren Studium von der Möglichkeit Gebrauch zu machen, ihre <b>Wahlpflichtfächer aus anderen Teilgebieten der Informatik</b> zu wählen, als dem Studiengang, den Sie studieren.</p></AWM>
+		<AW><p>Wenn Sie sich für ein informatisches Fach entscheiden, bringen sie unserer Meinung nach etwa <b>gleich gute Voraussetzungen</b> sowohl für ein Studium der <b>Informatik</b>, als auch der <b>Wirtschaftsinformatik</b> an der Technischen Hochschule Köln mit. Eine Möglichkeit, mit diesem Dilemma umzugehen, wäre beispielsweise, einen der beiden Studiengänge zu studieren, aber ihre <b>Wahlpflichtfächer aus dem anderen Fachbereich</b> zu wählen.</p></AW>
+		<AM><p>Wenn Sie sich für ein informatisches Fach entscheiden, bringen Sie unserer Meinung nach etwa <b>gleich gute Voraussetzungen</b> sowohl für ein Studium der <b>Informatik</b>, als auch der <b>Medieninformatik</b> an der Technischen Hochschule Köln mit. Eine Möglichkeit, mit diesem Dilemma umzugehen, wäre beispielsweise, einen der beiden Studiengänge zu studieren, aber ihre <b>Wahlpflichtfächer aus dem anderen Fachbereich</b> zu wählen.</p></AM>
+		<A><p>Wenn Sie sich für ein informatisches Fach entscheiden, wäre unserer Meinung nach ein Studium der <b>Informatik</b> an der Technischen Hochschule Köln vermutlich eine gute Wahl für Sie.</p></A>
+		<WM><p>Wenn Sie sich für ein informatisches Fach entscheiden, bringen sie unserer Meinung nach etwa gleich gute Voraussetzungen sowohl für ein Studium der <b>Medieninformatik</b>, als auch der <b>Wirtschaftsinformatik</b> an der Technischen Hochschule Köln mit. Eine Möglichkeit, mit diesem Dilemma umzugehen, wäre beispielsweise, einen der beiden Studiengänge zu studieren, aber ihre <b>Wahlpflichtfächer aus dem anderen Fachbereich</b> zu wählen.</p></WM>
+		<W><p>Wenn Sie sich für ein informatisches Fach entscheiden, wäre unserer Meinung nach ein Studium der <b>Wirtschaftsinformatik</b> an der Technischen Hochschule Köln vermutlich eine gute Wahl für Sie.</p></W>
+		<M><p>Wenn Sie sich für ein informatisches Fach entscheiden, wäre unserer Meinung nach ein Studium der <b>Medieninformatik</b> an der Technischen Hochschule Köln vermutlich eine gute Wahl für Sie. </p></M>
+		<gut><p>Aufgrund der Interessen und Fähigkeiten, die Sie in diesem Self-Assessment gezeigt haben, sind wir der Meinung, dass <b>Sie gut für einen informatischen Studiengang geeignet sind</b>. Natürlich kann es dennoch sein, dass ein anderes Fach für sie noch besser passt. Informieren sie sich ruhig ausführlich über ihre Optionen.</p></gut>
+		<mid><p>Aufgrund der Interessen und Fähigkeiten, die Sie in diesem Self-Assessment gezeigt haben, halten wir Sie <b>für ein Studium aus dem Bereich der Informatik im Großen und Ganzen geignet</b>. Es ist allerdings auch denkbar, dass eine andere Studienwahl noch besser zu Ihnen passt. Vielleicht schauen Sie sich noch die Informationsangebote anderer Fächer und Hochschulen an, falls Sie das noch nicht getan haben.</p></mid>
+		<keine><p>Aufgrund der Interessen und Fähigkeiten, die Sie in diesem Self-Assessment gezeigt haben, <b>sind wir nicht davon überzeugt, dass ein Studium im Bereich der Informatik für Sie unbedingt das Richtige ist</b>.</p><p>Aber vielleicht liegen wir damit ja auch falsch. In jedem Fall möchten wir Ihnen empfehlen, sich Ihre Studienwahl gut zu überlegen. Sie sollten sich unbedingt auch die Informationsangebote anderer Fächer und Hochschulen anschauen, falls Sie das noch nicht getan haben sollten.</p></keine>
+	</auswertung>
+</assessment>

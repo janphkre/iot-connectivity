@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html lang="de">
+<head>
+<title>Self Assessment - TH Köln</title>
+<link rel="stylesheet" type="text/css" href="../index.css" />
+<link rel="stylesheet" type="text/css" href="../sidebar.css" />
+<link rel="stylesheet" type="text/css" href="../animation.css" />
+<link rel="stylesheet" type="text/css" href="../print.css" />
+<script type="text/javascript">
+	var seite = 0;
+	var counter = 0;
+	var xml_daten;
+	var max_1 = 1;
+	var max_2 = 1;
+	var current_interesse = null;
+	var current_interesse_handler = null;
+	var rolled_back = true;
+</script>
+<script type="text/javascript" src="index.js"></script>
+</head>
+<body class="background" onload="main()">
+<noscript>Bitte Skriptausführungen im Browser erlauben!</noscript>
+<div id="viewport">
+	<div id="side_bar" class="slow scrollbar unused_left">
+		<div class="table">
+			<div class="table_row">
+				<div id="side_text_1" class="item heading unused_left">
+					<span>Interessen: </span><span id="side_progress_text_1">0</span><span> / </span><span id="side_progress_text_2"></span>
+				</div>
+				<div id="side_progress_1" class="item side_progress unused_left">
+					<span id="progress_1" class="side_progress_item" style="width: 0%"></span>
+				</div>
+				<div id="side_text_2" class="item heading unused_left">
+					<span>Fähigkeiten: </span><span id="side_progress_text_3">0</span><span> / </span><span id="side_progress_text_4"></span>
+				</div>
+				<div id="side_progress_2" class="item side_progress unused_left">
+					<span id="progress_2" class="side_progress_item" style="width: 0%"></span>
+				</div>
+			</div>
+			<div id="side_bottom" class="table_row_bottom unused_bottom">
+				<div id="footer_heading" class="text item"><b>Self-Assessment TH Köln:<br/>Informatikstudium</b></div>
+				<div id="footer_logo" class="item">
+					<a href="http://www.th-koeln.de"><img class="logo_small" src="logo_small.png" /></a>
+				</div>
+				<div id="footer_link" class="item">
+					<a id="footer_inner_link" onclick="showNote(event,'footer_info','unused_bottom','unused_bottom',false)">Über diesen Test</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="footer_info" class="note unused_bottom unused_all">
+		<div class="item">Self-Assessment Prototyp für die Informatikstudiengänge der TH Köln<br/><br/>Copyright 2016 by<br/>Arno v. Borries<br/>Jan Phillip Kretzschmar<br/>Andreas Walscheid</div>
+	</div>
+	<div id="page_0" class="note start_page slow scrollbar unused_bottom unused">
+		<div id="pg_0_logo" class="item"><a href="http://www.th-koeln.de"><img class="logo" src="logo.png" /></a></div>
+		<br/><p id="pg_0_heading" class="start heading unused_top">Self-Assessment für die Informatikstudiengänge der TH Köln</p><br/>
+		<p id="pg_0_text" class="start text unused_top">Willkommen beim Self-Assessment für Informatik an der TH Köln.<br/>Dieses Self-Assessment soll Ihnen bei Ihrer Entscheidung helfen, herauszufinden welcher der angebotenen Informatikstudiengänge für Sie eher geeignet ist.<br/>Es werden lediglich Grundlagen abgefragt. Die Informatikstudiengänge an der TH Köln sind so konzipiert, dass keine Vorkenntnisse in Bereich der Informatik vorhanden sein müssen, um das Studium erfolgreich zu bewältigen.<br/><br/><b>Dieses Self-Assessment soll Ihnen nur als eine weitere Entscheidungshilfe dienen, ob sie ein Informatikstudium an der TH Köln wahrnehmen.</b><br/> Dabei soll das Self-Assessment Ihnen aufzeigen, was die Inhalte des Studiums sind, sowie ein Bild des späteren Berufsfeldes bieten.<br/><b>Sie sollten Ihre Entscheidung nicht ausschließlich vom Ergebnis dieses Self-Assessments abhängig machen!</b><br/><br/>Im Folgenden möchten wir von Ihnen erfahren, wie viel Interesse sie für die Inhalte der verschiedenen informatischen Studiengänge an der TH Köln sowie für typische Berufsfelder der Informatik aufbringen. Bitte sortieren sie hierzu die angezeigten Aussagen per Drag &amp; Drop oder Point &amp; Click in die fünf Kategorien am unteren Bildschirmrand. Aussagen, die sie einsortiert haben, werden solange durch weitere Aussagen ersetzt, bis Sie alle einsortiert haben. Mit einem Klick auf das rechts neben der Aussage angezeigte Fragezeichen erhalten sie weitergehende Informationen. Ein Klick auf eine Kategorie zeigt alle Aussagen an, die Sie in diese eingeordnet haben. Hier können Sie noch nachträglich umsortieren. Dieser Teil des Self-Assessments nimmt für gewöhlich etwa 15 Minuten Zeit in Anspruch.</p>
+		<br/>
+		<div id="pg_0_button" class="button heading unused_top" onclick="beginn(event)"><p>Start</p></div>
+	</div>
+	<div id="page_1" class="note main_note scrollbar unused_bottom unused">
+		<div class="table">
+			<div class="table_row">
+				<div id="pg_1_upper_content" class="item">
+					<p id="pg_1_heading" class="heading unused_top">1. Interessen</p>
+					<p id="pg_1_text" class="text unused_top">Die Informatik hat mit ihren vielen Teilgebieten für fast Jeden etwas Interessantes zu bieten. Um herauszufinden, welche Tätigkeiten Ihnen gefallen könnten, möchten wir Sie bitten, die folgenden Aussagen entsprechend Ihrer eigenen Interessenlage per Drag &amp; Drop oder Point &amp; Click in die unten aufgeführten fünf Kategorien eizuordnen.<br/>Eine Korrektur ist möglich, indem auf die einzelnen Kategorien geklickt wird.</p>
+					<p id="pg_1_continue_text" class="text unused_all unused_top">Im nächsten Teil des Self-Assessments wollen wir kurz überprüfen, ob Sie einige wichtige Grundfähigkeiten für ein Studium aus dem Bereich der Informatik mitbringen. Dazu gehören einerseits Fachtexte auch auf Englisch lesen und verstehen zu können und anderseits die Kenntnis und sichere Anwendung einfacher numerischer und nicht-nummerischer Mathematik. Dieser Teil des Self-Assessments ist als Single-Choice-Test gestaltet, d.h. es ist immer nur eine der Antwortmöglichkeiten richtig. Sie können ihre Antworten bis zum Ende des Fragebogens mit Hilfe der entsprechenden Schaltfläche noch nachträglich ändern. Dieser Teil des Self-Assessments nimmt für gewöhnlich etwa 30 Minuten Zeit in Anspruch.</p>
+				</div>
+				<div id="pg_1_drop_1_detail" class="note detail_note scrollbar unused_bottom_note unused_all"></div>
+				<div id="pg_1_drop_2_detail" class="note detail_note scrollbar unused_bottom_note unused_all"></div>
+				<div id="pg_1_drop_3_detail" class="note detail_note scrollbar unused_bottom_note unused_all"></div>
+				<div id="pg_1_drop_4_detail" class="note detail_note scrollbar unused_bottom_note unused_all"></div>
+				<div id="pg_1_drop_5_detail" class="note detail_note scrollbar unused_bottom_note unused_all"></div>
+				<div id="pg_1_spawn_1" class="note_spawn"></div>
+				<div id="pg_1_spawn_2" class="note_spawn"></div>
+				<div id="pg_1_spawn_3" class="note_spawn"></div>
+			</div>
+			<div id="pg_1_drop_row" class="table_row_bottom">
+				<div id="pg_1_drop_inner" class="row_inner">
+					<div id="pg_1_drop_1" class="drop_zone color_1 unused_bottom" ondrop="drop_interesse(event)" ondragover="allowDrop(event)" onclick="click_kategorie(event)" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><p class="drop_zone_text_top">Interessiert mich sehr</p><p class="drop_zone_text_bottom" id="pg_1_drop_1_counter"></p></div>
+					<div id="pg_1_drop_2" class="drop_zone color_2 unused_bottom" ondrop="drop_interesse(event)" ondragover="allowDrop(event)" onclick="click_kategorie(event)" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><p class="drop_zone_text_top">Interessiert mich eher</p><p class="drop_zone_text_bottom" id="pg_1_drop_2_counter"></p></div>
+					<div id="pg_1_drop_3" class="drop_zone color_3 unused_bottom" ondrop="drop_interesse(event)" ondragover="allowDrop(event)" onclick="click_kategorie(event)" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><p class="drop_zone_text_top">Keine Präferenz</p><p class="drop_zone_text_bottom" id="pg_1_drop_3_counter"></p></div>
+					<div id="pg_1_drop_4" class="drop_zone color_4 unused_bottom" ondrop="drop_interesse(event)" ondragover="allowDrop(event)" onclick="click_kategorie(event)" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><p class="drop_zone_text_top">Interessiert mich eher nicht</p><p class="drop_zone_text_bottom" id="pg_1_drop_4_counter"></p></div>
+					<div id="pg_1_drop_5" class="drop_zone color_5 unused_bottom" ondrop="drop_interesse(event)" ondragover="allowDrop(event)" onclick="click_kategorie(event)" draggable="true" ondragstart="dragStart(event)" ondragend="dragEnd(event)"><p class="drop_zone_text_top">Interessiert mich nicht</p><p class="drop_zone_text_bottom" id="pg_1_drop_5_counter"></p></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="page_2" class="note main_note scrollbar unused_bottom unused">
+		<div class="table">
+			<div class="table_row">
+				<div id="pg_2_upper_content" class="item">
+					<div id="pg_2_graphic" class="unused_right"></div>
+					<p id="pg_2_heading" class="heading unused_top">2. Fähigkeiten</p>
+					<p id="pg_2_text" class="text2 unused_top">Aufgabenstellung:<br/></p>
+					<p id="pg_2_task" class="text unused_top"></p>
+					<p id="pg_2_continue_text" class="text unused_all unused_top">Das folgende Diagramm zeigt graphisch an, wie unser Self-Assessment Sie im Hinblick auf Ihr Interesse und Ihre Eignung für die verschiedenden informatischen Studiengänge der TH Köln einschätzt.<br/>Die Ecken des <b>Dreiecksdiagramms</b> repräsentieren die drei Studiengänge Informatik, Medieninformatik und Wirtschaftsinformatik. Der schwarze Punkt im Dreieck zeigt an, wo sich innerhalb des an der TH Köln abgedeckten Teilgebietes der Informatik ihre Interessenschwerpunkte bewegen. Ist der Punkt näher an einer der Ecken, ist der entsprechende Studiengang für Sie besser geignet, liegt er weiter davon entfernt, vermutlich eher schlechter.<br/>Die  darunter angezeigte <b>Heatmap</b> ist an einer Stelle markiert, um anzuzeigen, wie ausgeprägt ihre <b>Eignung für den Studiengang ist, dem ihre Interessen am Ehesten entsprechen</b>. Je weiter rechts die Markierung, desto besser sind ihre Vorraussetzungen für ein erfolgreiches Studium. In diese Bewertung gehen sowohl ihre Interssen als auch ihre Fähigkeiten mit ein.
+					</p>
+				</div>
+				<div id="pg_2_spawn_0" class="note_spawn unused_right"></div>
+				<div id="pg_2_spawn_1" class="note_spawn unused_right"></div>
+				<div id="pg_2_spawn_2" class="note_spawn unused_right"></div>
+				<div id="pg_2_spawn_3" class="note_spawn unused_right"></div>
+			</div>
+			<div id="pg_2_bottom_row" class="table_row_bottom">
+				<div class="row_inner">
+					<div id="pg_2_back" class="back unused_right" onclick="roll_back();">Korrektur vorherige Aufgabe</div>
+					<div id="pg_2_answers" class="answers unused_all"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="page_3" class="note main_note scrollbar unused_bottom unused">
+		<div id="pg_3_print" class="button heading unused_top" onclick="window.print();"><p>Drucken</p></div>
+		<div class="item">
+			<p id="pg_3_print_text" class="heading unused"><img id="pg_3_print_logo" src="logo_small.png" /><br/>Auswertung des Self-Assessments für die Informatikstudiengänge der TH Köln</p>
+			<p id="pg_3_heading" class="heading unused_top">3. Auswertung</p>
+			<p id="pg_3_text" class="text unused_top">Im Folgenden finden Sie Ihre Auswertung des Tests. Diese Auswertung stellt lediglich eine Empfehlung für Sie dar.</p>
+			<p id="pg_3_auswertung" class="text unused_top"></p>
+			
+		</div>
+		<div id="pg_3_svg_outer" class="unused_top">
+			<svg id="pg_3_svg">
+				<defs>
+				<radialGradient id="grad1" cx="50%" cy="66%" r="55%" fx="50%" fy="59%">
+					<stop offset="0%" style="stop-color:#7DE4DF; stop-opacity:0.3" />
+					<stop offset="100%" style="stop-color:#00cc00;stop-opacity:1" />
+				</radialGradient>
+				<linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+					<stop offset="0%" style="stop-color:#7DE4DF;stop-opacity:0.3" />
+					<stop offset="100%" style="stop-color:#00cc00;stop-opacity:1" />
+				</linearGradient>
+				</defs>
+				<polygon points="0,463.01 500,463.01 250,30" style="fill:url(#grad1);stroke:darkgreen;stroke-width:0" /> 
+				<rect x="0" y ="510" rx="10" ry="10" width="500" height="40" style="fill:url(#grad2);stroke-width:0;stroke:lightgreen"/>
+				<text x="210" y="25" fill="DimGray">Informatik</text>
+				<text x="0" y="480" fill="DimGray">Medieninformatik</text>
+				<text x="320" y="480" fill="DimGray">Wirtschaftsinformatik</text>
+				<text x="195" y="570" fill="DimGray">Eignungsgrad</text>
+				Entschuldigung, dein Browser unterstützt kein Inline-SVG.
+			</svg>
+		</div>
+	</div>
+</div>
+</body>
+</html>
