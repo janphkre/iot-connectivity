@@ -10,7 +10,7 @@ import rx.subjects.Subject
 import timber.log.Timber
 import java.net.ServerSocket
 
-internal class WiFiIpReceiver(context: Context): AbstractBeaconProvider(context, P2PModule.NAME_IP_RECEIVER_THREAD) {
+internal class WiFiIpReceiver(context: Context) : AbstractBeaconProvider(context, P2PModule.NAME_IP_RECEIVER_THREAD) {
 
     var targetDeviceAddress: String? = null
 
@@ -26,7 +26,7 @@ internal class WiFiIpReceiver(context: Context): AbstractBeaconProvider(context,
         subscription = getBeacons().subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
             .subscribe {
-                if(it.ip.isNotBlank()) {
+                if (it.ip.isNotBlank()) {
                     resultObservable.onNext(it.ip)
                     subscription?.unsubscribe()
                     resultObservable.onCompleted()
@@ -54,7 +54,7 @@ internal class WiFiIpReceiver(context: Context): AbstractBeaconProvider(context,
                 }
             }
             resultObservable.onNext(targetAddress)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             resultObservable.onError(e)
         }
     }

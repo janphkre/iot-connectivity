@@ -13,7 +13,7 @@ import rx.Observable
 import rx.Subscriber
 import timber.log.Timber
 
-internal abstract class AbstractBeaconProvider(context: Context, backgroundThreadName: String): BeaconProvider, AbstractWifiProvider(context, backgroundThreadName) {
+internal abstract class AbstractBeaconProvider(context: Context, backgroundThreadName: String) : BeaconProvider, AbstractWifiProvider(context, backgroundThreadName) {
 
     private val discoverHandler = Handler()
     private var request = WifiP2pDnsSdServiceRequest.newInstance()

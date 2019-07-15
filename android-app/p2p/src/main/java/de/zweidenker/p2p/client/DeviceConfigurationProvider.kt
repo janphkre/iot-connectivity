@@ -41,7 +41,7 @@ interface DeviceConfigurationProvider {
         @Body network: NetworkConfigUpdate
     ): Observable<NetworkConfig>
 
-    companion object: KoinComponent {
+    companion object : KoinComponent {
 
         fun getInstance(callFactory: Factory, device: Device, deviceIpAddress: String): DeviceConfigurationProvider {
             val gson = Gson()

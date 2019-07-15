@@ -28,18 +28,18 @@ class GenericConfigAdapter<T>(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return when(viewType) {
+        return when (viewType) {
             ViewTypes.Header.ordinal -> {
                 val view = View(parent.context)
                 view.layoutParams = ViewGroup.LayoutParams(1, 1)
-                 SpacerViewHolder(view, view)
+                SpacerViewHolder(view, view)
             }
             else -> ItemViewHolder(parent)
         }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return when(position) {
+        return when (position) {
             0 -> ViewTypes.Header
             else -> ViewTypes.Item
         }.ordinal
@@ -48,7 +48,7 @@ class GenericConfigAdapter<T>(
     override fun getItemCount(): Int = items.size + 1
 
     override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
-        when(position) {
+        when (position) {
             0 -> {
                 (viewHolder as SpacerViewHolder).bind(viewHolder.itemView.resources.getDimensionPixelSize(R.dimen.list_header_margin))
             }

@@ -63,8 +63,7 @@ subprojects { module ->
         debug = false
         verbose = false
         android = true
-        outputToConsole = false
-        reporters = [ReporterType.CHECKSTYLE]
+        outputToConsole = true
         ignoreFailures = true
     }
 

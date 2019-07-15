@@ -60,7 +60,7 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
                         view.card_subtitle.text = network.security.joinToString(prefix = "[", postfix = "]")
                         if (networkPair.second != null) {
                             view.card_detail.text = resources.getString(R.string.config_saved, network.mac)
-                            if(networkPair.second?.selected == true) {
+                            if (networkPair.second?.selected == true) {
                                 view.card_icon.setColorFilter(resources.getColor(R.color.primary))
                             } else {
                                 view.card_icon.clearColorFilter()
@@ -79,7 +79,7 @@ class DeviceNetworksFragment : DeviceFragment(), Observer<List<Pair<Network?, Ne
                             resources.getString(R.string.config_enabled)
                         }
                         view.card_detail.text = resources.getString(R.string.config_saved)
-                        if(config.selected) {
+                        if (config.selected) {
                             view.card_icon.setImageResource(R.drawable.ic_signal_wifi_off)
                             view.card_icon.setColorFilter(resources.getColor(R.color.primary))
                         } else {

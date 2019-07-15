@@ -14,7 +14,7 @@ class Network(
         parcel.readString() ?: "",
         parcel.readInt(),
         mutableListOf<String>().apply {
-          parcel.readStringList(this)
+            parcel.readStringList(this)
         })
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
