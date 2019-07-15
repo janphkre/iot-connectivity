@@ -1,4 +1,4 @@
-package de.zweidenker.p2p.connection
+package de.zweidenker.p2p.connection.wifi
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -7,7 +7,7 @@ import android.net.NetworkInfo
 import android.net.wifi.p2p.WifiP2pManager
 import timber.log.Timber
 
-class Broadcasts(private val connected: () -> Unit) : BroadcastReceiver() {
+class WifiBroadcasts(private val connected: () -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {

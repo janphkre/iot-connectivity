@@ -1,13 +1,16 @@
-package de.zweidenker.p2p.connection
+package de.zweidenker.p2p.connection.wifi
 
 import android.content.Context
 import android.content.IntentFilter
 import android.net.wifi.p2p.WifiP2pManager
 import android.util.Log
+import com.readystatesoftware.chuck.api.ChuckInterceptor
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
+import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.model.Device
+import okhttp3.OkHttpClient
 import rx.Observable
 import rx.subjects.ReplaySubject
 import timber.log.Timber
@@ -15,12 +18,15 @@ import java.io.IOException
 import java.net.InetAddress
 import java.net.InetSocketAddress
 import java.net.Socket
+import java.util.concurrent.TimeUnit
 
-internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
+internal class WiFiConnectionProvider(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
-    private val ipReceiver = IpReceiver(context)
+    private val timeout = 30L
+    private val chuckInterceptor = ChuckInterceptor(context)
+    private val ipReceiver = WiFiIpReceiver(context)
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
-    private val broadcastReceiver = Broadcasts {
+    private val broadcastReceiver = WifiBroadcasts {
         Timber.e("GOT INTENT")
         wifiManager?.requestConnectionInfo(wifiChannel) { info ->
             Timber.e("info: $info")
@@ -62,12 +68,22 @@ internal class DeviceConnectionProviderImpl(context: Context) : DeviceConnection
             })
         }.zipWith<String, DeviceConfigurationProvider>(groupOwnerObservable) { _, hostAddress ->*/
             val hostAddress = "raspberrypi.fritz.box"
-            subscriber.onNext(DeviceConfigurationProvider.getInstance(device, hostAddress))
+            val okHttpClient = getHttpClient()
+            subscriber.onNext(DeviceConfigurationProvider.getInstance(okHttpClient, device, hostAddress))
             subscriber.onCompleted()
         }.doOnUnsubscribe {
             wifiManager?.cancelConnect(wifiChannel, null)
             ipReceiver.unsubscribe()
         }
+    }
+
+    private fun getHttpClient(): OkHttpClient {
+        val clientBuilder = OkHttpClient.Builder()
+            .connectTimeout(timeout, TimeUnit.SECONDS)
+            .readTimeout(timeout, TimeUnit.SECONDS)
+            .writeTimeout(timeout, TimeUnit.SECONDS)
+            .addNetworkInterceptor(chuckInterceptor)
+        return clientBuilder.build()
     }
 
     override fun destroy(context: Context) {

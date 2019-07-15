@@ -1,4 +1,4 @@
-package de.zweidenker.p2p.connection
+package de.zweidenker.p2p.connection.wifi
 
 import android.content.Context
 import android.net.wifi.p2p.WifiP2pDevice
@@ -10,7 +10,7 @@ import rx.subjects.Subject
 import timber.log.Timber
 import java.net.ServerSocket
 
-internal class IpReceiver(context: Context): AbstractBeaconProvider(context, P2PModule.NAME_IP_RECEIVER_THREAD) {
+internal class WiFiIpReceiver(context: Context): AbstractBeaconProvider(context, P2PModule.NAME_IP_RECEIVER_THREAD) {
 
     var targetDeviceAddress: String? = null
 

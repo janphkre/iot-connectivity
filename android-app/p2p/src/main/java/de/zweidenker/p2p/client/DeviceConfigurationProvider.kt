@@ -1,17 +1,15 @@
 package de.zweidenker.p2p.client
 
 import com.google.gson.Gson
-import com.readystatesoftware.chuck.api.ChuckInterceptor
 import de.zweidenker.p2p.model.Device
 import de.zweidenker.p2p.model.Interface
 import de.zweidenker.p2p.model.Network
 import de.zweidenker.p2p.model.NetworkConfig
 import de.zweidenker.p2p.model.NetworkConfigProposal
 import de.zweidenker.p2p.model.NetworkConfigUpdate
+import okhttp3.Call.Factory
 import okhttp3.HttpUrl
-import okhttp3.OkHttpClient
 import org.koin.standalone.KoinComponent
-import org.koin.standalone.get
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,7 +19,6 @@ import retrofit2.http.POST
 import retrofit2.http.PUT
 import retrofit2.http.Path
 import rx.Observable
-import java.util.concurrent.TimeUnit
 
 interface DeviceConfigurationProvider {
 
@@ -46,15 +43,7 @@ interface DeviceConfigurationProvider {
 
     companion object: KoinComponent {
 
-        private const val TIMEOUT = 30L
-
-        fun getInstance(device: Device, deviceIpAddress: String): DeviceConfigurationProvider {
-            val clientBuilder = OkHttpClient.Builder()
-                .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
-                .addNetworkInterceptor(ChuckInterceptor(get()))
-            val httpClient = clientBuilder.build()
+        fun getInstance(callFactory: Factory, device: Device, deviceIpAddress: String): DeviceConfigurationProvider {
             val gson = Gson()
             val httpUrl = HttpUrl.Builder()
                 .host(deviceIpAddress)
@@ -62,7 +51,7 @@ interface DeviceConfigurationProvider {
                 .scheme("http")
                 .build()
             val retrofit = Retrofit.Builder()
-                .client(httpClient)
+                .callFactory(callFactory)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .baseUrl(httpUrl)
