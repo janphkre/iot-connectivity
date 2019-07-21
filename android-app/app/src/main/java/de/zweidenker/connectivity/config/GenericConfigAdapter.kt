@@ -52,7 +52,7 @@ class GenericConfigAdapter<T>(
             0 -> {
                 (viewHolder as SpacerViewHolder).bind(viewHolder.itemView.resources.getDimensionPixelSize(R.dimen.list_header_margin))
             }
-            else -> (viewHolder as GenericConfigAdapter<T>.ItemViewHolder).setContent(items[position - 1])
+            else -> (viewHolder as? GenericConfigAdapter<T>.ItemViewHolder)?.setContent(items[position - 1])
         }
     }
 

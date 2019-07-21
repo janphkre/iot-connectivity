@@ -8,6 +8,7 @@ import android.os.Handler
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.AbstractWifiProvider
 import de.zweidenker.p2p.core.WifiP2PException
+import de.zweidenker.p2p.model.ConnectionStatus
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 import rx.Subscriber
@@ -24,7 +25,7 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
         // Internal filtering does not seem to work correctly. We will filter by ourselves.
         wifiManager?.addServiceRequest(wifiChannel, request, object : WifiP2pManager.ActionListener {
             override fun onSuccess() {
-                wifiManager?.setDnsSdResponseListeners(wifiChannel,
+                wifiManager.setDnsSdResponseListeners(wifiChannel,
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
                     if (isValidResult(fullDomainName, wifiP2pDevice)) {
                         try {
@@ -80,6 +81,7 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
 
     @Throws(Exception::class)
     override fun getBeacons(): Observable<Device> = Observable.unsafeCreate<Device> { subscriber ->
+        subscriber.onNext(Device(0L,"MockDevice","MockAddress",ConnectionStatus.UNKNOWN,1234,"192.168.180.2",System.currentTimeMillis()))
         if (wifiManager == null || wifiChannel == null) {
             val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
             subscriber.onError(throwable)

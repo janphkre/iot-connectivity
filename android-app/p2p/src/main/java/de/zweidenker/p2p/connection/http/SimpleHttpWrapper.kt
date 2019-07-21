@@ -9,6 +9,7 @@ import okhttp3.Interceptor
 import okhttp3.Request
 import okhttp3.internal.Util
 import okhttp3.internal.cache.InternalCache
+import okhttp3.internal.http.HttpCodec
 import java.util.LinkedList
 import java.util.concurrent.TimeUnit
 
@@ -19,7 +20,7 @@ class SimpleHttpWrapper(
     private val connectTimeout: Int,
     private val writeTimeout: Int,
     private val readTimeout: Int,
-    private val httpStream: Interceptor
+    private val httpCodec: HttpCodec
 ): HttpWrapper {
 
     private val cookieJar = CookieJar.NO_COOKIES
@@ -41,7 +42,7 @@ class SimpleHttpWrapper(
 
     override fun dispatcher(): HttpDispatcher = httpDispatcher
 
-    override fun httpStream(): Interceptor = httpStream
+    override fun httpCodec(): HttpCodec = httpCodec
 
     override fun newCall(request: Request): Call {
         return SimpleCall(this, request)
@@ -54,7 +55,7 @@ class SimpleHttpWrapper(
         private var connectTimeout: Int = 10000
         private var writeTimeout: Int = 10000
         private var readTimeout: Int = 10000
-        private var httpStream: Interceptor? = null
+        private var httpCodec: HttpCodec? = null
 
         fun readTimeout(timeout: Long, unit: TimeUnit): Builder {
             readTimeout = Util.checkDuration("timeout", timeout, unit)
@@ -82,12 +83,14 @@ class SimpleHttpWrapper(
         }
 
         /** Sets the response cache to be used to read and write cached responses.  */
-        fun setInternalCache(internalCache: InternalCache?) {
+        fun setInternalCache(internalCache: InternalCache?): Builder {
             this.internalCache = internalCache
+            return this
         }
 
-        fun setHttpStream(httpStream: Interceptor) {
-            this.httpStream = httpStream
+        fun setHttpCodec(httpCodec: HttpCodec): Builder {
+            this.httpCodec = httpCodec
+            return this
         }
 
         fun build(): HttpWrapper {
@@ -98,7 +101,7 @@ class SimpleHttpWrapper(
                 connectTimeout,
                 writeTimeout,
                 readTimeout,
-                httpStream ?: throw IllegalArgumentException("You must set a output http stream")
+                httpCodec ?: throw IllegalArgumentException("You must set a http codec")
             )
         }
 

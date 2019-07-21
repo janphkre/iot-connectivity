@@ -47,6 +47,9 @@ class SimpleHttpDispatcher(
         val callPair = Pair(call, callback)
         synchronized(this) {
             readyAsyncCalls.addFirst(callPair)
+            if(readyAsyncCalls.size == 1) {
+                executorService.execute(this)
+            }
         }
         return callback.awaitComplete()
     }
@@ -91,9 +94,9 @@ class SimpleHttpDispatcher(
         interceptors.add(BridgeInterceptor(wrapper.cookieJar()))
         interceptors.add(CacheInterceptor(wrapper.internalCache()))
         interceptors.addAll(wrapper.networkInterceptors())
-        interceptors.add(wrapper.httpStream())
+        interceptors.add(SimpleServerInterceptor())
 
-        val chain = RealInterceptorChain(interceptors, null, null, null, 0,
+        val chain = RealInterceptorChain(interceptors, null, wrapper.httpCodec(), null, 0,
             call.request(), call, null, wrapper.connectTimeoutMillis(),
             wrapper.readTimeoutMillis(), wrapper.writeTimeoutMillis())
 
