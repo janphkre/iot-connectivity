@@ -1,56 +1,52 @@
 package de.zweidenker.p2p.model
 
-import android.net.wifi.WpsInfo
-import android.net.wifi.p2p.WifiP2pConfig
 import android.net.wifi.p2p.WifiP2pDevice
 import android.os.Parcel
 import android.os.Parcelable
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.core.IdGenerator
+import de.zweidenker.p2p.model.bluetooth.BluetoothDetails
+import de.zweidenker.p2p.model.wifi.WifiDetails
 
-class Device(
+data class Device(
     val id: Long,
     val userIdentifier: String,
-    val address: String,
     val connectionStatus: ConnectionStatus,
-    val port: Int,
-    val ip: String,
+    val wifiDetails: WifiDetails,
+    val bluetoothDetails: BluetoothDetails,
     var connectionTime: Long
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readLong(),
         parcel.readString() ?: "",
-        parcel.readString() ?: "",
         ConnectionStatus.values()[parcel.readInt()],
-        parcel.readInt(),
-        parcel.readString() ?: "",
+        parcel.readParcelable<WifiDetails>(WifiDetails::class.java.classLoader) ?: throw IllegalArgumentException("WifiDetails was read as null!"),
+        parcel.readParcelable<BluetoothDetails>(BluetoothDetails::class.java.classLoader) ?: throw IllegalArgumentException("BluetoothDetails was read as null!"),
         parcel.readLong()
     )
 
-    constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this (
+    constructor(p2pDevice: WifiP2pDevice, txtRecordMap: Map<String, String>): this(
         // Calculate a id from the macAddress, since the macAddress is a 48-Bit field.
         IdGenerator.getId(p2pDevice.deviceAddress),
         txtRecordMap[P2PModule.KEY_IDENTIFIER] ?: p2pDevice.deviceName,
-        p2pDevice.deviceAddress,
         when (txtRecordMap[P2PModule.KEY_CONNECTION]?.toUpperCase()) {
             ConnectionStatus.COMPLETED.name -> ConnectionStatus.COMPLETED
             ConnectionStatus.DISCONNECTED.name -> ConnectionStatus.DISCONNECTED
             ConnectionStatus.PROBLEM.name -> ConnectionStatus.PROBLEM
             else -> ConnectionStatus.UNKNOWN
         },
-        txtRecordMap[P2PModule.KEY_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Port!"),
-        txtRecordMap[P2PModule.KEY_IP] ?: "",
+        WifiDetails(p2pDevice, txtRecordMap),
+        BluetoothDetails(txtRecordMap),
         System.currentTimeMillis()
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeLong(id)
         parcel.writeString(userIdentifier)
-        parcel.writeString(address)
         parcel.writeInt(connectionStatus.ordinal)
-        parcel.writeInt(port)
-        parcel.writeString(ip)
+        parcel.writeParcelable(wifiDetails, 0)
+        parcel.writeParcelable(bluetoothDetails, 0)
         parcel.writeLong(connectionTime)
     }
 
@@ -71,21 +67,14 @@ class Device(
         }
         return userIdentifier == other.userIdentifier &&
             connectionStatus == other.connectionStatus &&
-            port == other.port &&
-            ip == other.ip
+            wifiDetails.contentEquals(other.wifiDetails) &&
+            bluetoothDetails.contentEquals(other.bluetoothDetails)
     }
 
     override fun hashCode(): Int {
         return id.hashCode()
     }
 
-    fun asConfig(): WifiP2pConfig {
-        return WifiP2pConfig().apply {
-            this.deviceAddress = this@Device.address
-            this.groupOwnerIntent = 10
-            this.wps.setup = WpsInfo.PBC
-        }
-    }
     companion object CREATOR : Parcelable.Creator<Device> {
 
         override fun createFromParcel(parcel: Parcel): Device {

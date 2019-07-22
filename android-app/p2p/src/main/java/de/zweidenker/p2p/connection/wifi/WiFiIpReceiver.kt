@@ -26,8 +26,8 @@ internal class WiFiIpReceiver(context: Context) : AbstractBeaconProvider(context
         subscription = getBeacons().subscribeOn(Schedulers.io())
             .observeOn(Schedulers.computation())
             .subscribe {
-                if (it.ip.isNotBlank()) {
-                    resultObservable.onNext(it.ip)
+                if (it.wifiDetails.ip.isNotBlank()) {
+                    resultObservable.onNext(it.wifiDetails.ip)
                     subscription?.unsubscribe()
                     resultObservable.onCompleted()
                 }

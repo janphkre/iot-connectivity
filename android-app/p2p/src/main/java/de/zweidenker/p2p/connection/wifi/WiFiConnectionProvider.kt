@@ -47,7 +47,7 @@ internal class WiFiConnectionProvider(context: Context) : DeviceConnectionProvid
     }
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
-        ipReceiver.targetDeviceAddress = device.address
+        ipReceiver.targetDeviceAddress = device.wifiDetails.address
         return Observable.unsafeCreate<DeviceConfigurationProvider> { subscriber ->
             /*if (wifiManager == null || wifiChannel == null) {
                 val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)

@@ -3,15 +3,22 @@
     <uses-feature android:name="android.hardware.wifi.direct" />
 
     <uses-permission
-            android:required="true"
-            android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+        android:required="true"
+        android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission
-            android:required="true"
-            android:name="android.permission.ACCESS_WIFI_STATE"/>
+        android:required="true"
+        android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
-            android:required="true"
-            android:name="android.permission.CHANGE_WIFI_STATE"/>
+        android:required="true"
+        android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission
-            android:required="true"
-            android:name="android.permission.INTERNET"/>
+        android:required="true"
+        android:name="android.permission.INTERNET" />
+
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.BLUETOOTH" />
+    <uses-permission
+        android:required="true"
+        android:name="android.permission.BLUETOOTH_ADMIN" />
 </manifest>

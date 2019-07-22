@@ -3,7 +3,7 @@ package de.zweidenker.p2p
 import de.zweidenker.p2p.beacon.BeaconProvider
 import de.zweidenker.p2p.beacon.BeaconProviderImpl
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
-import de.zweidenker.p2p.connection.wifi.WiFiConnectionProvider
+import de.zweidenker.p2p.connection.bluetooth.BluetoothConnectionProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinContext
 import org.koin.dsl.context.ModuleDefinition
@@ -22,15 +22,16 @@ object P2PModule : Module {
     internal const val KEY_CONNECTION = "connection"
     internal const val KEY_PORT = "port"
     internal const val KEY_IP = "ip"
+    internal const val KEY_BLUETOOTH_MAC = "bluetooth_mac"
 
-    internal const val SOCKET_TIMEOUT_MS = 60000
+    internal const val SOCKET_TIMEOUT_MS = 30000
     internal const val PING_PORT = 8890
 
     internal const val ERROR_RETRY_INTERVAL_MS = 5000L
     internal const val DISCOVER_INTERVAL_MS = 15000L
 
     override fun invoke(koinContext: KoinContext): ModuleDefinition = module {
-        single { BeaconProviderImpl(androidContext()) as BeaconProvider }
-        factory { WiFiConnectionProvider(androidContext()) as DeviceConnectionProvider }
+        single<BeaconProvider> { BeaconProviderImpl(androidContext()) }
+        factory<DeviceConnectionProvider> { BluetoothConnectionProvider() }
     }(koinContext)
 }

@@ -43,11 +43,11 @@ interface DeviceConfigurationProvider {
 
     companion object : KoinComponent {
 
-        fun getInstance(callFactory: Factory, device: Device, deviceIpAddress: String): DeviceConfigurationProvider {
+        fun getInstance(callFactory: Factory, device: Device, deviceHost: String): DeviceConfigurationProvider {
             val gson = Gson()
             val httpUrl = HttpUrl.Builder()
-                .host(deviceIpAddress)
-                .port(device.port)
+                .host(deviceHost)
+                .port(device.wifiDetails.port)
                 .scheme("http")
                 .build()
             val retrofit = Retrofit.Builder()

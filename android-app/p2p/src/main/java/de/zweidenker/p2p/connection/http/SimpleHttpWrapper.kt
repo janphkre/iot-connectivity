@@ -20,7 +20,7 @@ class SimpleHttpWrapper(
     private val connectTimeout: Int,
     private val writeTimeout: Int,
     private val readTimeout: Int,
-    private val httpCodec: HttpCodec
+    private val httpStream: SimpleConnectionStream
 ): HttpWrapper {
 
     private val cookieJar = CookieJar.NO_COOKIES
@@ -42,7 +42,7 @@ class SimpleHttpWrapper(
 
     override fun dispatcher(): HttpDispatcher = httpDispatcher
 
-    override fun httpCodec(): HttpCodec = httpCodec
+    override fun httpCodec(): HttpCodec = httpStream.newCodec()
 
     override fun newCall(request: Request): Call {
         return SimpleCall(this, request)
@@ -55,7 +55,7 @@ class SimpleHttpWrapper(
         private var connectTimeout: Int = 10000
         private var writeTimeout: Int = 10000
         private var readTimeout: Int = 10000
-        private var httpCodec: HttpCodec? = null
+        private var httpStream: SimpleConnectionStream? = null
 
         fun readTimeout(timeout: Long, unit: TimeUnit): Builder {
             readTimeout = Util.checkDuration("timeout", timeout, unit)
@@ -88,8 +88,8 @@ class SimpleHttpWrapper(
             return this
         }
 
-        fun setHttpCodec(httpCodec: HttpCodec): Builder {
-            this.httpCodec = httpCodec
+        fun setHttpStream(httpStream: SimpleConnectionStream): Builder {
+            this.httpStream = httpStream
             return this
         }
 
@@ -101,7 +101,7 @@ class SimpleHttpWrapper(
                 connectTimeout,
                 writeTimeout,
                 readTimeout,
-                httpCodec ?: throw IllegalArgumentException("You must set a http codec")
+                httpStream ?: throw IllegalArgumentException("You must set a http stream")
             )
         }
 
