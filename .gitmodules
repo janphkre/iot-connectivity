@@ -1,3 +1,6 @@
 [submodule "external/wifi/hostap"]
 	path = external/wifi/hostap
 	url = git://w1.fi/hostap.git
+[submodule "external/bluetooth/opensmalltalk-vm"]
+	path = external/bluetooth/opensmalltalk-vm
+	url = https://github.com/OpenSmalltalk/opensmalltalk-vm
