@@ -22,5 +22,4 @@ crash.dmp
 pharo6/*
 pharo7/*
 createpharo6.sh
-external/build/*
-external/test/*
+*/build/
