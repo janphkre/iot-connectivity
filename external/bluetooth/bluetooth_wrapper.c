@@ -1,4 +1,4 @@
-//Requires: sudo apt-get install libbluetooth-dev
+//Requires: sudo apt-get install libbluetooth-dev libdbus-1-dev
 
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
@@ -12,6 +12,8 @@
 
 #define BUF_SIZE 8192
 #define LISTEN_QUEUE_SIZE 4
+#define DBUS_MPRIS_BUS_NAME "com.github.janphkre.httpwrapper"
+#define DBUS_INSTANCE_ID_PREFIX "instance"
 
 int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr);
 int acceptBluetoothSocket(int serverSocket);
@@ -246,10 +248,21 @@ int setubDbus(DBusConnection** conn) {
 
 //Taken from http://www.matthew.ath.cx/misc/dbus
 //Documentation for bluez method can be found at https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/network-api.txt
-int registerUuidDbus(const char* bluetoothDevice, const char* uuidString) {
+int registerUuidDbus(DBusConnection* conn, const char* bluetoothDevice, const char* uuidString, uint16_t bluetoothPort) {
     DBusMessage* msg;
-    DBusMessageIter args, options;
+    DBusMessageIter args, options, entry, variant;
     DBusPendingCall* pending;
+    char* portKey, uniqueName;
+    char unique_service[sizeof( DBUS_MPRIS_BUS_NAME ) + sizeof( DBUS_INSTANCE_ID_PREFIX ) + sizeof(uniqueName)];
+
+    uniqueName = dbus_bus_get_unique_name(conn);
+
+    snprintf( unique_service, sizeof (unique_service), DBUS_MPRIS_BUS_NAME"."DBUS_INSTANCE_ID_PREFIX""uniqueName);
+
+    if( dbus_bus_request_name( conn, unique_service, 0, NULL) != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
+        printf("ERR: DBus Object could not be obtained\n");
+        return -1;
+    }
     msg = dbus_message_new_method_call("org.bluez", // target for the method call
         "/org/bluez", // object to call on
         "org.bluez.ProfileManager1", // interface to call on
@@ -261,8 +274,7 @@ int registerUuidDbus(const char* bluetoothDevice, const char* uuidString) {
 
     // append arguments
     dbus_message_iter_init_append(msg, &args);
-//CREATE ARBITRARY OBJECT?
-    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_OBJECT, ADDRESS OF THIS PROFILE???)) { 
+    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_OBJECT, &unique_service)) { 
         printf("ERR: DBus Out Of Memory!\n"); 
         return -3;
     }
@@ -270,15 +282,17 @@ int registerUuidDbus(const char* bluetoothDevice, const char* uuidString) {
         printf("ERR: DBus Out Of Memory!\n"); 
         return -4;
     }
-//TODO: CREATE DICTIONARY
-//TODO: WRITE CHANNEL tO DICTIONARY
-    dbus_message_iter_open_container(&args, DBUS_TYPE_ARRAY, "{sssqqbbbsqq}", &options);
-    dbus_message_iter_close_container(&args, &options);    
 
-    if (!dbus_message_iter_append_container(&args, DBUS_TYPE_DICT, dictionary)) { 
-        printf("ERR: DBus Out Of Memory!\n"); 
-        return -4;
-    }
+    portKey = "port";
+    //Dictionary entry type is "string variant"
+    dbus_message_iter_open_container( args, DBUS_TYPE_ARRAY, "{sv}", &options);
+    dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &portKey);
+    dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_UINT16_AS_STRING, &variant);
+    dbus_message_iter_append_basic(&variant, DBUS_TYPE_UINT16, &bluetoothPort);
+    dbus_message_iter_close_container(&entry, &variant);
+    dbus_message_iter_close_container(&options, &entry);
+    dbus_message_iter_close_container(&args, &options);
 
     // send message and get a handle for a reply
     if (!dbus_connection_send_with_reply (conn, msg, &pending, -1)) { // -1 is default timeout
