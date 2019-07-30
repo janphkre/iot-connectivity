@@ -37,6 +37,16 @@ ConnectivityService class >> onDefault: aPortNumber [
 	^ instance
 ]
 
+{ #category : #accessing }
+ConnectivityService >> bluetooth: bluetoothMac [
+  serviceValues at: #bluetooth_mac put: bluetoothMac
+]
+
+{ #category : #private }
+ConnectivityService >> describeService: values [
+  serviceDescription := LWpaBonjourService new: 'ConfigurationService' as: 'connectivity.pharo._tcp' with: values.
+]
+
 { #category : #events }
 ConnectivityService >> groupStarted: aString [
   self stopGroupInternal.
@@ -75,13 +85,9 @@ ConnectivityService >> handleP2P: anEvent [
 
 { #category : #initialization }
 ConnectivityService >> initialize: aPortNumber [
-	serviceValues := (SmallDictionary new: 3)
-	at: #identifier put: 'Pharo Device';
-	at: #connection put: 'up';
-	at: #port put: (aPortNumber asString);
-	yourself.
+	self newServiceValues: aPortNumber.
 	
-	serviceDescription := LWpaBonjourService new: 'ConfigurationService' as: 'connectivity.pharo._tcp' with: serviceValues.
+	self describeService: serviceValues.
 	port := aPortNumber.
 	
 	p2pDevice := LWpaInterface onAnyP2P.
@@ -129,6 +135,15 @@ ConnectivityService >> ipService: interfaceName retryCount: retryCount [
 	self p2pListen.
 ]
 
+{ #category : #private }
+ConnectivityService >> newServiceValues: aPortNumber [
+  serviceValues := (SmallDictionary new: 3)
+	at: #identifier put: 'Pharo Device';
+	at: #connection put: 'up';
+	at: #port put: (aPortNumber asString);
+	yourself.
+]
+
 { #category : #events }
 ConnectivityService >> p2pConnectPbc: peerAddress [
  p2pDevice p2pConnectPbc: peerAddress parameters: ('go_intent=0').
@@ -148,6 +163,11 @@ ConnectivityService >> p2pInvite: address [
 { #category : #events }
 ConnectivityService >> p2pListen [
 	p2pDevice p2pListen.
+]
+
+{ #category : #removing }
+ConnectivityService >> removeBluetooth [
+	serviceValues removeKey: #bluetooth_mac ifAbsent: [].
 ]
 
 { #category : #events }
