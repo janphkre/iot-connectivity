@@ -3,6 +3,7 @@ package de.zweidenker.p2p.connection.bluetooth
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothSocket
 import android.content.Context
+import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.connection.http.SimpleConnectionStream
@@ -10,6 +11,7 @@ import de.zweidenker.p2p.connection.http.SimpleHttpWrapper
 import de.zweidenker.p2p.model.Device
 import okio.Okio
 import rx.Observable
+import timber.log.Timber
 
 class BluetoothConnectionProvider: DeviceConnectionProvider {
 
@@ -43,16 +45,24 @@ class BluetoothConnectionProvider: DeviceConnectionProvider {
         val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             ?: throw UnsupportedOperationException("Device does not support Bluetooth")
 
-        bluetoothAdapter.enable()
-
+        if(!bluetoothAdapter.isEnabled) {
+            bluetoothAdapter.enable()
+            Thread.sleep(P2PModule.BLUETOOTH_ENABLE_SLEEP_MS)
+        }
         val bluetoothDevice = bluetoothAdapter.bondedDevices?.firstOrNull { device ->
             device.address == beaconDevice.bluetoothDetails.mac
         } ?: bluetoothAdapter.getRemoteDevice(beaconDevice.bluetoothDetails.mac)
 
-        //bluetoothDevice.setPairingConfirmation(false)
-        val socket = bluetoothDevice.createRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
+        //TODO: bluetoothDevice.setPairingConfirmation(true)//or false? what do we want?
+        if(!bluetoothDevice.fetchUuidsWithSdp()) {
+            Timber.e("Failed to fetch uuids with sdp!")
+        } else {
+            Thread.sleep(15000)
+            Timber.e(bluetoothDevice.uuids?.joinToString("\n",prefix= "Fetched remote uuids:\n"))
+        }
+        val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
         bluetoothAdapter.cancelDiscovery()
-        socket.connect()
+        socket.connect() //FIXME: java.io.IOException: read failed, socket might closed or timeout, read ret: -1
         return socket
     }
 

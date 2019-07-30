@@ -24,7 +24,6 @@ int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid);
 int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection* conn, uint16_t bluetoothPort);
 int setupDbus(DBusConnection** conn);
 int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort);
-int handleUuidDbusReply(DBusPendingCall* pending);
 
 int main(int argc, char **argv) {
     int serverPort, bluetoothPort, bluetoothDevice;
@@ -68,14 +67,24 @@ int main(int argc, char **argv) {
         return -12;
     }
 
-    if (defineService(bdaddr, service_name, conn, bluetoothPort)) {
+    if (defineService(bdaddr, service_name, conn, bluetoothPort) < 0) {
         printf("ERR: Failed to define the service!\n");
         close(bluetoothSocket);
         return -13;
     }
 
+    /*if(startDbusDiscovery() < 0) {
+       printf("ERR: Failed start discovery!\n");
+        close(bluetoothSocket);
+        return -14;
+    }*/
+
     while(1) {
         int client = acceptBluetoothSocket(bluetoothSocket);
+	if(client < 0) {
+            printf("ERR: Accept failed\n");
+            continue;
+        }
         hookBluetoothSocket(client, serverPort);
     }
 
@@ -123,7 +132,12 @@ int acceptBluetoothSocket(int serverSocket) {
 
 void hookBluetoothSocket(int bluetoothSocket, int targetPort) {
     char buffer[BUF_SIZE] = { 0 };
+    printf("Hooking socket up\n");
     int clientSocket = startLocalClientSocket(targetPort);
+    if(clientSocket < 0) {
+        close(bluetoothSocket);
+        return;
+    }
     while(1) {
         if(pipeData(bluetoothSocket, clientSocket, buffer) < 0) {
             break;
@@ -252,11 +266,12 @@ int setupDbus(DBusConnection** conn) {
     dbus_error_init(&err);
 
     // connect to the bus
-    *conn = dbus_bus_get(DBUS_BUS_SESSION, &err);
+    *conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
     if (dbus_error_is_set(&err)) { 
         printf("ERR: Failed DBus connection (%s)\n", err.message); 
         dbus_error_free(&err); 
     }
+    dbus_error_free(&err); 
     if (NULL == conn) { 
         return -1;
     }
@@ -268,7 +283,6 @@ int setupDbus(DBusConnection** conn) {
 int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort) {
     DBusMessage* msg;
     DBusMessageIter args, options, entry, variant;
-    DBusPendingCall* pending;
     char* portKey;
 
     msg = dbus_message_new_method_call("org.bluez", // target for the method call
@@ -303,27 +317,18 @@ int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t blue
     dbus_message_iter_close_container(&args, &options);
 
     // send message and get a handle for a reply
-    if (!dbus_connection_send_with_reply (conn, msg, &pending, -1)) { // -1 is default timeout
+    DBusError err;
+    // initialise the errors
+    dbus_error_init(&err);
+    if (!dbus_connection_send_with_reply_and_block (conn, msg, -1, &err)) { // -1 is default timeout
+        printf("ERR: Failed DBus Send request (%s)\n", err.message); 
         dbus_message_unref(msg);
-        printf("ERR: DBus Out Of Memory!\n"); 
+        dbus_error_free(&err); 
         return -10;
     }
-    if (NULL == pending) {
-        dbus_message_unref(msg);
-        printf("ERR: Pending Call Null\n"); 
-        return -11;
-    }
+
+    dbus_error_free(&err); 
     dbus_connection_flush(conn);
-
-    // free message
     dbus_message_unref(msg);
-
-    return handleUuidDbusReply(pending);
-}
-
-//Taken from http://www.matthew.ath.cx/misc/dbus
-int handleUuidDbusReply(DBusPendingCall* pending) {
-    // block until we receive a reply
-    dbus_pending_call_block(pending);
     return 0;
 }
