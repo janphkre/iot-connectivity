@@ -103,6 +103,8 @@ ConnectivityService >> ipService: interfaceName [
 { #category : #events }
 ConnectivityService >> ipService: interfaceName retryCount: retryCount [
 	| status ip ipServiceValues ipServiceDescription |
+	retryCount <= 0
+	ifTrue: [ ^ nil ].
 	UIManager default inform: 'Creating an ip service for ', interfaceName.
 	(LWpaInterface onName: interfaceName) ifNotNil: [ :interface |
 		status := interface status. ] ifNil: [ 
