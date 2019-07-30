@@ -21,6 +21,9 @@ buildscript {
         rxandroid_version = '1.2.1'
         gson_version = '2.8.2'
         retrofit_version = '2.3.0'
+        chucker_version = '2.0.4'
+
+        test_junit_version = '4.12'
     }
 
     repositories {

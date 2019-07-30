@@ -32,7 +32,9 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
                     { _, _, _ -> }, { fullDomainName, txtRecordMap, wifiP2pDevice ->
                     if (isValidResult(fullDomainName, wifiP2pDevice)) {
                         try {
-                            subscriber.onNext(Device(wifiP2pDevice, txtRecordMap))
+                            val device = Device(wifiP2pDevice, txtRecordMap)
+                            Timber.e("UUID: ${device.bluetoothDetails.uuid}")
+                            subscriber.onNext(device)
                         } catch (e: Exception) {
                             Timber.e(e)
                             // TODO: DOES RX UNSUBSCRIBE IN ONERROR?

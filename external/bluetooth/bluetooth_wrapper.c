@@ -170,6 +170,9 @@ int pipeData(int sourceSocket, int targetSocket, char* buffer) {
         return -1;
     }
 
+    printf("Piping: from %d to %d\n", sourceSocket, targetSocket);
+    printf("%s\n", buffer);
+
     bytes_sent = send(targetSocket, buffer, bytes_read, 0);
     if(bytes_sent < 0) {
         printf("ERR: send failed\n");
@@ -184,14 +187,14 @@ int pipeData(int sourceSocket, int targetSocket, char* buffer) {
     return 0;
 }
 
+// Adapted from: https://www.cryptosys.net/pki/Uuid.c.html
 int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid) {
     char macAddressString[18];
     ba2str(&bdaddr, macAddressString);
     printf("Mac address is: %s\n", macAddressString);
 
     memcpy(&uuid[0], &bdaddr, 6);
-    memcpy(&uuid[5], service_name, 11);
-    // From: https://www.cryptosys.net/pki/Uuid.c.html
+    memcpy(&uuid[6], service_name, 11);
     // 2. Adjust certain bits according to RFC 4122 section 4.4.
     // This just means do the following
     // (a) set the high nibble of the 7th byte equal to 4 and
@@ -203,7 +206,7 @@ int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid) {
     return 0;
 }
 
-// Mostly taken from: https://people.csail.mit.edu/albert/bluez-intro/x604.html
+// Mostly taken from: https://leonardoce.wordpress.com/2015/03/11/dbus-tutorial-using-the-low-level-api/
 int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection* conn, uint16_t bluetoothPort) {
     uint8_t uuid[UUID_BYTES];
     memset(uuid, 0, UUID_BYTES);

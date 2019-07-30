@@ -155,10 +155,10 @@ class DeviceAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHo
 
         fun bind(device: Device) {
             titleTextView.text = device.userIdentifier
-            subtitleTextView.text = device.address
+            subtitleTextView.text = device.wifiDetails.address
             detailsTextView.text = when (device.connectionStatus) {
                 ConnectionStatus.COMPLETED -> {
-                    detailsTextView.resources.getString(R.string.connection_status_up, device.ip)
+                    detailsTextView.resources.getString(R.string.connection_status_up, device.wifiDetails.ip)
                 }
                 ConnectionStatus.DISCONNECTED -> {
                     detailsTextView.resources.getString(R.string.connection_status_disconnected)
