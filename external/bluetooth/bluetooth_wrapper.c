@@ -12,18 +12,18 @@
 
 #define BUF_SIZE 8192
 #define LISTEN_QUEUE_SIZE 4
+#define UUID_BYTES 16
 #define DBUS_MPRIS_BUS_NAME "com.github.janphkre.httpwrapper"
-#define DBUS_INSTANCE_ID_PREFIX "instance"
 
 int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr);
 int acceptBluetoothSocket(int serverSocket);
 void hookBluetoothSocket(int bluetoothSocket, int targetPort);
 int startLocalClientSocket(int targetPort);
 int pipeData(int sourceSocket, int targetSocket, char* buffer);
-int generateUuid(bdaddr_t bdaddr, const char* service_name, uint32_t* uuid);
-int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection** conn);
-int setubDbus();
-int registerUuidDbus(const char* bluetoothDevice, const char* uuidString);
+int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid);
+int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection* conn, uint16_t bluetoothPort);
+int setupDbus(DBusConnection** conn);
+int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort);
 int handleUuidDbusReply(DBusPendingCall* pending);
 
 int main(int argc, char **argv) {
@@ -46,41 +46,39 @@ int main(int argc, char **argv) {
         printf("ERR: Bluetooth device id is not an integer!\n");
         return -4;
     }
+    printf("Using service %s\n", argv[4]);
     service_name = argv[4];
-    if(sizeof(service_name) < 8) {
-        printf("ERR: The service name should have at least 8 letters.\n");
+    if(strlen(service_name) < 12) {
+        printf("ERR: The service name should have at least 11 characters. (%ld)\n", sizeof(service_name));
         return -5;
     }
 
     bdaddr_t bdaddr = { 0 };
     if(hci_devba(bluetoothDevice, &bdaddr) < 0) {
         printf("ERR: No device found for the given device id %i.\n", bluetoothDevice);
-        return -6;
+        return -10;
     }
     int bluetoothSocket = startBluetoothServerSocket(bluetoothPort, bdaddr);
     if (bluetoothSocket < 0) {
-        return -7;
+        return -11;
     }
 
-    const char* bluetoothDeviceString = strcat("hci", argv[3]);
     DBusConnection* conn;
-    const char* uuidString = generateUuid(bdaddr, service_name, service_uuid_int);
-
-    if (defineService(bluetoothPort, bdaddr, bluetoothDeviceString, service_name, "", "", &conn, uuidString)) {
-        printf("ERR: Failed to define the service!\n");
-        if(NULL != conn) {
-            dbus_connection_close(conn);
-        }
-        close(bluetoothSocket);
-        return -8;
+    if(setupDbus(&conn) < 0) {
+        return -12;
     }
-return 0;
+
+    if (defineService(bdaddr, service_name, conn, bluetoothPort)) {
+        printf("ERR: Failed to define the service!\n");
+        close(bluetoothSocket);
+        return -13;
+    }
+
     while(1) {
         int client = acceptBluetoothSocket(bluetoothSocket);
         hookBluetoothSocket(client, serverPort);
     }
-    unregisterUuidDbus(bluetoothDeviceString, uuidString);//TODO!
-    dbus_connection_close(conn);
+
     close(bluetoothSocket);
     printf("\n");
     return 0;
@@ -186,41 +184,58 @@ int pipeData(int sourceSocket, int targetSocket, char* buffer) {
     return 0;
 }
 
-int generateUuid(bdaddr_t bdaddr, const char* service_name, uint32_t* uuid) {
-    uint8_t* macAddress = (uint8_t*) &bdaddr;
+int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid) {
     char macAddressString[18];
     ba2str(&bdaddr, macAddressString);
     printf("Mac address is: %s\n", macAddressString);
 
-    uuid[0] = macAddress[0];
-    uuid[0] = (uuid[0] << 8) + macAddress[1];
-    uuid[0] = (uuid[0] << 8) + macAddress[2];
-    uuid[0] = (uuid[0] << 8) + macAddress[3];
-    uuid[1] = (macAddress[4] << 8) + macAddress[5];
-    uuid[2] = service_name[0];
-    uuid[2] = (uuid[2] << 8) + service_name[1];
-    uuid[2] = (uuid[2] << 8) + service_name[2];
-    uuid[2] = (uuid[0] << 8) + service_name[3];
-    uuid[3] = service_name[4];
-    uuid[3] = (uuid[3] << 8) + service_name[5];
-    uuid[3] = (uuid[3] << 8) + service_name[6];
-    uuid[3] = (uuid[3] << 8) + service_name[7];
+    memcpy(&uuid[0], &bdaddr, 6);
+    memcpy(&uuid[5], service_name, 11);
+    // From: https://www.cryptosys.net/pki/Uuid.c.html
+    // 2. Adjust certain bits according to RFC 4122 section 4.4.
+    // This just means do the following
+    // (a) set the high nibble of the 7th byte equal to 4 and
+    // (b) set the two most significant bits of the 9th byte to 10'B,
+    //     so the high nibble will be one of {8,9,A,B}.
+    uuid[6] = 0x40 | (uuid[6] & 0xf);
+    uuid[8] = 0x80 | (uuid[8] & 0x3f);
+
     return 0;
 }
 
 // Mostly taken from: https://people.csail.mit.edu/albert/bluez-intro/x604.html
-int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection** conn) {
-    uint32_t uuid[4] = { 0, 0, 0, 0 };
+int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection* conn, uint16_t bluetoothPort) {
+    uint8_t uuid[UUID_BYTES];
+    memset(uuid, 0, UUID_BYTES);
     if(generateUuid(bdaddr, service_name, uuid) < 0) {
         return -1;
     }
-    //TODO: CONVERT UUID INT ARRAY TO STRING!!!
-    if(setupDbus(conn) < 0) {
-        return -2;
+
+    char uuidString[37];
+    for(int i=0;i<4;i++) {
+        sprintf(&uuidString[i*2+0], "%02x", uuid[i]);
     }
+    uuidString[8] = '-';
+    for(int i=0;i<2;i++) {
+        sprintf(&uuidString[i*2+9], "%02x", uuid[i+4]);
+    }
+    uuidString[13] = '-';
+    for(int i=0;i<4;i++) {
+        sprintf(&uuidString[i*2+14], "%02x", uuid[i+6]);
+    }
+    uuidString[18] = '-';
+    for(int i=0;i<2;i++) {
+        sprintf(&uuidString[i*2+19], "%02x", uuid[i+8]);
+    }
+    uuidString[23] = '-';
+    for(int i=0;i<6;i++) {
+        sprintf(&uuidString[i*2+24], "%02x", uuid[i+10]);
+    }
+    uuidString[36] = '\0';
     
-    if(registerUuidDbus() < 0) {
-        dbus_connection_close(*conn);
+    printf("Using Uuid: %s\n", uuidString);
+
+    if(registerUuidDbus(conn, uuidString, bluetoothPort) < 0) {
         return -3;
     }
 
@@ -228,9 +243,8 @@ int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection** co
 }
 
 //Taken from http://www.matthew.ath.cx/misc/dbus
-int setubDbus(DBusConnection** conn) {
+int setupDbus(DBusConnection** conn) {
     DBusError err;
-    int ret;
     // initialise the errors
     dbus_error_init(&err);
 
@@ -248,21 +262,12 @@ int setubDbus(DBusConnection** conn) {
 
 //Taken from http://www.matthew.ath.cx/misc/dbus
 //Documentation for bluez method can be found at https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/network-api.txt
-int registerUuidDbus(DBusConnection* conn, const char* bluetoothDevice, const char* uuidString, uint16_t bluetoothPort) {
+int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort) {
     DBusMessage* msg;
     DBusMessageIter args, options, entry, variant;
     DBusPendingCall* pending;
-    char* portKey, uniqueName;
-    char unique_service[sizeof( DBUS_MPRIS_BUS_NAME ) + sizeof( DBUS_INSTANCE_ID_PREFIX ) + sizeof(uniqueName)];
+    char* portKey;
 
-    uniqueName = dbus_bus_get_unique_name(conn);
-
-    snprintf( unique_service, sizeof (unique_service), DBUS_MPRIS_BUS_NAME"."DBUS_INSTANCE_ID_PREFIX""uniqueName);
-
-    if( dbus_bus_request_name( conn, unique_service, 0, NULL) != DBUS_REQUEST_NAME_REPLY_PRIMARY_OWNER) {
-        printf("ERR: DBus Object could not be obtained\n");
-        return -1;
-    }
     msg = dbus_message_new_method_call("org.bluez", // target for the method call
         "/org/bluez", // object to call on
         "org.bluez.ProfileManager1", // interface to call on
@@ -273,8 +278,9 @@ int registerUuidDbus(DBusConnection* conn, const char* bluetoothDevice, const ch
     }
 
     // append arguments
+    const char* service_path = "/";
     dbus_message_iter_init_append(msg, &args);
-    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_OBJECT, &unique_service)) { 
+    if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_OBJECT_PATH, &service_path)) {
         printf("ERR: DBus Out Of Memory!\n"); 
         return -3;
     }
@@ -284,8 +290,7 @@ int registerUuidDbus(DBusConnection* conn, const char* bluetoothDevice, const ch
     }
 
     portKey = "port";
-    //Dictionary entry type is "string variant"
-    dbus_message_iter_open_container( args, DBUS_TYPE_ARRAY, "{sv}", &options);
+    dbus_message_iter_open_container(&args, DBUS_TYPE_ARRAY, "{sv}", &options);
     dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
     dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &portKey);
     dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_UINT16_AS_STRING, &variant);
