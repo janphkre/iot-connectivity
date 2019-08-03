@@ -7,7 +7,7 @@ import okhttp3.Interceptor
 import okhttp3.internal.cache.InternalCache
 import okhttp3.internal.http.HttpCodec
 
-interface HttpWrapper: Call.Factory {
+interface HttpWrapper : Call.Factory {
     fun interceptors(): Collection<Interceptor>
     fun networkInterceptors(): Collection<Interceptor>
 

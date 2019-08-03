@@ -6,7 +6,7 @@ import okhttp3.Response
 import java.io.IOException
 import java.util.concurrent.Semaphore
 
-class SyncResponseCallback: Callback {
+class SyncResponseCallback : Callback {
 
     private val semaphore = Semaphore(0)
     private var exception: Exception? = null
@@ -32,7 +32,7 @@ class SyncResponseCallback: Callback {
 
     fun awaitComplete(): Response {
         semaphore.acquire()
-        if(isSuccess()) {
+        if (isSuccess()) {
             return response!!
         } else {
             throw exception ?: IllegalStateException("Call completed but no response or exception received")

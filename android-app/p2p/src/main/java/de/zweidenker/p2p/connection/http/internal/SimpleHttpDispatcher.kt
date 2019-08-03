@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit
 
 class SimpleHttpDispatcher(
     private val wrapper: HttpWrapper
-): HttpDispatcher, Runnable {
+) : HttpDispatcher, Runnable {
 
     /** Executes calls. Created lazily.  */
     private val executorService by lazy {
@@ -36,7 +36,7 @@ class SimpleHttpDispatcher(
         val callPair = Pair(call, responseCallback)
         synchronized(this) {
             readyAsyncCalls.addLast(callPair)
-            if(readyAsyncCalls.size == 1) {
+            if (readyAsyncCalls.size == 1) {
                 executorService.execute(this)
             }
         }
@@ -47,7 +47,7 @@ class SimpleHttpDispatcher(
         val callPair = Pair(call, callback)
         synchronized(this) {
             readyAsyncCalls.addFirst(callPair)
-            if(readyAsyncCalls.size == 1) {
+            if (readyAsyncCalls.size == 1) {
                 executorService.execute(this)
             }
         }
@@ -70,7 +70,7 @@ class SimpleHttpDispatcher(
     }
 
     private fun unsafeRun() {
-        while(true) {
+        while (true) {
             val callPair = synchronized(this) {
                 if (readyAsyncCalls.isNotEmpty())
                     readyAsyncCalls.removeFirst()
@@ -80,7 +80,7 @@ class SimpleHttpDispatcher(
             try {
                 val response = unsafeExecute(callPair.first)
                 callPair.second.onResponse(callPair.first, response)
-            } catch(e: IOException) {
+            } catch (e: IOException) {
                 callPair.second.onFailure(callPair.first, e)
             }
         }
@@ -94,19 +94,20 @@ class SimpleHttpDispatcher(
         interceptors.add(BridgeInterceptor(wrapper.cookieJar()))
         interceptors.add(CacheInterceptor(wrapper.internalCache()))
         interceptors.addAll(wrapper.networkInterceptors())
-        interceptors.add(SimpleServerInterceptor())
+        interceptors.add(SimpleServerInterceptor(wrapper.httpCodec()))
 
-        val chain = RealInterceptorChain(interceptors, null, wrapper.httpCodec(), null, 0,
+        val chain = RealInterceptorChain(interceptors, null, null, null, 0,
             call.request(), call, null, wrapper.connectTimeoutMillis(),
             wrapper.readTimeoutMillis(), wrapper.writeTimeoutMillis())
 
+        // TODO: CRASHING BECAUSE CONNECTION ABOVE IS NULL ( Attempt to invoke virtual method 'boolean okhttp3.internal.connection.RealConnection.supportsUrl(okhttp3.HttpUrl)' on a null object reference)
         return chain.proceed(call.request()).also {
             call.ensureCanceled()
         }
     }
 
     private fun Call.ensureCanceled() {
-        if(isCanceled) {
+        if (isCanceled) {
             throw IOException("canceled")
         }
     }

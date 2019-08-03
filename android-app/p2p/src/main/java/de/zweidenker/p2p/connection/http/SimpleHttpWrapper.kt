@@ -21,10 +21,14 @@ class SimpleHttpWrapper(
     private val writeTimeout: Int,
     private val readTimeout: Int,
     private val httpStream: SimpleConnectionStream
-): HttpWrapper {
+) : HttpWrapper {
 
     private val cookieJar = CookieJar.NO_COOKIES
     private val httpDispatcher = SimpleHttpDispatcher(this)
+
+    init {
+        httpStream.wrapper = this
+    }
 
     override fun interceptors(): Collection<Interceptor> = interceptors
 
@@ -104,6 +108,5 @@ class SimpleHttpWrapper(
                 httpStream ?: throw IllegalArgumentException("You must set a http stream")
             )
         }
-
     }
 }

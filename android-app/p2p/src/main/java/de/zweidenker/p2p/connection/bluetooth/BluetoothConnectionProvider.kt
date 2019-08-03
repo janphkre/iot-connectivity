@@ -11,9 +11,8 @@ import de.zweidenker.p2p.connection.http.SimpleHttpWrapper
 import de.zweidenker.p2p.model.Device
 import okio.Okio
 import rx.Observable
-import timber.log.Timber
 
-class BluetoothConnectionProvider: DeviceConnectionProvider {
+class BluetoothConnectionProvider : DeviceConnectionProvider {
 
     private var bluetoothConnection: SimpleConnectionStream? = null
     private var bluetoothSocket: BluetoothSocket? = null
@@ -22,7 +21,7 @@ class BluetoothConnectionProvider: DeviceConnectionProvider {
         return Observable.unsafeCreate<DeviceConfigurationProvider> { subscriber ->
             val socket = try {
                 connect(device)
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 subscriber.onError(e)
                 return@unsafeCreate
             }
@@ -37,7 +36,6 @@ class BluetoothConnectionProvider: DeviceConnectionProvider {
                     .build()
                 subscriber.onNext(DeviceConfigurationProvider.getInstance(simpleHttpWrapper, device, "bluetooth"))
                 subscriber.onCompleted()
-
         }
     }
 
@@ -45,24 +43,19 @@ class BluetoothConnectionProvider: DeviceConnectionProvider {
         val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()
             ?: throw UnsupportedOperationException("Device does not support Bluetooth")
 
-        if(!bluetoothAdapter.isEnabled) {
+        if (!bluetoothAdapter.isEnabled) {
             bluetoothAdapter.enable()
             Thread.sleep(P2PModule.BLUETOOTH_ENABLE_SLEEP_MS)
         }
+
         val bluetoothDevice = bluetoothAdapter.bondedDevices?.firstOrNull { device ->
             device.address == beaconDevice.bluetoothDetails.mac
         } ?: bluetoothAdapter.getRemoteDevice(beaconDevice.bluetoothDetails.mac)
 
-        //TODO: bluetoothDevice.setPairingConfirmation(true)//or false? what do we want?
-        if(!bluetoothDevice.fetchUuidsWithSdp()) {
-            Timber.e("Failed to fetch uuids with sdp!")
-        } else {
-            Thread.sleep(15000)
-            Timber.e(bluetoothDevice.uuids?.joinToString("\n",prefix= "Fetched remote uuids:\n"))
-        }
-        val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
+        // TODO: bluetoothDevice.setPairingConfirmation(true)//or false? what do we want?
         bluetoothAdapter.cancelDiscovery()
-        socket.connect() //FIXME: java.io.IOException: read failed, socket might closed or timeout, read ret: -1
+        val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
+        socket.connect()
         return socket
     }
 

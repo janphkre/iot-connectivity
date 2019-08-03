@@ -87,8 +87,8 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
     @Throws(Exception::class)
     override fun getBeacons(): Observable<Device> = Observable.unsafeCreate<Device> { subscriber ->
         subscriber.onNext(Device(
-            0L,"MockDevice", ConnectionStatus.UNKNOWN,
-            WifiDetails("MockAddress",1234,"192.168.180.2"),
+            0L, "MockDevice", ConnectionStatus.UNKNOWN,
+            WifiDetails("MockAddress", 1234, "192.168.180.2"),
             BluetoothDetails("MockBluetoothAddress", UUID.randomUUID()),
             System.currentTimeMillis()))
         if (wifiManager == null || wifiChannel == null) {

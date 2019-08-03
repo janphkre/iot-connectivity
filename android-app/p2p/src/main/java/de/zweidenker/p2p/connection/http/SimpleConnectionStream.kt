@@ -1,7 +1,7 @@
 package de.zweidenker.p2p.connection.http
 
+import de.zweidenker.p2p.connection.http.internal.SimpleHttp1Codec
 import okhttp3.internal.http.HttpCodec
-import okhttp3.internal.http1.Http1Codec
 import okio.Okio
 import okio.Sink
 import okio.Source
@@ -14,7 +14,10 @@ class SimpleConnectionStream(
     private val bufferedSink = Okio.buffer(sink)
     private val bufferedSource = Okio.buffer(source)
 
+    internal lateinit var wrapper: HttpWrapper
+
     fun newCodec(): HttpCodec {
-        return Http1Codec(null, null, bufferedSource, bufferedSink)
+
+        return SimpleHttp1Codec(wrapper, bufferedSource, bufferedSink)
     }
 }

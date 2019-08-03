@@ -2,16 +2,18 @@ package de.zweidenker.p2p.connection.http.internal
 
 import okhttp3.Interceptor
 import okhttp3.Response
+import okhttp3.internal.http.HttpCodec
 import okhttp3.internal.http.HttpMethod
 import okhttp3.internal.http.RealInterceptorChain
 import okio.Okio
 import java.net.ProtocolException
 
-class SimpleServerInterceptor: Interceptor {
+class SimpleServerInterceptor(
+    private val httpCodec: HttpCodec
+) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
         val realInterceptorChain = chain as RealInterceptorChain
-        val httpCodec = realInterceptorChain.httpStream()
         val request = realInterceptorChain.request()
         val sentRequestMillis = System.currentTimeMillis()
         httpCodec.writeRequestHeaders(request)
