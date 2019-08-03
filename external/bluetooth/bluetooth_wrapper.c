@@ -108,7 +108,7 @@ int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr) {
     // bind socket to the specified port of the first available 
     // local bluetooth adapter
     loc_addr.rc_family = AF_BLUETOOTH;
-    loc_addr.rc_bdaddr = bdaddr;
+    loc_addr.rc_bdaddr = *BDADDR_ANY;
     loc_addr.rc_channel = (uint8_t) bluetoothPort;
     bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
 
@@ -127,6 +127,7 @@ int acceptBluetoothSocket(int serverSocket) {
     socklen_t opt = sizeof(rem_addr);
 
     // accept one connection
+    printf("Accepting a connection.\n");
     return accept(serverSocket, (struct sockaddr *)&rem_addr, &opt);
 }
 
@@ -281,9 +282,9 @@ int setupDbus(DBusConnection** conn) {
 //Taken from http://www.matthew.ath.cx/misc/dbus
 //Documentation for bluez method can be found at https://git.kernel.org/pub/scm/bluetooth/bluez.git/tree/doc/network-api.txt
 int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort) {
-    DBusMessage* msg;
+    DBusMessage *msg;
     DBusMessageIter args, options, entry, variant;
-    char* portKey;
+    char *key, *value;
 
     msg = dbus_message_new_method_call("org.bluez", // target for the method call
         "/org/bluez", // object to call on
@@ -306,14 +307,54 @@ int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t blue
         return -4;
     }
 
-    portKey = "port";
     dbus_message_iter_open_container(&args, DBUS_TYPE_ARRAY, "{sv}", &options);
+
+
+    key = "Channel";
     dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
-    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &portKey);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &key);
     dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_UINT16_AS_STRING, &variant);
     dbus_message_iter_append_basic(&variant, DBUS_TYPE_UINT16, &bluetoothPort);
     dbus_message_iter_close_container(&entry, &variant);
     dbus_message_iter_close_container(&options, &entry);
+
+    key = "Name";
+    value = "Port-Wrapper";
+    dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &key);
+    dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_STRING_AS_STRING, &variant);
+    dbus_message_iter_append_basic(&variant, DBUS_TYPE_STRING, &value);
+    dbus_message_iter_close_container(&entry, &variant);
+    dbus_message_iter_close_container(&options, &entry);
+
+    key = "Role";
+    value = "server";
+    dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &key);
+    dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_STRING_AS_STRING, &variant);
+    dbus_message_iter_append_basic(&variant, DBUS_TYPE_STRING, &value);
+    dbus_message_iter_close_container(&entry, &variant);
+    dbus_message_iter_close_container(&options, &entry);
+
+    key = "RequireAuthentication";
+    int boolean = FALSE;
+    dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &key);
+    dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_BOOLEAN_AS_STRING, &variant);
+    dbus_message_iter_append_basic(&variant, DBUS_TYPE_BOOLEAN, &boolean);
+    dbus_message_iter_close_container(&entry, &variant);
+    dbus_message_iter_close_container(&options, &entry);
+
+    key = "RequireAuthorization";
+    boolean = FALSE;
+    dbus_message_iter_open_container(&options, DBUS_TYPE_DICT_ENTRY, NULL, &entry);
+    dbus_message_iter_append_basic(&entry, DBUS_TYPE_STRING, &key);
+    dbus_message_iter_open_container(&entry, DBUS_TYPE_VARIANT, DBUS_TYPE_BOOLEAN_AS_STRING, &variant);
+    dbus_message_iter_append_basic(&variant, DBUS_TYPE_BOOLEAN, &boolean);
+    dbus_message_iter_close_container(&entry, &variant);
+    dbus_message_iter_close_container(&options, &entry);
+
+
     dbus_message_iter_close_container(&args, &options);
 
     // send message and get a handle for a reply
@@ -330,5 +371,6 @@ int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t blue
     dbus_error_free(&err); 
     dbus_connection_flush(conn);
     dbus_message_unref(msg);
+
     return 0;
 }
