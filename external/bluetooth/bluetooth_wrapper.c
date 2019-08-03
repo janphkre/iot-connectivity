@@ -3,20 +3,25 @@
 #include <bluetooth/bluetooth.h>
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
-#include <bluetooth/rfcomm.h>
 #include <dbus/dbus.h>
+#include <semaphore.h>
+#include <pthread.h>
 #include <stdio.h>
-#include <sys/socket.h>
-#include <sys/types.h>
 #include <unistd.h>
 
 #define BUF_SIZE 8192
 #define LISTEN_QUEUE_SIZE 4
 #define UUID_BYTES 16
-#define DBUS_MPRIS_BUS_NAME "com.github.janphkre.httpwrapper"
+#define PROFILE_PATH "/HttpWrapper"
+#define DBUS_TIMEOUT 30000
 
-int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr);
-int acceptBluetoothSocket(int serverSocket);
+volatile int shouldLoop = TRUE;
+volatile int current_fd = -1;
+static sem_t semaphore;
+
+int acquireSocket();
+int startHookingThread(pthread_t* thread, int serverPort);
+void* hookingThread(void* data);
 void hookBluetoothSocket(int bluetoothSocket, int targetPort);
 int startLocalClientSocket(int targetPort);
 int pipeData(int sourceSocket, int targetSocket, char* buffer);
@@ -24,6 +29,12 @@ int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid);
 int defineService(bdaddr_t bdaddr, const char* service_name, DBusConnection* conn, uint16_t bluetoothPort);
 int setupDbus(DBusConnection** conn);
 int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort);
+int registerProfileDbus(DBusConnection* conn);
+static DBusHandlerResult wrapper_messages(DBusConnection *connection, DBusMessage *message, void *user_data);
+static void respond_to_introspect(DBusConnection *connection, DBusMessage *request);
+void profileRelease();
+int profileNewConnection(DBusMessage *request);
+void profileRequestDisconnection();
 
 int main(int argc, char **argv) {
     int serverPort, bluetoothPort, bluetoothDevice;
@@ -57,89 +68,95 @@ int main(int argc, char **argv) {
         printf("ERR: No device found for the given device id %i.\n", bluetoothDevice);
         return -10;
     }
-    int bluetoothSocket = startBluetoothServerSocket(bluetoothPort, bdaddr);
-    if (bluetoothSocket < 0) {
-        return -11;
-    }
 
     DBusConnection* conn;
     if(setupDbus(&conn) < 0) {
-        return -12;
+        return -11;
     }
 
-    if (defineService(bdaddr, service_name, conn, bluetoothPort) < 0) {
+
+    if(defineService(bdaddr, service_name, conn, bluetoothPort) < 0) {
         printf("ERR: Failed to define the service!\n");
-        close(bluetoothSocket);
         return -13;
     }
 
-    /*if(startDbusDiscovery() < 0) {
+    if(sem_init(&semaphore, 0, 0) < 0) {
+        printf("ERR: Failed to create a semaphore!\n");
+        return -12;
+    }
+
+    if(registerProfileDbus(conn) < 0) {
+        sem_destroy(&semaphore);
+        return -14;
+    }
+
+//TODO:
+    /*if(startDbusDiscoverability() < 0) {
        printf("ERR: Failed start discovery!\n");
         close(bluetoothSocket);
         return -14;
     }*/
 
-    while(1) {
-        int client = acceptBluetoothSocket(bluetoothSocket);
-	if(client < 0) {
-            printf("ERR: Accept failed\n");
-            continue;
-        }
-        hookBluetoothSocket(client, serverPort);
+    //TODO: SETUP HOOKER THREAD
+    pthread_t thread;
+    if(startHookingThread(&thread, serverPort) < 0) {
+        profileRequestDisconnection();
+        sem_destroy(&semaphore);
+        return -15;
     }
 
-    close(bluetoothSocket);
+    while(shouldLoop) {
+        dbus_connection_read_write_dispatch(conn, DBUS_TIMEOUT);
+    }
+
+    pthread_cancel(thread);
+    profileRequestDisconnection();
+    sem_destroy(&semaphore);
     printf("\n");
     return 0;
 }
 
-//Mostly taken from : https://people.csail.mit.edu/albert/bluez-intro/x502.html#rfcomm-server.c
-int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr) {
-    struct sockaddr_rc loc_addr = { 0 };
-    int s;
-
-    // allocate socket
-    s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-    if (s == -1) {
-        printf("ERR: Could not create bluetooth socket.\n");
+int acquireSocket() {
+    printf("Awaiting connection...\n");
+    int fd;
+    sem_wait(&semaphore);
+    fd = current_fd;
+    if(fd < 0) {
         return -1;
     }
-
-    // bind socket to the specified port of the first available 
-    // local bluetooth adapter
-    loc_addr.rc_family = AF_BLUETOOTH;
-    loc_addr.rc_bdaddr = *BDADDR_ANY;
-    loc_addr.rc_channel = (uint8_t) bluetoothPort;
-    bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
-
-    // put socket into listening mode
-    if(listen(s, LISTEN_QUEUE_SIZE) < 0) {
-        printf("ERR: Failed to listen on bluetooth socket.\n");
-        close(s);
-        return -2;
-    }
-
-    return s;
+    return fd;
 }
 
-int acceptBluetoothSocket(int serverSocket) {
-    struct sockaddr_rc rem_addr = { 0 };
-    socklen_t opt = sizeof(rem_addr);
+int startHookingThread(pthread_t* thread, int serverPort) {
+    if(pthread_create(thread, NULL, hookingThread, &serverPort) != 0) {
+        printf("ERR: Failed to start the hooking thread.\n");
+        return -1;
+    }
+    return 0;
+}
 
-    // accept one connection
-    printf("Accepting a connection.\n");
-    return accept(serverSocket, (struct sockaddr *)&rem_addr, &opt);
+void* hookingThread(void* data) {
+    int serverPort = *((int*) data);
+    while(shouldLoop) {
+        int client = acquireSocket();
+        if(client < 0) {
+            printf("ERR: Accept failed.\n");
+            continue;
+        }
+        hookBluetoothSocket(client, serverPort);
+    }
+    return NULL;
 }
 
 void hookBluetoothSocket(int bluetoothSocket, int targetPort) {
     char buffer[BUF_SIZE] = { 0 };
-    printf("Hooking socket up\n");
+    printf("Hooking socket up.\n");
     int clientSocket = startLocalClientSocket(targetPort);
     if(clientSocket < 0) {
         close(bluetoothSocket);
         return;
     }
-    while(1) {
+    while(shouldLoop) {
         if(pipeData(bluetoothSocket, clientSocket, buffer) < 0) {
             break;
         }
@@ -169,7 +186,7 @@ int startLocalClientSocket(int targetPort) {
     rem_addr.sin_port = htons(targetPort);
 
     if (connect(s, (struct sockaddr *)&rem_addr , sizeof(rem_addr)) < 0) {
-        printf("ERR: Connect failed.\n");
+        printf("ERR: Connect failed.\n");//TODO FAILING HERE!
         close(s);
         return -2;
     }
@@ -270,11 +287,12 @@ int setupDbus(DBusConnection** conn) {
     *conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
     if (dbus_error_is_set(&err)) { 
         printf("ERR: Failed DBus connection (%s)\n", err.message); 
-        dbus_error_free(&err); 
+        dbus_error_free(&err);
+        return -1;
     }
     dbus_error_free(&err); 
     if (NULL == conn) { 
-        return -1;
+        return -2;
     }
     return 0;
 }
@@ -296,7 +314,7 @@ int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t blue
     }
 
     // append arguments
-    const char* service_path = "/";
+    const char* service_path = PROFILE_PATH;
     dbus_message_iter_init_append(msg, &args);
     if (!dbus_message_iter_append_basic(&args, DBUS_TYPE_OBJECT_PATH, &service_path)) {
         printf("ERR: DBus Out Of Memory!\n"); 
@@ -373,4 +391,83 @@ int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t blue
     dbus_message_unref(msg);
 
     return 0;
+}
+
+/* Mostly taken from https://leonardoce.wordpress.com/2015/04/01/dbus-tutorial-a-simple-server/ */
+int registerProfileDbus(DBusConnection* conn) {
+    DBusError err;
+    DBusObjectPathVTable vtable;
+    // initialise the errors
+    dbus_error_init(&err);
+
+    vtable.message_function = wrapper_messages;
+    vtable.unregister_function = NULL;
+
+    dbus_connection_try_register_object_path(conn,
+        PROFILE_PATH,
+        &vtable, NULL, &err);
+    if (dbus_error_is_set(&err)) {
+        printf("ERR: Failed DBus register object (%s)\n", err.message);
+        dbus_error_free(&err);
+        return -2;
+    }
+
+    dbus_error_free(&err);
+    return 0;
+}
+
+/* Mostly taken from https://leonardoce.wordpress.com/2015/04/01/dbus-tutorial-a-simple-server/ */
+static DBusHandlerResult wrapper_messages(DBusConnection *connection, DBusMessage *message, void *user_data) {
+    const char *interface_name = dbus_message_get_interface(message);
+        const char *member_name = dbus_message_get_member(message);
+
+        if (0==strcmp("org.bluez.Profile1", interface_name)) {
+            if(0==strcmp("Release", member_name)) {
+                profileRelease();
+                return DBUS_HANDLER_RESULT_HANDLED;
+            } else if(0==strcmp("NewConnection", member_name)) {
+                profileNewConnection(message);
+                return DBUS_HANDLER_RESULT_HANDLED;
+            } else if(0==strcmp("RequestDisconnection", member_name)) {
+                profileRequestDisconnection();
+                return DBUS_HANDLER_RESULT_HANDLED;
+            }
+
+        }
+        return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+}
+
+void profileRelease() {
+    shouldLoop = FALSE;
+}
+
+int profileNewConnection(DBusMessage *request) {
+    int fd;
+    DBusError error;
+    dbus_error_init(&error);
+
+    dbus_message_get_args(request, &error,
+    DBUS_TYPE_INVALID,
+    DBUS_TYPE_UNIX_FD, &fd,
+    DBUS_TYPE_INVALID);
+    if (dbus_error_is_set(&error)) {
+        printf("ERR: Failed DBus obtian param (%s)\n", error.message);
+        dbus_error_free(&error);
+        return -1;
+    }
+
+    sem_trywait(&semaphore);
+    current_fd = fd;
+    sem_post(&semaphore);
+
+    dbus_error_free(&error);
+    return 0;
+}
+
+void profileRequestDisconnection() {
+    sem_trywait(&semaphore);
+    if(current_fd > 0) {
+        close(current_fd);
+        current_fd = -1;
+    }
 }
