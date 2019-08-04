@@ -21,7 +21,6 @@ import okhttp3.HttpUrl
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody
-import okhttp3.internal.Internal
 import okhttp3.internal.Util
 import okhttp3.internal.Util.checkOffsetAndCount
 import okhttp3.internal.http.HttpCodec
@@ -121,7 +120,7 @@ class SimpleHttp1Codec(
             return RealResponseBody(contentType, 0, Okio.buffer(source))
         }
 
-        if ("chunked".equals(response.header("Transfer-Encoding")!!, ignoreCase = true)) {
+        if ("chunked".equals(response.header("Transfer-Encoding"), ignoreCase = true)) {
             val source = newChunkedSource(response.request().url())
             return RealResponseBody(contentType, -1L, Okio.buffer(source))
         }
@@ -209,11 +208,7 @@ class SimpleHttp1Codec(
         // parse the result headers until the first blank line
         var line: String = readHeaderLine()
         while (line.isNotEmpty()) {
-            Internal.instance.addLenient(headers, line) // TODO: CRASH
-            /*
-        java.lang.NullPointerException: Attempt to invoke virtual method 'void okhttp3.internal.Internal.addLenient(okhttp3.Headers$Builder, java.lang.String)' on a null object reference
-            at de.zweidenker.p2p.connection.http.SimpleHttp1Codec.readHeaders(SimpleHttp1Codec.kt:217)
-             */
+            headers.add(line)
             line = readHeaderLine()
         }
         return headers.build()
