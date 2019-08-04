@@ -11,11 +11,9 @@ import okhttp3.internal.http.HttpCodec
 import okio.Okio
 import java.io.IOException
 
-class BluetoothConnectionStream(
+internal class BluetoothConnectionStream(
     private val device: Device
 ) : ConnectionStream {
-
-    private var lastBluetoothSocket: BluetoothSocket? = null
 
     override fun newCodec(httpWrapper: HttpWrapper): HttpCodec {
         val socket = try {
@@ -23,7 +21,6 @@ class BluetoothConnectionStream(
         } catch (e: Exception) {
             throw IOException(e)
         }
-        lastBluetoothSocket = socket
 
         val bluetoothSource = Okio.buffer(Okio.source(socket.inputStream))
         val bluetoothSink = Okio.buffer(Okio.sink(socket.outputStream))
