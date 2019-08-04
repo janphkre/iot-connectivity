@@ -15,7 +15,6 @@ import de.zweidenker.p2p.model.wifi.WifiDetails
 import rx.Observable
 import rx.Subscriber
 import timber.log.Timber
-import java.util.UUID
 
 internal abstract class AbstractBeaconProvider(context: Context, backgroundThreadName: String) : BeaconProvider, AbstractWifiProvider(context, backgroundThreadName) {
 
@@ -33,7 +32,6 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
                     if (isValidResult(fullDomainName, wifiP2pDevice)) {
                         try {
                             val device = Device(wifiP2pDevice, txtRecordMap)
-                            Timber.e("UUID: ${device.bluetoothDetails.uuid}")
                             subscriber.onNext(device)
                         } catch (e: Exception) {
                             Timber.e(e)
@@ -89,7 +87,7 @@ internal abstract class AbstractBeaconProvider(context: Context, backgroundThrea
         subscriber.onNext(Device(
             0L, "MockDevice", ConnectionStatus.UNKNOWN,
             WifiDetails("MockAddress", 1234, "192.168.180.2"),
-            BluetoothDetails("MockBluetoothAddress", UUID.randomUUID()),
+            BluetoothDetails("MockBluetoothAddress", 1),
             System.currentTimeMillis()))
         if (wifiManager == null || wifiChannel == null) {
             val throwable = WifiP2PException("System does not support Wifi Direct!", WifiP2pManager.P2P_UNSUPPORTED)
