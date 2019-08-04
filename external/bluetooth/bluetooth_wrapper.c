@@ -11,7 +11,7 @@
 #include <sys/types.h>
 #include <unistd.h>
 
-#define BUF_SIZE 8192
+#define BUF_SIZE 16384
 #define LISTEN_QUEUE_SIZE 4
 
 typedef struct {
@@ -124,28 +124,28 @@ void hookBluetoothSocket(int bluetoothSocket, int targetPort) {
     printf(" to socket %d.\n", targetSocket);
     pthread_t readThread;
     SocketInfo* targetRead = malloc(sizeof(SocketInfo));
-    targetRead -> readingSocket = bluetoothSocket;
-    targetRead -> writingSocket = targetSocket;
+    targetRead -> readingSocket = targetSocket;
+    targetRead -> writingSocket = bluetoothSocket;
     if(pthread_create(&readThread, NULL, hookSockets, targetRead) != 0) {
-        printf("ERR: Failed to start the target write thread.\n");
+        printf("ERR: Failed to start the target read thread.\n");
         goto free_stuff;
     }
 
     pthread_t writeThread;
     SocketInfo* targetWrite = malloc(sizeof(SocketInfo));
-    targetWrite -> readingSocket = targetSocket;
-    targetWrite -> writingSocket = bluetoothSocket;
+    targetWrite -> readingSocket = bluetoothSocket;
+    targetWrite -> writingSocket = targetSocket;
     if(pthread_create(&writeThread, NULL, hookSockets, targetWrite) != 0) {
-        printf("ERR: Failed to start the target read thread.\n");
+        printf("ERR: Failed to start the target write thread.\n");
         goto free_stuff;
     }
 
     pthread_join(readThread, NULL);
+    pthread_cancel(writeThread);
     pthread_join(writeThread, NULL);
 free_stuff:
     free(targetRead);
     free(targetWrite);
-
     close(bluetoothSocket);
     close(targetSocket);
 }
@@ -154,6 +154,8 @@ void* hookSockets(void* data) {
     SocketInfo sockets = *((SocketInfo*) data);
     char buffer[BUF_SIZE] = { 0 };
     while(pipeData(sockets.readingSocket, sockets.writingSocket, buffer) >= 0) { ;; }
+    close(sockets.readingSocket);
+    close(sockets.writingSocket);
     return NULL;
 }
 
