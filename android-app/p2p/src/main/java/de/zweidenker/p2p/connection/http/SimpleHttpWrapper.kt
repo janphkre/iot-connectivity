@@ -20,15 +20,11 @@ class SimpleHttpWrapper(
     private val connectTimeout: Int,
     private val writeTimeout: Int,
     private val readTimeout: Int,
-    private val httpStream: SimpleConnectionStream
+    private val httpStream: ConnectionStream
 ) : HttpWrapper {
 
     private val cookieJar = CookieJar.NO_COOKIES
     private val httpDispatcher = SimpleHttpDispatcher(this)
-
-    init {
-        httpStream.wrapper = this
-    }
 
     override fun interceptors(): Collection<Interceptor> = interceptors
 
@@ -46,7 +42,7 @@ class SimpleHttpWrapper(
 
     override fun dispatcher(): HttpDispatcher = httpDispatcher
 
-    override fun httpCodec(): HttpCodec = httpStream.newCodec()
+    override fun httpCodec(): HttpCodec = httpStream.newCodec(this)
 
     override fun newCall(request: Request): Call {
         return SimpleCall(this, request)
@@ -59,7 +55,7 @@ class SimpleHttpWrapper(
         private var connectTimeout: Int = 10000
         private var writeTimeout: Int = 10000
         private var readTimeout: Int = 10000
-        private var httpStream: SimpleConnectionStream? = null
+        private var httpStream: ConnectionStream? = null
 
         fun readTimeout(timeout: Long, unit: TimeUnit): Builder {
             readTimeout = Util.checkDuration("timeout", timeout, unit)
@@ -92,7 +88,7 @@ class SimpleHttpWrapper(
             return this
         }
 
-        fun setHttpStream(httpStream: SimpleConnectionStream): Builder {
+        fun setHttpStream(httpStream: ConnectionStream): Builder {
             this.httpStream = httpStream
             return this
         }

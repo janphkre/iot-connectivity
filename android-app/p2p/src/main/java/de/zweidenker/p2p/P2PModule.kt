@@ -23,7 +23,7 @@ object P2PModule : Module {
     internal const val KEY_PORT = "port"
     internal const val KEY_IP = "ip"
     internal const val KEY_BLUETOOTH_MAC = "bluetooth_mac"
-
+    internal const val KEY_BLUETOOTH_PORT = "bluetooth_port"
     internal const val SOCKET_TIMEOUT_MS = 30000
     internal const val PING_PORT = 8890
 

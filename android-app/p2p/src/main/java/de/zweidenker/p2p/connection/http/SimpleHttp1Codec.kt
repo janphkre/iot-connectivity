@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package de.zweidenker.p2p.connection.http.internal
+package de.zweidenker.p2p.connection.http
 
 import android.util.Log
-import de.zweidenker.p2p.connection.http.HttpWrapper
 import okhttp3.Headers
 import okhttp3.HttpUrl
 import okhttp3.Request
@@ -72,10 +71,6 @@ class SimpleHttp1Codec(
 
     internal var state = STATE_IDLE
     private var headerLimit = HEADER_LIMIT.toLong()
-
-    /** Returns true if this connection is closed.  */
-    val isClosed: Boolean
-        get() = state == STATE_CLOSED
 
     override fun createRequestBody(request: Request, contentLength: Long): Sink {
         if ("chunked".equals(request.header("Transfer-Encoding"), ignoreCase = true)) {
@@ -214,7 +209,11 @@ class SimpleHttp1Codec(
         // parse the result headers until the first blank line
         var line: String = readHeaderLine()
         while (line.isNotEmpty()) {
-            Internal.instance.addLenient(headers, line)
+            Internal.instance.addLenient(headers, line)//TODO: CRASH
+            /*
+        java.lang.NullPointerException: Attempt to invoke virtual method 'void okhttp3.internal.Internal.addLenient(okhttp3.Headers$Builder, java.lang.String)' on a null object reference
+            at de.zweidenker.p2p.connection.http.SimpleHttp1Codec.readHeaders(SimpleHttp1Codec.kt:217)
+             */
             line = readHeaderLine()
         }
         return headers.build()
@@ -515,14 +514,14 @@ class SimpleHttp1Codec(
     }
 
     companion object {
-        private val STATE_IDLE = 0 // Idle connections are ready to write request headers.
-        private val STATE_OPEN_REQUEST_BODY = 1
-        private val STATE_WRITING_REQUEST_BODY = 2
-        private val STATE_READ_RESPONSE_HEADERS = 3
-        private val STATE_OPEN_RESPONSE_BODY = 4
-        private val STATE_READING_RESPONSE_BODY = 5
-        private val STATE_CLOSED = 6
-        private val HEADER_LIMIT = 256 * 1024
-        private val NO_CHUNK_YET = -1L
+        private const val STATE_IDLE = 0 // Idle connections are ready to write request headers.
+        private const val STATE_OPEN_REQUEST_BODY = 1
+        private const val STATE_WRITING_REQUEST_BODY = 2
+        private const val STATE_READ_RESPONSE_HEADERS = 3
+        private const val STATE_OPEN_RESPONSE_BODY = 4
+        private const val STATE_READING_RESPONSE_BODY = 5
+        private const val STATE_CLOSED = 6
+        private const val HEADER_LIMIT = 256 * 1024
+        private const val NO_CHUNK_YET = -1L
     }
 }

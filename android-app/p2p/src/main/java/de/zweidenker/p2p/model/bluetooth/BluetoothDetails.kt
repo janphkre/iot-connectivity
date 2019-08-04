@@ -7,22 +7,22 @@ import java.util.UUID
 
 data class BluetoothDetails(
     val mac: String,
-    val uuid: UUID
+    val port: Int
 ) : Parcelable {
 
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",
-        parcel.readSerializable() as UUID
+        parcel.readInt()
     )
 
     constructor(txtRecordMap: Map<String, String>): this(
-        txtRecordMap.getValue(P2PModule.KEY_BLUETOOTH_MAC),
-        generateUuid(txtRecordMap.getValue(P2PModule.KEY_BLUETOOTH_MAC), P2PModule.TYPE_SERVICE)
+        txtRecordMap[P2PModule.KEY_BLUETOOTH_MAC] ?: throw IllegalArgumentException("Missing Bluetooth mac address!"),
+        txtRecordMap[P2PModule.KEY_BLUETOOTH_PORT]?.toIntOrNull() ?: throw IllegalArgumentException("Missing Bluetooth port!")
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(mac)
-        parcel.writeSerializable(uuid)
+        parcel.writeInt(port)
     }
 
     override fun describeContents(): Int {
@@ -33,7 +33,7 @@ data class BluetoothDetails(
         if (other !is BluetoothDetails) {
             return false
         }
-        return mac == other.mac
+        return mac == other.mac && port == other.port
     }
 
     companion object CREATOR : Parcelable.Creator<BluetoothDetails> {
