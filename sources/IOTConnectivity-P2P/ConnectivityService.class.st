@@ -27,13 +27,13 @@ ConnectivityService class >> managedInstance [
 
 { #category : #'instance creation' }
 ConnectivityService class >> on: aPortNumber [
-	^ instance
+	^ (self new) initialize: aPortNumber; yourself.
 ]
 
 { #category : #'instance creation' }
 ConnectivityService class >> onDefault: aPortNumber [
 	instance ifNotNil: [ instance stop. ].
-	instance := (self new) initialize: aPortNumber.
+	instance := self on: aPortNumber.
 	^ instance
 ]
 
