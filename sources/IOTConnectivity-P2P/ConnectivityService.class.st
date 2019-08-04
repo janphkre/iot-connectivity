@@ -38,8 +38,9 @@ ConnectivityService class >> onDefault: aPortNumber [
 ]
 
 { #category : #accessing }
-ConnectivityService >> bluetooth: bluetoothMac [
-  serviceValues at: #bluetooth_mac put: bluetoothMac
+ConnectivityService >> bluetooth: bluetoothMac port: bluetoothPort [
+  serviceValues at: #bluetooth_mac put: bluetoothMac.
+  serviceValues at: #bluetooth_port put: (bluetoothPort asString).
 ]
 
 { #category : #private }
