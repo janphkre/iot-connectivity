@@ -121,7 +121,7 @@ void hookBluetoothSocket(int bluetoothSocket, int targetPort) {
     if(targetSocket < 0) {
         goto free_stuff;
     }
-    printf(" to %d.\n", targetSocket);
+    printf(" to socket %d.\n", targetSocket);
     pthread_t readThread;
     SocketInfo* targetRead = malloc(sizeof(SocketInfo));
     targetRead -> readingSocket = bluetoothSocket;
