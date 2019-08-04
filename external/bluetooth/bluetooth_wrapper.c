@@ -4,13 +4,13 @@
 #include <bluetooth/hci.h>
 #include <bluetooth/hci_lib.h>
 #include <dbus/dbus.h>
-#include <semaphore.h>
 #include <pthread.h>
+#include <semaphore.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 #define BUF_SIZE 8192
-#define LISTEN_QUEUE_SIZE 4
 #define UUID_BYTES 16
 #define PROFILE_PATH "/HttpWrapper"
 #define DBUS_TIMEOUT 30000
@@ -18,11 +18,18 @@
 volatile int shouldLoop = TRUE;
 volatile int current_fd = -1;
 static sem_t semaphore;
+static int serverPort;
+
+typedef struct {
+    int readingSocket;
+    int writingSocket;
+} SocketInfo;
 
 int acquireSocket();
-int startHookingThread(pthread_t* thread, int serverPort);
+int startHookingThread(pthread_t* thread);
 void* hookingThread(void* data);
 void hookBluetoothSocket(int bluetoothSocket, int targetPort);
+void* hookSockets(void* data);
 int startLocalClientSocket(int targetPort);
 int pipeData(int sourceSocket, int targetSocket, char* buffer);
 int generateUuid(bdaddr_t bdaddr, const char* service_name, uint8_t* uuid);
@@ -31,13 +38,12 @@ int setupDbus(DBusConnection** conn);
 int registerUuidDbus(DBusConnection* conn, const char* uuidString, uint16_t bluetoothPort);
 int registerProfileDbus(DBusConnection* conn);
 static DBusHandlerResult wrapper_messages(DBusConnection *connection, DBusMessage *message, void *user_data);
-static void respond_to_introspect(DBusConnection *connection, DBusMessage *request);
 void profileRelease();
 int profileNewConnection(DBusMessage *request);
 void profileRequestDisconnection();
 
 int main(int argc, char **argv) {
-    int serverPort, bluetoothPort, bluetoothDevice;
+    int bluetoothPort, bluetoothDevice;
     char* service_name;
 
     if(argc != 5) {
@@ -97,9 +103,8 @@ int main(int argc, char **argv) {
         return -14;
     }*/
 
-    //TODO: SETUP HOOKER THREAD
     pthread_t thread;
-    if(startHookingThread(&thread, serverPort) < 0) {
+    if(startHookingThread(&thread) < 0) {
         profileRequestDisconnection();
         sem_destroy(&semaphore);
         return -15;
@@ -127,8 +132,8 @@ int acquireSocket() {
     return fd;
 }
 
-int startHookingThread(pthread_t* thread, int serverPort) {
-    if(pthread_create(thread, NULL, hookingThread, &serverPort) != 0) {
+int startHookingThread(pthread_t* thread) {
+    if(pthread_create(thread, NULL, hookingThread, NULL) != 0) {
         printf("ERR: Failed to start the hooking thread.\n");
         return -1;
     }
@@ -136,37 +141,57 @@ int startHookingThread(pthread_t* thread, int serverPort) {
 }
 
 void* hookingThread(void* data) {
-    int serverPort = *((int*) data);
+    int targetPort = serverPort;
     while(shouldLoop) {
         int client = acquireSocket();
         if(client < 0) {
             printf("ERR: Accept failed.\n");
             continue;
         }
-        hookBluetoothSocket(client, serverPort);
+        printf("Hooking socket up to %d.\n", targetPort);
+        int targetSocket = startLocalClientSocket(targetPort);
+        if(targetSocket < 0) {
+            goto free_stuff;
+        }
+
+        pthread_t readThread;
+        SocketInfo* targetRead = malloc(sizeof(SocketInfo));
+        targetRead -> readingSocket = client;
+        targetRead -> writingSocket = targetSocket;
+        if(pthread_create(&readThread, NULL, hookSockets, targetRead) != 0) {
+            printf("ERR: Failed to start the target read thread.\n");
+            goto free_stuff;
+        }
+
+        pthread_t writeThread;
+        SocketInfo* targetWrite = malloc(sizeof(SocketInfo));
+        targetWrite -> readingSocket = targetSocket;
+        targetWrite -> writingSocket = client;
+        if(pthread_create(&writeThread, NULL, hookSockets, targetWrite) != 0) {
+            printf("ERR: Failed to start the target write thread.\n");
+            goto free_stuff;
+        }
+
+        pthread_join(readThread, NULL);
+        pthread_join(writeThread, NULL);
+free_stuff:
+        free(targetRead);
+        free(targetWrite);
+        close(client);
+        close(targetSocket);
     }
     return NULL;
 }
 
-void hookBluetoothSocket(int bluetoothSocket, int targetPort) {
+void* hookSockets(void* data) {
+    SocketInfo sockets = *((SocketInfo*) data);
     char buffer[BUF_SIZE] = { 0 };
-    printf("Hooking socket up.\n");
-    int clientSocket = startLocalClientSocket(targetPort);
-    if(clientSocket < 0) {
-        close(bluetoothSocket);
-        return;
-    }
     while(shouldLoop) {
-        if(pipeData(bluetoothSocket, clientSocket, buffer) < 0) {
-            break;
-        }
-        if(pipeData(clientSocket, bluetoothSocket, buffer) < 0) {
+        if(pipeData(sockets.readingSocket, sockets.writingSocket, buffer) < 0) {
             break;
         }
     }
-
-    close(bluetoothSocket);
-    close(clientSocket);
+    return NULL;
 }
 
 int startLocalClientSocket(int targetPort) {
@@ -184,7 +209,6 @@ int startLocalClientSocket(int targetPort) {
     rem_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
     rem_addr.sin_family = AF_INET;
     rem_addr.sin_port = htons(targetPort);
-
     if (connect(s, (struct sockaddr *)&rem_addr , sizeof(rem_addr)) < 0) {
         printf("ERR: Connect failed.\n");//TODO FAILING HERE!
         close(s);
