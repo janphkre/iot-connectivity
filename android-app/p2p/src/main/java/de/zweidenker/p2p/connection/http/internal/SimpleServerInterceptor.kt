@@ -45,26 +45,14 @@ class SimpleServerInterceptor(
 
         var response = responseBuilder!!
             .request(request)
-//            .handshake(streamAllocation.connection().handshake())
             .sentRequestAtMillis(sentRequestMillis)
             .receivedResponseAtMillis(System.currentTimeMillis())
             .build()
 
         val code = response.code()
-//        if (forWebSocket && code == 101) {
-//            // Connection is upgrading, but we need to ensure interceptors see a non-null response body.
-//            response = response.newBuilder()
-//                .body(Util.EMPTY_RESPONSE)
-//                .build()
-//        } else {
-            response = response.newBuilder()
-                .body(httpCodec.openResponseBody(response))
-                .build()
-//        }
-
-//        if ("close".equals(response.request().header("Connection"), ignoreCase = true) || "close".equals(response.header("Connection")!!, ignoreCase = true)) {
-//            streamAllocation.noNewStreams()
-//        }
+        response = response.newBuilder()
+            .body(httpCodec.openResponseBody(response))
+            .build()
 
         if ((code == 204 || code == 205) && response.body()!!.contentLength() > 0) {
             throw ProtocolException(

@@ -45,7 +45,6 @@ class BluetoothConnectionStream(
 
         bluetoothAdapter.cancelDiscovery()
 
-        // val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
         val method = bluetoothDevice::class.java.getMethod("createInsecureRfcommSocket", Int::class.javaPrimitiveType)
         val socket = method.invoke(bluetoothDevice, device.bluetoothDetails.port) as BluetoothSocket
 

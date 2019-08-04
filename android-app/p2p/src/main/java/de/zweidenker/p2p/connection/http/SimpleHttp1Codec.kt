@@ -87,9 +87,9 @@ class SimpleHttp1Codec(
     }
 
     override fun cancel() {
-//        val connection = streamAllocation.connection()
-//        if (connection != null) connection!!.cancel()
         Log.e("SimpleHttpCodec", "CANCEL CALLED ON HTTP CODEC")
+        source.close()
+        sink.close()
     }
 
     /**
@@ -112,7 +112,6 @@ class SimpleHttp1Codec(
 
     @Throws(IOException::class)
     override fun openResponseBody(response: Response): ResponseBody {
-//        streamAllocation!!.eventListener.responseBodyStart(streamAllocation.call)
         val contentType = response.header("Content-Type")
 
         if (!HttpHeaders.hasBody(response)) {
@@ -244,7 +243,6 @@ class SimpleHttp1Codec(
     fun newUnknownLengthSource(): Source {
         if (state != STATE_OPEN_RESPONSE_BODY) throw IllegalStateException("state: $state")
         state = STATE_READING_RESPONSE_BODY
-//        streamAllocation.noNewStreams()
         return UnknownLengthSource()
     }
 
@@ -373,7 +371,6 @@ class SimpleHttp1Codec(
             detachTimeout(timeout)
 
             state = STATE_CLOSED
-//            streamAllocation?.streamFinished(!reuseConnection, this@Http1Codec, bytesRead, e)
         }
     }
 
