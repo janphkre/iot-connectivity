@@ -20,7 +20,5 @@ class BluetoothConnectionProvider : DeviceConnectionProvider {
         }
     }
 
-
-
     override fun destroy(context: Context) { }
 }

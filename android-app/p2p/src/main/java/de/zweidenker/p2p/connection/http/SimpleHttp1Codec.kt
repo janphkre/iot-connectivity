@@ -209,7 +209,7 @@ class SimpleHttp1Codec(
         // parse the result headers until the first blank line
         var line: String = readHeaderLine()
         while (line.isNotEmpty()) {
-            Internal.instance.addLenient(headers, line)//TODO: CRASH
+            Internal.instance.addLenient(headers, line) // TODO: CRASH
             /*
         java.lang.NullPointerException: Attempt to invoke virtual method 'void okhttp3.internal.Internal.addLenient(okhttp3.Headers$Builder, java.lang.String)' on a null object reference
             at de.zweidenker.p2p.connection.http.SimpleHttp1Codec.readHeaders(SimpleHttp1Codec.kt:217)

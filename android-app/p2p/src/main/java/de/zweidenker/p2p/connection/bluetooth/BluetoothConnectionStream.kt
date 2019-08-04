@@ -13,7 +13,7 @@ import java.io.IOException
 
 class BluetoothConnectionStream(
     private val device: Device
-): ConnectionStream {
+) : ConnectionStream {
 
     private var lastBluetoothSocket: BluetoothSocket? = null
 
@@ -45,7 +45,7 @@ class BluetoothConnectionStream(
 
         bluetoothAdapter.cancelDiscovery()
 
-        //val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
+        // val socket = bluetoothDevice.createInsecureRfcommSocketToServiceRecord(beaconDevice.bluetoothDetails.uuid)
         val method = bluetoothDevice::class.java.getMethod("createInsecureRfcommSocket", Int::class.javaPrimitiveType)
         val socket = method.invoke(bluetoothDevice, 20) as BluetoothSocket
 
