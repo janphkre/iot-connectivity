@@ -154,8 +154,6 @@ void* hookSockets(void* data) {
     SocketInfo sockets = *((SocketInfo*) data);
     char buffer[BUF_SIZE] = { 0 };
     while(pipeData(sockets.readingSocket, sockets.writingSocket, buffer) >= 0) { ;; }
-    close(sockets.readingSocket);
-    close(sockets.writingSocket);
     return NULL;
 }
 

@@ -3,6 +3,7 @@
 \usepackage{graphicx}
 \usepackage[a4paper, textwidth=15cm, textheight=23cm]{geometry}
 \usepackage[section]{placeins}
+\usepackage{listings}
 
 \title{Bachelorarbeit: PharoThings-Connectivity SS19}
 \begin{document}
@@ -33,13 +34,13 @@
 	\pagebreak
 	
     \section{Einleitung}
-        Die Verbindungskonfiguration von IoT Geräten wurde bereits auf Basis von Wi-Fi Direct untersucht\footnote{Kretzschmar: {\it Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App} TH Köln Praxisprojekt Sommersemester (2019).}. Da die Implementierung dieser Technologie einige Unzulänglichkeiten besitzt, soll nun ein Vergleich von weiteren p2p Technologien vorgenommen werden. Hierunter fallen Bluetooth, NFC und USB, da diese alle von Android Smartphones nativ unterstützt werden. Da die Vor- und Nachteile sowie Funktionsweisen dieser p2p Schnittstellen bereits bekannt sind, sollen sie im Rahmen dieser Arbeit in die Verbindungskonfiguration mit PharotThings eingebunden werden, um auch hier Probleme aufzudecken und zu einer optimalen Lösung des Problems zu gelangen.
+        Die Verbindungskonfiguration von IoT Geräten wurde bereits auf Basis von Wi-Fi Direct untersucht\footnote{Kretzschmar: {\it Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App} TH Köln Praxisprojekt Sommersemester (2019).}. Da die Implementierung dieser Technologie einige Unzulänglichkeiten besitzt, soll nun ein Vergleich von weiteren p2p Technologien vorgenommen werden. Hierunter fallen Bluetooth, Near Field Communication (NFC) und Universal Serial Bus (USB), da diese alle von Android Smartphones nativ unterstützt werden. Da die Vor- und Nachteile sowie Funktionsweisen dieser p2p Schnittstellen bereits bekannt sind, sollen sie im Rahmen dieser Arbeit in die Verbindungskonfiguration mit PharotThings eingebunden werden, um auch hier Probleme aufzudecken und zu einer optimalen Lösung des Problems zu gelangen.
         
-        Die momentane Lösung \footnote{https://github.com/janphkre/iot-connectivity} besteht aus Service Discovery und einer p2p Verbindung auf Basis von Wi-Fi Direct. Ob Service Discovery in seiner aktuellen Form beibehalten werden soll, ist ebenfalls zu evaluieren, da sich eine erweiterte Lösung auch nicht auf nur eine Technologie beschränken muss. Es ist daher zu überprüfen, ob eine Hybridlösung in Verbindung mit Wi-Fi Direct oder Bluetooth LE sinnvoll ist, sodass lediglich die p2p Verbindung über eine andere Technologie stattfindet.
+        Die vorhergehende Lösung \footnote{https://github.com/janphkre/iot-connectivity} besteht aus Service Discovery und einer p2p Verbindung auf Basis von Wi-Fi Direct. Ob Service Discovery in seiner aktuellen Form beibehalten werden soll, ist ebenfalls zu evaluieren, da sich eine erweiterte Lösung auch nicht auf nur eine Technologie beschränken muss. Es ist daher zu überprüfen, ob eine Hybridlösung in Verbindung mit Wi-Fi Direct oder Bluetooth LE sinnvoll ist, sodass lediglich die p2p Verbindung über eine andere Technologie stattfindet.
 
 		Softwarequalität muss definiert werden.\footnote{TODO: Liggesmeyer}
         
-	\section{Evaluationsziel}	
+	\subsection{Evaluationsziel}	
 	
         Im vorausgegangenen Praxisprojekt wurde deutlich, dass Wi-Fi Direct einige gravierende Mängel im Hinblick auf die Funktionalität und Robustheit der bereitgestellten Bibliotheken aufweist. So ist die Dokumentation der meisten Nachrichten und Events unvollständig oder fehlt und es ist unklar wie eine Verbindung aufgebaut werden muss. Gleichzeitig sind Fehlermeldungen entweder nicht aussagekräftig oder führen dazu, dass der laufende Daemon abstürzt.
         Daraus lassen sich für diese Evaluation zwei Kriterien im Bereich der Robustheit ableiten.
@@ -54,7 +55,7 @@
         Die Qualität der eingesetzten Technologie kann zudem auf Effizienz überprüft werden. Da die genutzten Module in das Gerät fest integriert sind, lässt sich Energieverbrauch nicht messen und ist außerdem von dem im Gerät konkret verbauten Chip und dessen Treibern abhängig. Es kann jedoch eine Aussage über Übertragungsraten getroffen werden, welche eine numerische Skala abbilden. Hierdurch kann festgestellt werden, in wie weit manche Anwendungsfälle mit der entsprechenden Technologie möglich sind, oder die Nutzbarkeit dadurch eingeschränkt werden. Die Konfiguration über eine REST-Schnittstelle benötigt keine hohen Datenraten zur Kommunikation, falls der Nutzer jedoch beispielsweise eine Remote-Verbindung durch Telepharo über die p2p Schnittstelle zwischen seinem persönlichen Computer und dem eingesetzten IoT-Gerät aufbauen willen, benötigt er eine relativ latenzfreie und hochvolumige Datenübertragung.
         
         Letztlich kann überprüft werden, wie leicht sich die Technologie implementieren lässt, sodass sie für das bestehende Projekt genutzt werden kann. Da die Schwierigkeit von Aufgaben im Rahmen von Softwareentwicklung immer eine Kombination aus Zeitaufwand und Komplexität sind, lässt sich hierbei immer nur eine Schätzung oder persönliche Meinung auf Basis der eigenen Präferenz angeben.
-    \section{Evaluationsmethodik}
+    \subsection{Evaluationsmethodik}
     	Um die genannten Evaluationsziele überprüfen zu können, soll jede der Technologien Bluetooth (LE), NFC und USB in einem vergleichbaren Maße zu Wi-Fi Direct im Hinblick auf die Vollständigkeit ihrer Dokumentation und Nutzbarkeit ihrer Implementierung überprüft werden.
     	Unter dem Aspekt der Softwarequalität lassen sich die Technologien gegenüberstellen. Dabei soll auf Grundlage einer beispielhaften Implementierung im Rahmen des bestehenden Projektes die Vor- und Nachteile verdeutlicht werden und zudem eine Evaluation der Komplexität und des Aufwandes einer Implementierung vorgenommen werden. Metriken, um die Qualität der Software zu messen, sind als ISO-Standard 9126 \footnote{Quelle} definiert. Hierbei soll auf die folgenden Punkte eingegangen werden und in wie weit diese extern gemessen werden können, da nicht einsehbar ist, wie ausgelieferte Implementierungsartefakte intern getestet werden und dokumentiert sind.
     	\begin{enumerate}
@@ -72,6 +73,65 @@
     	\end{enumerate}
     	
 		\subsection{Einschränkungen}
-		Um den Aufwand dieser Arbeit nicht zu sprengen, gibt es ein paar weitere Rahmenbedingungen, die im Vorfeld definiert werden sollen. Hierbei ist darauf zu achten, wenn bei einer der Technologien ein deutlich größerer Aufwand abzusehen sein, sollte die Implementierung dieser Technologie ausgeklammert werden, da es auch einer Nutzbarkeit widerspricht, eine solche Technologie trotz einem hohen Aufwand in der Implementierung zu nutzen, da dies gleichzeitig auch einen hohen Aufwand in der Wartung und im Support bedeutet. \footnote{Nachteil Qualitätsmodell: Bezug zu Kosten und Nutzen [Lange Qualitätsmodelle]}
+		Um den Aufwand der Arbeit bewältigbar zu halten, gibt es ein paar weitere Rahmenbedingungen, die im Vorfeld definiert werden sollen. Hierbei ist darauf zu achten, wenn bei einer der Technologien ein deutlich größerer Aufwand abzusehen sein, sollte die Implementierung dieser Technologie ausgeklammert werden, da es auch einer Nutzbarkeit widerspricht, eine solche Technologie trotz einem hohen Aufwand in der Implementierung zu nutzen, da dies gleichzeitig auch einen hohen Aufwand in der Wartung und im Support bedeutet. \footnote{Nachteil Qualitätsmodell: Bezug zu Kosten und Nutzen [Lange Qualitätsmodelle]}
 		Weiterhin kann nicht auf Dokumentationen der entsprechenden Standards und Implementierungen der Technologien eingegangen werden, die nicht öffentlich zugänglich sind, da ebenso Änderungen und Erweiterungen an diesen Spezifikationen dann nicht nachvollziehbar sind.
+		
+		\section{Grundlagen der Verbindungstechnologien}
+		
+		\subsection{Bluetooth}
+		
+		\subsection{NFC}
+		
+		\subsection{USB}
+		
+        \section{p2p Verbindung}
+        Im Folgenden wird die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben. Jede dieser Technologien soll zunächst separat betrachtet werden, um Details und Probleme bei der Implementierung aufzuzeigen.
+        
+        Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem EOF beendet werden, über eine langlebige Verbindung zu senden, da ein EOF immer auch das Ende der Verbindung aufzeigt.
+        
+        \subsection{HTTP Kapselung}
+        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie nutzen zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST-Server aufbauen zu können. Da das REST-Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden. Auf der Serverseite stellt dies kein Problem dar, da der HTTP-Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
+        
+        \begin{lstlisting}[language=C, caption=Instanziierung eines Sockets]
+int s;
+struct sockaddr_in rem_addr = { 0 };
+
+s = socket(AF_INET, SOCK_STREAM , 0);
+rem_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
+rem_addr.sin_family = AF_INET;
+rem_addr.sin_port = htons(targetPort);
+connect(s, (struct sockaddr *)&rem_addr , sizeof(rem_addr));
+        \end{lstlisting}\footnote{TODO:RAHMEN UM CODE}
+        \footnote{TODO: REFERENZ ZUM CODE BEISPIEL}Der kapselnde Server baut eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP-Server zu vermeiden. Dies erfüllt sonst die Anfangskriterien eines slow-louis-Angriffes auf einer einzelnen Verbindung. \footnote{Quelle?}
+        \begin{lstlisting}[language=C, caption=Datenweiterleitung durch Sockets]
+void* hookSockets(void* data) {
+    SocketInfo sockets = *((SocketInfo*) data);
+    char buffer[BUF_SIZE] = { 0 };
+    while(pipeData(sockets.readingSocket, sockets.writingSocket, buffer) >= 0) { ;; }
+    return NULL;
+}        
+        
+int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
+    int bytes_read, bytes_sent;
+
+    bytes_read = read(sourceSocket, buffer, BUF_SIZE);
+    if(bytes_read < 0) return -1;
+    if(bytes_read == 0) return -20; // indicates a EOF
+
+    bytes_sent = send(sinkSocket, buffer, bytes_read, 0);
+    if(bytes_sent < 0) return -2;
+
+    return 0;
+}
+        \end{lstlisting}\footnote{TODO:RAHMEN UM CODE}
+        
+        Die bestehende Socket-Verbindung zum Zielserver wird genutzt, um die ankommenden Daten und deren Antworten voll duplex weiterzuleiten. Dies ist realisiert, indem die Method {\it hookSockets} als zwei Threads mit invertiertem {\it SocketInfo} gestartet werden. Für den kapselnden Server ist es so unerheblich, welche Seite Daten zuerst senden möchte. Die Verbindung zwischen dem Zielserver und dem kapselnden Server kann so auch unabhängig von der Verbindung zum Endgerät verwaltet werden, da beim Lesen der Daten vom Zielserver ein EOF das Ende der Verbindung zum Zielserver aufzeigt. Die Verbindung zum Endgerät muss so nicht zwingend geschlossen werden.
+        
+        \subsection{Bluetooth}
+        Die Umsetzung einer p2p Verbindung über Bluetooth besteht darin, dass auf Android Seite 
+        
+        \subsection{NFC}
+		
+		\subsection{USB}
+		
 \end{document}
