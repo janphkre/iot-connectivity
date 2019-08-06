@@ -1,28 +1,25 @@
 package de.zweidenker.p2p.connection.usb
 
+import android.os.ParcelFileDescriptor
 import de.zweidenker.p2p.connection.http.ConnectionStream
 import de.zweidenker.p2p.connection.http.HttpWrapper
 import de.zweidenker.p2p.connection.http.SimpleHttp1Codec
 import okhttp3.internal.http.HttpCodec
 import okio.Okio
-import java.io.IOException
-import java.net.Socket
+import java.io.FileInputStream
+import java.io.FileOutputStream
 
-internal class USBConnectionStream: ConnectionStream {
+internal class USBConnectionStream(
+    private val fileDescriptor: ParcelFileDescriptor
+): ConnectionStream {
 
     override fun newCodec(httpWrapper: HttpWrapper): HttpCodec {
-        val socket = try {
-            connect()
-        } catch (e: Exception) {
-            throw IOException(e)
-        }
+        val usbFile = fileDescriptor.fileDescriptor
+        val usbInputSream = DetachableInputStream(FileInputStream(usbFile))
+        val usbOutputSream = DetachableOutputStream(FileOutputStream(usbFile))
 
-        val usbSource = Okio.buffer(Okio.source(socket.inputStream))
-        val usbSink = Okio.buffer(Okio.sink(socket.outputStream))
+        val usbSource = Okio.buffer(Okio.source(usbInputSream))
+        val usbSink = Okio.buffer(Okio.sink(usbOutputSream))
         return SimpleHttp1Codec(httpWrapper, usbSource, usbSink)
-    }
-
-    private fun connect(): Socket {
-        TODO()
     }
 }

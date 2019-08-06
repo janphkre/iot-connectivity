@@ -30,9 +30,11 @@ object P2PModule : Module {
     internal const val BLUETOOTH_ENABLE_SLEEP_MS = 5000L
     internal const val ERROR_RETRY_INTERVAL_MS = 5000L
     internal const val DISCOVER_INTERVAL_MS = 15000L
+    internal const val USB_BROADCAST_CODE = 5000
+    internal const val USB_BROADCAST_ACTION = "de.zweidenker.p2p.usb"
 
     override fun invoke(koinContext: KoinContext): ModuleDefinition = module {
         single<BeaconProvider> { BeaconProviderImpl(androidContext()) }
-        factory<DeviceConnectionProvider> { USBConnectionProvider() }
+        factory<DeviceConnectionProvider> { USBConnectionProvider(get()) }
     }(koinContext)
 }
