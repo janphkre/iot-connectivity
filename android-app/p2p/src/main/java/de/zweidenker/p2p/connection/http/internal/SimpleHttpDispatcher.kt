@@ -99,8 +99,6 @@ class SimpleHttpDispatcher(
         val chain = RealInterceptorChain(interceptors, null, null, null, 0,
             call.request(), call, null, wrapper.connectTimeoutMillis(),
             wrapper.readTimeoutMillis(), wrapper.writeTimeoutMillis())
-
-        // TODO: CRASHING BECAUSE CONNECTION ABOVE IS NULL ( Attempt to invoke virtual method 'boolean okhttp3.internal.connection.RealConnection.supportsUrl(okhttp3.HttpUrl)' on a null object reference)
         return chain.proceed(call.request()).also {
             call.ensureCanceled()
         }
