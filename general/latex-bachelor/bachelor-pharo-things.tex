@@ -126,6 +126,20 @@ int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
         \end{lstlisting}\footnote{TODO:RAHMEN UM CODE}
         
         Die bestehende Socket-Verbindung zum Zielserver wird genutzt, um die ankommenden Daten und deren Antworten voll duplex weiterzuleiten. Dies ist realisiert, indem die Method {\it hookSockets} als zwei Threads mit invertiertem {\it SocketInfo} gestartet werden. Für den kapselnden Server ist es so unerheblich, welche Seite Daten zuerst senden möchte. Die Verbindung zwischen dem Zielserver und dem kapselnden Server kann so auch unabhängig von der Verbindung zum Endgerät verwaltet werden, da beim Lesen der Daten vom Zielserver ein EOF das Ende der Verbindung zum Zielserver aufzeigt. Die Verbindung zum Endgerät muss so nicht zwingend geschlossen werden.
+
+        
+        Ein Abkapseln der Technologie über einen weiteren Server auch auf Seite des Clients erscheint als vermeidbarer Overhead, da so keine Serverimplementierung auch im Client stattfinden muss. Stattdessen wird hier der HTTP-Client, welcher der REST-Bibliothek zugrunde liegt, so aufgetrennt, dass keine TCP/IP-Verbindungen aufgebaut werden, jedoch die Anfragen aus der Bibliothek als String entnommen werden können und  deren Antworten als String eingespeist werden können. Für den REST-Client retrofit wird intern okhttp\footnote{Referenz} als HTTP-Client genutzt. Um zu verstehen, welche Änderungen am Client nötig sind, sollte zuerst die interne Struktur der okhttp Bibliothek erläutert werden.
+        \begin{lstlisting}[language=Java, caption=Interner Aufbau von okhttp]
+List<Interceptor> interceptors = new ArrayList<>();
+...
+interceptors.add(retryAndFollowUpInterceptor);
+interceptors.add(new BridgeInterceptor(client.cookieJar()));
+interceptors.add(new CacheInterceptor(client.internalCache()));
+interceptors.add(new ConnectInterceptor(client));
+...
+interceptors.add(new CallServerInterceptor(forWebSocket));
+        \end{lstlisting}
+        \footnote{Quelle zu Datei (github: https://github.com/square/okhttp/blob/okhttp\_3.11.x/okhttp/src/main/java/okhttp3/RealCall.java Zeile 185-194)} Aufrufe werden durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, Baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Stream zu schreiben und die Antwort vom Stream zu lesen.
         
         \subsection{Bluetooth}
         Die Umsetzung einer p2p Verbindung über Bluetooth besteht darin, dass auf Android Seite 
