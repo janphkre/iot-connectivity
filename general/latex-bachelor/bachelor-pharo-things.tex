@@ -39,9 +39,7 @@
         Die vorhergehende Lösung \footnote{https://github.com/janphkre/iot-connectivity} besteht aus Service Discovery und einer p2p Verbindung auf Basis von Wi-Fi Direct. Ob Service Discovery in seiner aktuellen Form beibehalten werden soll, ist ebenfalls zu evaluieren, da sich eine erweiterte Lösung auch nicht auf nur eine Technologie beschränken muss. Es ist daher zu überprüfen, ob eine Hybridlösung in Verbindung mit Wi-Fi Direct oder Bluetooth LE sinnvoll ist, sodass lediglich die p2p Verbindung über eine andere Technologie stattfindet.
 
 		Softwarequalität muss definiert werden.\footnote{TODO: Liggesmeyer}
-        
-	\subsection{Evaluationsziel}	
-	
+        \subsection{Evaluationsziel}	
         Im vorausgegangenen Praxisprojekt wurde deutlich, dass Wi-Fi Direct einige gravierende Mängel im Hinblick auf die Funktionalität und Robustheit der bereitgestellten Bibliotheken aufweist. So ist die Dokumentation der meisten Nachrichten und Events unvollständig oder fehlt und es ist unklar wie eine Verbindung aufgebaut werden muss. Gleichzeitig sind Fehlermeldungen entweder nicht aussagekräftig oder führen dazu, dass der laufende Daemon abstürzt.
         Daraus lassen sich für diese Evaluation zwei Kriterien im Bereich der Robustheit ableiten.
         Zunächst kann getestet werden wie aussagekräftig Fehlercodes oder Fehlermeldungen sind.
@@ -71,11 +69,32 @@
     	Der Nutzer ist zum größten Teil dazu angehalten, einen Verbindungsaufbau als erwünscht zu bestätigen. Dieser Vorgang sollte so leicht wie möglich gestaltet sein und kann durch eine Gegenüberstellung der einzelnen Schritte, die der Nutzer ausführen muss, bis eine erfolgreiche Verbindung besteht, verglichen werden.
     	Die Komplexität und der Aufwand einer Implementierung kann anhand der Menge an Methoden, die implementiert werden müssen, besonders in einer C-Bibliothek, die eine eigene Schnittstelle zu pharo abbildet, festgestellt werden. Außerdem ist ein Vergleich im Hinblick auf die Komplexität der Logik, die bei der Anbindung gehandhabt werden muss, nötig.
     	\end{enumerate}
-    	
+    	\subsection{Referenzwerte und Messbarkeit}
+
 		\subsection{Einschränkungen}
 		Um den Aufwand der Arbeit bewältigbar zu halten, gibt es ein paar weitere Rahmenbedingungen, die im Vorfeld definiert werden sollen. Hierbei ist darauf zu achten, wenn bei einer der Technologien ein deutlich größerer Aufwand abzusehen sein, sollte die Implementierung dieser Technologie ausgeklammert werden, da es auch einer Nutzbarkeit widerspricht, eine solche Technologie trotz einem hohen Aufwand in der Implementierung zu nutzen, da dies gleichzeitig auch einen hohen Aufwand in der Wartung und im Support bedeutet. \footnote{Nachteil Qualitätsmodell: Bezug zu Kosten und Nutzen [Lange Qualitätsmodelle]}
 		Weiterhin kann nicht auf Dokumentationen der entsprechenden Standards und Implementierungen der Technologien eingegangen werden, die nicht öffentlich zugänglich sind, da ebenso Änderungen und Erweiterungen an diesen Spezifikationen dann nicht nachvollziehbar sind.
 		
+    \section{Warum p2p?}		
+    - Warum p2p
+
+    - Präzisierung IoT - Internet of Things
+    \subsection{Services}
+    - Definition eines Services
+    
+    
+    - Anbieten eines Services als Client/Server-Modell
+    
+    \subsection{Servicestabilität (Todo: entfällt eventuell)}
+    - API Versionierung
+    
+    - Absichern von Änderungen durch Contract-Driven-Development
+    
+    - Integrationstests
+    \subsection{Netzwerktypen}
+		- LAN, WAN, etc.
+		
+		- ad hoc, Stern-basiert, Bus-basiert
 		\section{Grundlagen der Verbindungstechnologien}
 		
 		\subsection{Bluetooth}
@@ -84,12 +103,12 @@
 		
 		\subsection{USB}
 		
-        \section{p2p Verbindung}
+    \section{p2p Verbindung}
         Im Folgenden wird die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben. Jede dieser Technologien soll zunächst separat betrachtet werden, um Details und Probleme bei der Implementierung aufzuzeigen.
         
         Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem EOF beendet werden, über eine langlebige Verbindung zu senden, da ein EOF immer auch das Ende der Verbindung aufzeigt.
         
-        \subsection{HTTP Kapselung}
+    \subsection{HTTP Kapselung}
         Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie nutzen zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST-Server aufbauen zu können. Da das REST-Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden. Auf der Serverseite stellt dies kein Problem dar, da der HTTP-Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
         
         \begin{lstlisting}[language=C, caption=Instanziierung eines Sockets (Server: C)]
@@ -164,7 +183,7 @@ val method = bluetoothDevice::class.java.getMethod("createInsecureRfcommSocket",
 val socket = method.invoke(bluetoothDevice, device.bluetoothDetails.port) as BluetoothSocket
 socket.connect()
         \end{lstlisting}\footnote{Todo: Rahmen um Code}
-        Für den Verbindungsaufbau muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Der {\it BluetoothAdapter} aus dem Android Framework gibt ein {\it BluetoothDevice} für die angegebene MAC-Addresse zurück. Es ist hierbei noch unerheblich, dass dieses Gerät auch in der Nähe erreichbar ist oder existiert. Über die versteckten Methoden {\it BluetoothDevice::createInsecureRfcommSocket} und {\it BluetoothDevice::createRfcommSocket} kann eine Socket-Verbindung zu einem bestimmten Port des entfernten Gerätes erstellt werden. In Android sind diese Methoden versteckt, um Konflikte zwischen Apps beim festlegen der Portnummern zu vermeiden, da lediglich 30 RFCOMM Ports zur Verfügung stehen.\footnote{Quelle z.B. https://people.csail.mit.edu/albert/bluez-intro/x148.html} Stattdessen sollen Services eine UUID generieren, welche über Bluetooth SDP von anderen Geräten abgefragt werden kann. Das SDP Protokoll übernimmt dann die Vergabe von Ports für die registrierten Services. Um diese exemplarische Implementierung jedoch simpel zu halten und volle Kontrolle über das Servergerät besteht, wird hierbei ein vordefinierter Port genutzt.
+        Für den Verbindungsaufbau muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Der {\it BluetoothAdapter} aus dem Android Framework gibt ein {\it BluetoothDevice} für die angegebene MAC-Addresse zurück. Es ist hierbei noch unerheblich, dass dieses Gerät auch in der Nähe erreichbar ist oder existiert. Über die versteckten Methoden {\it BluetoothDevice::createInsecureRfcommSocket} und {\it BluetoothDevice::createRfcommSocket} kann eine Socket-Verbindung zu einem bestimmten Port des entfernten Gerätes erstellt werden. In Android sind diese Methoden versteckt, um Konflikte zwischen Apps beim festlegen der Portnummern zu vermeiden, da lediglich 30 RFCOMM Ports zur Verfügung stehen.\footnote{Quelle z.B. https://people.csail.mit.edu/albert/bluez-intro/x148.html} Stattdessen sollen Services eine UUID generieren, welche über Bluetooth Service Discovery Protocol (SDP) von anderen Geräten abgefragt werden kann. Das SDP Protokoll übernimmt dann die Vergabe von Ports für die registrierten Services. Um diese exemplarische Implementierung jedoch simpel zu halten und volle Kontrolle über das Servergerät besteht, wird hierbei ein vordefinierter Port genutzt.
 
          Jegliche Logik zum tatsächlichen Verbindungsaufbau ist in der Methode {\it BluetoothSocket::connect} gekapselt und muss bei der Umsetzung nicht beachtet werden. Auf beiden Geräten muss lediglich Bluetooth eingeschaltet sein und das Servergerät muss auffindbar für den Client sein.
    
@@ -179,10 +198,64 @@ listen(s, LISTEN_QUEUE_SIZE);
         \end{lstlisting}\footnote{Todo: Rahmen um Code}
         Auf Seite des Servers kann die Implementierung der HTTP Kapselung fast vollständig übernommen werden,jedoch müssen Verbindungen auf einem weiteren Socket mit dem Bluetooth RFCOMM Protokoll akzeptiert werden.
         
-        Mit diesen beiden Anbindungen von Bluetooth an die generische HTTP Kapselung lässt sich diese simple Lösung bereits nutzen.
+        Mit diesen beiden Anbindungen von Bluetooth an die generische HTTP Kapselung lässt sich diese simple Lösung bereits nutzen. Um jedoch die geheimen Methoden unter Android nicht nutzen zu müssen, ist es nötig, auf dem Server die Anbindung im Bluetooth SDP als Service zu hinterlegen. Kürzlich wurde die BlueZ 5 Bibliothek von einer simplen C-Schnittstelle auf eine DBus-Schnittstelle umgewandelt.\footnote{http://www.bluez.org/bluez-5-api-introduction-and-porting-guide/} Dies hat zur Folge, dass viele der Beispiele und Erklärungen, ebenso wie Bücher nicht mehr aktuell sind und erst auf die neue API hingewiesen wird, wenn nach der expliziten Fehlermeldung gesucht wird.
         
-        \subsection{NFC}
+        \begin{lstlisting}[language=C, caption=Veraltete Nutzung von SDP (Server: C)]
+sdp_set_info_attr(record, serviceName, serviceProvider, serviceDescription);
+*session = sdp_connect(BDADDR_ANY, BDADDR_LOCAL, SDP_RETRY_IF_BUSY);
+sdp_record_register(*session, record, 0);
+        \end{lstlisting}\footnote{Todo: Rahmen um Code}
+        In älteren Versionen von BlueZ war es möglich einen SDP Eintrag mit der Methode {\it sdp\_record\_register} anzulegen. Dieser Eintrag wurde von SDP selbstständig verwaltet und entfernt wenn die Sitzung zu SDP beendet wurde. Auf Grund des Wechsels zu DBus kann diese SDP-Schnittstelle nicht mehr genutzt werden, da sich keine Sitzungen zum SDP daemon aufbauen lassen, da dieser nicht mehr existiert.
+        \begin{lstlisting}[language=C, caption=DBus Nutzung von SDP (Server: C)]
+static DBusHandlerResult wrapper_messages(DBusConnection* connection, DBusMessage* message, void* user_data) {
+    const char* interface_name = dbus_message_get_interface(message);
+    const char* member_name = dbus_message_get_member(message);
+    if (0==strcmp("org.bluez.Profile1", interface_name)) {
+        if(0==strcmp("Release", member_name)) {
+            profileRelease();
+            return DBUS_HANDLER_RESULT_HANDLED;
+        } else if(0==strcmp("NewConnection", member_name)) {
+            profileNewConnection(message);
+            return DBUS_HANDLER_RESULT_HANDLED;
+        } else if(0==strcmp("RequestDisconnection", member_name)) {
+            profileRequestDisconnection();
+            return DBUS_HANDLER_RESULT_HANDLED;
+        }
+    }
+    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
+}
+
+DBusObjectPathVTable vtable;
+vtable.message_function = wrapper_messages;
+vtable.unregister_function = NULL;              
+
+DBusConnection* conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
+dbus_connection_try_register_object_path(conn, PROFILE_PATH, &vtable, NULL, &err);
+
+DBusMessage* msg = dbus_message_new_method_call("org.bluez", "/org/bluez", "org.bluez.ProfileManager1", "RegisterProfile");
+...
+dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
+        \end{lstlisting}\footnote{Todo: Rahmen um Code}\footnote{TODO: Code Beispiel istzu lang.}
+        Um die SDP Funktionalität dennoch nutzen zu können, ist es nötig zunächst ein Callback-Objekt zu registrieren. Dieses Objekt hat die Aufgabe, ankommende Verbindungen zu akzeptieren und zu nutzen. Es ersetzt somit den akzeptierenden Serversocket. Weiterhin muss das Objekt in der Lage sein, bestehende Verbindungen schließen zu können. Dies hat zur Folge, dass die Komplexität im Vergöeoch zu einer Lösung ohne SDP stark erhöht wird, da nicht nur die DBus Nachrichten auf einem separaten Thread gehandhabt werden müssen, sondern auch eine Auflösung zwischen offenen Dateideskriptoren und den Client Kennungen stattfinden muss.
+        Über diese gegebenen Dateideskriptoren konnte jedoch keine erfolgreiche Datenübertragung erzielt werden. Eine Verbindung wurde immer erfolgreich aufgebaut, jedoch schienen keine Daten tatsächlich übertragen zu werden, wodurch die Verbindung nach einem Timeout wieder geschlossen wurde.
+        
+    \subsection{NFC}
 		
 		\subsection{USB}
 		
+		\section{Evaluation (Todo: Besserer Name)}
+		
+		\subsection{Zuverlässigkeit}
+		
+		\subsection{Wartbarkeit}
+		
+		\subsection{Funktionalität}
+		
+		\subsection{Effizienz}
+		
+		\subsection{Bedienbarkeit}
+		
+		\subsection{Zusammenfassung}
+		
+		\section{Ausblick}		
 \end{document}
