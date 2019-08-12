@@ -103,7 +103,7 @@
 		
 		\subsection{USB}
 		
-    \section{p2p Verbindung}
+    \section{Eigene Umsetzung}
         Im Folgenden wird die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben. Jede dieser Technologien soll zunächst separat betrachtet werden, um Details und Probleme bei der Implementierung aufzuzeigen.
         
         Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem EOF beendet werden, über eine langlebige Verbindung zu senden, da ein EOF immer auch das Ende der Verbindung aufzeigt.
@@ -239,6 +239,11 @@ dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
         Um die SDP Funktionalität dennoch nutzen zu können, ist es nötig zunächst ein Callback-Objekt zu registrieren. Dieses Objekt hat die Aufgabe, ankommende Verbindungen zu akzeptieren und zu nutzen. Es ersetzt somit den akzeptierenden Serversocket. Weiterhin muss das Objekt in der Lage sein, bestehende Verbindungen schließen zu können. Dies hat zur Folge, dass die Komplexität im Vergöeoch zu einer Lösung ohne SDP stark erhöht wird, da nicht nur die DBus Nachrichten auf einem separaten Thread gehandhabt werden müssen, sondern auch eine Auflösung zwischen offenen Dateideskriptoren und den Client Kennungen stattfinden muss.
         Über diese gegebenen Dateideskriptoren konnte jedoch keine erfolgreiche Datenübertragung erzielt werden. Eine Verbindung wurde immer erfolgreich aufgebaut, jedoch schienen keine Daten tatsächlich übertragen zu werden, wodurch die Verbindung nach einem Timeout wieder geschlossen wurde.
         
+        Ebenso war es serverseitig nicht möglich, die nötigen Sockets in pharo zu verwalten. Dem liegt zu Grunde, dass Sockets in der pharo VM über das SocketsPlugin\footnote{Quelle: https://github.com/pharo-project/pharo-vm/tree/master/mc/VMMaker.oscog.package/SocketPlugin.class} gekapselt verwaltet werden und dort fest als IP-Sockets erstellt werden.
+        \begin{lstlisting}
+newSocket = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
+
+        \end{lstlisting}
     \subsection{NFC}
 		
 		\subsection{USB}
