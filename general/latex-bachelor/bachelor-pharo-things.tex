@@ -5,6 +5,11 @@
 \usepackage[section]{placeins}
 \usepackage{listings}
 
+\renewcommand{\contentsname}{Gliederung}
+\renewcommand{\figurename}{Fig.}
+\renewcommand{\lstlistingname}{Algorithmus}
+\renewcommand{\lstlistlistingname}{Verzeichnis der Algorithmen}
+
 \title{Bachelorarbeit: PharoThings-Connectivity SS19}
 \begin{document}
 	\begin{titlepage}
@@ -33,234 +38,62 @@
 	\tableofcontents
 	\pagebreak
 	
-    \section{Einleitung}
-        Die Verbindungskonfiguration von IoT Geräten wurde bereits auf Basis von Wi-Fi Direct untersucht\footnote{Kretzschmar: {\it Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App} TH Köln Praxisprojekt Sommersemester (2019).}. Da die Implementierung dieser Technologie einige Unzulänglichkeiten besitzt, soll nun ein Vergleich von weiteren p2p Technologien vorgenommen werden. Hierunter fallen Bluetooth, Near Field Communication (NFC) und Universal Serial Bus (USB), da diese alle von Android Smartphones nativ unterstützt werden. Da die Vor- und Nachteile sowie Funktionsweisen dieser p2p Schnittstellen bereits bekannt sind, sollen sie im Rahmen dieser Arbeit in die Verbindungskonfiguration mit PharotThings eingebunden werden, um auch hier Probleme aufzudecken und zu einer optimalen Lösung des Problems zu gelangen.
-        
-        Die vorhergehende Lösung \footnote{https://github.com/janphkre/iot-connectivity} besteht aus Service Discovery und einer p2p Verbindung auf Basis von Wi-Fi Direct. Ob Service Discovery in seiner aktuellen Form beibehalten werden soll, ist ebenfalls zu evaluieren, da sich eine erweiterte Lösung auch nicht auf nur eine Technologie beschränken muss. Es ist daher zu überprüfen, ob eine Hybridlösung in Verbindung mit Wi-Fi Direct oder Bluetooth LE sinnvoll ist, sodass lediglich die p2p Verbindung über eine andere Technologie stattfindet.
+    \include{01-einleitung}
+    \include{02-warum}
+    \include{03-technologien}
+    \include{04-umsetzung}
+    \include{05-ergebnisse}
+    \include{06-fazit}
 
-		Softwarequalität muss definiert werden.\footnote{TODO: Liggesmeyer}
-        \subsection{Evaluationsziel}	
-        Im vorausgegangenen Praxisprojekt wurde deutlich, dass Wi-Fi Direct einige gravierende Mängel im Hinblick auf die Funktionalität und Robustheit der bereitgestellten Bibliotheken aufweist. So ist die Dokumentation der meisten Nachrichten und Events unvollständig oder fehlt und es ist unklar wie eine Verbindung aufgebaut werden muss. Gleichzeitig sind Fehlermeldungen entweder nicht aussagekräftig oder führen dazu, dass der laufende Daemon abstürzt.
-        Daraus lassen sich für diese Evaluation zwei Kriterien im Bereich der Robustheit ableiten.
-        Zunächst kann getestet werden wie aussagekräftig Fehlercodes oder Fehlermeldungen sind.
-        Das eine Ende des Spektrums bildet hierbei die Darstellung des Erfolgs eines Aufrufs durch eine boolesche Variable, auf der anderen Seite wird ein genauer Fehlercode in Verbindung mit einer Fehlermeldung ausgegeben. Die Fehlercodes sind dabei für jede genutzte Methode dokumentiert und bieten Aufschluss auf die Gründe der erhaltenen Fehlschläge. 
-        Gleichzeitig soll evaluiert werden, in wie weit sich von aufgetretenen Fehlern erholt werden kann, um dennoch eine erfolgreiche Verbindung aufbauen zu können. Hierbei wird der messbare Bereich auf der einen Seite durch den Absturz des verwendeten Moduls beschränkt. Es besteht somit keine Möglichkeit zur Erholung von Fehlern und es muss darüber hinaus sogar das verwendete Modul neu gestartet werden. Dem gegenüber steht die gute Dokumentation von Fehlercodes, welche es erlaubt, auf nicht kritische Fehler reagieren zu können. Ebenso können die Fehler bereits einen Codeblock beinhalten, der es erlaubt, den Fehler, so fern dieser unerwünscht gewesen ist, zu beseitigen.
-        Ebenso sollte die Anbindung einer eingesetzten Technologie testbar sein. Die Testbarkeit der Software ergibt sich zum einen aus einem hohen Abstraktionsgrad, so dass sich die genutzten Technologien mit wenig Aufwand durch Mocks und Stubs auswechseln lassen. Ebenso ist eine Testbarkeit erst dann gegeben, wenn die genutzt Technologie eine hohe Stabilität im Hinblick auf Wiederholbarkeit bietet.
-        
-        Die Funktionalität von Wi-Fi Direct wird aktuell durch mehrere Faktoren eingeschränkt. Zunächst mangelt es an einem internen Zustandsdiagramm des genutzten Moduls. Dadurch ist es nicht möglich, festzustellen, welche Methoden in einer bestimmten Reihenfolge aufgerufen werden müssen, um den erwünschten Zustand einer Verbindung zu erreichen. Zudem sind hierbei interne Zustandsübergänge durch ankommende Events oder weitere unbekannte Gründe nicht dokumentiert. Dies führt dazu, dass nicht klar ist, wann Methoden aufgerufen werden müssen um den aktuellen Zustand der p2p Schnittstelle beizubehalten.
-        Als Evaluationskriterium kann hierbei wieder die Dokumentation im Hinblick auf die Funktionalität dienen, denn es kann festgestellt werden, wie gut der Verbindungszustand und Modulzustand dokumentiert sind. Es besteht zum Einen die Möglichkeit, dass keine Dokumentation vorliegt und das genutzte Modul lediglich als Blackbox genutzt werden kann. Als Optimum sollte jedoch die Dokumentation soweit vorhanden sein, dass interne sowie externe Events dokumentiert sind und gemeinsam mit einem Zustandsdiagramm sowohl der Verbindung als auch der Software dazu genutzt werden können, genau nachzuvollziehen, wann sich der aktuelle Zustand ändert und wie dieser wiederhergestellt werden kann.
-        
-        Die Qualität der eingesetzten Technologie kann zudem auf Effizienz überprüft werden. Da die genutzten Module in das Gerät fest integriert sind, lässt sich Energieverbrauch nicht messen und ist außerdem von dem im Gerät konkret verbauten Chip und dessen Treibern abhängig. Es kann jedoch eine Aussage über Übertragungsraten getroffen werden, welche eine numerische Skala abbilden. Hierdurch kann festgestellt werden, in wie weit manche Anwendungsfälle mit der entsprechenden Technologie möglich sind, oder die Nutzbarkeit dadurch eingeschränkt werden. Die Konfiguration über eine REST-Schnittstelle benötigt keine hohen Datenraten zur Kommunikation, falls der Nutzer jedoch beispielsweise eine Remote-Verbindung durch Telepharo über die p2p Schnittstelle zwischen seinem persönlichen Computer und dem eingesetzten IoT-Gerät aufbauen willen, benötigt er eine relativ latenzfreie und hochvolumige Datenübertragung.
-        
-        Letztlich kann überprüft werden, wie leicht sich die Technologie implementieren lässt, sodass sie für das bestehende Projekt genutzt werden kann. Da die Schwierigkeit von Aufgaben im Rahmen von Softwareentwicklung immer eine Kombination aus Zeitaufwand und Komplexität sind, lässt sich hierbei immer nur eine Schätzung oder persönliche Meinung auf Basis der eigenen Präferenz angeben.
-    \subsection{Evaluationsmethodik}
-    	Um die genannten Evaluationsziele überprüfen zu können, soll jede der Technologien Bluetooth (LE), NFC und USB in einem vergleichbaren Maße zu Wi-Fi Direct im Hinblick auf die Vollständigkeit ihrer Dokumentation und Nutzbarkeit ihrer Implementierung überprüft werden.
-    	Unter dem Aspekt der Softwarequalität lassen sich die Technologien gegenüberstellen. Dabei soll auf Grundlage einer beispielhaften Implementierung im Rahmen des bestehenden Projektes die Vor- und Nachteile verdeutlicht werden und zudem eine Evaluation der Komplexität und des Aufwandes einer Implementierung vorgenommen werden. Metriken, um die Qualität der Software zu messen, sind als ISO-Standard 9126 \footnote{Quelle} definiert. Hierbei soll auf die folgenden Punkte eingegangen werden und in wie weit diese extern gemessen werden können, da nicht einsehbar ist, wie ausgelieferte Implementierungsartefakte intern getestet werden und dokumentiert sind.
-    	\begin{enumerate}
-    	\item {\it Zuverlässigkeit:} 
-    	Um die Robustheit der Technologien feststellen und vergleichen zu können, muss festgestellt werden können, wie viele Fehler in der genutzten Implementierung existieren. Da dieser Punkt jedoch unter Anderem stark von der genutzten Hardware abhängt soll sich zunächst auf das Android Gerät Samsung Galaxy S7 und einen Raspberry Pi 3 B+ beschränkt werden. Gleichzeitig sollte hierbei zur Evaluation die Qualität der Dokumentation bewertet werden. Dazu zählt die Dokumentation und Verfügbarkeit des Sourcecodes im Hinblick auf die Schicht, welche als Schnittstelle bereit gestellt wird.
-    	\item {\it Wartbarkeit:} Um Fehler bei der Benutzung einer der Technologien beheben zu können, ist es nötig, dass die Technologie auf der einen Seite durch Dokumentation und Quellcode leicht zu verstehen ist und gleichzeitig es erlaubt, reproduzierbar Fehler zu testen. Um hierbei eine aussagekräftiges Bewertung vornehmen zu können, sollte keine Metrik wie die Häufigkeit von abweichenden Ergebnissen bei gleichen Eingabeparametern genutzt werden, da dies von nicht überschaubaren Faktoren abhängt. Es kann daher nur auf den Abstraktionsgrad der angebotenen Schnittstellen eingegangen werden, da diese für eigene Tests ersetzt werden müssen. Jedoch kann dieser Punkt auch in Verbindung mit der Zuverlässigkeit gesehen werden, da Fehler bei einer sauberen Dokumentation kein großes Hindernis für Wiederholbarkeit und damit Testbarkeit darstellen.
-    	\item {\it Funktionalität:}
-    	Die Abdeckung der Implementierungen der erwarteten Funktionalität kann nur sehr eingeschränkt überprüft werden, da aus einer externen Sicht die Menge der Funktionalitäten sich auf den Verbindungsaufbau und -abbau, sowie ein Senden und Empfangen von verbindungslosen Daten beschränken und alle Technologien diese Funktionalitäten anbieten. Es muss somit darauf geachtet werden in wie weit die internen Zustände dokumentiert sind und erreicht werden können.
-    	\item {\it Effizienz:}
-    	Die Effizienz der Technologien kann durch eine Vergleich von Datendurchsatzraten und Antwortzeiten festgestellt werden. Diese beiden Kennzahlen sind für eine Verbindungskonfiguration nicht kritisch, jedoch können mittels eines externen HTTP-Wrappers auch Drittprogramme eine solche p2p Verbindung nutzen.
-    	\item {\it Benutzbarkeit:}
-    	Die Benutzbarkeit der eingesetzten p2p Lösung, ergibt sich zum Einen daraus, wie stark der Nutzer in die verwendete Technologie eingebunden werden muss und zum Anderen daraus, wie komplex und zeitaufwändig eine Anbindung der Technologie ist.
-    	Der Nutzer ist zum größten Teil dazu angehalten, einen Verbindungsaufbau als erwünscht zu bestätigen. Dieser Vorgang sollte so leicht wie möglich gestaltet sein und kann durch eine Gegenüberstellung der einzelnen Schritte, die der Nutzer ausführen muss, bis eine erfolgreiche Verbindung besteht, verglichen werden.
-    	Die Komplexität und der Aufwand einer Implementierung kann anhand der Menge an Methoden, die implementiert werden müssen, besonders in einer C-Bibliothek, die eine eigene Schnittstelle zu pharo abbildet, festgestellt werden. Außerdem ist ein Vergleich im Hinblick auf die Komplexität der Logik, die bei der Anbindung gehandhabt werden muss, nötig.
-    	\end{enumerate}
-    	\subsection{Referenzwerte und Messbarkeit}
-
-		\subsection{Einschränkungen}
-		Um den Aufwand der Arbeit bewältigbar zu halten, gibt es ein paar weitere Rahmenbedingungen, die im Vorfeld definiert werden sollen. Hierbei ist darauf zu achten, wenn bei einer der Technologien ein deutlich größerer Aufwand abzusehen sein, sollte die Implementierung dieser Technologie ausgeklammert werden, da es auch einer Nutzbarkeit widerspricht, eine solche Technologie trotz einem hohen Aufwand in der Implementierung zu nutzen, da dies gleichzeitig auch einen hohen Aufwand in der Wartung und im Support bedeutet. \footnote{Nachteil Qualitätsmodell: Bezug zu Kosten und Nutzen [Lange Qualitätsmodelle]}
-		Weiterhin kann nicht auf Dokumentationen der entsprechenden Standards und Implementierungen der Technologien eingegangen werden, die nicht öffentlich zugänglich sind, da ebenso Änderungen und Erweiterungen an diesen Spezifikationen dann nicht nachvollziehbar sind.
-		
-    \section{Warum p2p?}		
-    - Warum p2p
-
-    - Präzisierung IoT - Internet of Things
-    \subsection{Services}
-    - Definition eines Services
+    \addcontentsline{toc}{section}{\lstlistlistingname}
+    \lstlistoflistings
+    \pagebreak
     
+    \addcontentsline{toc}{section}{Literaturverzeichnis}
+    \renewcommand\refname{Literaturverzeichnis}
+    \begin{thebibliography}{10}
+        \bibitem[Aneja et al.]{Aneja}Nagender Aneja und Sapna Gambhir: "Profile-Based Ad Hoc Social Networking Using Wi-Fi Direct on the Top of Android" {\it Mobile Information Systems, Volume 2018, Article ID 9469536, 7 pages} (2018).
+        \bibitem[Eberhardt et al.]{Kelm} Udo Eberhardt und Hans Joachim Kelm [Hrsg.]: {\it USB - Universal Serial Bus} Franzis, Poing (1999).
+        \bibitem[Esnaashari et al.]{Esnaashari} Shadi Esnaashari, Ian Welch und Peter Komisarczuk: {\it Determining home users' vulnerability to Universal Plug and Play (UPnP) attacks} Erschienen in: Proceedings of the 2013 27th International Conference on Advanced Information Networking and Applications Workshops (WAINA). IEEE, 2013. - S. 725-729. - ISBN 9781467362399 .
+        \bibitem[Kaiser et al.]{Kaiser} Daniel Kaiser, Marcel Waldvogel, Holger Strittmatter und Oliver Haese: {\it User-Friendly, Versatile, and Efficient Multi-Link DNS Service Discovery} Erschienen in: Proceedings 2016 IEEE 36th International Conference on Distributed Computing Systems Workshops : ICDCSW 2016. - Piscataway, NJ : IEEE, 2016. - S. 146-155. - ISBN 978-1-5090-3686-8.
+        \bibitem[Kaiser, Waldvogel]{Kaiser2} Daniel Kaiser und Marcel Waldvogel: {\it Adding Orivacy to Multicast DNS Service Discovery} Erschienen in: Proceedings - 2014 IEEE 13th International Conference on Trust, Security and Privacy in Computing and Communications (TrustCom) ; Beijing, China, 24 Sep - 26 Sep 2014. - Piscataway : IEEE, 2014. - S. 809-816. - ISBN 978-1-4799-6513-7.
+        \bibitem[Langer et al.]{Langer}Josef Langer und Michael Roland: {\it Anwendungen und Technik von Near Field Communication (NFC)} Springer, Heidelberg (2010).
+        \bibitem[Lüders]{Lueders}Christian Lüders: {\it Lokale Funknetze: Wireless LANs (IEEE 802.11), Bluetooth, DECT} Vogel, Würzburg (2007).
+        \bibitem[Morrow]{Morrow}Robert Morrow: {\it Bluetooth Operation and Use} McGraw-Hill (2002).
+        \bibitem[Sauter]{Sauter}Martin Sauter: {\it Grundkurs Mobile Kommunikationssysteme: LTE-Advanced, UMTS, HSPA, GSM, GPRS, Wireless LAN und Bluetooth} 6.Auflage Springer Vieweg, Wiesbaden (2015).
+        \bibitem[Sikora]{Sikora}Axel Sikora: {\it Wireless LAN: Protokolle und Anwendungen} Addison-Wesley, München u.A. (2001).
+		\bibitem[Townsend et al.]{Townsend} Kevin Townsend, Carles Cuffí, Akiba und Robert Davidson: {\it Getting Started with Bluetooth Low Energy} O'Reilly (2014).
+    \end{thebibliography}
+    \pagebreak
     
-    - Anbieten eines Services als Client/Server-Modell
+    \addcontentsline{toc}{section}{Internetquellen}
+    \renewcommand\refname{Internetquellen}
+    \begin{thebibliography}{9}
+        \bibitem[Android Koin]{androidKoin}https://insert-koin.io/
+		\bibitem[Android Koin Speed]{androidKoinSpeed}https://medium.com/koin-developers/ready-for-koin-2-0-2722ab59cac3
+        \bibitem[Android Accessory]{AOA}https://source.android.com/devices/accessories/custom
+        \bibitem[Android OkHttp]{AndroidOkHttp}https://github.com/square/okhttp
+        \bibitem[Android Permissions]{androidRights}https://elinux.org/Android\_Security\#Paranoid\_network-ing
+        \bibitem[Android Repository]{androidRepo}https://android.googlesource.com/platform/frameworks/base
+        \bibitem[iot-connectivity]{main-repository}https://github.com/janphkre/iot-connectivity
+        \bibitem[iot-p2p-test]{test-repository}https://github.com/janphkre/iot-p2p-test
+        \bibitem[JSON Schema]{JsonSchema}https://json-schema.org/
+        \bibitem[Linux Packet]{linuxPacket}http://man7.org/linux/man-pages/man7/packet.7.html
+        \bibitem[OpenAPI]{OpenApi}https://swagger.io/docs/specification/about/
+        \bibitem[Pharo]{pharo}http://pharo.org/
+        \bibitem[Pharo OpenAPI]{pharoOpenApi}https://github.com/zweidenker/openapi
+        \bibitem[Pharo Things]{pharoThings}https://github.com/pharo-iot/PharoThings
+        \bibitem[Pharo Zinc]{pharoZinc}https://github.com/zweidenker/zinc/
+        \bibitem[WiFi Direct]{wifiDirect}https://www.wi-fi.org/discover-wi-fi/wi-fi-direct                        		\bibitem[WiFi HostAP Repository]{hostAp}git://w1.fi/hostap.git
+        \bibitem[WiFi wpa\_supplicant]{wpaSupplicant}https://w1.fi/wpa\_supplicant/
+        \bibitem[Zweidenker]{zweidenker}\texttt{https://zweidenker.de}
+    \end{thebibliography}
+    \pagebreak
     
-    \subsection{Servicestabilität (Todo: entfällt eventuell)}
-    - API Versionierung
+    \addcontentsline{toc}{section}{Anhang}
+    \section*{Anhang: Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App}
     
-    - Absichern von Änderungen durch Contract-Driven-Development
-    
-    - Integrationstests
-    \subsection{Netzwerktypen}
-		- LAN, WAN, etc.
-		
-		- ad hoc, Stern-basiert, Bus-basiert
-		\section{Grundlagen der Verbindungstechnologien}
-		
-		\subsection{Bluetooth}
-		
-		\subsection{NFC}
-		
-		\subsection{USB}
-		
-    \section{Eigene Umsetzung}
-        Im Folgenden wird die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben. Jede dieser Technologien soll zunächst separat betrachtet werden, um Details und Probleme bei der Implementierung aufzuzeigen.
-        
-        Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem EOF beendet werden, über eine langlebige Verbindung zu senden, da ein EOF immer auch das Ende der Verbindung aufzeigt.
-        
-    \subsection{HTTP Kapselung}
-        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie nutzen zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST-Server aufbauen zu können. Da das REST-Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden. Auf der Serverseite stellt dies kein Problem dar, da der HTTP-Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
-        
-        \begin{lstlisting}[language=C, caption=Instanziierung eines Sockets (Server: C)]
-int s = socket(AF_INET, SOCK_STREAM , 0);
-struct sockaddr_in rem_addr = { 0 };
-rem_addr.sin_addr.s_addr = htonl(INADDR_LOOPBACK);
-rem_addr.sin_family = AF_INET;
-rem_addr.sin_port = htons(targetPort);
-connect(s, (struct sockaddr *)&rem_addr , sizeof(rem_addr));
-        \end{lstlisting}\footnote{TODO:RAHMEN UM CODE}
-        \footnote{TODO: REFERENZ ZUM CODE BEISPIEL}Der kapselnde Server baut eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP-Server zu vermeiden. Dies erfüllt sonst die Anfangskriterien eines slow-louis-Angriffes auf einer einzelnen Verbindung. \footnote{Quelle?}
-        \begin{lstlisting}[language=C, caption=Datenweiterleitung durch Sockets (Server: C)]
-void* hookSockets(void* data) {
-    SocketInfo sockets = *((SocketInfo*) data);
-    char buffer[BUF_SIZE] = { 0 };
-    while(pipeData(sockets.readingSocket, sockets.writingSocket, buffer) >= 0) { ;; }
-    return NULL;
-}        
-        
-int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
-    int bytes_read, bytes_sent;
-
-    bytes_read = read(sourceSocket, buffer, BUF_SIZE);
-    if(bytes_read < 0) return -1;
-    if(bytes_read == 0) return -20; // indicates a EOF
-
-    bytes_sent = send(sinkSocket, buffer, bytes_read, 0);
-    if(bytes_sent < 0) return -2;
-
-    return 0;
-}
-        \end{lstlisting}\footnote{TODO:RAHMEN UM CODE}
-        
-        Die bestehende Socket-Verbindung zum Zielserver wird genutzt, um die ankommenden Daten und deren Antworten voll duplex weiterzuleiten. Dies ist realisiert, indem die Method {\it hookSockets} als zwei Threads mit invertiertem {\it SocketInfo} gestartet werden. Für den kapselnden Server ist es so unerheblich, welche Seite Daten zuerst senden möchte. Die Verbindung zwischen dem Zielserver und dem kapselnden Server kann so auch unabhängig von der Verbindung zum Endgerät verwaltet werden, da beim Lesen der Daten vom Zielserver ein EOF das Ende der Verbindung zum Zielserver aufzeigt. Die Verbindung zum Endgerät muss so nicht zwingend geschlossen werden.
-
-        
-        Ein Abkapseln der Technologie über einen weiteren Server auch auf Seite des Clients erscheint als vermeidbarer Overhead, da so keine Serverimplementierung auch im Client stattfinden muss. Stattdessen wird hier der HTTP-Client, welcher der REST-Bibliothek zugrunde liegt, so aufgetrennt, dass keine TCP/IP-Verbindungen aufgebaut werden, jedoch die Anfragen aus der Bibliothek als String entnommen werden können und  deren Antworten als String eingespeist werden können. Für den REST-Client retrofit wird intern okhttp\footnote{Referenz} als HTTP-Client genutzt. Um zu verstehen, welche Änderungen am Client nötig sind, sollte zuerst die interne Struktur der okhttp Bibliothek erläutert werden.
-        \begin{lstlisting}[language=Java, caption=Interner Aufbau von okhttp (Client: Java)]
-List<Interceptor> interceptors = new ArrayList<>();
-...
-interceptors.add(retryAndFollowUpInterceptor);
-interceptors.add(new BridgeInterceptor(client.cookieJar()));
-interceptors.add(new CacheInterceptor(client.internalCache()));
-interceptors.add(new ConnectInterceptor(client));
-...
-interceptors.add(new CallServerInterceptor(forWebSocket));
-        \end{lstlisting}
-        \footnote{Todo: Rahmen um Code}\footnote{Quelle zu Datei (github: https://github.com/square/okhttp/blob/okhttp\_3.11.x/okhttp/src/main/java/okhttp3/RealCall.java Zeile 185-194)} Aufrufe werden durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, Baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Socket zu schreiben und die Antwort zu lesen.
-        
-        \begin{lstlisting}[language=Java, caption=Änderungen an okhttp (Client: Kotlin)]
-val interceptors = ArrayList<Interceptor>()
-...
-interceptors.add(BridgeInterceptor(wrapper.cookieJar()))
-interceptors.add(CacheInterceptor(wrapper.internalCache()))
-...
-interceptors.add(SimpleServerInterceptor(wrapper.httpCodec()))
-        \end{lstlisting}
-        \footnote{Todo: Rahmen um Code} Im Gegensatz zur okhttp Implementierung muss die p2p Verbindung so verwaltet werden, wie es von der Implementierung der Technologie vorgegeben wird. Dazu wird der {\it RetryAndFollowUpInterceptor} sowie der {\it ConnectInterceptor} weggelassen und der {\it CallServerInterceptor} im {\it SimpleServerInterceptor} soweit vereinfacht wird, sodass dieser keine Handshakes mehr unterstützt und nicht mit Websockets genutzt werden kann.
-        Um die Kapselung so simpel wie möglich zu halten, wird ebenfalls auf HTTP 2 verzichtet, wodurch der abgewandelte HTTP Client nur HTTP1.1 unterstützt. Da im okhttp Client der {\it HttpCodec} sowohl die Aufgabe erfüllt, den Request in einen HTTP-String umzuwandeln, als auch den Request über die Verbindung zu schreiben, muss so lediglich eine weitere Klasse angepasst werden. der {\it Http1Codec} wird dabei minimal angepasst, sodass interne Klassen der okhttp Implementierung, die nicht im Rahmen dieser HTTP Kapselung nötig sind, genutzt werden.
-        
-        
-        Diese generische HTTP Kapselung lässt sich nun ähnlich der okhttp Implementierung über eine zentrale Klasse, den {\it SimpleHttpWrapper} nutzen. Diese Klasse nutzt ebenfalls das Builder-Pattern, um so nah wie möglich an der okhttp Bilbiothek zu bleiben. Über diesen Builder lässt sich nun ein {\it ConnectionStream} definieren, welcher dann den Inputstream und Outputstream der Verbindung bereitstellt.
-        
-        \subsection{Bluetooth}
-        Die Umsetzung einer p2p Verbindung über Bluetooth besteht darin, dass ähnlich zu HTTP Sockets, RFCOMM Sockets genutzt werden, um mit einem Server kurzweilig zu kommunizieren. Jede dieser RFCOMM Verbindungen bildet hierbei eine HTTP Anfrage und HTTP Antwort ab. Wie bereits in der HTTP Kapselung beschrieben, wird die Verbindung von selbst wieder geschlossen, sobald ein EOF gesendet wird. Da RFCOMM Socket Verbindungen ein automatisches Pairing mit Schlüsselaustausch durchführen, ist keinerlei Eingriff oder Bestätigung des Nutzers nötig, um Daten übertragen zu können.
-        \begin{lstlisting}[language=Java, caption=Verbindungsaufbau mit Bluetooth (Client: Kotlin)]
-val bluetoothDevice = bluetoothAdapter.bondedDevices?.firstOrNull { bluetoothDevice ->
-    bluetoothDevice.address == device.bluetoothDetails.mac
-} ?: bluetoothAdapter.getRemoteDevice(device.bluetoothDetails.mac)
-
-val method = bluetoothDevice::class.java.getMethod("createInsecureRfcommSocket", Int::class.javaPrimitiveType)
-val socket = method.invoke(bluetoothDevice, device.bluetoothDetails.port) as BluetoothSocket
-socket.connect()
-        \end{lstlisting}\footnote{Todo: Rahmen um Code}
-        Für den Verbindungsaufbau muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Der {\it BluetoothAdapter} aus dem Android Framework gibt ein {\it BluetoothDevice} für die angegebene MAC-Addresse zurück. Es ist hierbei noch unerheblich, dass dieses Gerät auch in der Nähe erreichbar ist oder existiert. Über die versteckten Methoden {\it BluetoothDevice::createInsecureRfcommSocket} und {\it BluetoothDevice::createRfcommSocket} kann eine Socket-Verbindung zu einem bestimmten Port des entfernten Gerätes erstellt werden. In Android sind diese Methoden versteckt, um Konflikte zwischen Apps beim festlegen der Portnummern zu vermeiden, da lediglich 30 RFCOMM Ports zur Verfügung stehen.\footnote{Quelle z.B. https://people.csail.mit.edu/albert/bluez-intro/x148.html} Stattdessen sollen Services eine UUID generieren, welche über Bluetooth Service Discovery Protocol (SDP) von anderen Geräten abgefragt werden kann. Das SDP Protokoll übernimmt dann die Vergabe von Ports für die registrierten Services. Um diese exemplarische Implementierung jedoch simpel zu halten und volle Kontrolle über das Servergerät besteht, wird hierbei ein vordefinierter Port genutzt.
-
-         Jegliche Logik zum tatsächlichen Verbindungsaufbau ist in der Methode {\it BluetoothSocket::connect} gekapselt und muss bei der Umsetzung nicht beachtet werden. Auf beiden Geräten muss lediglich Bluetooth eingeschaltet sein und das Servergerät muss auffindbar für den Client sein.
-   
-        \begin{lstlisting}[language=C, caption=Verbindungsaufbau mit Bluetooth (Server: C)]
-int s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-struct sockaddr_rc loc_addr = { 0 };
-loc_addr.rc_family = AF_BLUETOOTH;
-loc_addr.rc_bdaddr = *BDADDR_ANY;
-loc_addr.rc_channel = (uint8_t) bluetoothPort;
-bind(s, (struct sockaddr *)&loc_addr, sizeof(loc_addr));
-listen(s, LISTEN_QUEUE_SIZE);
-        \end{lstlisting}\footnote{Todo: Rahmen um Code}
-        Auf Seite des Servers kann die Implementierung der HTTP Kapselung fast vollständig übernommen werden,jedoch müssen Verbindungen auf einem weiteren Socket mit dem Bluetooth RFCOMM Protokoll akzeptiert werden.
-        
-        Mit diesen beiden Anbindungen von Bluetooth an die generische HTTP Kapselung lässt sich diese simple Lösung bereits nutzen. Um jedoch die geheimen Methoden unter Android nicht nutzen zu müssen, ist es nötig, auf dem Server die Anbindung im Bluetooth SDP als Service zu hinterlegen. Kürzlich wurde die BlueZ 5 Bibliothek von einer simplen C-Schnittstelle auf eine DBus-Schnittstelle umgewandelt.\footnote{http://www.bluez.org/bluez-5-api-introduction-and-porting-guide/} Dies hat zur Folge, dass viele der Beispiele und Erklärungen, ebenso wie Bücher nicht mehr aktuell sind und erst auf die neue API hingewiesen wird, wenn nach der expliziten Fehlermeldung gesucht wird.
-        
-        \begin{lstlisting}[language=C, caption=Veraltete Nutzung von SDP (Server: C)]
-sdp_set_info_attr(record, serviceName, serviceProvider, serviceDescription);
-*session = sdp_connect(BDADDR_ANY, BDADDR_LOCAL, SDP_RETRY_IF_BUSY);
-sdp_record_register(*session, record, 0);
-        \end{lstlisting}\footnote{Todo: Rahmen um Code}
-        In älteren Versionen von BlueZ war es möglich einen SDP Eintrag mit der Methode {\it sdp\_record\_register} anzulegen. Dieser Eintrag wurde von SDP selbstständig verwaltet und entfernt wenn die Sitzung zu SDP beendet wurde. Auf Grund des Wechsels zu DBus kann diese SDP-Schnittstelle nicht mehr genutzt werden, da sich keine Sitzungen zum SDP daemon aufbauen lassen, da dieser nicht mehr existiert.
-        \begin{lstlisting}[language=C, caption=DBus Nutzung von SDP (Server: C)]
-static DBusHandlerResult wrapper_messages(DBusConnection* connection, DBusMessage* message, void* user_data) {
-    const char* interface_name = dbus_message_get_interface(message);
-    const char* member_name = dbus_message_get_member(message);
-    if (0==strcmp("org.bluez.Profile1", interface_name)) {
-        if(0==strcmp("Release", member_name)) {
-            profileRelease();
-            return DBUS_HANDLER_RESULT_HANDLED;
-        } else if(0==strcmp("NewConnection", member_name)) {
-            profileNewConnection(message);
-            return DBUS_HANDLER_RESULT_HANDLED;
-        } else if(0==strcmp("RequestDisconnection", member_name)) {
-            profileRequestDisconnection();
-            return DBUS_HANDLER_RESULT_HANDLED;
-        }
-    }
-    return DBUS_HANDLER_RESULT_NOT_YET_HANDLED;
-}
-
-DBusObjectPathVTable vtable;
-vtable.message_function = wrapper_messages;
-vtable.unregister_function = NULL;              
-
-DBusConnection* conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
-dbus_connection_try_register_object_path(conn, PROFILE_PATH, &vtable, NULL, &err);
-
-DBusMessage* msg = dbus_message_new_method_call("org.bluez", "/org/bluez", "org.bluez.ProfileManager1", "RegisterProfile");
-...
-dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
-        \end{lstlisting}\footnote{Todo: Rahmen um Code}\footnote{TODO: Code Beispiel istzu lang.}
-        Um die SDP Funktionalität dennoch nutzen zu können, ist es nötig zunächst ein Callback-Objekt zu registrieren. Dieses Objekt hat die Aufgabe, ankommende Verbindungen zu akzeptieren und zu nutzen. Es ersetzt somit den akzeptierenden Serversocket. Weiterhin muss das Objekt in der Lage sein, bestehende Verbindungen schließen zu können. Dies hat zur Folge, dass die Komplexität im Vergöeoch zu einer Lösung ohne SDP stark erhöht wird, da nicht nur die DBus Nachrichten auf einem separaten Thread gehandhabt werden müssen, sondern auch eine Auflösung zwischen offenen Dateideskriptoren und den Client Kennungen stattfinden muss.
-        Über diese gegebenen Dateideskriptoren konnte jedoch keine erfolgreiche Datenübertragung erzielt werden. Eine Verbindung wurde immer erfolgreich aufgebaut, jedoch schienen keine Daten tatsächlich übertragen zu werden, wodurch die Verbindung nach einem Timeout wieder geschlossen wurde.
-        
-        Ebenso war es serverseitig nicht möglich, die nötigen Sockets in pharo zu verwalten. Dem liegt zu Grunde, dass Sockets in der pharo VM über das SocketsPlugin\footnote{Quelle: https://github.com/pharo-project/pharo-vm/tree/master/mc/VMMaker.oscog.package/SocketPlugin.class} gekapselt verwaltet werden und dort fest als IP-Sockets erstellt werden.
-        \begin{lstlisting}
-newSocket = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
-
-        \end{lstlisting}
-    \subsection{NFC}
-		
-		\subsection{USB}
-		
-		\section{Evaluation (Todo: Besserer Name)}
-		
-		\subsection{Zuverlässigkeit}
-		
-		\subsection{Wartbarkeit}
-		
-		\subsection{Funktionalität}
-		
-		\subsection{Effizienz}
-		
-		\subsection{Bedienbarkeit}
-		
-		\subsection{Zusammenfassung}
-		
-		\section{Ausblick}		
+    \begin{titlepage}
+    \section*{Eidesstattliche Erklärung}
+    \end{titlepage}
 \end{document}
