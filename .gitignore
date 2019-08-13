@@ -7,6 +7,7 @@ general/books/*.pdf
 *.log
 *.synctex.gz
 *.toc
+*.lol
 #Pharo folder: pharo images and vm
 *.changes
 *.image
