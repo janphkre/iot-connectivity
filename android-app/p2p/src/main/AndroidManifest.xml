@@ -25,4 +25,7 @@
     <uses-feature
         android:required="true"
         android:name="android.hardware.usb.host" />
+
+    <application
+        android:networkSecurityConfig="@xml/network_security_config"/>
 </manifest>

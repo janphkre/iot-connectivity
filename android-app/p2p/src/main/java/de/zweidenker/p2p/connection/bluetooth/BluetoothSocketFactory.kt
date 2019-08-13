@@ -9,8 +9,7 @@ import java.net.Socket
 import java.net.SocketImpl
 import javax.net.SocketFactory
 
-@Deprecated("Use the BluetoothConnectionStream instead")
-class UnusedBluetoothSocketFactory(
+class BluetoothSocketFactory(
     private val device: Device
 ) : SocketFactory() {
 
@@ -34,7 +33,7 @@ class UnusedBluetoothSocketFactory(
         val method = bluetoothDevice::class.java.getMethod("createInsecureRfcommSocket", Int::class.javaPrimitiveType)
         val socket = method.invoke(bluetoothDevice, device.bluetoothDetails.port) as BluetoothSocket
 
-        return WrappingSocket(UnusedWrappingBluetoothSocketImpl(socket))
+        return WrappingSocket(WrappingBluetoothSocketImpl(socket))
     }
 
     override fun createSocket(host: String?, port: Int): Socket {

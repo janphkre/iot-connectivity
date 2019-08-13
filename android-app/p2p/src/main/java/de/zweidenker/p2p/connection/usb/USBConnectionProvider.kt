@@ -11,14 +11,14 @@ import android.os.ParcelFileDescriptor
 import android.util.Log
 import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.connection.http.ConnectionStream
-import de.zweidenker.p2p.connection.http.SimpleConnectionProvider
+import de.zweidenker.p2p.connection.http.DeprecatedSimpleConnectionProvider
 import de.zweidenker.p2p.model.Device
 import rx.subjects.PublishSubject
 import java.io.IOException
 
 class USBConnectionProvider(
     context: Context
-) : SimpleConnectionProvider("usb") {
+) : DeprecatedSimpleConnectionProvider("usb") {
 
     private val permissionSubject = PublishSubject.create<Boolean>()
     private val broadcastReceiver = object : BroadcastReceiver() {

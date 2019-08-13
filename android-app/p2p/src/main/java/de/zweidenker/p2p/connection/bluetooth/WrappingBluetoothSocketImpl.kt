@@ -7,7 +7,7 @@ import java.net.InetAddress
 import java.net.SocketAddress
 import java.net.SocketImpl
 
-class UnusedWrappingBluetoothSocketImpl(
+class WrappingBluetoothSocketImpl(
     private val bluetoothSocket: BluetoothSocket
 ) : SocketImpl() {
 
