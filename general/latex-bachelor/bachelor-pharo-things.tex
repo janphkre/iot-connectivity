@@ -9,6 +9,7 @@
 \renewcommand{\figurename}{Fig.}
 \renewcommand{\lstlistingname}{Algorithmus}
 \renewcommand{\lstlistlistingname}{Verzeichnis der Algorithmen}
+\newcommand{\reflst}[1]{\lstlistingname\ \ref{#1}}
 
 \title{Bachelorarbeit: PharoThings-Connectivity SS19}
 \begin{document}
@@ -69,24 +70,8 @@
     \addcontentsline{toc}{section}{Internetquellen}
     \renewcommand\refname{Internetquellen}
     \begin{thebibliography}{9}
-        \bibitem[Android Koin]{androidKoin}https://insert-koin.io/
-		\bibitem[Android Koin Speed]{androidKoinSpeed}https://medium.com/koin-developers/ready-for-koin-2-0-2722ab59cac3
-        \bibitem[Android Accessory]{AOA}https://source.android.com/devices/accessories/custom
-        \bibitem[Android OkHttp]{AndroidOkHttp}https://github.com/square/okhttp
-        \bibitem[Android Permissions]{androidRights}https://elinux.org/Android\_Security\#Paranoid\_network-ing
-        \bibitem[Android Repository]{androidRepo}https://android.googlesource.com/platform/frameworks/base
-        \bibitem[iot-connectivity]{main-repository}https://github.com/janphkre/iot-connectivity
-        \bibitem[iot-p2p-test]{test-repository}https://github.com/janphkre/iot-p2p-test
-        \bibitem[JSON Schema]{JsonSchema}https://json-schema.org/
-        \bibitem[Linux Packet]{linuxPacket}http://man7.org/linux/man-pages/man7/packet.7.html
-        \bibitem[OpenAPI]{OpenApi}https://swagger.io/docs/specification/about/
-        \bibitem[Pharo]{pharo}http://pharo.org/
-        \bibitem[Pharo OpenAPI]{pharoOpenApi}https://github.com/zweidenker/openapi
-        \bibitem[Pharo Things]{pharoThings}https://github.com/pharo-iot/PharoThings
-        \bibitem[Pharo Zinc]{pharoZinc}https://github.com/zweidenker/zinc/
-        \bibitem[WiFi Direct]{wifiDirect}https://www.wi-fi.org/discover-wi-fi/wi-fi-direct                        		\bibitem[WiFi HostAP Repository]{hostAp}git://w1.fi/hostap.git
-        \bibitem[WiFi wpa\_supplicant]{wpaSupplicant}https://w1.fi/wpa\_supplicant/
-        \bibitem[Zweidenker]{zweidenker}\texttt{https://zweidenker.de}
+        \bibitem[okhttp RealCall]{okhttpRealCall}\texttt{https://github.com/square/okhttp/blob/okhttp\_3.11.x/okhttp/\linebreak src/main/java/okhttp3/RealCall.java}
+        \bibitem[BlueZ 5 Porting]{BluezMigration}\texttt{http://www.bluez.org/bluez-5-api-introduction-and-porting-guide/}
     \end{thebibliography}
     \pagebreak
     
