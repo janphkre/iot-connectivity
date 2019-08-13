@@ -9,7 +9,7 @@ import rx.Observable
 import java.util.concurrent.TimeUnit
 import javax.net.SocketFactory
 
-abstract class SimpleConnectionProvider: DeviceConnectionProvider {
+abstract class SimpleConnectionProvider : DeviceConnectionProvider {
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
         return Observable.unsafeCreate<DeviceConfigurationProvider> { subscriber ->
