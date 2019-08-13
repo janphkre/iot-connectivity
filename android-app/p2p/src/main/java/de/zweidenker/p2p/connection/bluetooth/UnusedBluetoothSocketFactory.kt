@@ -12,9 +12,9 @@ import javax.net.SocketFactory
 @Deprecated("Use the BluetoothConnectionStream instead")
 class UnusedBluetoothSocketFactory(
     private val device: Device
-): SocketFactory() {
+) : SocketFactory() {
 
-    private class WrappingSocket(socketImpl: SocketImpl): Socket(socketImpl)
+    private class WrappingSocket(socketImpl: SocketImpl) : Socket(socketImpl)
 
     override fun createSocket(): Socket {
         val bluetoothAdapter: BluetoothAdapter = BluetoothAdapter.getDefaultAdapter()

@@ -11,7 +11,7 @@ import java.io.FileOutputStream
 
 internal class USBConnectionStream(
     private val fileDescriptor: ParcelFileDescriptor
-): ConnectionStream {
+) : ConnectionStream {
 
     override fun newCodec(httpWrapper: HttpWrapper): HttpCodec {
         val usbFile = fileDescriptor.fileDescriptor

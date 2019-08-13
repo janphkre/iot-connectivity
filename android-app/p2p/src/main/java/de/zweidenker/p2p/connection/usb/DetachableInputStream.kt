@@ -6,10 +6,10 @@ import java.io.InputStream
 
 class DetachableInputStream(
     private var attachedInputStream: InputStream?
-): InputStream() {
+) : InputStream() {
 
     override fun close() {
-        Log.e("TESTINPUT","Closing InputStream!")
+        Log.e("TESTINPUT", "Closing InputStream!")
         attachedInputStream = null
         super.close()
     }

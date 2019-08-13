@@ -9,21 +9,21 @@ import java.net.SocketImpl
 
 class UnusedWrappingBluetoothSocketImpl(
     private val bluetoothSocket: BluetoothSocket
-): SocketImpl() {
+) : SocketImpl() {
 
     override fun listen(backlog: Int) {
         throw UnsupportedOperationException("Listen is not supported on a BluetoothSocket!")
     }
 
     override fun getOption(optID: Int): Any? {
-        //throw UnsupportedOperationException("GetOption is not supported on a BluetoothSocket!")
+        // throw UnsupportedOperationException("GetOption is not supported on a BluetoothSocket!")
         return null
     }
 
     override fun create(stream: Boolean) { }
 
     override fun setOption(optID: Int, value: Any?) {
-        //throw UnsupportedOperationException("SetOption is not supported on a BluetoothSocket!")
+        // throw UnsupportedOperationException("SetOption is not supported on a BluetoothSocket!")
     }
 
     override fun connect(host: String?, port: Int) {
@@ -65,6 +65,4 @@ class UnusedWrappingBluetoothSocketImpl(
     override fun close() {
         return bluetoothSocket.close()
     }
-
-
 }

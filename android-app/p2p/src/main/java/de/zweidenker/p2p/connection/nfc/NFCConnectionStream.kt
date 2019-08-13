@@ -8,7 +8,7 @@ import okhttp3.internal.http.HttpCodec
 import okio.Okio
 import java.io.IOException
 
-internal class NFCConnectionStream: ConnectionStream {
+internal class NFCConnectionStream : ConnectionStream {
 
     override fun newCodec(httpWrapper: HttpWrapper): HttpCodec {
         val socket = try {
@@ -22,11 +22,11 @@ internal class NFCConnectionStream: ConnectionStream {
         return SimpleHttp1Codec(httpWrapper, nfcSource, nfcSink)
     }
 
-    //TODO: ADD STORING INPUTSTREAM
+    // TODO: ADD STORING INPUTSTREAM
 
     private fun connect(): BluetoothSocket {
         throw NotImplementedError("NFC can not be used for a bidirectional p2p connection. It only supports unidirectional traffic.")
-        //The user would be required to remove his phone from the pi and mve it onto it again multiple times,
+        // The user would be required to remove his phone from the pi and mve it onto it again multiple times,
         // as each ndef tag is only discovered once, therefor it is only handeled once, no matter how long the phone stays near it.
     }
 }

@@ -18,13 +18,13 @@ import java.io.IOException
 
 class USBConnectionProvider(
     context: Context
-): SimpleConnectionProvider("usb") {
+) : SimpleConnectionProvider("usb") {
 
     private val permissionSubject = PublishSubject.create<Boolean>()
     private val broadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
-            if(intent == null) return
-            if(intent.action == P2PModule.USB_BROADCAST_ACTION) {
+            if (intent == null) return
+            if (intent.action == P2PModule.USB_BROADCAST_ACTION) {
                 permissionSubject.onNext(intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false))
             }
         }
@@ -45,11 +45,11 @@ class USBConnectionProvider(
         /*if(PackageManager.FEATURE_USB_ACCESSORY) {
 
         }*/
-        if(usbManager == null) {
+        if (usbManager == null) {
             throw IOException("No usb manager available!")
         }
         val accessory: UsbAccessory = usbManager.accessoryList.firstOrNull() ?: throw IOException("No usb device connected!")
-        fileDescriptor = if(usbManager.hasPermission(accessory)) {
+        fileDescriptor = if (usbManager.hasPermission(accessory)) {
             usbManager.openAccessory(accessory)
         } else {
             requestPermission(accessory)
@@ -60,7 +60,7 @@ class USBConnectionProvider(
     override fun destroy(context: Context) {
         try {
             context.unregisterReceiver(broadcastReceiver)
-        } catch(e: IllegalArgumentException) {
+        } catch (e: IllegalArgumentException) {
             e.printStackTrace()
         }
         pendingIntent.cancel()
@@ -70,9 +70,9 @@ class USBConnectionProvider(
     }
 
     private fun requestPermission(accessory: UsbAccessory): ParcelFileDescriptor? {
-        Log.e("UsbConnectionProvider","Requesting permission")
+        Log.e("UsbConnectionProvider", "Requesting permission")
         usbManager?.requestPermission(accessory, pendingIntent)
-        return if(permissionSubject.toBlocking().first()) {
+        return if (permissionSubject.toBlocking().first()) {
             usbManager!!.openAccessory(accessory)
         } else {
             null

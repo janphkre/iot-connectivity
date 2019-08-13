@@ -6,16 +6,16 @@ import java.io.OutputStream
 
 class DetachableOutputStream(
     private var attachedOutputStream: OutputStream?
-): OutputStream() {
+) : OutputStream() {
 
     override fun close() {
         attachedOutputStream = null
-        Log.e("TESTOUTPUT","Closing OutputStream!")
+        Log.e("TESTOUTPUT", "Closing OutputStream!")
         super.close()
     }
 
     override fun write(b: Int) {
-        Log.e("TESTOUTPUT","$b")
+        Log.e("TESTOUTPUT", "$b")
         attachedOutputStream?.write(b) ?: throw IOException("closed")
     }
 }

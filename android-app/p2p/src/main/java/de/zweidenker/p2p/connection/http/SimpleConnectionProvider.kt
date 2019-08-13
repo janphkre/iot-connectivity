@@ -6,7 +6,7 @@ import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.model.Device
 import rx.Observable
 
-abstract class SimpleConnectionProvider(private val deviceHost: String): DeviceConnectionProvider {
+abstract class SimpleConnectionProvider(private val deviceHost: String) : DeviceConnectionProvider {
 
     override fun connectTo(device: Device): Observable<DeviceConfigurationProvider> {
         return Observable.unsafeCreate<DeviceConfigurationProvider> { subscriber ->
