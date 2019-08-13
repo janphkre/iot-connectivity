@@ -143,6 +143,7 @@ socket.connect()
     \subsection{NFC}
         Eine p2p Verbindung wird mit Near Field Communication so gestaltet, dass beide Seiten abwechselnd Daten über das gemeinsame Trägersignal übertragen können.  Aufgrund der genutzten Hardware steht hierbei lediglich NFC-A (ISO 14443-3A) und als NDEF formattierte NFC Tags zur Verfügung.
     \subsubsection{Serverseite}
-	    Für NFC wird beim Raspberry Pi ein zusätzliches NFC Modul wie z.B. das NXP PN532, benötigt. Dieses Modul bildet mit der dazugehörigen C-Schnittstelle \cite{nfcLib} die Funktionalität ab, die nötig ist, um eine p2p Verbindung nutzen zu können. \footnote{https://blog.classycode.com/sockets-over-nfc-on-android-c294b6c58bbf}
-	    
+	    Für NFC wird beim Raspberry Pi ein zusätzliches NFC Modul, welches ISO/IEC 18092 Peer-To-Peer Kommunikation unterstützt, benötigt. Für dieses Projekt, wurde der Chip NXP PN532\footnote{https://www.nxp.com/docs/en/nxp/data-sheets/PN532_C1.pdf} genutzt, da dieser bereits als vollständiges Breakout-Board angeboten wird. Für das Problem, HTTP über NFC zu übertragen, existiert bereits eine Lösung, die aus \cite{nfcSockets} vollständig übernommen werden kann.\footnote{blog.classycode.com/sockets-over-nfc-on-android-c294b6c58bbf}
+	\subsubsection{Clientseite}
+	    \footnote{https://github.com/classycodeoss/nfc-sockets/blob/master/android/NFCSockets/app/src/main/java/com/classycode/nfcsockets/sockets/NFCSocket.java}
     \subsection{USB}
