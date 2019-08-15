@@ -124,7 +124,7 @@ dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
         Eine Lösung, die Sockets in pharo verwaltet, würde auch wieder Mehraufwand gegenüber anderen Lösungen bedeuten, da andere Technologien nicht zwingend ebenfalls Sockets unterstützen und somit ein Mehraufwand durch abweichende Implementierungen entsteht, wenn mehrere Lösungen parallel genutzt werden.
         
         \subsubsection{Clientseite}
-        Um unter Android eine Bluetoothverbindung über RFCOMM aufbauen zu können, muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Diese beiden Parameter lassen sich, wie bereits bei eienr Implementierung mit Wi-Fi Direct gezeigt \cite{aiProject}, über die implementierte Service Discovery bereitstellen. 
+        Um unter Android eine Bluetoothverbindung über RFCOMM aufbauen zu können, muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Diese beiden Parameter lassen sich, wie bereits bei einer Implementierung mit Wi-Fi Direct gezeigt \cite{aiProject}, über die implementierte Service Discovery bereitstellen.
         \begin{lstlisting}[frame=bt, label={lst:android:bluetooth}, language=Java, caption=Verbindungsaufbau mit Bluetooth (Clientcode in Kotlin)]
 val bluetoothDevice = bluetoothAdapter.bondedDevices
   ?.firstOrNull { bluetoothDevice ->
@@ -148,10 +148,10 @@ socket.connect()
         Eine p2p Verbindung wird mit Near Field Communication so gestaltet, dass beide Seiten abwechselnd Daten über das gemeinsame Trägersignal übertragen können.  Aufgrund der genutzten Hardware steht hierbei lediglich NFC-A (ISO 14443-3A) und als NDEF formattierte NFC Tags zur Verfügung.
         
     \subsubsection{Serverseite}
-	    Um NFC mit einem Raspberry Pi nutzen zu können, wird ein zusätzliches NFC Modul benötigt, welches an die GPIO-Pins des Einplatinenrechners angeschlossen wird. Für dieses Projekt wurde der Chip {\it NXP PN532} genutzt, da dieser bereits als vollständiges Breakout-Board angeboten wird und gleichzeitig die nötige ISO 14443-3A Kommunikation als Kartenleser unterstützt \cite{nxpChip}. 
+	    Um NFC mit einem Raspberry Pi nutzen zu können, wird ein zusätzliches NFC Modul benötigt, welches an die GPIO-Pins des Einplatinenrechners angeschlossen wird. Für dieses Projekt wurde der Chip {\it NXP PN532} genutzt, da dieser bereits als vollständiges Breakout-Board angeboten wird und gleichzeitig die nötige ISO 14443-3A Kommunikation als Kartenleser unterstützt \cite{nxpChip}.
 	    Die Bibliothek {\it libnfc} bietet eine Anbindung von NFC als C Bibliothek. Ähnlich zu Bluetooth wird hier eine Schnittstelle bereitgestellt, mit der die Kommunikation mit dem NFC Chip gehandhabt wird. Anders als Bluetooth werden jedoch keine Socketverbindungen direkt unterstützt. Stattdessen wird das Senden und Empfangen von Daten als {\it transceive} Methode zusammengefasst \cite{libnfc}.
-	    Für das Problem, HTTP über NFC zu übertragen, existiert bereits eine Lösung, die aus \cite{nfcSocketsBlog} vollständig übernommen werden kann. Socketverbindungen werden hierbei über NFC übertragen, indem die Methoden, welche auf den Clientsockets aufgerufen werden, als Nachrichten über NFC übertragen werden und ein Service im Server eigene Sockets anhand dieser Nachrichten verwaltet \cite{nfcSocketsBlog}. Dieser Service kann Nachrichten parallel abarbeiten, da jedem Socket eine ID zugeordnet wird. 
-	    \begin{lstlisting}[frame=bt, label={lst:nfc:recv}, language=C, caption=Empfangen von Daten über NFC (Servercode in C) \cite{nfcSocketsServer}]
+	    Für das Problem, HTTP über NFC zu übertragen, existiert bereits eine Lösung \cite{nfcSocketsBlog}, die unverändert übernommen werden kann. Socketverbindungen werden hierbei über NFC übertragen, indem die Methoden, welche auf den Clientsockets aufgerufen werden, als Nachrichten über NFC übertragen werden und ein Service im Server eigene Sockets anhand dieser Nachrichten verwaltet \cite{nfcSocketsBlog}. Dieser Service kann Nachrichten parallel abarbeiten, da jedem Socket eine ID zugeordnet wird. 
+	    \begin{lstlisting}[frame=bt, label={lst:nfc:recv}, language=C, caption=Datenempfang über NFC (Servercode in C) \cite{nfcSocketsServer}]
 int handle_socket_recv_message(uint8_t *message,
 size_t message_len) {
   int msg_id, fd, len;
@@ -179,7 +179,7 @@ si->pending_recv, res, NULL);
 	    
 	\subsubsection{Clientseite}
 	    Die vorgestellte Lösung zeigt ebenfalls bereits eine Clientimplementierung für Android. Diese nutzt auch {\it okhttp} und eine {\it SocketFactory}, um die Socketverbindung über NFC zu übertragen.
-	    \begin{lstlisting}[frame=bt, label={lst:nfc:apdu}, language=C, caption=Empfangen von Daten über NFC (Clientcode in Java) \cite{nfcSocketsClient}]
+	    \begin{lstlisting}[frame=bt, label={lst:nfc:apdu}, language=C, caption=Datenempfang über NFC (Clientcode in Java) \cite{nfcSocketsClient}]
 @Subscribe @Synchronized
 public void onRecvResponse(RecvResponse recvResponse) {
   if (pendingRecv != null && recvResponse.getInReplyTo() ==
@@ -190,13 +190,13 @@ pendingRecv.getRequestId()) {
 }
         \end{lstlisting}
         Der \reflst{lst:nfc:apdu} zeigt als Auszug, dass Nachrichten über einen Eventbus im Socket empfangen werden. Im {\it InputStream} des Sockets wird dann darauf gewartet, dass eine Nachricht mit einer passenden ID aus dem Eventbus in eine Instanzvariable geschrieben wird. Diese starke Nutzung eines Bussystems deutet jedoch an, dass die Architektur der Lösung nicht optimal ist. Der explizite Service zum Senden und Empfangen von Daten kann beibehalten werden, jedoch sollten statt den Identifikatoren in einem Bus asynchrone Datentypen wie {\it Futures} oder {\it Observables} an den Service übergeben werden. Dadurch wird es nötig, die Zuweisung von Anfrage und Antwort im Service z.B. als {\it HashMap} mit schwachen Referencen durchzuführen, jedoch ist es so nicht mehr nötig, alle Daten über einen Bus senden zu müssen. Für eine Lösung mit rxJava entfällt so die Definition eines Filters der Nachrichten in den zuhörern des Busses. Eine solche Implementierung ist in \reflst{lst:nfc:apduAsync} skizziert.
-        \begin{lstlisting}[frame=bt, label={lst:nfc:apduAsync}, language=C, caption=Empfangen von Daten über Observables (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:nfc:apduAsync}, language=C, caption=Datenempfang über Observables (Clientcode in Kotlin)]
 val pending: HashMap<Int, WeakReference<Subscriber>>()
 
 fun send(request: Message): Observable<Message> {
   return Observable.unsafeCreate { subscriber ->
     pending.add(message.requestId(), subscriber)
-    ...// Senden der Nachricht wie bisher
+    ...// Senden der Nachricht wie zuvor
   }
 }
 
@@ -209,6 +209,7 @@ fun onReceiveMessage(message: Message) {
         \end{lstlisting}
         
     \subsection{USB}
-        Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB
+        Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB kann unter Linux über das Android Open Accessory Protokoll angesprochen werden \cite{aoa}. Von der Android Website lassen sich jedoch keine weiteren Informationen mehr bezüglich diesem Protokoll abrufen. Ebenso kann das dort erwähnte Accessory Development Kit {\it ADK2012} nicht mehr heruntergeladen werden. Einzig ein älterer Klon bietet noch weitere Informationen zu diesem Kit \cite[mitADK], welches dazu gedacht ist, eine Beispielimplementierung von USB Geräten für Android bereitzustellen. Da dieses Kit jedoch seit 2012 keine Updates mehr erhalten hat, ist seine zukünftige Lebenszeit zu beobachten.
     \subsubsection{Serverseite}
+        Wie bei {\it NFC} kann auch für USB eine bereits bestehende Lösung als weiterer Service in den Server integriert werden \cite{aoaProxy}.
     \subsubsection{Clientseite}
