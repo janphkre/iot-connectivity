@@ -1,6 +1,7 @@
 package de.zweidenker.p2p.connection.http
 
 import android.content.Context
+import de.zweidenker.p2p.P2PModule
 import de.zweidenker.p2p.client.DeviceConfigurationProvider
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.model.Device
@@ -21,9 +22,9 @@ abstract class SimpleConnectionProvider : DeviceConnectionProvider {
     private fun getHttpClient(device: Device): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
             .socketFactory(socketFactoryFor(device))
-            .connectTimeout(30L, TimeUnit.SECONDS)
-            .readTimeout(30L, TimeUnit.SECONDS)
-            .writeTimeout(30L, TimeUnit.SECONDS)
+            .connectTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
+            .readTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
+            .writeTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
         return clientBuilder.build()
     }
 

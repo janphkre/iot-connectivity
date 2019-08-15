@@ -22,7 +22,6 @@ import java.util.concurrent.TimeUnit
 
 internal class WiFiConnectionProvider(context: Context) : DeviceConnectionProvider, AbstractWifiProvider(context, P2PModule.NAME_CONFIG_THREAD) {
 
-    private val timeout = 30L
     private val chuckInterceptor = ChuckInterceptor(context)
     private val ipReceiver = WiFiIpReceiver(context)
     private val groupOwnerObservable = ReplaySubject.create<String>(1)
@@ -79,9 +78,9 @@ internal class WiFiConnectionProvider(context: Context) : DeviceConnectionProvid
 
     private fun getHttpClient(): OkHttpClient {
         val clientBuilder = OkHttpClient.Builder()
-            .connectTimeout(timeout, TimeUnit.SECONDS)
-            .readTimeout(timeout, TimeUnit.SECONDS)
-            .writeTimeout(timeout, TimeUnit.SECONDS)
+            .connectTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
+            .readTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
+            .writeTimeout(P2PModule.CONNECTION_TIMEOUT_S, TimeUnit.SECONDS)
             .addNetworkInterceptor(chuckInterceptor)
         return clientBuilder.build()
     }

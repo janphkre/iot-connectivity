@@ -27,6 +27,7 @@ object P2PModule : Module {
     internal const val SOCKET_TIMEOUT_MS = 30000
     internal const val PING_PORT = 8890
 
+    internal const val CONNECTION_TIMEOUT_S = 30L
     internal const val BLUETOOTH_ENABLE_SLEEP_MS = 5000L
     internal const val ERROR_RETRY_INTERVAL_MS = 5000L
     internal const val DISCOVER_INTERVAL_MS = 15000L
