@@ -175,10 +175,40 @@ cmd_apdu_len, si->pending_recv, res, si->pending_recv_data);
 si->pending_recv, res, NULL);
 }
         \end{lstlisting}
-	    Der Hauptthread, welcher den Datenempfang von NFC handhabt, kümmert sich auch um das Senden der Ergebnisse von Befehlen zum verbundenen NFC-Client. Die in der Socketdatenstruktur hinterlegten Daten werden im \reflst{lst:nfc:recvPending} wieder in Nachrichten umgewandelt, die dann bei einem NFC {\it KEEP\_ALIVE} Event gesendet werden. Das Senden und Empfangen von Daten passiert hierbei über die {\it transceive} Methode der {\it libnfc}, weshalb ausstehende Nachrichten hier zunächst in den statischen Buffer {\it cmd_apdu} verschoben werden.
+	    Der Hauptthread, welcher den Datenempfang von NFC handhabt, kümmert sich auch um das Senden der Ergebnisse von Befehlen zum verbundenen NFC-Client. Die in der Socketdatenstruktur hinterlegten Daten werden im \reflst{lst:nfc:recvPending} wieder in Nachrichten umgewandelt, die dann bei einem NFC {\it KEEP\_ALIVE} Event gesendet werden. Das Senden und Empfangen von Daten passiert hierbei über die {\it transceive} Methode der {\it libnfc}, weshalb ausstehende Nachrichten hier zunächst in den statischen Buffer {\it cmd\_apdu} verschoben werden.
+	    
 	\subsubsection{Clientseite}
 	    Die vorgestellte Lösung zeigt ebenfalls bereits eine Clientimplementierung für Android. Diese nutzt auch {\it okhttp} und eine {\it SocketFactory}, um die Socketverbindung über NFC zu übertragen.
-	    
+	    \begin{lstlisting}[frame=bt, label={lst:nfc:apdu}, language=C, caption=Empfangen von Daten über NFC (Clientcode in Java) \cite{nfcSocketsClient}]
+@Subscribe @Synchronized
+public void onRecvResponse(RecvResponse recvResponse) {
+  if (pendingRecv != null && recvResponse.getInReplyTo() ==
+pendingRecv.getRequestId()) {
+    this.recvResponse = recvResponse;
+    notifyAll();
+  }
+}
+        \end{lstlisting}
+        Der \reflst{lst:nfc:apdu} zeigt als Auszug, dass Nachrichten über einen Eventbus im Socket empfangen werden. Im {\it InputStream} des Sockets wird dann darauf gewartet, dass eine Nachricht mit einer passenden ID aus dem Eventbus in eine Instanzvariable geschrieben wird. Diese starke Nutzung eines Bussystems deutet jedoch an, dass die Architektur der Lösung nicht optimal ist. Der explizite Service zum Senden und Empfangen von Daten kann beibehalten werden, jedoch sollten statt den Identifikatoren in einem Bus asynchrone Datentypen wie {\it Futures} oder {\it Observables} an den Service übergeben werden. Dadurch wird es nötig, die Zuweisung von Anfrage und Antwort im Service z.B. als {\it HashMap} mit schwachen Referencen durchzuführen, jedoch ist es so nicht mehr nötig, alle Daten über einen Bus senden zu müssen. Für eine Lösung mit rxJava entfällt so die Definition eines Filters der Nachrichten in den zuhörern des Busses. Eine solche Implementierung ist in \reflst{lst:nfc:apduAsync} skizziert.
+        \begin{lstlisting}[frame=bt, label={lst:nfc:apduAsync}, language=C, caption=Empfangen von Daten über Observables (Clientcode in Kotlin)]
+val pending: HashMap<Int, WeakReference<Subscriber>>()
+
+fun send(request: Message): Observable<Message> {
+  return Observable.unsafeCreate { subscriber ->
+    pending.add(message.requestId(), subscriber)
+    ...// Senden der Nachricht wie bisher
+  }
+}
+
+fun onReceiveMessage(message: Message) {
+  pending.remove(message.inReplyTo())?.get()?.let {
+    it.onNext(message)
+    it.onCompleted()
+  }
+}
+        \end{lstlisting}
+        
     \subsection{USB}
+        Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB
     \subsubsection{Serverseite}
     \subsubsection{Clientseite}
