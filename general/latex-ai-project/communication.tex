@@ -3,7 +3,7 @@
     Geräte können hierbei selbstständig eine Netzwerkverbindung untereinander aushandeln. Da solche Verbindungen nur dann sinnvoll sind,
     wenn es Daten gibt, die nur zwischen den beiden verbundenen Geräten ausgetauscht werden müssen, ergibt ein solches Netzwerk meist nur
     im Bezug auf eine tatsächliche Anwendung Sinn. Die erweiterte Definition des Ad Hoc Netzwerks
-    bezieht somit alle Netzwerkschichten des OSI-Modells mit ein.\cite[S.23]{Sikora}
+    bezieht somit alle Netzwerkschichten des OSI-Modells mit ein.\cite[S.23]{AI-Sikora}
     Obwohl das OSI-Modell vor Allem auf Ethernet und WLAN ausgelegt ist, lässt sich die Definition des Ad Hoc Netzwerks
     dennoch für weitere Kommunikationstechnologie übernehmen, da diese ebenfalls p2p Verbindungen aufbauen können.
     Optimalerweise sollte es möglich sein die bestehenden WLAN-Verbindungen beider Geräte während einer p2p Verbindung beibehalten zu können.
@@ -16,7 +16,7 @@
     dieser Klassen ebenfalls als Drahtlos-Variante: WLAN, WMAN, WWAN und WGAN, es kommen jedoch noch zwei in ihrer Reichweite kleinere Netzwerke hinzu,
     das Wireless Body Area Network und das Wireless Personal Area Network. Übliche Einsatzgebiet des WBAN sind im medizinischen Bereich zu finden,
     aber auch Near Feald Communication fällt in diese Kategorie. Unter die Klassifizierung des WPAN fällt unter anderem Bluetooth,
-    für dieses Projekt sind somit Funknetzwerke der untersten drei Kategorien WBAN, WPAN und WLAN oder deren kabelgebundenen Derivate interessant.\cite[S.17]{Lueders}
+    für dieses Projekt sind somit Funknetzwerke der untersten drei Kategorien WBAN, WPAN und WLAN oder deren kabelgebundenen Derivate interessant.\cite[S.17]{AI-Lueders}
     \item {\it Unterstützung in Android Smartphones:}
     Damit eine große Anzahl an potentiellen Nutzern angesprochen werden kann, muss die Verbindungsschnittstelle von Smartphones unterstützt werden.
     Für dieses Projekt wird dabei nur Android betrachtet.
@@ -37,60 +37,60 @@
         Die Definition des Wireless LAN unterscheidet sich jedoch vom LAN Standard dahingehend, dass eine vollständig eigene Physical Layer geschaffen wurde,
         da das Übertragungsmedium andere Restriktionen besitzt. Die Data Link Layer setzt sich für WLAN größtenteils aus drei Teilen zusammen.
         Die Logic Link Control nach 802.2 und das Bridging nach 802.1 sind mit LAN identisch, um der Network Layer eine einheitliche Schnittstelle unabhängig des Übertragungsmediums zu bieten.
-        In der Data Link Layer unterscheidet sich lediglich der Media Access Control (MAC).\cite[S.311]{Sauter}
+        In der Data Link Layer unterscheidet sich lediglich der Media Access Control (MAC).\cite[S.311]{AI-Sauter}
         Dieser regelt im Fall von WLAN den Zugriff auf das Übertragungsmedium durch unterschiedliche Wartezeiten zwischen Frames und die Reservierung des Mediums zum Senden von Frames.
         Da das MAC-Protokoll zudem die Adressierung von Geräten ermöglicht, bietet es ebenfalls bereits die Möglichkeit, Broadcasts zu senden.
-        Um die hohe Fehleranfälligkeit eines Drahtlosnetzwerks für höhere Schichten zu reduzieren, wird jedes Frame vom Empfänger bestätigt.\cite[S.325-327]{Sauter}
+        Um die hohe Fehleranfälligkeit eines Drahtlosnetzwerks für höhere Schichten zu reduzieren, wird jedes Frame vom Empfänger bestätigt.\cite[S.325-327]{AI-Sauter}
         
         Ein Netzwerk nach 802.11 kann hierbei entweder im Infrastruktur Modus, in dem alle Geräte ausschließlich mit einem Access Point kommunizieren,
-        oder im Ad Hoc Modus, welcher die direkte Kommunikation zwischen Geräten erlaubt, betrieben werden.\cite[S.82]{Sikora}
+        oder im Ad Hoc Modus, welcher die direkte Kommunikation zwischen Geräten erlaubt, betrieben werden.\cite[S.82]{AI-Sikora}
         Ein Verbindungsaufbau ist für eine p2p Verbindung entweder durch eine konkrete Implementierung des Ad Hoc Modus oder
         im MAC-Protokoll zu ersuchen.
 
-        Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\cite[S.80]{Sikora}
-        Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\cite{wifiDirect} als ein universeller Standard definiert.
+        Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\cite[S.80]{AI-Sikora}
+        Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\cite{AI-wifiDirect} als ein universeller Standard definiert.
         Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
         Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
         Grundlage für diese Services bilden dabei DNS Service-Discovery (DNS SD) und Universal Plug and Play (UPnP).
-        DNS SD ist die Weiterentwicklung von Apple Bonjour und wird größtenteils genutzt um eine Zero-Configuration Service Discovery von beispielsweise Netzwerkdruckern zu ermöglichen. Da UPnP im Gegensatz zu DNS SD auch die Kontrolle über die Services übernimmt, besitzt es einige Verwundbarkeiten. Man kann es jedoch ähnlich zu DNS SD lediglich dazu benutzen, Services zu ernennen.\cite{Esnaashari}
+        DNS SD ist die Weiterentwicklung von Apple Bonjour und wird größtenteils genutzt um eine Zero-Configuration Service Discovery von beispielsweise Netzwerkdruckern zu ermöglichen. Da UPnP im Gegensatz zu DNS SD auch die Kontrolle über die Services übernimmt, besitzt es einige Verwundbarkeiten. Man kann es jedoch ähnlich zu DNS SD lediglich dazu benutzen, Services zu ernennen.\cite{AI-Esnaashari}
     
         \paragraph{Nutzung unter Android}
         Im Gegensatz zu Apple AirPlay kann für eine App nicht auf Gerätetreiber-Ebene entwickelt werden. Um MAC in Linux verwenden zu können, ist es nötig, Sockets mit dem Attribut {\bf SOCK\_RAW} zu öffnen,
-        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\cite{linuxPacket}
+        um eigene MAC-Pakete senden zu können. Solche Sockets können jedoch nur mit der Berechtigung {\bf CAP\_NET\_RAW} erstellt werden.\cite{AI-linuxPacket}
         Unter Android fällt diese Berechtigung mangels Granularität root zu, wodurch diese Lösung unpraktikabel wird,
-        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\cite{androidRights}
+        wenn eine möglichst große Nutzergruppe angesprochen werden soll.\cite{AI-androidRights}
         Android bietet jedoch ab API 14 die Möglichkeit, sich über Wi-Fi Direct als möglicher peer anderen Geräten zu präsentieren und
         p2p Verbindungen aufzubauen, sowie Services bereitzustellen und zu erkennen.
         Android stellt diese p2p Funktionalität als {\it WifiP2PManager} bereit. Ein kurzer Test mit zwei Android Geräten hat dabei ergeben,
-        dass dieser bestehende Wi-Fi-Verbindungen während der Service Discovery beibehält.\cite{test-repository}
-        Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in \cite{Aneja}.
+        dass dieser bestehende Wi-Fi-Verbindungen während der Service Discovery beibehält.\cite{AI-test-repository}
+        Ein ähnlicher Ansatz, in dem Wi-Fi Direct genutzt wird, um ein Ad Hoc Netzwerk aufzubauen findet sich in \cite{AI-Aneja}.
 
     \subsection{Kommunikation über Bluetooth}
         Die grundlegenden Komponenten von Bluetooth sind im Standard IEEE802.15.1 als {\it Bluetooth Core} definiert. Anwendungen können über diesen Kern oder speziellere Protokolle Bluetooth
-        Verbindungen zu anderen Geräten aufbauen.\cite[S.228]{Lueders}
+        Verbindungen zu anderen Geräten aufbauen.\cite[S.228]{AI-Lueders}
         Um Daten über Bluetooth senden zu können, muss eine Verbindung zwischen den beiden Geräten aufgebaut werden. Für diese Verbindung ist es nötig,
         dass sich die entsprechenden Geräte zunächst koppeln. Zum Koppeln verfügbare Geräte werden hierbei durch eine sogenannte Inquiry, welche erreichbare Geräte auffordert,
         sich zu identifizieren, aufgelistet. Da nun die Adresse des zu koppelnden Gerätes bekannt ist, kann zu diesem eine Koppelung angefragt werden, was als Paging bezeichnet wird.
         Die Kopplung dient dabei dem Austausch der Frequency Hop Sequenzen, welche festlegt, wann auf welcher Frequenz Pakete gesendet werden, sowie dem Pairing von Geräten, welches sicherstellt,
-        dass das richtige Gerät gekoppelt wird und Schlüssel zur Authentifizierung und Verschlüsselung überträgt.\cite[S.402f.]{Sauter}
+        dass das richtige Gerät gekoppelt wird und Schlüssel zur Authentifizierung und Verschlüsselung überträgt.\cite[S.402f.]{AI-Sauter}
 
         Sobald eine Verbindung zwischen den Geräten aufgebaut wurde, können Daten bidirektional übertragen werden, indem ein Bluetoothkanal, anders als WLAN, in Zeitslots unterteilt wird.
         Die alleinige Kontrolle, welches Gerät wann Daten senden darf, hat dabei das Mastergerät des Netzes. Das Gerät, welches den Verbindungsaufbau angefragt hat,
-        agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\cite[S.379f.]{Sauter}
+        agiert dabei als Master und bis zu sieben weitere Geräte können als Slave in einem Piconetz verbunden sein.\cite[S.379f.]{AI-Sauter}
 
         Für bestimmte Anwendungsfälle gibt es spezielle Protokolle, welche generische Lösungen dieser Fälle bieten.
         So ermöglicht das Service Discovery Protocol (SDP) den Informationsaustausch über verfügbare Dienste der Kommunikationspartner,
-        Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\cite[S.229]{Lueders}
+        Radio Frequency Communications (RFCOMM) kann serielle Schnittstellen abbilden und das Object Exchange Protocol (OBEX) kann Datenobjekte über RFCOMM übertragen.\cite[S.229]{AI-Lueders}
         SDP erlaubt nicht nur das Auflisten von verfügbaren Diensten des Verbindungspartners, sondern auch das Suchen von einem bestimmten Dienst auf erreichbaren Geräten,
-        es kann dabei jedoch keinen Zugriff zu den Diensten bereitstellen oder die Verfügbarkeit der Dienste auf den erreichbaren Geräten angeben.\cite[S.395f]{Morrow}
+        es kann dabei jedoch keinen Zugriff zu den Diensten bereitstellen oder die Verfügbarkeit der Dienste auf den erreichbaren Geräten angeben.\cite[S.395f]{AI-Morrow}
 
         Bluetooth lehnt sich mit dem {\it Bluetooth Core} nur lose an das OSI-Referenzmodell an, da nicht jedes Element des Bluetoothstacks sich sauber einer OSI-Schicht zuordnen lässt.
         Die oben vorgestellten Protokolle wie SDP oder RFCOMM siedeln sich jedoch in der {\bf Presentation Layer} an, da diese lediglich dazu gedacht sind,
-        Daten leichter der Anwendung zur Verfügung stellen zu können.\cite[S.382]{Sauter}
+        Daten leichter der Anwendung zur Verfügung stellen zu können.\cite[S.382]{AI-Sauter}
 
         \paragraph{Bluetooth Low Energy}
         Als Teil des Bluetooth Standards ist Bluetooth Low Energy (LE) darauf ausgelegt, Daten mit einem möglichst geringen Energieverbrauch über die Bluetooth-Hardware zu übertragen.
-        Dies wird ermöglicht, indem verbindungslose Broadcast, die Nutzerdaten enthalten können definiert werden, sowie aktive Verbindungen zwischen zwei Geräten auf eine kurze Übertragung von 6 Paketen pro Verbindungsevent limitiert werden. Verbindungsevents sind dabei durch ein wählbares Intervall zwischen 7.5ms und 4s von einander getrennt. Weiterhin beschränkt sich Bluetooth LE im Hinblick auf die Reichweite darauf, möglichst wenig Energie zu verbrauchen, da eine hohe Sendeleistung in einem hohen Energieverbrauch resultiert. Da sich die Sendeleistung jedoch pro Gerät konfigurieren lässt, ist die theoretische Reichweite ähnlich zu Bluetooth gegeben.\cite[S.7f.]{Townsend}
+        Dies wird ermöglicht, indem verbindungslose Broadcast, die Nutzerdaten enthalten können definiert werden, sowie aktive Verbindungen zwischen zwei Geräten auf eine kurze Übertragung von 6 Paketen pro Verbindungsevent limitiert werden. Verbindungsevents sind dabei durch ein wählbares Intervall zwischen 7.5ms und 4s von einander getrennt. Weiterhin beschränkt sich Bluetooth LE im Hinblick auf die Reichweite darauf, möglichst wenig Energie zu verbrauchen, da eine hohe Sendeleistung in einem hohen Energieverbrauch resultiert. Da sich die Sendeleistung jedoch pro Gerät konfigurieren lässt, ist die theoretische Reichweite ähnlich zu Bluetooth gegeben.\cite[S.7f.]{AI-Townsend}
 
         \paragraph{Nutzung unter Android}
         Android stellt sowohl Bluetooth als auch Bluetooth LE als {\it BluetoothAdapter} bereit. Ähnlich zu Wi-Fi Direct  Android bietet ab API 5 beziehungsweise API 18 die Möglichkeit, über Bluetooth als möglicher peer anderen Geräten zu präsentieren und
@@ -101,16 +101,16 @@
         Grundlegend ist NFC in den Standards NFCIP-1 (ECMA-340) und NFCIP-2 (ECMA-352) definiert. Wie bei klassischen RFID-Systemen ist ein magnetisches Feld
         als Trägersignal der Daten definiert. Dieses magnetische Feld dient dazu, passiven Komponenten, die keine eigene Stromversorgung besitzen, auf Anfragen
         der steuernden Komponente zu antworten. Anders als RFID hebt NFC jedoch die strikte Trennung zwischen steuernder (Initiator) und gesteuerter (Target) Komponente auf, sodass
-        jedes teilnehmende NFC-Gerät zumindest theoretisch beide Rollen übernehmen kann.\cite[S.89]{Langer} Rückwärtskompatibilität erreicht NFC,
+        jedes teilnehmende NFC-Gerät zumindest theoretisch beide Rollen übernehmen kann.\cite[S.89]{AI-Langer} Rückwärtskompatibilität erreicht NFC,
         indem sowohl ein Reader-Writer-Modus, der die Kommunikation mit passiven RFID-Transpondern ermöglicht,
-        als auch ein Card-Emulation-Modus, der die Kommunikation mit RFID-Lesegeräten erlaubt, definiert ist.\cite[S.99f.]{Langer}
+        als auch ein Card-Emulation-Modus, der die Kommunikation mit RFID-Lesegeräten erlaubt, definiert ist.\cite[S.99f.]{AI-Langer}
         Als letzter Modus ist der hier relevante Peer-to-Peer-Modus, dazu in der lage, Daten zwischen zwei NFC-Geräten zu übertragen.
         Ähnlich zu Bluetooth lehnt sich auch NFC nur lose an das OSI-Modell an. Es gibt für NFC drei aufeinander aufbauende Protokollschichten.
         Die Bitübertragung ist in NFCIP-1 definiert und teilt sich in einen aktiven und passiven Modus. Der aktive Modus hebt sich dabei vom passiven Modus,
         welcher in seiner Funktionsweise äquivalent zum RFID-System ist, dadurch ab, dass das Trägersignal von beiden Kommunikationspartnern abwechselnd generiert wird.
         Die darauffolgende Schicht ist ein MAC Protokoll, welches den Zugriff auf das Übertragungsmedium sichert, indem geprüft wird, ob bereits ein Trägersignal existiert,
         bevor ein Gerät in den Initiator-Modus wechselt, andernfalls verbleibt es im Target-Modus.
-        Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu initiieren.\cite[S91.f, S.97]{Langer}
+        Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu initiieren.\cite[S91.f, S.97]{AI-Langer}
 
         \paragraph{Nutzung unter Android}
         NFC wurde unter Android, verteilt über die API Versionen 9, 10 \& 14,  als {\it NfcManager} und {\it NfcAdapter} zur Verfügung gestellt. Im Gegensatz zu Wifi, wo lediglich Verbindungszustände als Broadcasts gemeldet werden, werden bei Nfc die gelesenen Daten als Broadcasts an alle zuhörenden Apps gesendet, wodurch sich eine gesicherte Verbindung nicht gewährleisten lässt.
@@ -120,14 +120,14 @@
         ergibt sich somit auch die maximale Reichweite der Technologie. USB ist primär darauf ausgelegt, (Peripherie-)Geräte an einen Host anzuschließen.
         Der Host stellt hierbei eine minimale Versorgungsspannung auf dem Bus bereit, sodass Geräte sich beim Host registrieren können und eine höhere Stromversorgung anfordern können.
         Weiterhin übernimmt der Host zwangsläufig auch die Kontrolle über die Verbindung, da Geräte zu jedem Zeitpunkt physisch vom Bus entfernt werden können, sodass Hot-Plug-and-Play
-        möglich wird.\cite[S.21-24]{Kelm}
-        Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig in den meisten Fällen einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.\cite[S.197]{Kelm}
+        möglich wird.\cite[S.21-24]{AI-Kelm}
+        Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig in den meisten Fällen einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.\cite[S.197]{AI-Kelm}
 
         \paragraph{Nutzung unter Android}
-        Durch das Android Open Accessory Framework, welches ab API 10 angeboten wird, ist es möglich, mit einem Android-Gerät über USB zu kommunizieren und dabei als Host zu agieren. Es ist hierbei jedoch nötig einen Treiber auf Host-Seite zu schreiben, um dieses Framework nutzen zu können.\cite{AOA}
+        Durch das Android Open Accessory Framework, welches ab API 10 angeboten wird, ist es möglich, mit einem Android-Gerät über USB zu kommunizieren und dabei als Host zu agieren. Es ist hierbei jedoch nötig einen Treiber auf Host-Seite zu schreiben, um dieses Framework nutzen zu können.\cite{AI-AOA}
 
     \subsection{Evaluation der Übertragungsmedien}
-    Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{test-repository} zu sehen, mit ähnlichem Aufwand anbinden.
+    Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{AI-test-repository} zu sehen, mit ähnlichem Aufwand anbinden.
     Da für USB ein Treiber auf Hostseite nötig ist, der AOA implementiert, ist der Aufwand wesentlich höher im Vergleich zu den restlichen Schnittstellen.
     Unter Pharo wurde bisher keine dieser Kommunikationskanäle angebunden,
     jedoch lassen sich bereits Sockets in Pharo nutzen und damit MAC-Pakete versenden.

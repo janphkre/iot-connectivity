@@ -1,16 +1,7 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage[a4paper, textwidth=15cm, textheight=23cm]{geometry}
-\usepackage[section]{placeins}
-
-\renewcommand{\contentsname}{Gliederung}
-\renewcommand{\figurename}{Fig.}
-
-\title{Praxisprojekt: PharoThings-Connectivity SS19}
-\begin{document}
-	\begin{titlepage}
-    \includegraphics[width=0.4\textwidth]{th_logo.png}
+\startcontents[sections]
+\begin{titlepage}
+    \section{Anhang: Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App}
+    \includegraphics[width=0.4\textwidth]{../latex-ai-project/th_logo.png}
     ~\\[2.5cm]
     \begin{center}
     \textbf{\huge Verbindungskonfiguration von PharoThings auf Raspberry Pi durch Android App}\\[0.5cm]
@@ -30,31 +21,36 @@
 	~\\[1.0cm]
     {\large 30. Juni 2019}
 	\end{flushright}
-    \end{titlepage}
-    \tableofcontents
+\end{titlepage}
+
+\pagebreak
+\section*{\contentsname}
+\printcontents[sections]{ }{2}{}
+\pagebreak
+
+\begin{leveldown}
+    \input{../latex-ai-project/expose}
+    \input{../latex-ai-project/communication}
     \pagebreak
-    \input{expose}
-    \input{communication}
-    \pagebreak
-    \input{architecture}
+    \input{../latex-ai-project/architecture}
     
 	\begin{figure}[ht]
 		\centering
-	    \includegraphics[width=0.85\textwidth]{IOT-Connectivity-Protocol-Stack}
+	    \includegraphics[width=0.85\textwidth]{../latex-ai-project/IOT-Connectivity-Protocol-Stack}
     	\caption{Zu sehen sind die Schnittstellen, die nötig sind, um die Client-Server Anwendung über p2p nutzen zu können. Hierbei stehen alle rot hinterlegten Schnittstellen bereits zur Verfügung. Wenn die genutzte p2p Schnittstelle es nicht erlaubt, TCP/HTTP Pakete an die Ports einer Netzwerkschnittstelle des Servers zu senden, muss ein TCP/HTTP-Wrapper erstellt werden. Andernfalls besteht die Implementierung aus einem gewöhnlichem REST-Client/Server-Paar. Getrennt davon muss jedoch auch innerhalb der Anwendung die p2p-Service-Discovery angebunden werden. }
 	    \label{protocol_stack}
 	\end{figure}     
     
-    \input{implementation}
+    \input{../latex-ai-project/implementation}
     
     \begin{figure}[ht]
 		\centering
-	    \includegraphics[width=1.0\textwidth]{user_flow.png}
+	    \includegraphics[width=1.0\textwidth]{../latex-ai-project/user_flow.png}
     	\caption{ Der Benutzer sieht zunächst eine Liste an konfigurierbaren Geräten in der Nähe (links oben), durch Auswahl bekommt der Nutzer die Liste der verfügbaren Netzwerkschnittstellen zu sehen (links unten). Sobald auch hier eine Auswahl erfolgt ist, kann der Nutzer eine Liste an verfügbaren und bereits konfigurierten Netzwerken für diesen Netzwerkadapter sehen (mitte). Letztlich kann der Nutzer noch ein Netzwerk durch Eingabe des Passworts konfigurieren (rechts). }
 	    \label{user_flow}
 	\end{figure}
 	
-	\input{review}
+	\input{../latex-ai-project/review}
 	
 	\pagebreak
     \begin{thebibliography}{10}
@@ -71,7 +67,7 @@
 		\bibitem[Townsend et al.]{AI-Townsend} Kevin Townsend, Carles Cuffí, Akiba und Robert Davidson: {\it Getting Started with Bluetooth Low Energy} O'Reilly (2014).
 		
 		\bibitem[Android Koin]{AI-androidKoin}https://insert-koin.io/
-		\bibitem[Android Koin Speed]{androidKoinSpeed}https://medium.com/koin-developers/ready-for-koin-2-0-2722ab59cac3
+		\bibitem[Android Koin Speed]{AI-androidKoinSpeed}https://medium.com/koin-developers/ready-for-koin-2-0-2722ab59cac3
         \bibitem[Android Accessory]{AI-AOA}https://source.android.com/devices/accessories/custom
         \bibitem[Android OkHttp]{AI-AndroidOkHttp}https://github.com/square/okhttp
         \bibitem[Android Permissions]{AI-androidRights}https://elinux.org/Android\_Security\#Paranoid\_network-ing
@@ -85,8 +81,9 @@
         \bibitem[Pharo OpenAPI]{AI-pharoOpenApi}https://github.com/zweidenker/openapi
         \bibitem[Pharo Things]{AI-pharoThings}https://github.com/pharo-iot/PharoThings
         \bibitem[Pharo Zinc]{AI-pharoZinc}https://github.com/zweidenker/zinc/
-        \bibitem[WiFi Direct]{AI-wifiDirect}https://www.wi-fi.org/discover-wi-fi/wi-fi-direct                        		\bibitem[WiFi HostAP Repository]{hostAp}git://w1.fi/hostap.git
+        \bibitem[WiFi Direct]{AI-wifiDirect}https://www.wi-fi.org/discover-wi-fi/wi-fi-direct                        		\bibitem[WiFi HostAP Repository]{AI-hostAp}git://w1.fi/hostap.git
         \bibitem[WiFi wpa\_supplicant]{AI-wpaSupplicant}https://w1.fi/wpa\_supplicant/
         \bibitem[Zweidenker]{AI-zweidenker}https://zweidenker.de
     \end{thebibliography}
-\end{document}
+\end{leveldown}
+\stopcontents[sections]

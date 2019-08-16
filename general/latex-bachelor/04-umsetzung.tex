@@ -219,8 +219,6 @@ libusb_fill_bulk_transfer(device->xfr, device->usbHandle,
 device->endpointAddr, buffer, sizeof(buffer), NULL, NULL, 0);
         \end{lstlisting}
         Jedes angeschlossene Android Gerät wird zunächst wie eine Datei über Methoden der Bibliothek geöffnet und eine Datenübertragung ermöglicht und durchgeführt (\reflst{lst:usb:server}). Das Senden und Empfangen von Daten ist dabei davon abhängig, welcher Befehl der Methode {\it libusb\_fill\_bulk\_transfer} übergeben wird. Abhängig davon werden Daten vom Buffer geladen oder in den gegebenen Buffer geschrieben.
-        
-        Für die vorgestellte Lösung konnte keine erfolgreiche Datenübertragung vollzogen werden. 
     \subsubsection{Clientseite}
         Die App muss in der Lage sein, die Kontrolle über verbundene USB Geräte zu übernehmen, um Daten zu einem der Geräte übertragen zu können. Da der Raspberry Pi als Host der USB Verbindung agiert, werden unter Android {\it UsbAccessory} genutzt und keine {\it UsbDevice}.
         \begin{lstlisting}[frame=bt, label={lst:usb:client}, language=Kotlin, caption=Verbindungsaufbau über USB (Clientcode in Kotlin)]
@@ -230,3 +228,5 @@ val inputStream = FileInputStream(fd.fileDescriptor)
 val outputStream = FileOutputStream(fd.fileDescriptor)
         \end{lstlisting}
         Unter Android wird USB Funktionalität über den Systemservice {\it UsbManager} bereitgestellt. Dieser verwaltet, wie in \reflst{lst:usb:client} zu sehen, eine Liste von verbundenen USB-Geräten. Um AOA nutzen zu können, agiert Android als Client der USB Verbindung, wodurch das erste USB-Gerät dieser Liste genutzt werden kann. Dieses Gerät wird dann ähnlich zur Serverseite als Datei geöffnet und kann über einen InputStream und OutputStream eine bidirektionale Datenübertragung vornehmen.
+
+        Für die vorgestellte Lösung über AOA konnte keine erfolgreiche Datenübertragung vollzogen werden. Zwar wurden immer eine Verbindung erfolgreich aufgebaut, jedoch konnten dann keine Daten über den gegebenen Socket empfangen werden. Alle Daten, die clientseitig dem USB-Gerät gesendet wurden, konnten serverseitig nicht empfangen werden, wodurch die Verbindung immer mit einer Zeitüberschreitung geendet ist.
