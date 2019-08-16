@@ -42,7 +42,7 @@ interceptors.add(new ConnectInterceptor(client));
 interceptors.add(new CallServerInterceptor(forWebSocket));
         \end{lstlisting}
         Serveraufrufe werden im okhttp Client (\reflst{lst:android:okhttp}) durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, Baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Socket zu schreiben und die Antwort zu lesen.
-        \begin{lstlisting}[frame=bt, label={lst:android:okhttpchanges}, language=Java, caption=Änderungen an okhttp (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:android:okhttpchanges}, language=Kotlin, caption=Änderungen an okhttp (Clientcode in Kotlin)]
 val interceptors = ArrayList<Interceptor>()
 ...
 interceptors.add(BridgeInterceptor(wrapper.cookieJar()))
@@ -56,7 +56,7 @@ interceptors.add(SimpleServerInterceptor(wrapper.httpCodec()))
                 
         Diese generische HTTP Kapselung lässt sich nun ähnlich der okhttp Implementierung über eine zentrale Klasse, den {\it SimpleHttpWrapper} nutzen. Diese Klasse nutzt ebenfalls das Builder-Pattern, um so nah wie möglich an der okhttp Bilbiothek zu bleiben. Über diesen Builder lässt sich nun ein {\it ConnectionStream} definieren, welcher dann den Inputstream und Outputstream der Verbindung bereitstellt. Die Verwaltung der p2p Verbindung sollte dann auch in
         
-        \begin{lstlisting}[frame=bt, label={lst:android:socketfactory}, language=Java, caption=HTTP Kapselung als SocketFactory (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:android:socketfactory}, language=Kotlin, caption=HTTP Kapselung als SocketFactory (Clientcode in Kotlin)]
 class WrappingSocketImpl(device: Device): SocketImpl() {
   // Delegiert o. Ignoriert alle Methoden zur Verbindung
   // Stellt InputStream und OutputStream bereit
@@ -125,7 +125,7 @@ dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
         
         \subsubsection{Clientseite}
         Um unter Android eine Bluetoothverbindung über RFCOMM aufbauen zu können, muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Diese beiden Parameter lassen sich, wie bereits bei einer Implementierung mit Wi-Fi Direct gezeigt \cite{aiProject}, über die implementierte Service Discovery bereitstellen.
-        \begin{lstlisting}[frame=bt, label={lst:android:bluetooth}, language=Java, caption=Verbindungsaufbau mit Bluetooth (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:android:bluetooth}, language=Kotlin, caption=Verbindungsaufbau mit Bluetooth (Clientcode in Kotlin)]
 val bluetoothDevice = bluetoothAdapter.bondedDevices
   ?.firstOrNull { bluetoothDevice ->
     bluetoothDevice.address == bluetoothMac
@@ -179,7 +179,7 @@ si->pending_recv, res, NULL);
 	    
 	\subsubsection{Clientseite}
 	    Die vorgestellte Lösung zeigt ebenfalls bereits eine Clientimplementierung für Android. Diese nutzt auch {\it okhttp} und eine {\it SocketFactory}, um die Socketverbindung über NFC zu übertragen.
-	    \begin{lstlisting}[frame=bt, label={lst:nfc:apdu}, language=C, caption=Datenempfang über NFC (Clientcode in Java) \cite{nfcSocketsClient}]
+	    \begin{lstlisting}[frame=bt, label={lst:nfc:apdu}, language=Java, caption=Datenempfang über NFC (Clientcode in Java) \cite{nfcSocketsClient}]
 @Subscribe @Synchronized
 public void onRecvResponse(RecvResponse recvResponse) {
   if (pendingRecv != null && recvResponse.getInReplyTo() ==
@@ -190,7 +190,7 @@ pendingRecv.getRequestId()) {
 }
         \end{lstlisting}
         Der \reflst{lst:nfc:apdu} zeigt als Auszug, dass Nachrichten über einen Eventbus im Socket empfangen werden. Im {\it InputStream} des Sockets wird dann darauf gewartet, dass eine Nachricht mit einer passenden ID aus dem Eventbus in eine Instanzvariable geschrieben wird. Diese starke Nutzung eines Bussystems deutet jedoch an, dass die Architektur der Lösung nicht optimal ist. Der explizite Service zum Senden und Empfangen von Daten kann beibehalten werden, jedoch sollten statt den Identifikatoren in einem Bus asynchrone Datentypen wie {\it Futures} oder {\it Observables} an den Service übergeben werden. Dadurch wird es nötig, die Zuweisung von Anfrage und Antwort im Service z.B. als {\it HashMap} mit schwachen Referencen durchzuführen, jedoch ist es so nicht mehr nötig, alle Daten über einen Bus senden zu müssen. Für eine Lösung mit rxJava entfällt so die Definition eines Filters der Nachrichten in den zuhörern des Busses. Eine solche Implementierung ist in \reflst{lst:nfc:apduAsync} skizziert.
-        \begin{lstlisting}[frame=bt, label={lst:nfc:apduAsync}, language=C, caption=Datenempfang über Observables (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:nfc:apduAsync}, language=Kotlin, caption=Datenempfang über Observables (Clientcode in Kotlin)]
 val pending: HashMap<Int, WeakReference<Subscriber>>()
 
 fun send(request: Message): Observable<Message> {
@@ -209,7 +209,24 @@ fun onReceiveMessage(message: Message) {
         \end{lstlisting}
         
     \subsection{USB}
-        Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB kann unter Linux über das Android Open Accessory Protokoll angesprochen werden \cite{aoa}. Von der Android Website lassen sich jedoch keine weiteren Informationen mehr bezüglich diesem Protokoll abrufen. Ebenso kann das dort erwähnte Accessory Development Kit {\it ADK2012} nicht mehr heruntergeladen werden. Einzig ein älterer Klon bietet noch weitere Informationen zu diesem Kit \cite[mitADK], welches dazu gedacht ist, eine Beispielimplementierung von USB Geräten für Android bereitzustellen. Da dieses Kit jedoch seit 2012 keine Updates mehr erhalten hat, ist seine zukünftige Lebenszeit zu beobachten.
+        Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB kann unter Linux über das Android Open Accessory (AOA) Protokoll angesprochen werden \cite{aoa}. Von der Android Website lassen sich jedoch keine weiteren Informationen mehr bezüglich diesem Protokoll abrufen. Ebenso kann das dort erwähnte Accessory Development Kit {\it ADK2012} nicht mehr heruntergeladen werden. Einzig ein älterer Klon bietet noch weitere Informationen zu diesem Kit \cite{mitADK}, welches dazu gedacht ist, eine Beispielimplementierung von USB Geräten für Android bereitzustellen. Da dieses Kit jedoch seit 2012 keine Updates mehr erhalten hat, ist seine zukünftige Lebenszeit zu beobachten.
     \subsubsection{Serverseite}
-        Wie bei {\it NFC} kann auch für USB eine bereits bestehende Lösung als weiterer Service in den Server integriert werden \cite{aoaProxy}.
+        Wie bei {\it NFC} kann auch für USB eine bereits bestehende Lösung als weiterer Service in den Server integriert werden \cite{aoaProxyAccessory}. Dieser Service spricht jedes Androidgerät über das AOA Protokoll an und erlaubt diesen Geräten eine Socketverbindung zu einem lokalen Port des Servers aufzubauen. Dadurch ist ebenfalls eine Kapselung außerhalb des HTTP-Servers gegeben. Intern verwendet dieser Service wieder eine Bibliothek \cite{libusb}, um die Kommunikation über USB vorzunehmen. Diese Bibliothek erlaubt wieder das Senden und Empfangen von Daten in größeren Blöcken.  
+        \begin{lstlisting}[frame=bt, label={lst:usb:server}, language=C, caption=Verbindungsaufbau über USB (Servercode in C) \cite{aoaProxyAccessory}]
+libusb_open(usbDevice, &device->usbHandle);
+libusb_claim_interface(device->usbHandle, device->bulkIface);
+libusb_fill_bulk_transfer(device->xfr, device->usbHandle,
+device->endpointAddr, buffer, sizeof(buffer), NULL, NULL, 0);
+        \end{lstlisting}
+        Jedes angeschlossene Android Gerät wird zunächst wie eine Datei über Methoden der Bibliothek geöffnet und eine Datenübertragung ermöglicht und durchgeführt (\reflst{lst:usb:server}). Das Senden und Empfangen von Daten ist dabei davon abhängig, welcher Befehl der Methode {\it libusb\_fill\_bulk\_transfer} übergeben wird. Abhängig davon werden Daten vom Buffer geladen oder in den gegebenen Buffer geschrieben.
+        
+        Für die vorgestellte Lösung konnte keine erfolgreiche Datenübertragung vollzogen werden. 
     \subsubsection{Clientseite}
+        Die App muss in der Lage sein, die Kontrolle über verbundene USB Geräte zu übernehmen, um Daten zu einem der Geräte übertragen zu können. Da der Raspberry Pi als Host der USB Verbindung agiert, werden unter Android {\it UsbAccessory} genutzt und keine {\it UsbDevice}.
+        \begin{lstlisting}[frame=bt, label={lst:usb:client}, language=Kotlin, caption=Verbindungsaufbau über USB (Clientcode in Kotlin)]
+val usbMan = context.getSystemService(Context.USB_SERVICE)
+val fd =  usbMan.openAccessory(usbMan.accessoryList.first())
+val inputStream = FileInputStream(fd.fileDescriptor)
+val outputStream = FileOutputStream(fd.fileDescriptor)
+        \end{lstlisting}
+        Unter Android wird USB Funktionalität über den Systemservice {\it UsbManager} bereitgestellt. Dieser verwaltet, wie in \reflst{lst:usb:client} zu sehen, eine Liste von verbundenen USB-Geräten. Um AOA nutzen zu können, agiert Android als Client der USB Verbindung, wodurch das erste USB-Gerät dieser Liste genutzt werden kann. Dieses Gerät wird dann ähnlich zur Serverseite als Datei geöffnet und kann über einen InputStream und OutputStream eine bidirektionale Datenübertragung vornehmen.
