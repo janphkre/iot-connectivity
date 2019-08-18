@@ -1,9 +1,21 @@
 \section{Ergebnisse der Evaluation}
-		
+		Durch die Betrachtung der Umsetzungsmöglichkeiten der einzelnen p2p Technologien kann nun eine Evaluation auf Grundlage der definierten Ziele vorgenommen werden. Zum Vergleich wird Wi-Fi Direct als bereits implementierte Technologie genutzt, um einen Bezug zur bestehnden Lösung aufbauen zu können.
 		\subsection{Zuverlässigkeit}
+		Die Robustheit der einzelnen Technologien bei Fehlern und die Reproduzierbarkeit von Verbindungen bilden zusammen das Kriterium der Zuverlässigkeit. Wie bei Wi-Fi Direct bereits deutlich wurde, sind diese beiden Punkte nicht zwingend für jede Technologie ausreichend gegeben. 
+		\begin{itemize}
+		\item {\it Wi-Fi Direct:} Eine hohe Fehleranfälligkeit in Kombination mit einer schlechten Fehlererholung durch Abstürze des laufenden Wi-Fi Daemon führen zu einer unzureichenden Zuverlässigkeit von Wi-Fi Direct. Ebenso konnte beobachtet werden, dass die internen Zustände der genutzten Bibliothek weder dokumentiert sind, noch waren diese Zustände sauber voneinander gekapselt, wodurch der Erfolg eines Verbindungsaufbaus von vorhergehenden Verbindungen abhängt. Die internen Zustandswechsel konnten zwar über Events der Bibliothek beobachtet werden, jedoch wurden daraus die Menge der möglichen Zustände und deren Übergänge nicht deutlich, da nicht zwingend jedes Event einem neuen Zustand entspricht. Die Dokumentation von Wi-Fi Direct versäumt es ebenfalls zu beschreiben, in welcher Reihenfolge ein erfolgreicher Verbindungsaufbau vollzogen wird, wodurch nicht sichergestellt werden kann, dass die eigene Anbindung der erwarteten Nutzung entspricht.
+		Zwar steht der Sourcecode der {\it wpa\_supplicant} Bibliothek und damit auch die Schnittstelle als Sourcecode zur Verfügung, da jedoch die Schnittstelle über Nachrichten statt über Methoden genutzt wird, ist es schwierig zu erkennen, welche Teile des Sourcecodes relevant sind. Es kommt hierbei erschwerend hinzu, dass nicht jede Bibliothek mit den gleichen Parametern gebaut wird, wodurch nicht zwingend der volle Funktionsumfang zur Verfügung steht.
 		
+		\item {\it Bluetooth:} Im Gegensatz dazu konnte mit Bluetooth und der genutzten Bibliothek ein Verbindungsaufbau mit reproduzierbaren Ergebnissen erreicht werden. Durch das integrierte Hilfsmittel {\it bluetoothctl} der BlueZ Bibliothek kann die Menge der bestehenden Zustände gut beobachtet werden. Die Benennung der einzelnen Zustände orientiert sich hierbei an der theoretischen Spezifikation von Bluetooth, wodurch auch die Zustandsübergänge bereits klar werden. Eine feinere Betrachtung der Zustände ist nicht nötig, da die Bluetooth Bibliothek jeglichen Zustand der Verbindung selbstständig verwaltet und dies der Anwendung als Serversocket zur Verfügung stellt. Fehler werden somit als Schließen des Sockets oder Fehler des Verbindungsaufbaus bekannt gemacht. Daraus lässt sich nicht der exakte Grund Ableiten lässt, jedoch besitzt Bluetooth und durch Socketverbindungen auch die Anbindung von Bluetooth eine solche Fehlerstabilität, dass die Verbindung lediglich neu aufgebaut werden muss.\footnote{TODO: PRECISISE, QUELLE}
+		
+		\end{itemize}
+		\footnote{NFC, USB}
 		\subsection{Wartbarkeit}
+		Fehler in der Nutzung einer Technologie lassen sich nur dann leicht beheben, wenn die Dokumentation so vollständig ist, dass sie den betroffenen Nutzungsfall abdeckt und somit eine Abweichung der Anbindung von der Dokumentation aufgedeckt werden kann. Sollte die Dokumentation jedoch nicht ausreichend auf diesen Fall eingehen, muss der Quellcode der angebotenen Schnittstelle zur Verfügung stehen und leicht zu verstehen sein, sodass die Abweichung leicht gefunden werden kann. Sollten Tests für die genutzten Bibliotheken im Sourcecode vorhanden sein, verbessert dies die externe Wartbarkeit ebenfalls, da so zum Einen bereits eine Abstraktion der Hardware besteht und diese für eigene Tests genutzt werden kann und zum Anderen die Nutzung der Bibliothek anhand der getesteten Nutzungsfälle exemplarisch gezeigt wird.
+		\begin{itemize}
+		\item {\it Wi-Fi Direct:} Die Dokumentation von Wi-Fi Direct ist bei der Wi-Fi Association nicht öffentlich zugänglich, jedoch enthält die Beschreibung der {\it wpa\_supplicant} Implementierung eine Aufstellung einiger Ereignisse, die bei der Nutzung auftreten können. Fehler beim Verbindungsaufbau oder während der Verbindungsnutzung werden zwar als solche Ereignisse der Anbindung mitgeteilt, jedoch ließen sich auch eine mangelnde Fehlerrobustheit durch Abstürze bei einigen dieser Ereignisse feststellen. Tests sind im {\it wpa\_supplicant} für die einzelnen Schritte eines p2p Verbindungsaufbaus als Python-Skripte vorhanden und basieren auf einer simulierten Hardware. Diese simulierte Hardware lässt sich somit auch für eigene Tests nutzen, um die eigene Implementierung mit möglichst geringen Abänderungen testen zu können.
 		
+		\end{itemize}
 		\subsection{Funktionalität}
 		
 		\subsection{Effizienz}
@@ -11,4 +23,18 @@
 		\subsection{Bedienbarkeit}
 		
 		\subsection{Zusammenfassung}
-
+%    \begin{figure}[ht]
+%    \centering
+%    \begin{tikzpicture}
+%        \tkzKiviatDiagram[scale=1.0,label distance=.25cm, radial = 5, gap = 1, lattice = 5]{Zuverlässigkeit,Wartbarkeit,Funktionalität,Effizienz,Bedienbarkeit}
+%        %Wi-Fi Direct:
+%        \tkzKiviatLine[thick,color=red,mark=none, fill=red!20,opacity=.5](2,2,4,4,3)
+%        %Bluetooth:
+%        \tkzKiviatLine[thick,color=blue, fill=blue!20,opacity=.5](4,4,4,2,4)
+%        %NFC:
+%        \tkzKiviatLine[thick,color=yellow, fill=red!20,opacity=.5](4,3,3,1,2)
+%        %USB:
+%        \tkzKiviatLine[thick,color=green, fill=green!20,opacity=.5](1,3,3,3,1)
+%    \end{tikzpicture}
+%    \caption{M1} \label{fig:rating}
+%    \end{figure}
