@@ -19,7 +19,7 @@ typedef struct {
     int writingSocket;
 } SocketInfo;
 
-int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr);
+int startBluetoothServerSocket(int bluetoothPort,);
 int acceptBluetoothSocket(int serverSocket);
 void hookBluetoothSocket(int bluetoothSocket, int targetPort);
 void* hookSockets(void* data);
@@ -46,14 +46,15 @@ int main(int argc, char **argv) {
         return -4;
     }
 
+    int bluetoothSocket = startBluetoothServerSocket(bluetoothPort);
+    if (bluetoothSocket < 0) {
+        return -11;
+    }
+
     bdaddr_t bdaddr = { 0 };
     if(hci_devba(bluetoothDevice, &bdaddr) < 0) {
         printf("ERR: No device found for the given device id %i.\n", bluetoothDevice);
         return -10;
-    }
-    int bluetoothSocket = startBluetoothServerSocket(bluetoothPort, bdaddr);
-    if (bluetoothSocket < 0) {
-        return -11;
     }
 
 //TODO:
@@ -78,7 +79,7 @@ int main(int argc, char **argv) {
 }
 
 //Mostly taken from : https://people.csail.mit.edu/albert/bluez-intro/x502.html#rfcomm-server.c
-int startBluetoothServerSocket(int bluetoothPort, bdaddr_t bdaddr) {
+int startBluetoothServerSocket(int bluetoothPort) {
     struct sockaddr_rc loc_addr = { 0 };
     int s;
 

@@ -1,26 +1,56 @@
 \section{Ergebnisse der Evaluation}
-		Durch die Betrachtung der Umsetzungsmöglichkeiten der einzelnen p2p Technologien kann nun eine Evaluation auf Grundlage der definierten Ziele vorgenommen werden. Zum Vergleich wird Wi-Fi Direct als bereits implementierte Technologie genutzt, um einen Bezug zur bestehnden Lösung aufbauen zu können.
+		Durch die Betrachtung der Umsetzungsmöglichkeiten der einzelnen p2p Technologien kann nun eine Evaluation auf Grundlage der definierten Ziele vorgenommen werden. Zum Vergleich wird Wi-Fi Direct als bereits implementierte Technologie genutzt, um einen Bezug zur bestehenden Lösung aufbauen zu können.
 		\subsection{Zuverlässigkeit}
 		Die Robustheit der einzelnen Technologien bei Fehlern und die Reproduzierbarkeit von Verbindungen bilden zusammen das Kriterium der Zuverlässigkeit. Wie bei Wi-Fi Direct bereits deutlich wurde, sind diese beiden Punkte nicht zwingend für jede Technologie ausreichend gegeben. 
 		\begin{itemize}
-		\item {\it Wi-Fi Direct:} Eine hohe Fehleranfälligkeit in Kombination mit einer schlechten Fehlererholung durch Abstürze des laufenden Wi-Fi Daemon führen zu einer unzureichenden Zuverlässigkeit von Wi-Fi Direct. Ebenso konnte beobachtet werden, dass die internen Zustände der genutzten Bibliothek weder dokumentiert sind, noch waren diese Zustände sauber voneinander gekapselt, wodurch der Erfolg eines Verbindungsaufbaus von vorhergehenden Verbindungen abhängt. Die internen Zustandswechsel konnten zwar über Events der Bibliothek beobachtet werden, jedoch wurden daraus die Menge der möglichen Zustände und deren Übergänge nicht deutlich, da nicht zwingend jedes Event einem neuen Zustand entspricht. Die Dokumentation von Wi-Fi Direct versäumt es ebenfalls zu beschreiben, in welcher Reihenfolge ein erfolgreicher Verbindungsaufbau vollzogen wird, wodurch nicht sichergestellt werden kann, dass die eigene Anbindung der erwarteten Nutzung entspricht.
+		\item {\it Wi-Fi Direct:} Eine hohe Fehleranfälligkeit in Kombination mit einer schlechten Fehlererholung durch Abstürze des laufenden Wi-Fi Daemon führen zu einer unzureichenden Zuverlässigkeit von Wi-Fi Direct. Ebenso konnte beobachtet werden, dass die internen Zustände der genutzten Bibliothek weder dokumentiert sind, noch waren diese Zustände sauber voneinander gekapselt, wodurch der Erfolg eines Verbindungsaufbaus von vorhergehenden Verbindungen abhängt. Die internen Zustandswechsel konnten zwar über Events der Bibliothek beobachtet werden, jedoch wurden daraus die Menge der möglichen Zustände und deren Übergänge nicht deutlich, da nicht zwingend jedes Event einem neuen Zustand entspricht. Die Dokumentation des {\it wpa\_supplicant} versäumt es ebenfalls zu beschreiben, in welcher Reihenfolge ein erfolgreicher Verbindungsaufbau vollzogen wird, wodurch nicht sichergestellt werden kann, dass die eigene Anbindung der erwarteten Nutzung entspricht.
 		Zwar steht der Sourcecode der {\it wpa\_supplicant} Bibliothek und damit auch die Schnittstelle als Sourcecode zur Verfügung, da jedoch die Schnittstelle über Nachrichten statt über Methoden genutzt wird, ist es schwierig zu erkennen, welche Teile des Sourcecodes relevant sind. Es kommt hierbei erschwerend hinzu, dass nicht jede Bibliothek mit den gleichen Parametern gebaut wird, wodurch nicht zwingend der volle Funktionsumfang zur Verfügung steht.
 		
-		\item {\it Bluetooth:} Im Gegensatz dazu konnte mit Bluetooth und der genutzten Bibliothek ein Verbindungsaufbau mit reproduzierbaren Ergebnissen erreicht werden. Durch das integrierte Hilfsmittel {\it bluetoothctl} der BlueZ Bibliothek kann die Menge der bestehenden Zustände gut beobachtet werden. Die Benennung der einzelnen Zustände orientiert sich hierbei an der theoretischen Spezifikation von Bluetooth, wodurch auch die Zustandsübergänge bereits klar werden. Eine feinere Betrachtung der Zustände ist nicht nötig, da die Bluetooth Bibliothek jeglichen Zustand der Verbindung selbstständig verwaltet und dies der Anwendung als Serversocket zur Verfügung stellt. Fehler werden somit als Schließen des Sockets oder Fehler des Verbindungsaufbaus bekannt gemacht. Daraus lässt sich nicht der exakte Grund Ableiten lässt, jedoch besitzt Bluetooth und durch Socketverbindungen auch die Anbindung von Bluetooth eine solche Fehlerstabilität, dass die Verbindung lediglich neu aufgebaut werden muss.\footnote{TODO: PRECISISE, QUELLE}
+		\item {\it Bluetooth:} Im Gegensatz dazu konnte mit Bluetooth und der genutzten Bibliothek ein Verbindungsaufbau mit reproduzierbaren Ergebnissen erreicht werden. Durch das integrierte Hilfsmittel {\it bluetoothctl} der BlueZ Bibliothek kann die Menge der bestehenden Zustände gut beobachtet werden. Die Benennung der einzelnen Zustände orientiert sich hierbei an der theoretischen Spezifikation von Bluetooth, wodurch auch die Zustandsübergänge bereits klar werden. Eine feinere Betrachtung der Zustände ist nicht nötig, da die Bluetooth Bibliothek jeglichen Zustand der Verbindung selbstständig verwaltet und dies der Anwendung als Serversocket zur Verfügung stellt. Fehler werden somit als Schließen des Sockets oder Fehler des Verbindungsaufbaus bekannt gemacht. Daraus lässt sich nicht der exakte Grund Ableiten lässt, jedoch besitzt Bluetooth aufgrund des saubere definierten Zustandsmodells und durch Socketverbindungen auch die Anbindung von Bluetooth eine solche Fehlerstabilität, dass die Verbindung lediglich neu aufgebaut werden muss \cite{bluetoothSpec}.
+		
+     \item {\it NFC:} Wenn ein bereits bestehender Wrapper genutzt wird, besteht das Problem, dass nicht ersichtlich ist, wann Fehler auftreten können. Die Kapselung auf Socketverbindungen für NFC ermöglicht es jedoch auch, eine Behandlung von Fehlern durch das Schließen bestehender Verbindungen durchzuführen und eine Verbindung erneut aufzubauen. Die internen Zustände eines NFC Verbindungsaufbaus lassen sich nicht direkt über die genutzte Bibliothek {\it libnfc} beobachten, jedoch kann über das Hilfsmittel {\it nfc-poll} ein NFC Gerät und die ausgetauschten Befehle ausgelesen werden. Eine Reproduzierbarkeit von Verbindungen ist durch das von NFC genutzte Trägersignal zwar gegeben, jedoch wird in der genutzten Implementierung ein hochfrequentes {\it Keep-Alive} Signal genutzt, damit die Verbindung aufrecht erhalten wird.
+     
+     \item {\it USB:} Ähnlich zu NFC schränkt die bestehende Implementierung von USB das Fehlerverhalten der zugrundeliegenden {\it libusb} Bibliothek ein und bündelt dieses ebenfalls über eine Socketverbindung. Da der Verbindungsaufbau von USB Geräten bereits vom Kernel übernommen wird, können Zustandsübergänge an neuen Geräten über {\it udev} beobachtet werden. Eine Fehleranfälligkeit der USB Verbindung ergibt sich aus den genutzten Treibern. Da jedoch das USB-Gerät ohne Treiber mit {\it libusb} angesprochen wird, besteht eine sehr geringe Fehleranfälligkeit einer USB Verbindung, da diese kabelgebunden ist und sich erst eine Fehleranfälligkeit aus den genutzten Treibern oder einer Abweichung von der USB Spezifikation ergibt \cite{usbSpec}. Die Spezifikation sieht eine Fehlererholung so vor, dass der Host der Verbindung laufende Datentransfers steuern kann. Diese Fehler werden erst propagiert, wenn sie nicht erfolgreich abgefangen werden konnten. Diese Fehler tauchen dann lediglich im Log des Kernels auf und resultieren in einem zurücksetzen der USB Verbindung über das USB Hotplugging.
 		
 		\end{itemize}
-		\footnote{NFC, USB}
+		
+				
 		\subsection{Wartbarkeit}
 		Fehler in der Nutzung einer Technologie lassen sich nur dann leicht beheben, wenn die Dokumentation so vollständig ist, dass sie den betroffenen Nutzungsfall abdeckt und somit eine Abweichung der Anbindung von der Dokumentation aufgedeckt werden kann. Sollte die Dokumentation jedoch nicht ausreichend auf diesen Fall eingehen, muss der Quellcode der angebotenen Schnittstelle zur Verfügung stehen und leicht zu verstehen sein, sodass die Abweichung leicht gefunden werden kann. Sollten Tests für die genutzten Bibliotheken im Sourcecode vorhanden sein, verbessert dies die externe Wartbarkeit ebenfalls, da so zum Einen bereits eine Abstraktion der Hardware besteht und diese für eigene Tests genutzt werden kann und zum Anderen die Nutzung der Bibliothek anhand der getesteten Nutzungsfälle exemplarisch gezeigt wird.
 		\begin{itemize}
 		\item {\it Wi-Fi Direct:} Die Dokumentation von Wi-Fi Direct ist bei der Wi-Fi Association nicht öffentlich zugänglich, jedoch enthält die Beschreibung der {\it wpa\_supplicant} Implementierung eine Aufstellung einiger Ereignisse, die bei der Nutzung auftreten können. Fehler beim Verbindungsaufbau oder während der Verbindungsnutzung werden zwar als solche Ereignisse der Anbindung mitgeteilt, jedoch ließen sich auch eine mangelnde Fehlerrobustheit durch Abstürze bei einigen dieser Ereignisse feststellen. Tests sind im {\it wpa\_supplicant} für die einzelnen Schritte eines p2p Verbindungsaufbaus als Python-Skripte vorhanden und basieren auf einer simulierten Hardware. Diese simulierte Hardware lässt sich somit auch für eigene Tests nutzen, um die eigene Implementierung mit möglichst geringen Abänderungen testen zu können.
 		
+		\item {\it Bluetooth:} Eine Anbindung an Bluetooth geschieht über Sockets, welche bei der Erstellung durch das Austauschen einiger Parameter bereits eine testbare Umgebung bereitstellen können. Weiterhin wird die Spezifikation von Bluetooth durch die Bluetooth SIG öffentlich einsehbar bereitgestellt und beschreibt ausführlich interne Zustände einer Bluetooth Implementierung sowie die Testbarkeit eines Bluetoothgerätes\cite{bluetoothSpec}. Die BlueZ Bibliothek steht ebenfalls als Referenz zur Verfügung und enthält in den Tests ebenfalls eine Beispielanbindung für die Nutzungsfälle der Bibliothek jedoch keine Virtualisierung der Hardware. Dies bedeutet, dass für einen vollständigen Integrationstest mindestens zwei Bluetoothschnittstellen am testenden Gerät vorhanden sein müssen, da ein Loopback ebenfalls nicht möglich ist.
+		
+		\item {\it NFC:}
+     \item {\it USB:}
 		\end{itemize}
 		\subsection{Funktionalität}
+
+      \begin{itemize}
+		\item {\it Wi-Fi Direct:}
+		\item {\it Bluetooth:}
+		\item {\it NFC:}
+     \item {\it USB:}
+		\end{itemize}
 		
 		\subsection{Effizienz}
+
+      \begin{itemize}
+		\item {\it Wi-Fi Direct:}
+		\item {\it Bluetooth:}
+		\item {\it NFC:}
+     \item {\it USB:}
+		\end{itemize}
 		
 		\subsection{Bedienbarkeit}
+
+      \begin{itemize}
+		\item {\it Wi-Fi Direct:}
+		\item {\it Bluetooth:}
+		\item {\it NFC:}
+     \item {\it USB:}
+		\end{itemize}
 		
 		\subsection{Zusammenfassung}
 %    \begin{figure}[ht]
