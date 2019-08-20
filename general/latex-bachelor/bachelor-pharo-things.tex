@@ -7,6 +7,7 @@
 \usepackage{titletoc}
 \usepackage{tkz-kiviat} 
 \usetikzlibrary{arrows}
+\usepackage{caption}
 
 % Kotlin template from: https://github.com/cansik/kotlin-latex-listing
 \lstdefinelanguage{Kotlin}{
@@ -37,8 +38,9 @@
 
 \renewcommand{\contentsname}{Gliederung}
 \renewcommand{\figurename}{Fig.}
-\renewcommand{\lstlistingname}{Algorithmus}
-\renewcommand{\lstlistlistingname}{Verzeichnis der Algorithmen}
+\renewcommand{\lstlistingname}{Alg.}
+\renewcommand{\lstlistlistingname}{Liste der Algorithmen}
+\renewcommand{\listfigurename}{Liste der Diagramme}
 \newcommand{\reflst}[1]{\lstlistingname\ \ref{#1}}
 \newcommand{\reffig}[1]{\figurename\ \ref{#1}}
 
@@ -112,6 +114,8 @@
 
     \addcontentsline{toc}{section}{\lstlistlistingname}
     \lstlistoflistings
+    \addcontentsline{toc}{section}{\listfigurename}
+    \listoffigures
     \pagebreak
     
     \addcontentsline{toc}{section}{Literaturverzeichnis}
@@ -144,12 +148,15 @@
         \bibitem[libusb]{libusb}\texttt{http://libusb.sourceforge.net/api-1.0/index.html}
         \bibitem[Pharo Socket Plugin]{pharoSocket}\texttt{https://github.com/pharo-project/pharo-vm/tree/\linebreak master/mc/VMMaker.oscog.package/SocketPlugin.class}
         \bibitem[MIT ADK]{mitADK}\texttt{https://stuff.mit.edu/afs/sipb/project/android/docs/tools/\linebreak adk/adk2.html}
+        \bibitem[NFC Google Bug]{nfcBug}\texttt{https://issuetracker.google.com/issues/37005118}
+        \bibitem[NFC Rates]{nfcRates}\texttt{https://nfc-forum.org/resources/what-are-the-data-\linebreak transmission-rates/}
         \bibitem[NFC Sockets Client]{nfcSocketsClient}\texttt{https://github.com/classycodeoss/nfc-sockets/blob/\linebreak master/android/NFCSockets/app/src/main/java/com/classycode/\linebreak nfcsockets/sockets/NFCSocket.java} (Zeilen ?)
         \bibitem[NFC Sockets Server]{nfcSockets}\texttt{https://github.com/classycodeoss/nfc-sockets/blob/\linebreak master/pn532\_socket\_tunnel/pn532\_socket\_tunnel.c} (Zeilen ?)
         \bibitem[NFC Sockets Blog]{nfcSocketsBlog}\texttt{blog.classycode.com/sockets-over-nfc-on-\linebreak android-c294b6c58bbf}
         \bibitem[NFC-Tools libnfc]{libnfc}\texttt{https://github.com/nfc-tools/libnfc}
         \bibitem[NXP PN532 Datenblatt]{nxpChip}\texttt{https://www.nxp.com/docs/en/nxp/data-sheets/\linebreak PN532\_C1.pdf}
         \bibitem[USB Spezifikation]{usbSpec}\texttt{https://usb.org/documents}
+        \bibitem[Wi-Fi Direct Rates]{wifiRate}\texttt{https://www.wi-fi.org/knowledge-center/faq/\linebreak how-fast-is-wi-fi-direct}
     \end{thebibliography}
     \pagebreak
     \addcontentsline{toc}{section}{Anhänge}
@@ -195,7 +202,7 @@
 	\begin{figure}[ht]
 		\centering
 	    \includegraphics[width=0.85\textwidth]{../latex-ai-project/IOT-Connectivity-Protocol-Stack}
-    	\caption{Zu sehen sind die Schnittstellen, die nötig sind, um die Client-Server Anwendung über p2p nutzen zu können. Hierbei stehen alle rot hinterlegten Schnittstellen bereits zur Verfügung. Wenn die genutzte p2p Schnittstelle es nicht erlaubt, TCP/HTTP Pakete an die Ports einer Netzwerkschnittstelle des Servers zu senden, muss ein TCP/HTTP-Wrapper erstellt werden. Andernfalls besteht die Implementierung aus einem gewöhnlichem REST-Client/Server-Paar. Getrennt davon muss jedoch auch innerhalb der Anwendung die p2p-Service-Discovery angebunden werden. }
+    	\caption[]{Zu sehen sind die Schnittstellen, die nötig sind, um die Client-Server Anwendung über p2p nutzen zu können. Hierbei stehen alle rot hinterlegten Schnittstellen bereits zur Verfügung. Wenn die genutzte p2p Schnittstelle es nicht erlaubt, TCP/HTTP Pakete an die Ports einer Netzwerkschnittstelle des Servers zu senden, muss ein TCP/HTTP-Wrapper erstellt werden. Andernfalls besteht die Implementierung aus einem gewöhnlichem REST-Client/Server-Paar. Getrennt davon muss jedoch auch innerhalb der Anwendung die p2p-Service-Discovery angebunden werden. }
 	    \label{protocol_stack}
 	\end{figure}     
     
@@ -204,7 +211,7 @@
     \begin{figure}[ht]
 		\centering
 	    \includegraphics[width=1.0\textwidth]{../latex-ai-project/user_flow.png}
-    	\caption{ Der Benutzer sieht zunächst eine Liste an konfigurierbaren Geräten in der Nähe (links oben), durch Auswahl bekommt der Nutzer die Liste der verfügbaren Netzwerkschnittstellen zu sehen (links unten). Sobald auch hier eine Auswahl erfolgt ist, kann der Nutzer eine Liste an verfügbaren und bereits konfigurierten Netzwerken für diesen Netzwerkadapter sehen (mitte). Letztlich kann der Nutzer noch ein Netzwerk durch Eingabe des Passworts konfigurieren (rechts). }
+    	\caption[]{Der Benutzer sieht zunächst eine Liste an konfigurierbaren Geräten in der Nähe (links oben), durch Auswahl bekommt der Nutzer die Liste der verfügbaren Netzwerkschnittstellen zu sehen (links unten). Sobald auch hier eine Auswahl erfolgt ist, kann der Nutzer eine Liste an verfügbaren und bereits konfigurierten Netzwerken für diesen Netzwerkadapter sehen (mitte). Letztlich kann der Nutzer noch ein Netzwerk durch Eingabe des Passworts konfigurieren (rechts). }
 	    \label{user_flow}
 	\end{figure}
 	
