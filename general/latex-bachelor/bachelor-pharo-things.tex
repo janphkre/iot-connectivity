@@ -1,48 +1,4 @@
-\documentclass[12pt,a4paper]{article}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage[a4paper, textwidth=15cm, textheight=23cm]{geometry}
-\usepackage[section]{placeins}
-\usepackage{listings}
-\usepackage{titletoc}
-\usepackage{tkz-kiviat} 
-\usetikzlibrary{arrows}
-\usepackage{caption}
-
-% Kotlin template from: https://github.com/cansik/kotlin-latex-listing
-\lstdefinelanguage{Kotlin}{
-  comment=[l]{//},
-  commentstyle={\ttfamily},
-  emph={delegate, filter, first, firstOrNull, forEach, lazy, map, mapNotNull, println, return@},
-  emphstyle={},
-  identifierstyle={},
-  keywords={abstract, actual, as, as?, break, by, class, companion, continue, data, do, dynamic, else, enum, expect, false, final, for, fun, get, if, import, in, interface, internal, is, null, object, override, package, private, public, return, set, super, suspend, this, throw, true, try, typealias, val, var, vararg, when, where, while},
-  keywordstyle={\bfseries},
-  morecomment=[s]{/*}{*/},
-  morestring=[b]",
-  morestring=[s]{"""*}{*"""},
-  ndkeywords={@Deprecated, @JvmField, @JvmName, @JvmOverloads, @JvmStatic, @JvmSynthetic, Array, Byte, Double, Float, Int, Integer, Iterable, Long, Runnable, Short, String},
-  ndkeywordstyle={\bfseries},
-  sensitive=true,
-  stringstyle={\ttfamily},
-}
-
-%Demotion for appendix from: https://tex.stackexchange.com/questions/61766/demoting-promoting-sections-chapters-etc
-\newenvironment{leveldown}% Demote sectional commands
-  {\let\section\subsection%
-   \let\subsection\subsubsection%
-   \let\subsubsection\paragraph%
-   \let\paragraph\subparagraph%
-   %\let\subparagraph\relax%
-  }{}
-
-\renewcommand{\contentsname}{Gliederung}
-\renewcommand{\figurename}{Fig.}
-\renewcommand{\lstlistingname}{Alg.}
-\renewcommand{\lstlistlistingname}{Liste der Algorithmen}
-\renewcommand{\listfigurename}{Liste der Diagramme}
-\newcommand{\reflst}[1]{\lstlistingname\ \ref{#1}}
-\newcommand{\reffig}[1]{\figurename\ \ref{#1}}
+\include{00-definitions}
 
 \title{Bachelorarbeit: PharoThings-Connectivity SS19}
 \begin{document}
