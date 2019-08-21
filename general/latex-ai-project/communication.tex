@@ -47,7 +47,7 @@
         Ein Verbindungsaufbau ist für eine p2p Verbindung entweder durch eine konkrete Implementierung des Ad Hoc Modus oder
         im MAC-Protokoll zu ersuchen.
 
-        Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert.\cite[S.80]{AI-Sikora}
+        Unter dem Markennamen Wi-Fi\textsuperscript{TM} werden 802.11-kompatible Geräte zertifiziert. \cite[S.80]{AI-Sikora}
         Für den Ad-hoc Modus nach 802.11 wurde dabei Wi-Fi Peer-to-Peer (Wi-Fi Direct)\textregistered\cite{AI-wifiDirect} als ein universeller Standard definiert.
         Durch Wi-Fi Direct ist es jedoch ebenfalls möglich, einen Verbindungsaufbau in der {\bf Application Layer} des OSI-Modells anzusiedeln.
         Dazu bietet diese Spezifikation neben dem normalen Peer-To-Peer Modus die Möglichkeit, Services anzubieten und zu finden, bevor eine Verbindung etabliert werden muss.
@@ -108,9 +108,9 @@
         Ähnlich zu Bluetooth lehnt sich auch NFC nur lose an das OSI-Modell an. Es gibt für NFC drei aufeinander aufbauende Protokollschichten.
         Die Bitübertragung ist in NFCIP-1 definiert und teilt sich in einen aktiven und passiven Modus. Der aktive Modus hebt sich dabei vom passiven Modus,
         welcher in seiner Funktionsweise äquivalent zum RFID-System ist, dadurch ab, dass das Trägersignal von beiden Kommunikationspartnern abwechselnd generiert wird.
-        Die darauffolgende Schicht ist ein MAC Protokoll, welches den Zugriff auf das Übertragungsmedium sichert, indem geprüft wird, ob bereits ein Trägersignal existiert,
+        Die darauffolgende Schicht ist ein MAC Protokoll, welches den Zugriff auf das \linebreak Übertragungsmedium sichert, indem geprüft wird, ob bereits ein Trägersignal existiert,
         bevor ein Gerät in den Initiator-Modus wechselt, andernfalls verbleibt es im Target-Modus.
-        Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu initiieren.\cite[S91.f, S.97]{AI-Langer}
+        Die letzte Schicht bildet das Logic Link Control Protocol (LLCP), welches es beiden Kommunikationspartnern erlaubt, eine Datenübertragung zu \linebreak initiieren. \cite[S91.f, S.97]{AI-Langer}
 
         \paragraph{Nutzung unter Android}
         NFC wurde unter Android, verteilt über die API Versionen 9, 10 \& 14,  als {\it NfcManager} und {\it NfcAdapter} zur Verfügung gestellt. Im Gegensatz zu Wifi, wo lediglich Verbindungszustände als Broadcasts gemeldet werden, werden bei Nfc die gelesenen Daten als Broadcasts an alle zuhörenden Apps gesendet, wodurch sich eine gesicherte Verbindung nicht gewährleisten lässt.
@@ -124,7 +124,7 @@
         Da USB eine möglichst breite Anzahl an Geräten zu unterstützen versucht, ist es nötig in den meisten Fällen einen Treiber auf dem Host bereitzustellen, sodass Anwendungen mit dem USB-Gerät kommunizieren können.\cite[S.197]{AI-Kelm}
 
         \paragraph{Nutzung unter Android}
-        Durch das Android Open Accessory Framework, welches ab API 10 angeboten wird, ist es möglich, mit einem Android-Gerät über USB zu kommunizieren und dabei als Host zu agieren. Es ist hierbei jedoch nötig einen Treiber auf Host-Seite zu schreiben, um dieses Framework nutzen zu können.\cite{AI-AOA}
+        Durch das Android Open Accessory Framework, welches ab API 10 angeboten wird, ist es möglich, mit einem Android-Gerät über USB zu kommunizieren und dabei als Host zu agieren. Es ist hierbei jedoch nötig einen Treiber auf Host-Seite zu schreiben, um dieses Framework nutzen zu können. \cite{AI-AOA}
 
     \subsection{Evaluation der Übertragungsmedien}
     Alle vorgestellten Schnittstellen, außer USB, lassen sich unter Android, wie in \cite{AI-test-repository} zu sehen, mit ähnlichem Aufwand anbinden.
@@ -143,5 +143,5 @@
     Wi-Fi Direct bietet hierbei mit DNS SD eine Lösung, um Dienste ohne Konfiguration auf Seite von Client-Geräten vorzustellen, die keinerlei Aufwand für den Nutzer bedeutet.
     Bluetooth Low Energy bietet ebenso die Möglichkeit, Beacon-Signale mit Nutzdaten zu versenden, wodurch die IoT-Geräte auf Client-Geräten ohne Nutzereingabe identifiziert werden können.
     Für NFC und USB sind ein physischer Zugang zu dem IoT-Gerät notwendig, wodurch sie in manchen Szenarien, wie die Montage an einer Decke, einen relativ hohen Aufwand für den Nutzer bedeuten.
-    NFC ermöglicht eine Datenübertragung nur für einen kurzen Zeitraum, wodurch es für dieses Projekt weniger praktisch als eine USB-Verbindung ist.
-    Da das Ergebnis der WLAN-Verbindungsversuche auf dem Smartphone zu sehen sein soll, würde somit ein mehrfacher Verbindungsaufbau über NFC nötig werden.
+    NFC ermöglicht eine \linebreak Datenübertragung nur für einen kurzen Zeitraum, wodurch es für dieses Projekt weniger praktisch als eine USB-Verbindung ist.
+    Da das Ergebnis der WLAN-\linebreak Verbindungsversuche auf dem Smartphone zu sehen sein soll, würde somit ein \linebreak mehrfacher Verbindungsaufbau über NFC nötig werden.
