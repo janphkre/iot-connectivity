@@ -18,14 +18,14 @@
     \subsection{Services}
     Für solche IoT-Geräte muss eine Erstkonfiguration initial vorgenommen werden, um eine Kommunikation mit anderen Geräte zu ermöglichen. Da nicht jedes Gerät einen Bildschirm oder komplexe Eingabemöglichkeiten besitzt, ist es sinnvoll, diese Einrichtung auf ein Smartphone auszulagern, wie es bereits im vorausgegangenen Projekt geschehen ist. Da die Konfiguration durch einen REST-Server angeboten wird, ist es so auch möglich, weitere Konfigurationsmöglichkeiten für Sensoren und Aktuatoren als weiteren Service anzubieten.
     
-    Ein Service definiert sich als eine Einheit von Programmen, welcher durch eine Schnittstelle eine Funktionalität verwaltet und bereitstellt. Ein Service kann eine solche Schnittstelle auf verschiedene Arten bereitstellen, jedoch werden diese \linebreak Schnittstellen im {\it Service-Oriented-Programming} als ein Objekt im Speicher des Systems repräsentiert.
+    Ein Service definiert sich als ein Dienst, welcher Anderen eine Leistung oder Aufgabe bereitstellt und im Sinne, eine Einheit von Programmen, welcher durch eine Schnittstelle eine Funktionalität verwaltet und bereitstellt. Ein Service kann eine solche Schnittstelle auf verschiedene Arten bereitstellen, jedoch sollten solche Schnittstellen über Verträge abgesichert werden, um ungewollte Änderungen im Betrieb zu vermeiden und eine reibungslose Anbindung von neuen Funktionalitäten zu gewährleisten \cite[S.11]{finger}.
     
     Im Rahmen einer Anwendungsarchitektur als Sammlung von {\it Microservices} treten Services als {\it Messagehandler} auf und definieren ihre Schnittstellen durch Nachrichten oder {\it RPC} Aufrufe. Microservices können dabei wiederum als Services betrachtet werden. Vorteile bietet eine solche Architektur in einer leichten Skalierbarkeit der Anwendung oder einzelner Teile und einer sauberen Kapselung von Anwendungsteilen. Zwischen {\it Messagehandlern} wird oftmals auf Authentifizierung verzichtet, wenn die teilnehmenden Dienste bekannt sind, da auf diese Weise ein höherer Durchsatz erzielt werden kann \cite{microservices}.
     
     Ein {\it Daemon}, welcher eine Hardwarekomponente verwaltet, kann ebenfalls als Service, welcher abstraktere Funktionalität auf dieser Hardware bereitstellt, definiert werden. Auf diese Kategorie von Services trifft die Einschränkung der Einzigartigkeit zu, da immer eine Systemresource nur von einem Programm genutzt werden kann.
     
     Im simpelsten Fall kann ein Service auch als Server definiert werden, um seine Funktionalität Clients zur Verfügung zu stellen. Dies bietet sich besonders dann an, wenn verschiedene Architekturen von Clients in einer hohen Anzahl den selben Service benutzen sollen oder Clients zunächst eine Authentifizierung vornehmen sollen. 
-    Ein klassisches Client/Server-Modell sieht hierbei vor, dass auszuführende Berechnungen so aufgeteilt werden, dass ein Server Daten konsistent nutzen kann und in der Lage ist, die verwalteten Daten den Clients auszuliefern. \footnote{QUELLE}
+    Ein klassisches Client/Server-Modell sieht hierbei vor, dass auszuführende Berechnungen so aufgeteilt werden, dass ein Server Daten konsistent nutzen kann und in der Lage ist, die verwalteten Daten mehreren Clients auszuliefern. \cite[S.8]{abts}
         
 %    \subsection{Servicestabilität (Todo: entfällt eventuell)}
 %    - API Versionierung

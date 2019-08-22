@@ -1,6 +1,9 @@
 \section{Grundlagen der Verbindungstechnologien}
-	Da die Nutzbarkeit der Übertragungstechnologien für die Verbindungskonfiguration bereits in \cite{aiProject} überprüft wurden, soll noch einmal jede Technologie in ihrer Funktionsweise kurz vorgestellt werden und der Ablauf eines Verbindungsaufbaus beschrieben werden.
+	Da die Nutzbarkeit der Übertragungstechnologien für die Verbindungskonfiguration bereits in \cite{aiProject} überprüft wurden, soll noch einmal jede Technologie in ihrer Funktionsweise kurz vorgestellt werden und der Ablauf eines Verbindungsaufbaus beschrieben werden. Im Gegensatz zu Wi-Fi Direct werden die Zustände beim Verbindungsaufbau intern gehandhabt. Es ist dennoch hilfreich zu verstehen, wie eine Technologie funktioniert, um Fehlerursachen bei einem Verbindungsaufbau leicht identifizieren zu können.
+	
 	\subsection{Bluetooth}
+	
+	Bluetooth besteht aus mehreren Protokollschichten, die für einen Verbindungsaufbau durchlaufen werden. Zunächst wird ein Asynchronous Conneciton-Less (ACL) Kanal zum gewünschten Gerät geöffnet, über den alle folgenden Kommunikationen stattfinden werden. Dieser Kanal übernimmt die Aufgabe, die Kommunikation mit dem Bluetooth Chip zu steuern und erhaltene Nachrichten an die nächste Schicht zurückzugeben \cite[S.400]{Sauter}. Auf dem ACL Kanal baut eine 
 	
 	\subsection{NFC}
 	
