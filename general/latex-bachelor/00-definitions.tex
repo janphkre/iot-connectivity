@@ -27,6 +27,23 @@
   stringstyle={\ttfamily},
 }
 
+% Smalltalk template from:
+\lstdefinelanguage{pharo}{
+  commentstyle={\ttfamily},
+  alsoletter={:}
+  emph={},
+  emphstyle={},
+  identifierstyle={},
+  keywords={self, super, nil, true, false, thisContext},
+  keywordstyle={\bfseries},
+  morecomment=[s]{"}{"},
+  morestring=[b]',
+  ndkeywords={new:, at:, put:, yourself, configureDynamic:, p2pServiceAdd:, p2pServiceUpdate, asString, onAnyP2P, as:, with: },
+  ndkeywordstyle={\bfseries},
+  sensitive=true,
+  stringstyle={\ttfamily},
+}
+
 %Demotion for appendix from: https://tex.stackexchange.com/questions/61766/demoting-promoting-sections-chapters-etc
 \newenvironment{leveldown}% Demote sectional commands
   {\let\section\subsection%

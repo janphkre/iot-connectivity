@@ -1,15 +1,58 @@
 \section{Eigene Umsetzung}
 \label{section:implementation}
-        Im Folgenden wird die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben. Jede dieser Technologien soll zunächst separat betrachtet werden, um Details und Probleme bei der Implementierung aufzuzeigen.
+        Das Projekt einer Verbindungskonfiguration \cite{aiProject} wurde über eine Wi-Fi Direct Verbindung implementiert. Um Pharo Installationen aufzufinden, wird eine Service Discovery Anfrage über Wi-Fi Direct vorgenommen. \reflst{lst:wifi:discovery} beschreibt die Definition und das bereitstellen dieser Definition über Wi-Fi Direct. Zu sehen ist, dass DNS Service Discovery genutzt wird, da ein Name sowie ein Identifikationspfad angegeben werden müssen. Die {\it serviceValues} beschreiben eine optionales Dictionary von Werten, welche über die Service Discovery ausgespielt werden. In diesen zusätzlichen Daten muss für Wi-Fi Direct jedoch noch der Port des Konfigurationsservers angegeben werden, um eine Verbindung auf Anwendungsebene zu ermöglichen.
         
-        Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem {\it EOF} beendet werden, über eine langlebige Verbindung zu senden, da ein {\it EOF} immer auch das Ende der Verbindung aufzeigt.
+        Für NFC und USB muss keine Service Discovery stattfinden, da diese lediglich über eine Hardwareschnittstelle mit einem Zielgerät kommunizieren. Es ist jedoch sinnvoll, die Service Discovery auch bei solchen Technologien beizubehalten, um eine Statusüberwachung aller nahegelegenen Geräte zu ermöglichen. Die Zuordnung eines gefundenen Services zur Adresse eines physikalischen Gerätes fällt dann jedoch in die Verantwortung des Nutzers.
+        
+        \begin{lstlisting}[frame=bt, label={lst:wifi:discovery}, language=Pharo, caption=Service Discovery Definition (Servercode in pharo)]
+serviceValues := (SmallDictionary new: 3)
+  at: #identifier put: 'Pharo Device';
+  at: #connection put: 'up';
+  at: #port put: (8889 asString);
+  yourself.
+serviceDescription := LWpaBonjourService new:
+  'ConfigurationService' as: 'connectivity.pharo._tcp'
+  with: serviceValues.
+p2pDevice := LWpaInterface onAnyP2P.
+p2pDevice configureDynamic: [ 
+  p2pDevice p2pServiceAdd: serviceDescription;
+  p2pServiceUpdate. ].
+        \end{lstlisting}
+
+        
+     \subsection{REST Schnittstelle}
+        Eine REST Schnittstelle wird über OpenAPI bereitgestellt, um die eigentliche Konfiguration der Wi-Fi Verbindung vornehmen zu können. Jedes Übertragungsmedium muss in der Lage sein, diese auf HTTP basierende Schnittstelle anzusprechen. Der REST Client dieser Schnittstelle wird asynchron bereitgestellt, um einen \linebreak Verbindungsaufbau abhängig von der genutzten Technologie zu ermöglichen. In \reflst{lst:wifi:rest} ist zu sehen, wie ein REST Client über Wi-Fi Direct bereitgestellt wird. Da keine Anpassungen am HTTP Client nötig sind, muss die Instanziierung des gesamten REST Client einen erfolgreichen Verbindungsaufbau über den {\it ipReceiver} abwarten, was sich leicht durch die Verkettung der Observables realisieren lässt.
+        
+        \begin{lstlisting}[frame=bt, label={lst:wifi:rest}, language=Kotlin, caption=REST Client Instanziierung (Clientcode in Kotlin)]
+Observable.unsafeCreate<> { subscriber ->
+    wifiManager.connect(wifiChannel, device.asConfig(),
+object : WifiP2pManager.ActionListener {
+      override fun onSuccess() {
+        subscriber.onNext(Unit)
+        subscriber.onCompleted()
+      }
+      ...
+    })
+}.zipWith<String, DeviceConfigurationProvider>(ipReceiver) {
+_, hostAddress ->
+  subscriber.onNext(DeviceConfigurationProvider.getInstance(
+device, hostAddress))
+  subscriber.onCompleted()
+}
+        \end{lstlisting}        
+        
+        Auf Basis dieser Anwendung kann nun die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben vorgenommen werden. Jede dieser Technologien soll separat betrachtet werden, um Details und Probleme bei ihrer Implementierung aufzuzeigen.
+        
+        Zunächst wird jedoch eine HTTP Kapselung betrachtet, da Diese für alle p2p Verbindungen nötig ist und daher auch generisch definiert werden soll. Um eine solche Kapselung zu ermöglichen, müssen HTTP Anfragen über ein anderes Protokoll als TCP/IP gesendet werden können.
         
     \subsection{HTTP Kapselung}
-        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie nutzen zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST-Server aufbauen zu können. Da das REST-Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden.
+        Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem {\it EOF} beendet werden, über eine langlebige Verbindung zu senden, da ein {\it EOF} immer auch das Ende der Verbindung aufzeigt.
+    
+        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie nutzen zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST Server aufbauen zu können. Da das REST Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden. Dies stellt jedoch keine tiefgreifenden Probleme dar, da ein Eingreifen in eine Implementierung nur dann nötig wird, wenn die Technologie nicht als Socketverbindung dargestellt werden kann.
     \subsubsection{Serverseite}        
-        Auf der Serverseite stellt dies kein Problem dar, da der HTTP-Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
+        Auf der Serverseite stellt eine enge Bindung zwischen HTTP Server und REST Anbindung kein Problem dar, da der HTTP Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
         
-        Wie im \reflst{lst:socket:create} zu sehen, baut der kapselnde Server eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP-Server zu vermeiden.
+        Wie im \reflst{lst:socket:create} zu sehen, baut der kapselnde Server eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP Server zu vermeiden.
 
         \begin{lstlisting}[frame=bt, label={lst:socket:create}, language=C, caption=Instanziierung eines Sockets (Servercode in C)]
 int s = socket(AF_INET, SOCK_STREAM , 0);
@@ -38,7 +81,6 @@ int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
         
         Serveraufrufe werden im okhttp Client (\reflst{lst:android:okhttp}) durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, Baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Socket zu schreiben und die Antwort zu lesen.
         
-        \pagebreak
         \begin{lstlisting}[frame=bt, label={lst:android:okhttp}, language=Java, caption=Interner Aufbau von okhttp (Clientcode in Java) \cite{okhttpRealCall}]
 List<Interceptor> interceptors = new ArrayList<>();
 ...
@@ -99,7 +141,7 @@ listen(s, LISTEN_QUEUE_SIZE);
         \end{lstlisting}        
         
         In älteren Versionen von BlueZ war es möglich einen SDP Eintrag mit der Methode {\it sdp\_record\_register} anzulegen (\reflst{lst:bluetooth:sdp}). Dieser Eintrag wurde von SDP selbstständig verwaltet und entfernt wenn die Sitzung zu SDP beendet wurde. Auf Grund des Wechsels zu DBus kann diese SDP-Schnittstelle nicht mehr genutzt werden, da sich keine Sitzungen zum SDP daemon aufbauen lassen, da dieser nicht mehr existiert.
-        
+        \pagebreak
         \begin{lstlisting}[frame=bt, label={lst:bluetooth:sdp}, language=C, caption=Veraltete Nutzung von SDP (Servercode in C)]
 sdp_set_info_attr(record, serviceName,
   serviceProvider, serviceDescription);
