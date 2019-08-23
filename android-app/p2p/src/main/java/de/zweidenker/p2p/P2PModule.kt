@@ -4,6 +4,9 @@ import de.zweidenker.p2p.beacon.BeaconProvider
 import de.zweidenker.p2p.beacon.BeaconProviderImpl
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
 import de.zweidenker.p2p.connection.bluetooth.BluetoothConnectionProvider
+import de.zweidenker.p2p.connection.nfc.NFCConnectionProvider
+import de.zweidenker.p2p.connection.usb.USBConnectionProvider
+import de.zweidenker.p2p.connection.wifi.WiFiConnectionProvider
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.KoinContext
 import org.koin.dsl.context.ModuleDefinition
@@ -34,8 +37,24 @@ object P2PModule : Module {
     internal const val USB_BROADCAST_CODE = 5000
     internal const val USB_BROADCAST_ACTION = "de.zweidenker.p2p.usb"
 
+    const val wifiDirectScope = "wifi"
+    const val bluetoothScope = "bluetooth"
+    const val nfcScope = "nfc"
+    const val usbScope = "usb"
+
     override fun invoke(koinContext: KoinContext): ModuleDefinition = module {
         single<BeaconProvider> { BeaconProviderImpl(androidContext()) }
-        factory<DeviceConnectionProvider> { BluetoothConnectionProvider() }
+        scope(wifiDirectScope) {
+            factory<DeviceConnectionProvider> { WiFiConnectionProvider(get()) }
+        }
+        scope(bluetoothScope) {
+            factory<DeviceConnectionProvider> { BluetoothConnectionProvider() }
+        }
+        scope(nfcScope) {
+            factory<DeviceConnectionProvider> { NFCConnectionProvider() }
+        }
+        scope(usbScope) {
+            factory<DeviceConnectionProvider> { USBConnectionProvider(get()) }
+        }
     }(koinContext)
 }
