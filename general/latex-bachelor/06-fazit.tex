@@ -22,4 +22,12 @@ In der Evaluation hat sich so Bluetooth als beste Technologie für eine p2p Verb
 
 \subsection{Ausblick}
 
-Da der Fokus dieser Arbeit auf dem Aufbau einer p2p Verbindung lag, 
+Im Nachgang kann nun auf Grundlage dieses Prototypen eine Umsetzung der p2p Funktionalität über die einzelnen Technologien stattfinden. Besonders wird hier noch einmal Bluetooth betrachtet werden, da die Bluetooth Lösung über einen festgelegten RFCOMM Port noch mittels des Bluetooth Service Discovery Protocol ersetzt werden sollte. Ebenfalls muss noch Discoverability standardmäßig in der genutzten BlueZ Instanz aktiviert werden.
+
+Da der Fokus dieser Arbeit auf dem Aufbau einer p2p Verbindung lag, kann weiterführend der Fokus auf die Service Discovery geschoben werden. Hier kann besonders Bluetooth Low Energy (LE) betrachtet werden. Es besitzt eine ähnliche Funktionsweise zum bereits implementierten DNS Service Discovery über Wi-Fi Direct jedoch erlaubt es auf eine allgemeinere Art und Weise das verbindungslose Senden von Datenpaketen. Aufgrund der geringen Leistungsaufnahme eignet sich dies auch eher für batteriebetriebene Geräte als Wi-Fi Direct.
+
+Android hat mit der Version Q neue Funktionalität für Wi-Fi Direct und Bluetooth LE bereitgestellt \cite{androidQ}. Es kann hierbei überprüft werden, ob dies lediglich die Nutzung vereinfachen soll oder auch die Stabilität der Wi-Fi Direct Implementierung verbessert wurde.
+
+USB sollte aufgrund einer mangelnden Unterstützung seitens Android in Verbindung mit einer umständlichen Nutzung für ähnlich Anwendungsfälle nicht mehr betrachtet werden. Stattdessen kann sich auf fortschrittlichere p2p Verbindungen konzentriert werden, die kein Kabel zur Datenübertragung mehr benötigen.
+
+Nachdem die Verbindungskonfiguration zufriedenstellend abgehandelt ist, lassen sich für die vorgestellten Verbindungen weitere Anwendungsfälle finden, die von einer p2p Verbindung profitieren. Da REST als Schnittstellentechnologie genutzt wurde, lassen sich neue Anwendungsfälle wie ein p2p Remote Debugging für Pharo leicht umsetzen.
