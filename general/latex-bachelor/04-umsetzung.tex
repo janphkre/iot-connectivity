@@ -1,6 +1,6 @@
 \section{Eigene Umsetzung}
 \label{section:implementation}
-        Das Projekt einer Verbindungskonfiguration \cite{aiProject} wurde über eine Wi-Fi Direct Verbindung implementiert. Um Pharo Installationen aufzufinden, wird eine Service Discovery Anfrage über Wi-Fi Direct vorgenommen. \reflst{lst:wifi:discovery} beschreibt die Definition und das bereitstellen dieser Definition über Wi-Fi Direct. Zu sehen ist, dass DNS Service Discovery genutzt wird, da ein Name sowie ein Identifikationspfad angegeben werden müssen. Die {\it serviceValues} beschreiben eine optionales Dictionary von Werten, welche über die Service Discovery ausgespielt werden. In diesen zusätzlichen Daten muss für Wi-Fi Direct jedoch noch der Port des Konfigurationsservers angegeben werden, um eine Verbindung auf Anwendungsebene zu ermöglichen.
+        Das Projekt einer Verbindungskonfiguration \cite{aiProject} wurde über eine Wi-Fi Direct Verbindung implementiert. Um Pharo Installationen aufzufinden, wird eine Service Discovery Anfrage über Wi-Fi Direct vorgenommen. \reflst{lst:wifi:discovery} beschreibt die Definition und das Bereitstellen dieser Definition über Wi-Fi Direct. Zu sehen ist, dass DNS Service Discovery genutzt wird, da ein Name sowie ein Identifikationspfad angegeben werden müssen. Die {\it serviceValues} beschreiben eine optionales Dictionary von Werten, welche über die Service Discovery ausgespielt werden. In diesen zusätzlichen Daten muss für Wi-Fi Direct jedoch noch der Port des Konfigurationsservers angegeben werden, um eine Verbindung auf Anwendungsebene zu ermöglichen.
         
         Für NFC und USB muss keine Service Discovery stattfinden, da diese lediglich über eine Hardwareschnittstelle mit einem Zielgerät kommunizieren. Es ist jedoch sinnvoll, die Service Discovery auch bei solchen Technologien beizubehalten, um eine Statusüberwachung aller nahegelegenen Geräte zu ermöglichen. Die Zuordnung eines gefundenen Services zur Adresse eines physikalischen Gerätes fällt dann jedoch in die Verantwortung des Nutzers.
         
@@ -20,7 +20,7 @@ p2pDevice configureDynamic: [
         \end{lstlisting}        
         
      \subsection{REST Schnittstelle}
-        Eine REST Schnittstelle wird über OpenAPI bereitgestellt, um die eigentliche Konfiguration der Wi-Fi Verbindung vornehmen zu können. Jedes Übertragungsmedium muss in der Lage sein, diese auf HTTP basierende Schnittstelle anzusprechen. Der REST Client dieser Schnittstelle wird asynchron bereitgestellt, um einen \linebreak Verbindungsaufbau abhängig von der genutzten Technologie zu ermöglichen. In \reflst{lst:wifi:rest} ist zu sehen, wie ein REST Client über Wi-Fi Direct bereitgestellt wird. Da keine Anpassungen am HTTP Client nötig sind, muss die Instanziierung des gesamten REST Client einen erfolgreichen Verbindungsaufbau über den {\it ipReceiver} abwarten, was sich leicht durch die Verkettung der Observables realisieren lässt.
+        Eine REST Schnittstelle wird über OpenAPI bereitgestellt, um die eigentliche Konfiguration der Wi-Fi Verbindung vornehmen zu können. Jedes Übertragungsmedium muss in der Lage sein, diese auf HTTP basierende Schnittstelle anzusprechen. Der REST-Client dieser Schnittstelle wird asynchron bereitgestellt, um einen \linebreak Verbindungsaufbau abhängig von der genutzten Technologie zu ermöglichen. In \reflst{lst:wifi:rest} ist zu sehen, wie ein REST-Client über Wi-Fi Direct bereitgestellt wird. Da keine Anpassungen am HTTP-Client nötig sind, muss die Instanziierung des gesamten REST-Client einen erfolgreichen Verbindungsaufbau über den {\it ipReceiver} abwarten, was sich leicht durch die Verkettung der Observables realisieren lässt.
         
         \begin{lstlisting}[frame=bt, label={lst:wifi:rest}, language=Kotlin, caption=Asynchrones Warten für Wi-Fi Direct Verbindung (Clientcode in Kotlin)]
 Observable.unsafeCreate<> { subscriber ->
@@ -40,9 +40,9 @@ getHttpClient(), device, hostAddress))
 }
         \end{lstlisting}
         
-        \reflst{lst:wifi:client} zeigt, wie der eigentliche REST Client von den speziellen Änderung einzelner Technologien unberührt bleibt. Für dessen Instanziierung wird lediglich der zugrundeliegende HTTP Client als Factory explizit hinzugegeben, damit dieser frei konfiguriert werden kann.
+        \reflst{lst:wifi:client} zeigt, wie der eigentliche REST-Client von den speziellen Änderung einzelner Technologien unberührt bleibt. Für dessen Instanziierung wird lediglich der zugrundeliegende HTTP-Client als Factory explizit hinzugegeben, damit dieser frei konfiguriert werden kann.
         
-        \begin{lstlisting}[frame=bt, label={lst:wifi:client}, language=Kotlin, caption=REST Client Instanziierung (Clientcode in Kotlin)]
+        \begin{lstlisting}[frame=bt, label={lst:wifi:client}, language=Kotlin, caption=REST-Client Instanziierung (Clientcode in Kotlin)]
 fun getInstance(callFactory: Factory, device: Device,
 deviceHost: String): DeviceConfigurationProvider {
   val httpUrl = HttpUrl.Builder()
@@ -59,7 +59,7 @@ deviceHost: String): DeviceConfigurationProvider {
 }
         \end{lstlisting}
         
-        Auf Basis dieser Anwendung kann nun die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben vorgenommen werden. Jede dieser Technologien soll separat betrachtet werden, um Details und Probleme bei ihrer Implementierung aufzuzeigen. Jede Technologie wird clientseitig als {\it DeviceConfigurationProvider} implementiert, um eine Austauschbarkeit mit geringem Aufwand ausschließlich durch das Auswechseln einer {\it Dependency Injection Defintion} zu ermöglichen. Dies ist in \reflst{lst:android:koin} gelöst, indem in der laufenden Anwendung lediglich der {\it scope} ausgewechselt wird (\reflst{lst:android:scope}) und ein Wechsel zwischen den einzelnen Technologien dann auch über eine Einstellungsseite möglich ist. Alternativ wäre denkbar, dass auch eine Service Discovery eine Feature Matrix ausliefert, die angibt, welche Technologien auf dem Gerät unterstützt werden und so ein kompatibler Provider selbstständig ausgewählt wird.
+        Auf Basis dieser Anwendung kann nun die Implementierung einer p2p Verbindung über Bluetooth, NFC und USB beschrieben vorgenommen werden. Jede dieser Technologien soll separat betrachtet werden, um Details und Probleme bei ihrer Implementierung aufzuzeigen. Jede Technologie wird clientseitig als {\it DeviceConfigurationProvider} implementiert, um eine Austauschbarkeit mit geringem Aufwand aus-schließlich durch das Auswechseln einer {\it Dependency Injection Defintion} zu ermög-\linebreak lichen. Dies ist in \reflst{lst:android:koin} gelöst, indem in der laufenden Anwendung lediglich der {\it scope} ausgewechselt wird (\reflst{lst:android:scope}) und ein Wechsel zwischen den einzelnen Technologien dann auch über eine Einstellungsseite möglich ist. Alternativ wäre denkbar, dass auch eine Service Discovery eine Feature Matrix ausliefert, die angibt, welche Technologien auf dem Gerät unterstützt werden und so ein kompatibler Provider selbstständig ausgewählt wird.
         
         \begin{lstlisting}[frame=bt, label={lst:android:koin}, language=Kotlin, caption=Auswechselbarkeit durch Dependency Injection (Clientcode in Kotlin)]
 scope(wifiDirectScope) { factory<DeviceConnectionProvider> {
@@ -83,17 +83,17 @@ fun switchToTechnology(scopeId: String) {
 }
         \end{lstlisting}
         
-    \subsection{HTTP Kapselung}
-        Zunächst wird jedoch eine HTTP Kapselung betrachtet, da diese für alle p2p Verbindungen nötig ist und daher auch generisch definiert werden soll. Um eine solche Kapselung zu ermöglichen, müssen HTTP Anfragen über ein anderes Protokoll als TCP/IP gesendet werden können.
+    \subsection{HTTP-Kapselung}
+        Zunächst wird jedoch eine HTTP-Kapselung betrachtet, da diese für alle p2p Verbindungen nötig ist und daher auch generisch definiert werden soll. Um eine solche Kapselung zu ermöglichen, müssen HTTP Anfragen über ein anderes Protokoll als TCP/IP gesendet werden können.
         
         Bei der Kapselung von HTTP Anfragen muss bedacht werden, wie eine Technologie Verbindungen zur Verfügung stellt, da so zwischen kurzlebigen Verbindungen ähnlich zu HTTP Anfragen und langlebigen Verbindungen wie einer Datenübertragung per Kabel unterschieden werden muss. Letztere weisen dabei das Problem auf, HTTP Anfragen, die mit einem {\it EOF} beendet werden, über eine langlebige Verbindung zu senden, da ein {\it EOF} immer auch das Ende der Verbindung aufzeigt. Weiterhin können Fehler eine langlebige Verbindung beenden, jedoch ist es bei solchen Verbindungen nur begrenzt möglich, einen erneuten Verbindungsaufbau zu versuchen, da der Zustand einer langlebigen Verbindung bei NFC und USB außerhalb der Kontrolle der Anwendung liegt.
     
-        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie verwenden zu können, ist es nötig, eine HTTP Verbindung zum existierenden REST Server aufbauen zu können. Da das REST Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP Server oder Client verbunden. Dies stellt jedoch keine tiefgreifenden Probleme dar, da ein Eingreifen in eine HTTP Implementierung nur nötig wird, wenn die Technologie nicht mit vertretbarem Aufwand als Socketverbindung dargestellt werden kann.
+        Um eine p2p Verbindung unabhängig von der genutzten Verbindungstechnologie verwenden zu können, ist es nötig, eine HTTP-Verbindung zum existierenden REST Server aufbauen zu können. Da das REST-Prinzip eng mit HTTP verbunden ist, sind auch die Implementierungen von REST meistens fest mit einem HTTP-Server oder Client verbunden. Dies stellt jedoch keine tiefgreifenden Probleme dar, da ein Eingreifen in eine HTTP-Implementierung nur nötig wird, wenn die Technologie nicht mit vertretbarem Aufwand als Socketverbindung dargestellt werden kann.
         
     \subsubsection{Serverseite}        
-        Auf der Serverseite stellt eine enge Bindung zwischen HTTP Server und REST Anbindung kein Problem dar, da der HTTP Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
+        Auf der Serverseite stellt eine enge Bindung zwischen HTTP-Server und REST-Anbindung kein Problem dar, da der HTTP-Server nicht von den genutzten Sockets entkoppelt werden muss. Dazu wird ein zweiter Server vorgeschaltet, welcher lokale Sockets nutzt um mit dem eigentlichen Server zu kommunizieren und den Verbindungsaufbau sowie Verbindungsabbau für die genutzte Technologie und deren mögliche virtuelle Socket-Verbindung zu verwalten.
         
-        Wie im \reflst{lst:socket:create} zu sehen, baut der kapselnde Server eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP Server zu vermeiden.
+        Wie im \reflst{lst:socket:create} zu sehen, baut der kapselnde Server eine Socket-Verbindung auf, um Daten zum Zielserver zu senden. Diese Verbindung wird erst aufgebaut, sobald das Endnutzergerät kurz davor steht eine Anfrage an den Zielserver zu stellen, um mögliche Zeitüberschreitungen im HTTP-Server zu vermeiden.
 
         \begin{lstlisting}[frame=bt, label={lst:socket:create}, language=C, caption=Instanziierung eines Sockets (Servercode in C)]
 int s = socket(AF_INET, SOCK_STREAM , 0);
@@ -104,10 +104,10 @@ rem_addr.sin_port = htons(targetPort);
 connect(s, (struct sockaddr *)&rem_addr , sizeof(rem_addr));
         \end{lstlisting}        
         
-        Die bestehende Socket-Verbindung zum Zielserver wird genutzt, um die ankommenden Daten und deren Antworten voll duplex weiterzuleiten. Dies ist realisiert, indem eine Methode {\it pipeData} in zwei Threads mit invertiertem {\it sourceSocket} und {\it sinkSocket} aufgerufen wird, bis ein {\it EOF} gesendet wird (\reflst{lst:socket:data}). Für den kap-selnden Server ist es so unerheblich, welche Seite Daten zuerst senden möchte. Die Verbindung zwischen dem Zielserver und dem kapselnden Server kann so auch unabhängig von der Verbindung zum Endgerät verwaltet werden, da beim Lesen der Daten vom Zielserver ein{\it EOF} das Ende der Verbindung zum Zielserver aufzeigt. Die Verbindung zum Endgerät muss so nicht zwingend geschlossen werden.
+        Die bestehende Socket-Verbindung zum Zielserver wird genutzt, um die ankommenden Daten und deren Antworten voll duplex weiterzuleiten. Dies ist realisiert, indem eine Methode {\it pipeData} in zwei Threads mit invertiertem {\it sourceSocket} und {\it sinkSocket} aufgerufen wird, bis ein {\it EOF} gesendet wird (\reflst{lst:socket:data}). Für den kap-selnden Server ist es so unerheblich, welche Seite Daten zuerst senden möchte. Die Verbindung zwischen dem Zielserver und dem kapselnden Server kann so auch unabhängig von der Verbindung zum Endgerät verwaltet werden, da beim Lesen der Daten vom Zielserver ein {\it EOF} das Ende der Verbindung zum Zielserver aufzeigt. Die Verbindung zum Endgerät muss so nicht zwingend geschlossen werden.
         
         \begin{lstlisting}[frame=bt, label={lst:socket:data}, language=C, caption=Datenweiterleitung durch Sockets (Servercode in C)] 
-int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
+int pipeData(int sourceSocket, int sinkSocket, char* buffer){
   int bytes_read = read(sourceSocket, buffer, BUF_SIZE);
   if(bytes_read < 0) return -1;
   if(bytes_read == 0) return -20; // indicates an EOF
@@ -121,38 +121,38 @@ int pipeData(int sourceSocket, int sinkSocket, char* buffer) {
         \subsubsection{Clientseite}
         Ein Abkapseln der Technologie über einen weiteren Server auch auf Seite des Clients erscheint als vermeidbarer Overhead, da so keine Serverimplementierung auch im Client stattfinden muss. Stattdessen wird hier der HTTP-Client, welcher der REST-Bibliothek zugrunde liegt, so aufgetrennt, dass keine TCP/IP-Verbindungen aufgebaut werden, jedoch die Anfragen aus der Bibliothek als String entnommen werden können und  deren Antworten als String eingespeist werden können. Für den REST-Client retrofit wird intern okhttp als HTTP-Client genutzt. Um zu verstehen, welche Änderungen am Client nötig sind, sollte zuerst die interne Struktur der okhttp Bibliothek erläutert werden.
         
-        Serveraufrufe werden im okhttp Client (\reflst{lst:android:okhttp}) durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Socket zu schreiben und die Antwort zu lesen.
+        Serveraufrufe werden im okhttp-Client (\reflst{lst:android:okhttp}) durch eine Kette von Interceptors verarbeitet. Jeder {\it Interceptor} hat dabei die Möglichkeit den Aufruf oder die Kette beliebig zu verändern und in dieser Liste nimmt jeder Interceptor eine andere Rolle ein. Der {\it RetryAndFollowUpInterceptor} stellt in der Kette eine {\it StreamAllocation} bereit und übernimmt das Abbrechen von Aufrufen. Der darauf folgende {\it BridgeInterceptor} verwaltet Cookies aus den Anfragen und Antworten, sowie die Übersetzung von Anwendungsanfragen zu Netzwerkanfragen. Dies beinhaltet ebenfalls die Verwaltung von netzwerkrelevanten Headern wie zum Beispiel den "User-Agent"-Header oder "Content-Encoding"-Header. Wie der Name des {\it CacheInterceptor} bereits vermuten lässt, wird in diesem das Speichern und Abrufen von Antworten auf wiederkehrende Anfragen ermöglicht. Sowohl Cookies als auch der Cache lassen sich einfach umgehen, indem der Client jeweils kein Objekt ausliefert oder ein Objekt bereitstellt, welche alle Methoden mit leeren Ergebnissen quittiert. Bevor der Aufruf vom {\it CallServerInterceptor} tatsächlich ausgeführt wird und auf ein Ergebnis gewartet wird, baut der {\it ConnectInterceptor} noch eine HTTP-Verbindung über die {\it StreamAllocation} der Kette auf. Für diese Verbindung wird dann ein {\it HTTPCodec} genutzt, um die Anfrage auf den Socket zu schreiben und die Antwort zu lesen.
         
         \begin{lstlisting}[frame=bt, label={lst:android:okhttp}, language=Java, caption=Interner Aufbau von okhttp (Clientcode in Java) \cite{okhttpRealCall}]
-List<Interceptor> interceptors = new ArrayList<>();
+List<Interceptor> iceptors = new ArrayList<>();
 ...
-interceptors.add(retryAndFollowUpInterceptor);
-interceptors.add(new BridgeInterceptor(client.cookieJar()));
-interceptors.add(new CacheInterceptor(client.internalCache()));
-interceptors.add(new ConnectInterceptor(client));
+iceptors.add(retryAndFollowUpInterceptor);
+iceptors.add(new BridgeInterceptor(client.cookieJar()));
+iceptors.add(new CacheInterceptor(client.internalCache()));
+iceptors.add(new ConnectInterceptor(client));
 ...
-interceptors.add(new CallServerInterceptor(forWebSocket));
+iceptors.add(new CallServerInterceptor(forWebSocket));
         \end{lstlisting}        
         
-        Im Gegensatz zur okhttp Implementierung muss die p2p Verbindung so verwaltet werden, wie es von der Implementierung der Technologie vorgegeben wird. Dazu wird im \reflst{lst:android:okhttpchanges} der {\it RetryAndFollowUpInterceptor} sowie der {\it ConnectInterceptor} weggelassen und der {\it CallServerInterceptor} im {\it SimpleServerInterceptor} soweit vereinfacht, dass dieser keine Handshakes mehr unterstützt und nicht mit Websockets genutzt werden kann. Um die Kapselung so simpel wie möglich zu halten, wird ebenfalls auf HTTP 2 verzichtet, wodurch der abgewandelte HTTP Client nur HTTP1.1 unterstützt. Da im okhttp Client der {\it HttpCodec} sowohl die Aufgabe erfüllt, den Request in einen HTTP-String umzuwandeln, als auch den Request über die Verbindung zu schreiben, muss so lediglich eine weitere Klasse angepasst werden. der {\it Http1Codec} wird dabei minimal angepasst, sodass interne Klassen der okhttp Implementierung, die nicht im Rahmen dieser HTTP Kapselung nötig sind, entfallen. Diese generische HTTP Kapselung lässt sich nun ähnlich der okhttp Implementierung über eine zentrale Klasse, den {\it SimpleHttpWrapper} nutzen. Diese Klasse nutzt ebenfalls das Builder-Pattern, um so nah wie möglich an der okhttp Bilbiothek zu bleiben. Über diesen Builder lässt sich nun ein {\it ConnectionStream} definieren, welcher dann den Inputstream und Outputstream der Verbindung be-reitstellt. Die Verwaltung der p2p Verbindung sollte dann auch in diesem {\it ConnectionStream} gehandhabt werden, um die Inputstreams und Outputstreams im Fehlerfall schließen zu können.
+        Im Gegensatz zur okhttp-Implementierung muss die p2p Verbindung so verwaltet werden, wie es von der Implementierung der Technologie vorgegeben wird. Dazu wird im \reflst{lst:android:okhttpchanges} der {\it RetryAndFollowUpInterceptor} sowie der {\it ConnectInterceptor} weggelassen und der {\it CallServerInterceptor} im {\it SimpleServerInterceptor} soweit vereinfacht, dass dieser keine Handshakes mehr unterstützt und nicht mit Websockets genutzt werden kann. Um die Kapselung so simpel wie möglich zu halten, wird ebenfalls auf HTTP 2 verzichtet, wodurch der abgewandelte HTTP-Client nur HTTP1.1 unterstützt. Da im okhttp-Client der {\it HttpCodec} sowohl die Aufgabe erfüllt, den Request in einen HTTP-String umzuwandeln, als auch den Request über die Verbindung zu schreiben, muss so lediglich eine weitere Klasse angepasst werden. der {\it Http1Codec} wird dabei minimal angepasst, sodass interne Klassen der okhttp-Implementierung, die nicht im Rahmen dieser HTTP-Kapselung nötig sind, entfallen. Diese generische HTTP-Kapselung lässt sich nun ähnlich der okhttp-Implementierung über eine zentrale Klasse, den {\it SimpleHttpWrapper} nutzen. Diese Klasse nutzt ebenfalls das Builder-Pattern, um so nah wie möglich an der okhttp Bilbiothek zu bleiben. Über diesen Builder lässt sich nun ein {\it ConnectionStream} definieren, welcher dann den Inputstream und Outputstream der Verbindung be-reitstellt. Die Verwaltung der p2p Verbindung sollte dann auch in diesem {\it ConnectionStream} gehandhabt werden, um die Inputstreams und Outputstreams im Fehlerfall schließen zu können.
 
         \begin{lstlisting}[frame=bt, label={lst:android:okhttpchanges}, language=Kotlin, caption=Änderungen an okhttp (Clientcode in Kotlin)]
-val interceptors = ArrayList<Interceptor>()
+val iceptors = ArrayList<Interceptor>()
 ...
-interceptors.add(BridgeInterceptor(wrapper.cookieJar()))
-interceptors.add(CacheInterceptor(wrapper.internalCache()))
+iceptors.add(BridgeInterceptor(wrapper.cookieJar()))
+iceptors.add(CacheInterceptor(wrapper.internalCache()))
 ...
-interceptors.add(SimpleServerInterceptor(wrapper.httpCodec()))
+iceptors.add(SimpleServerInterceptor(wrapper.httpCodec()))
         \end{lstlisting}        
         
-        Im \reflst{lst:android:socketfactory} ist zu sehen, wie eine {\it SocketImpl} dazu genutzt wird HTTP über eine p2p Verbindung zu senden, ohne Änderungen an okhttp vornehmen zu müssen. Dies ist dann möglich, wenn sich die genutzte Technologie in eine {\it SocketImpl} verpacken lässt, sodass eine {\it WrappingSocketFactory} im okhttp Client genutzt werden kann. Da okhttp jedoch die Annahme trifft, dass die Sockets in einem IP-basierten Netzwerk Daten senden werden, wird zunächst eine DNS Abfrage getätigt, um je nach IP-Route gesondertes Verhalten zu nutzen. Dies scheitert bereits, da es keinen zwingend existierenden Hostnamen außer {\it localhost} für das Android-Gerät existiert.
-        \begin{lstlisting}[frame=bt, label={lst:android:socketfactory}, language=Kotlin, caption=HTTP Kapselung als SocketFactory (Clientcode in Kotlin)]
+        Im \reflst{lst:android:socketfactory} ist zu sehen, wie eine {\it SocketImpl} dazu genutzt wird HTTP über eine p2p Verbindung zu senden, ohne Änderungen an okhttp vornehmen zu müssen. Dies ist dann möglich, wenn sich die genutzte Technologie in eine {\it SocketImpl} verpacken lässt, sodass eine {\it WrappingSocketFactory} im okhttp-Client genutzt werden kann. Da okhttp jedoch die Annahme trifft, dass die Sockets in einem IP-basierten Netzwerk Daten senden werden, wird zunächst eine DNS-Abfrage getätigt, um je nach IP-Route gesondertes Verhalten zu nutzen. Dies scheitert bereits, da es keinen zwingend existierenden Hostnamen außer {\it localhost} für das Android-Gerät existiert.
+        \begin{lstlisting}[frame=bt, label={lst:android:socketfactory}, language=Kotlin, caption=HTTP-Kapselung als SocketFactory (Clientcode in Kotlin)]
 class WrappingSocketImpl(device: Device): SocketImpl() {
   // Delegiert o. Ignoriert alle Methoden zur Verbindung
   // Stellt InputStream und OutputStream bereit
 }
-
-class WrappingSocket(socketImpl: SocketImpl): Socket(socketImpl)
+class WrappingSocket(socketImpl: SocketImpl)
+: Socket(socketImpl)
 
 class WrappingSocketFactory(
   private val device: Device
@@ -174,12 +174,12 @@ class WrappingSocketFactory(
         \end{lstlisting}
         
         \subsection{Bluetooth}
-        Die Umsetzung einer p2p Verbindung über Bluetooth besteht darin, dass ähnlich zu HTTP Sockets, RFCOMM Sockets genutzt werden, um mit einem Server kurzweilig zu kommunizieren. Jede dieser RFCOMM Verbindungen bildet in diesem Projekt eine HTTP Anfrage und HTTP Antwort ab. Wie bereits in der HTTP Kapselung beschrieben, wird die Verbindung von selbst wieder geschlossen, sobald ein {\it EOF} gesendet wird. Da RFCOMM Socket Verbindungen ein automatisches Pairing mit Schlüsselaustausch durchführen, ist keinerlei Eingriff oder Bestätigung des Nutzers nötig, um Daten übertragen zu können.
+        Die Umsetzung einer p2p Verbindung über Bluetooth besteht darin, dass ähnlich zu HTTP Sockets, RFCOMM-Sockets genutzt werden, um mit einem Server kurzweilig zu kommunizieren. Jede dieser RFCOMM-Verbindungen bildet in diesem Projekt eine HTTP Anfrage und HTTP Antwort ab. Wie bereits in der HTTP-Kapselung beschrieben, wird die Verbindung von selbst wieder geschlossen, sobald ein {\it EOF} gesendet wird. Da RFCOMM-Socketverbindungen ein automatisches Pairing mit Schlüsselaustausch durchführen, ist keinerlei Eingriff oder Bestätigung des Nutzers nötig, um Daten übertragen zu können.
         
         \subsubsection{Serverseite}        
-        Unter Linux steht die Bibliothek BlueZ in der Version 5 zur Verfügung, um Bluetooth Hardware nutzen zu können \cite{bluezMigration}. Diese Bibliothek bietet die Möglichkeit, RFCOMM Sockets wie HTTP Sockets in C zu nutzen, als auch über eine C und DBus Schnittstelle andere Funktionen wie das Service Discovery Protokoll zu verwenden.
+        Unter Linux steht die Bibliothek BlueZ in der Version 5 zur Verfügung, um Bluetooth Hardware nutzen zu können \cite{bluezMigration}. Diese Bibliothek bietet die Möglichkeit, RFCOMM-Sockets wie HTTP-Sockets in C zu nutzen, als auch über eine C und DBus Schnittstelle andere Funktionen wie das Service Discovery Protokoll zu verwenden.
         
-        Die Implementierung der HTTP Kapselung kann im Server fast vollständig übernommen werden, jedoch müssen Verbindungen auf einem weiteren Socket mit dem Bluetooth RFCOMM Protokoll akzeptiert werden. Mit dieser simplen Anbindungen im \reflst{lst:bluetooth:socket} von Bluetooth an die generische HTTP Kapselung lässt sich eine einfache Lösung bereits nutzen. Um jedoch die Anbindung unter Android der offiziell unterstützten API anzugleichen, ist es nötig, auf dem Server die Anbindung im Bluetooth SDP als Service zu hinterlegen. Kürzlich wurde die BlueZ 5 Bibliothek von einer simplen C-Schnittstelle auf eine DBus-Schnittstelle umgewandelt \cite{bluezMigration}. Dies hat zur Folge, dass viele der Beispiele und Erklärungen, ebenso wie Bücher nicht mehr aktuell sind und erst auf die neue API hingewiesen wird, wenn nach der expliziten Fehlermeldung gesucht wird.
+        Die Implementierung der HTTP-Kapselung kann im Server fast vollständig \linebreak übernommen werden, jedoch müssen Verbindungen auf einem weiteren Socket mit dem Bluetooth RFCOMM-Protokoll akzeptiert werden. Mit dieser simplen Anbindungen im \reflst{lst:bluetooth:socket} von Bluetooth an die generische HTTP-Kapselung lässt sich eine einfache Lösung bereits nutzen. Um jedoch die Anbindung unter Android der offiziell unterstützten API anzugleichen, ist es nötig, auf dem Server die Anbindung im Bluetooth SDP als Service zu hinterlegen. Kürzlich wurde die BlueZ 5 Bibliothek von einer simplen C-Schnittstelle auf eine DBus-Schnittstelle umgewandelt \cite{bluezMigration}. Dies hat zur Folge, dass viele der Beispiele und Erklärungen, ebenso wie Bücher nicht mehr aktuell sind und erst auf die neue API hingewiesen wird, wenn nach der expliziten Fehlermeldung gesucht wird.
 
         \begin{lstlisting}[frame=bt, label={lst:bluetooth:socket}, language=C, caption=Verbindungsaufbau mit Bluetooth (Servercode in C)]
 int s = socket(AF_BLUETOOTH, SOCK_STREAM, BTPROTO_RFCOMM);
@@ -196,7 +196,7 @@ listen(s, LISTEN_QUEUE_SIZE);
         \begin{lstlisting}[frame=bt, label={lst:bluetooth:sdp}, language=C, caption=Veraltete Nutzung von SDP (Servercode in C)]
 sdp_set_info_attr(record, serviceName,
   serviceProvider, serviceDescription);
-*s = sdp_connect(BDADDR_ANY, BDADDR_LOCAL, SDP_RETRY_IF_BUSY);
+*s= sdp_connect(BDADDR_ANY, BDADDR_LOCAL, SDP_RETRY_IF_BUSY);
 sdp_record_register(*s, record, 0);
         \end{lstlisting}
         
@@ -216,11 +216,12 @@ vtable.unregister_function = NULL;
 DBusConnection* conn = dbus_bus_get(DBUS_BUS_SYSTEM, &err);
 dbus_connection_try_register_object_path(conn, PROFILE_PATH,
   &vtable, NULL, &err);
-
 DBusMessage* msg = dbus_message_new_method_call("org.bluez",
-  "/org/bluez", "org.bluez.ProfileManager1", "RegisterProfile");
+  "/org/bluez", "org.bluez.ProfileManager1",
+  "RegisterProfile");
 ...
-dbus_connection_send_with_reply_and_block(conn, msg, -1, &err);
+dbus_connection_send_with_reply_and_block(conn, msg,
+-1, &err);
         \end{lstlisting}
         
         Ebenso ist es serverseitig nicht sinnvoll, die nötigen Sockets in pharo zu verwalten, wie es beispielhaft in \reflst{lst:bluetooth:pharo} zu sehen ist. Dem liegt zu Grunde, dass Sockets in der pharo VM über das SocketsPlugin \cite{pharoSocket} gekapselt verwaltet werden und dort fest als IP basierte Sockets erstellt werden. Ein weiteres Plugin zu schreiben, welches Bluetooth Sockets erstellt, wäre denkbar, um die Verwaltung der Sockets dennoch im SocketsPlugin halten zu können. Hierbei entsteht jedoch ein sehr hoher Wartungsaufwand, da dieses Plugin sich an fremden Code bindet und dadurch Gefahr läuft, bei Änderungen in der VM nicht mehr zu funktionieren.
@@ -234,20 +235,21 @@ void lib_bluez_bind_socket(SocketPtr s, int port) {
   loc_addr.rc_family = AF_BLUETOOTH;
   loc_addr.rc_bdaddr = *BDADDR_ANY;
   loc_addr.rc_channel = (uint8_t) port;
-  if (bind(SOCKET(s), (struct sockaddr *)&loc_addr, sizeof(loc_addr)) < 0) {
+  if (bind(SOCKET(s), (struct sockaddr *)&loc_addr,
+sizeof(loc_addr)) < 0) {
     pss->sockError= errno;
     success(false);
     return;
   }
 }
         \end{lstlisting}  
-        Hierbei tritt eine weitere Schwierigkeit auf, alle nötigen Methoden und Datenstrukturen aus dem VM Sourcecode richtig zu importieren, da jeder einzelne Eintrag der entsprechenden C-Header dem Compiler als extern angegeben werden muss.
+        Hierbei tritt eine weitere Schwierigkeit auf, alle nötigen Methoden und Datenstrukturen aus dem VM-Sourcecode richtig zu importieren, da jeder einzelne Eintrag der entsprechenden C-Header dem Compiler als extern angegeben werden muss.
         Eine Lösung, die Sockets in pharo verwaltet würde auch wieder Mehraufwand gegenüber anderen Lösungen bedeuten, da andere Technologien nicht zwingend ebenfalls Sockets unterstützen und somit ein Mehraufwand durch abweichende Implementierungen entsteht, wenn mehrere Lösungen parallel genutzt werden.        
         
         \subsubsection{Clientseite}
-        Um unter Android eine Bluetoothverbindung über RFCOMM aufbauen zu können, muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Diese beiden Parameter lassen sich, wie bereits bei einer Implementierung mit \linebreak Wi-Fi Direct gezeigt \cite{aiProject}, über die implementierte Service Discovery bereitstellen.
+        Um unter Android eine Bluetoothverbindung über RFCOMM aufbauen zu können, muss die Bluetooth MAC-Addresse sowie der Bluetooth Port angegeben werden. Diese beiden Parameter lassen sich, wie bereits bei einer Implementierung mit \linebreak Wi-Fi Direct gezeigt \cite{aiProject}, über die implementierte Service Discovery \linebreak bereitstellen.
         
-        Der {\it BluetoothAdapter} aus dem Android Framework gibt ein {\it BluetoothDevice} für die angegebene MAC-Addresse zurück. Es ist hierbei noch unerheblich, dass dieses Gerät auch in der Nähe erreichbar ist oder existiert. Über die versteckten Methoden {\it BluetoothDevice::createInsecureRfcommSocket} und {\it ::createRfcommSocket} kann eine Socket-Verbindung zu einem bestimmten Port des entfernten Gerätes erstellt werden. In Android sind diese Methoden versteckt, um Konflikte zwischen Apps beim festschreiben der Portnummern zu vermeiden, da lediglich 30 RFCOMM Ports zur Verfügung stehen \cite{bluezRfcomm}. Stattdessen sollen Services eine UUID generieren, welche über Bluetooth Service Discovery Protocol (SDP) von anderen Geräten abgefragt werden kann. Das SDP Protokoll übernimmt dann die Vergabe von Ports für die registrierten Services \cite{androidBluetooth}.
+        Der {\it BluetoothAdapter} aus dem Android Framework gibt ein {\it BluetoothDevice} für die angegebene MAC-Addresse zurück. Es ist hierbei noch unerheblich, dass dieses Gerät auch in der Nähe erreichbar ist oder existiert. Über die versteckten Methoden {\it BluetoothDevice::createInsecureRfcommSocket} und {\it ::createRfcommSocket} kann eine Socket-Verbindung zu einem bestimmten Port des entfernten Gerätes erstellt werden. In Android sind diese Methoden versteckt, um Konflikte zwischen Apps beim festschreiben der Portnummern zu vermeiden, da lediglich 30 RFCOMM-Ports zur Verfügung stehen \cite{bluezRfcomm}. Stattdessen sollen Services eine UUID generieren, welche über Bluetooth Service Discovery Protocol (SDP) von anderen Geräten abgefragt werden kann. Das SDP-Protokoll übernimmt dann die Vergabe von Ports für die registrierten Services \cite{androidBluetooth}.
         
         Um diese exemplarische Implementierung im \reflst{lst:android:bluetooth} jedoch simpel zu halten und volle Kontrolle über das Servergerät besteht, wird hierbei ein vordefinierter Port genutzt. Jegliche Logik zum tatsächlichen Verbindungsaufbau ist in der Methode {\it BluetoothSocket::connect} gekapselt und muss bei der Umsetzung nicht beachtet werden. Auf beiden Geräten muss lediglich Bluetooth eingeschaltet sein und das Servergerät muss für den Client auffindbar sein.
         
@@ -339,7 +341,7 @@ fun onReceiveMessage(message: Message) {
         Da noch jedes Android Smartphone einen USB-Port besitzt, soll dieser für eine kabelgebundene p2p Verbindung betrachtet werden. USB kann unter Linux über das Android Open Accessory (AOA) Protokoll angesprochen werden \linebreak \cite{aoa}. Von der Android Website lassen sich jedoch keine weiteren Informationen mehr bezüglich diesem Protokoll abrufen. Ebenso kann das dort erwähnte Accessory Development Kit {\it ADK2012} nicht mehr heruntergeladen werden. Einzig ein älterer Klon bietet noch weitere Informationen zu diesem Kit \cite{mitADK}, welches dazu gedacht ist, eine Beispielimplementierung von USB Geräten für Android bereitzustellen. Da dieses Kit jedoch seit 2012 keine Updates mehr erhalten hat, ist seine zukünftige Lebenszeit zu beobachten. Die USB Technologie scheint auf Grund der mangelnden Unterstützung seitens Google nicht mehr lange weiter zu existieren. In Verbindung mit Android 8.0 wurde die Nutzung von Accessories für Audio-Übertragungen eingestellt \cite{aoa}.
         
     \subsubsection{Serverseite}
-        Wie bei {\it NFC} kann auch für USB eine bereits bestehende Lösung als weiterer Service in den Server integriert werden \cite{aoaProxyAccessory}. Dieser Service spricht jedes Androidgerät über das AOA Protokoll an und erlaubt diesen Geräten eine Socketverbindung zu einem lokalen Port des Servers aufzubauen. Dadurch ist ebenfalls eine Kapselung außerhalb des HTTP-Servers gegeben. Intern verwendet dieser Service wieder eine Bibliothek \cite{libusb}, um die Kommunikation über USB vorzunehmen. Diese Bibliothek erlaubt wieder das Senden und Empfangen von Daten in den bereits vorgestellten Modi von USB. Um AOA nutzen zu können, wird Bulk-Transfer mit der vorausgegangenen Nutzung des Control-Transfers zur Identifikation genutzt.
+        Wie bei {\it NFC} kann auch Rfür USB eine bereits bestehende Lösung als weiterer Service in den Server integriert werden \cite{aoaProxyAccessory}. Dieser Service spricht jedes Androidgerät über das AOA Protokoll an und erlaubt diesen Geräten eine Socketverbindung zu einem lokalen Port des Servers aufzubauen. Dadurch ist ebenfalls eine Kapselung außerhalb des HTTP-Servers gegeben. Intern verwendet dieser Service wieder eine Bibliothek \cite{libusb}, um die Kommunikation über USB vorzunehmen. Diese Bibliothek erlaubt das Senden und Empfangen von Daten in den bereits vorgestellten Modi von USB. Um AOA nutzen zu können, wird Bulk-Transfer mit der vorausgegangenen Nutzung des Control-Transfers zur Identifikation genutzt.
         \pagebreak
         \begin{lstlisting}[frame=bt, label={lst:usb:server}, language=C, caption=Verbindungsaufbau über USB (Servercode in C) \cite{aoaProxyAccessory}]
 libusb_open(usbDevice, &device->usbHandle);
@@ -350,10 +352,10 @@ device->endpointAddr, buffer, sizeof(buffer), NULL, NULL, 0);
         
         Jedes angeschlossene Android Gerät wird zunächst wie eine Datei über Methoden der Bibliothek geöffnet und eine Datenübertragung durchgeführt (\reflst{lst:usb:server}). Das Senden und Empfangen von Daten ist dabei davon abhängig, welcher Befehl der Methode {\it libusb\_fill\_bulk\_transfer} übergeben wird. Je nach Methode werden Daten vom Buffer geladen oder in den gegebenen Buffer geschrieben.
         
-        Das anschließen von Geräten wird durch Hotplugging-Events erkannt. Sobald eine neue Function an die USB Schnittstelle angeschlossen wird, kann eine Anwendung oder Treiber über einen Callback {\it libusb\_hotplug\_register\_callback} über neue Geräte informiert und so eine Anwendungsverbindung zu diesen beginnen. Um AOA dann nutzen zu können, wird das USB-Gerät über einen URI String, welcher über Control-Transfer gesendet wird, über die Art von Gerät informiert.
+        Das Anschließen von Geräten wird durch Hotplugging-Events erkannt. Sobald eine neue Function an die USB Schnittstelle angeschlossen wird, kann eine Anwendung oder Treiber über einen Callback {\it libusb\_hotplug\_register\_callback} über neue Geräte informiert und so eine Anwendungsverbindung zu diesen beginnen. Um AOA dann nutzen zu können, wird das USB-Gerät über einen URI-String, welcher über Control-Transfer gesendet wird, über die Art von Gerät informiert.
     \subsubsection{Clientseite}
-        Da USB ein System ist, welches lediglich einen einzelnen Host der Verbindung erlaubt, muss das Smartphone als Function dem Bus beitreten. Die App muss in der Lage sein, die Kontrolle über die Kommunikation mit verbundenen USB Geräte zu übernehmen, um Daten zu einem der Geräte übertragen zu können. Da der Raspberry Pi als Host der USB Verbindung agiert, werden unter Android {\it UsbAccessory} genutzt und keine {\it UsbDevice}.
-        Unter Android wird USB Funktionalität über den Systemservice {\it UsbManager} bereitgestellt. Dieser verwaltet, wie in \reflst{lst:usb:client} zu sehen, eine Liste von verbundenen USB-Geräten. Um AOA nutzen zu können, agiert Android als Client der USB Verbindung, wodurch das erste USB-Gerät dieser Liste genutzt werden kann. Dieses Gerät wird dann ähnlich zur Serverseite als Datei geöffnet und kann über einen InputStream und OutputStream eine bidirektionale Datenübertragung vornehmen.
+        Da USB ein System ist, welches lediglich einen einzelnen Host der Verbindung erlaubt, muss das Smartphone als Function dem Bus beitreten. Die App muss in der Lage sein, die Kontrolle über die Kommunikation mit verbundenen USB Geräte zu übernehmen, um Daten zu einem der Geräte übertragen zu können. Da der Raspberry Pi als Host der USB-Verbindung agiert, werden unter Android {\it UsbAccessory} genutzt und keine {\it UsbDevice}.
+        Unter Android wird USB Funktionalität über den Systemservice {\it UsbManager} bereitgestellt. Dieser verwaltet, wie in \reflst{lst:usb:client} zu sehen, eine Liste von verbundenen USB-Geräten. Um AOA nutzen zu können, agiert Android als Client der USB-Verbindung, wodurch das erste USB-Gerät dieser Liste genutzt werden kann. Dieses Gerät wird dann ähnlich zur Serverseite als Datei geöffnet und kann über einen InputStream und OutputStream eine bidirektionale Datenübertragung vornehmen.
         \begin{lstlisting}[frame=bt, label={lst:usb:client}, language=Kotlin, caption=Verbindungsaufbau über USB (Clientcode in Kotlin)]
 val usbMan = context.getSystemService(Context.USB_SERVICE)
 val fd =  usbMan.openAccessory(usbMan.accessoryList.first())
@@ -378,4 +380,4 @@ class DetachableInputStream(
 }
         \end{lstlisting}
         
-        Für die vorgestellte Lösung über AOA konnte keine erfolgreiche Datenübertragung vollzogen werden. Zwar wurde eine Verbindung erfolgreich aufgebaut, jedoch ließen sich keine Daten über den gegebenen Socket empfangen oder senden. Alle Daten, die clientseitig dem USB-Gerät gesendet wurden, konnten serverseitig nicht empfangen werden, wodurch die Verbindung immer mit einer Zeitüberschreitung geendet ist. Dies lässt sich zum einen dadurch erklären, dass AOA zuletzt im Jahr 2012 aktiv entwickelt wurde  und somit die Technologie inzwischen ungetestete Abweichungen zwischen der Nutzbaren Schnittstelle und der Hardware bestehen oder weiterer undokumentierter Konfigurationsaufwand auf Seiten von Android vorgenommen werden muss. Beide Probleme lassen sich nicht ohne funktionstüchtige Beispiele beheben oder umgehen, wodurch auf eine weitere Implementierung über USB verzichtet wurde.
+        Für die vorgestellte Lösung über AOA konnte keine erfolgreiche Datenübertragung vollzogen werden. Zwar wurde eine Verbindung korrekt aufgebaut, jedoch ließen sich keine Daten über den gegebenen Socket empfangen oder senden. Alle Daten, die clientseitig dem USB-Gerät gesendet wurden, konnten serverseitig nicht empfangen werden, wodurch die Verbindung immer mit einer Zeitüberschreitung geendet ist. Dies lässt sich zum einen dadurch erklären, dass AOA zuletzt im Jahr 2012 aktiv entwickelt wurde  und somit die Technologie inzwischen ungetestete Abweichungen zwischen der nutzbaren Schnittstelle und der Hardware bestehen oder weiterer undokumentierter Konfigurationsaufwand auf Seiten von Android vorgenommen werden muss. Beide Probleme lassen sich nicht ohne funktionstüchtige Beispiele beheben oder umgehen, wodurch auf eine weitere Implementierung über USB verzichtet wurde.
