@@ -3,7 +3,6 @@ package com.classycode.nfcsockets.sockets;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 import javax.net.SocketFactory;
 
@@ -21,13 +20,13 @@ public class NFCSocketFactory extends SocketFactory {
     }
 
     @Override
-    public Socket createSocket(String host, int port) throws IOException, UnknownHostException {
+    public Socket createSocket(String host, int port) throws IOException {
         return new NFCSocket(host, port);
     }
 
     @Override
-    public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException, UnknownHostException {
-        return new NFCSocket(host, port, localHost, localPort);
+    public Socket createSocket(String host, int port, InetAddress localHost, int localPort) throws IOException {
+        return new NFCSocket(host, port);
     }
 
     @Override
@@ -37,6 +36,6 @@ public class NFCSocketFactory extends SocketFactory {
 
     @Override
     public Socket createSocket(InetAddress address, int port, InetAddress localAddress, int localPort) throws IOException {
-        return new NFCSocket(address, port, localAddress, localPort);
+        return new NFCSocket(address, port);
     }
 }

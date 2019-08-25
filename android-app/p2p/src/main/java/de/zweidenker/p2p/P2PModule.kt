@@ -1,5 +1,6 @@
 package de.zweidenker.p2p
 
+import com.classycode.nfcsockets.NFCMessageProvider
 import de.zweidenker.p2p.beacon.BeaconProvider
 import de.zweidenker.p2p.beacon.BeaconProviderImpl
 import de.zweidenker.p2p.connection.DeviceConnectionProvider
@@ -52,6 +53,7 @@ object P2PModule : Module {
         }
         scope(nfcScope) {
             factory<DeviceConnectionProvider> { NFCConnectionProvider() }
+            single { NFCMessageProvider() }
         }
         scope(usbScope) {
             factory<DeviceConnectionProvider> { USBConnectionProvider(get()) }

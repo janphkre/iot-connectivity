@@ -26,20 +26,20 @@ class NFCSocketInputStream extends InputStream {
     @Override
     public int read(@NonNull byte[] b) throws IOException {
         ensureNotClosed();
-        return nfcSocket.readInternal(b, 0, b.length);
+        return nfcSocket.readInternal$p2p(b, 0, b.length);
     }
 
     @Override
     public int read(@NonNull byte[] b, int off, int len) throws IOException {
         ensureNotClosed();
-        return nfcSocket.readInternal(b, off, len);
+        return nfcSocket.readInternal$p2p(b, off, len);
     }
 
     @Override
     public int read() throws IOException {
         ensureNotClosed();
         byte[] ar = new byte[1];
-        int res = nfcSocket.readInternal(ar, 0, 1);
+        int res = nfcSocket.readInternal$p2p(ar, 0, 1);
         if (res > 0) {
             return ar[0];
         }

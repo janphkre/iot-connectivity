@@ -27,19 +27,19 @@ class NFCSocketOutputStream extends OutputStream {
     public void write(int b) throws IOException {
         ensureNotClosed();
         final byte[] wrappedByte = new byte[]{(byte) b};
-        nfcSocket.writeInternal(wrappedByte, 0, wrappedByte.length);
+        nfcSocket.writeInternal$p2p(wrappedByte, 0, wrappedByte.length);
     }
 
     @Override
     public void write(@NonNull byte[] b) throws IOException {
         ensureNotClosed();
-        nfcSocket.writeInternal(b, 0, b.length);
+        nfcSocket.writeInternal$p2p(b, 0, b.length);
     }
 
     @Override
     public void write(@NonNull byte[] b, int off, int len) throws IOException {
         ensureNotClosed();
-        nfcSocket.writeInternal(b, off, len);
+        nfcSocket.writeInternal$p2p(b, off, len);
     }
 
     @Override

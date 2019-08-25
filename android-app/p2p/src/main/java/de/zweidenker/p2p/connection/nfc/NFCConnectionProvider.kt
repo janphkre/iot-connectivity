@@ -1,12 +1,13 @@
 package de.zweidenker.p2p.connection.nfc
 
-import de.zweidenker.p2p.connection.http.ConnectionStream
-import de.zweidenker.p2p.connection.http.DeprecatedSimpleConnectionProvider
+import com.classycode.nfcsockets.sockets.NFCSocketFactory
+import de.zweidenker.p2p.connection.http.SimpleConnectionProvider
 import de.zweidenker.p2p.model.Device
+import javax.net.SocketFactory
 
-class NFCConnectionProvider : DeprecatedSimpleConnectionProvider("nfc") {
+class NFCConnectionProvider : SimpleConnectionProvider() {
 
-    override fun httpStreamFor(device: Device): ConnectionStream {
-        return NFCConnectionStream()
+    override fun socketFactoryFor(device: Device): SocketFactory {
+        return NFCSocketFactory()
     }
 }
