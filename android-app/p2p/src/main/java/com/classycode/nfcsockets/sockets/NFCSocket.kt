@@ -46,7 +46,6 @@ class NFCSocket : Socket, KoinComponent {
         } catch (e: IOException) {
             throw IllegalStateException("Creation of unconnected socket threw exception", e)
         }
-
     }
 
     @Throws(IOException::class)
@@ -75,7 +74,6 @@ class NFCSocket : Socket, KoinComponent {
         } catch (ex: InterruptedException) {
             throw IOException("Interrupted while waiting for NFC socket", ex)
         }
-
     }
 
     @Throws(InterruptedException::class, IOException::class)
@@ -84,7 +82,7 @@ class NFCSocket : Socket, KoinComponent {
 
         val subscriber = object : SocketResponseSubscriber() {
             override fun onResponse(response: SocketResponse) {
-                if(response !is ConnectResponse) {
+                if (response !is ConnectResponse) {
                     Timber.e("connect() returned different type: ${response::class}")
                     return
                 }
@@ -111,7 +109,6 @@ class NFCSocket : Socket, KoinComponent {
         } catch (ex: InterruptedException) {
             throw IOException("Interrupted while waiting for NFC socket", ex)
         }
-
     }
 
     @Throws(IOException::class)
@@ -123,7 +120,6 @@ class NFCSocket : Socket, KoinComponent {
         } catch (ex: InterruptedException) {
             throw IOException("Interrupted while waiting for NFC socket", ex)
         }
-
     }
 
     @Throws(IOException::class)
@@ -131,7 +127,7 @@ class NFCSocket : Socket, KoinComponent {
         var resultCode: Int = -1
         val subscriber = object : SocketResponseSubscriber() {
             override fun onResponse(response: SocketResponse) {
-                if(response !is RecvResponse) {
+                if (response !is RecvResponse) {
                     Timber.e("recv() returned different type: ${response::class}")
                     return
                 }
@@ -172,7 +168,7 @@ class NFCSocket : Socket, KoinComponent {
 
             val subscriber = object : SocketResponseSubscriber() {
                 override fun onResponse(response: SocketResponse) {
-                    if(response !is RecvResponse) {
+                    if (response !is RecvResponse) {
                         Timber.e("send() returned different type: ${response::class}")
                         return
                     }
@@ -198,7 +194,7 @@ class NFCSocket : Socket, KoinComponent {
 
         val subscriber = object : SocketResponseSubscriber() {
             override fun onResponse(response: SocketResponse) {
-                if(response !is RecvResponse) {
+                if (response !is RecvResponse) {
                     Timber.e("close() returned different type: ${response::class}")
                     return
                 }

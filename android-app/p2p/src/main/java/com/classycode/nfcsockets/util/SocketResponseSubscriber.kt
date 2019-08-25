@@ -8,7 +8,7 @@ abstract class SocketResponseSubscriber {
 
     private val semaphore = Semaphore(0)
 
-    fun respondWith(response:SocketResponse) {
+    fun respondWith(response: SocketResponse) {
         onResponse(response)
         semaphore.release()
     }
@@ -16,7 +16,7 @@ abstract class SocketResponseSubscriber {
     fun awaitCompletion(expectedCount: Int = 1) {
         try {
             semaphore.acquire(expectedCount)
-        } catch(e: InterruptedException) {
+        } catch (e: InterruptedException) {
             throw IOException("Interrupted while waiting for NFC socket", e)
         }
     }

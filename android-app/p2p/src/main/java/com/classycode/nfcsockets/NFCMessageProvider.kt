@@ -25,7 +25,7 @@ class NFCMessageProvider {
     fun getSubscriber(requestId: Int): SocketResponseSubscriber? {
         val subscriber = pending.get(requestId) ?: return null
         return subscriber.get().also {
-            if(it == null) {
+            if (it == null) {
                 pending.remove(requestId)
             }
         }

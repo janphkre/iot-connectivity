@@ -67,7 +67,7 @@ class NFCSocketApduService : HostApduService() {
     override fun onDeactivated(reason: Int) {
         Log.i(TAG, "Link deactivated: $reason")
 
-        provider.clear()//TODO: MAYBE THIS HAS TO BE REMOVED
+        provider.clear() // TODO: MAYBE THIS HAS TO BE REMOVED
 
         isProcessing = false
         notifyLinkDeactivated(reason)
@@ -75,7 +75,7 @@ class NFCSocketApduService : HostApduService() {
 
     private fun notifyLinkEstablished() {
         val v = applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        v.vibrate(200)//TOD: REQUIRES PERMISSION!!!
+        v.vibrate(200) // TOD: REQUIRES PERMISSION!!!
 
         LocalBroadcastManager.getInstance(applicationContext).sendBroadcast(Intent(BROADCAST_INTENT_LINK_ESTABLISHED))
     }
@@ -107,5 +107,4 @@ class NFCSocketApduService : HostApduService() {
         // OK status sent in response to SELECT AID command (0x9000)
         private val SELECT_RESPONSE_OK = byteArrayOf(0x90.toByte(), 0x00.toByte())
     }
-
 }

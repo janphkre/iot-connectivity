@@ -13,7 +13,6 @@ class ConnectivityApplication : Application() {
 
     private var currentScope: Scope? = null
 
-
     override fun onCreate() {
         super.onCreate()
         val koinLogger = setupLogging()
