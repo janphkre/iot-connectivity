@@ -19,7 +19,7 @@ typedef struct {
     int writingSocket;
 } SocketInfo;
 
-int startBluetoothServerSocket(int bluetoothPort,);
+int startBluetoothServerSocket(int bluetoothPort);
 int acceptBluetoothSocket(int serverSocket);
 void hookBluetoothSocket(int bluetoothSocket, int targetPort);
 void* hookSockets(void* data);
